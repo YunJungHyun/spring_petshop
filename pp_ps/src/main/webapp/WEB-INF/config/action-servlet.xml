@@ -19,9 +19,18 @@
 	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<beans:property name="prefix" value="/WEB-INF/views/" />
 		<beans:property name="suffix" value=".jsp" />
+		<beans:property name="order" value="1"></beans:property>
 	</beans:bean>
 	
 	<context:component-scan base-package="org.spring.ps" />
+	
+	
+	<interceptors>
+		<interceptor>
+			<mapping path="/**"/>
+			<beans:bean id ="loggerInterceptor" class="org.spring.ps.logger.LoggerInterceptor"></beans:bean>
+		</interceptor>
+	</interceptors>
 	
 	
 	
