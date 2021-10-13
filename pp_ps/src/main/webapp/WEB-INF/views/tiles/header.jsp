@@ -1,16 +1,100 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
- <nav class="site-header sticky-top py-1">
-  <div class="container d-flex flex-column flex-md-row justify-content-between">
-    <a class="py-2" href="#">
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="d-block mx-auto" role="img" viewBox="0 0 24 24" focusable="false"><title>Product</title><circle cx="12" cy="12" r="10"/><path d="M14.31 8l5.74 9.94M9.69 8h11.48M7.38 12l5.74-9.94M9.69 16L3.95 6.06M14.31 16H2.83m13.79-4l-5.74 9.94"/></svg>
-    </a>
-    <a class="py-2 d-none d-md-inline-block" href="#">Tour</a>
-    <a class="py-2 d-none d-md-inline-block" href="#">Product</a>
-    <a class="py-2 d-none d-md-inline-block" href="#">Features</a>
-    <a class="py-2 d-none d-md-inline-block" href="#">Enterprise</a>
-    <a class="py-2 d-none d-md-inline-block" href="#">Support</a>
-    <a class="py-2 d-none d-md-inline-block" href="#">Pricing</a>
-    <a class="py-2 d-none d-md-inline-block" href="#">Cart</a>
-  </div>
+<nav class="site-header sticky-top py-3 ">
+	<div class="container site-header-nav d-flex justify-content-between">
+    	
+    	<div class="nav-left d-flex ">
+    		<div class="brand-logo mx-2">
+    			<a class="py-1" href="#">
+    	 			<i class="fas fa-paw fa-2x"></i>
+    	 			&nbsp;
+    				<span class="logo-title">PetSHOP</span>
+    			</a> 
+    		</div>
+    		
+		</div>
+    	
+    	<div class="nav-right d-flex">
+    		<div class="nav-ui-btn d-flex flex-column mx-2">
+    			<div class="nav-ui-icon">
+    				<i class="far fa-user"></i>
+    			</div> 
+    			<div class="nav-ui-icon-title">
+    				<span class="nav-ui-icon-title-text">MY</span>
+    			</div> 
+    		</div> 
+    		<span class="py-2"></span> 
+    		<div class="nav-ui-btn d-flex flex-column mx-2">
+    			<div class="nav-ui-icon">
+    				<i class="fas fa-shopping-basket"></i>
+    			</div>
+    			<div class="nav-ui-icon-title">
+    				<span class="nav-ui-icon-title-text">장바구니</span>	
+    			</div>
+    		</div>
+    		
+ 	 	</div>
+	</div>
 </nav>
+ 
+<nav class="site-header-lg-menu  py-2 ">
+	<div class="container site-header-nav d-flex justify-content-between">
+    	
+    	<div class="site-header-lg-menu-left d-flex ">
+    		<div class="site-header-lg-menu-btn category-btn mx-3 dropdown">
+    			<a class="py-1 dropdown-toggle " href="#" id="category-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    				<i class="fas fa-bars"></i>
+    				&nbsp;
+    				<span class="lg-menu-title">카테고리</span>   
+    			</a> 
+    			
+				<div class="dropdown-menu category-dropdown-menu" aria-labelledby="category-dropdown">
+					<a class="dropdown-item" href="#">Action</a>
+					<a class="dropdown-item" href="#">Another action</a>
+					<a class="dropdown-item" href="#">Something else here</a>
+				</div>
+    		</div>
+    		
+    		<div class="site-header-lg-menu-btn mx-3">
+    			<a class="py-1 " href="#">
+    				<span class="lg-menu-title">신규 상품</span>
+    			</a> 
+    		</div>
+    		<div class="site-header-lg-menu-btn mx-3">
+    			<a class="py-1 " href="#">
+    				<span class="lg-menu-title">랭킹</span>
+    			</a> 
+    		</div>
+    		<div class="site-header-lg-menu-btn mx-3">
+    			<a class="py-1 " href="#">
+    				<span class="lg-menu-title">강아지</span>
+    			</a> 
+    		</div>
+    		<div class="site-header-lg-menu-btn mx-3">
+    			<a class="py-1 " href="#">
+    				<span class="lg-menu-title">고양이</span> 
+    			</a> 
+    		</div>
+    		<div class="site-header-lg-menu-btn mx-3">
+    			<a class="py-1 " href="#">
+    				<span class="lg-menu-title">생활용품</span>
+    			</a> 
+    		</div>
+    		 
+		</div>
+		
+		<div class="nav-right shop-search-form d-flex">
+			<div class="input-group shop-search-group">
+				<input type="text" class="form-control shop-search-form-control" placeholder="상품 검색" aria-label="Input group example" aria-describedby="btnGroupAddon">
+				<div class="input-group-prepend shop-search-group-text-box">
+					<div class="input-group-text shop-search-group-text" id="btnGroupAddon"><i class="fas fa-search"></i></div>
+				</div>
+ 			 </div>
+ 	 	</div> 
+    	
+	</div>
+</nav>
+
+
+
+
