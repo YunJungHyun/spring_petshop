@@ -79,3 +79,9 @@
 	
 	width : 30rem;
 }
+
+
+.category-dropdown-menu > a{
+	
+	color : #000;
+}

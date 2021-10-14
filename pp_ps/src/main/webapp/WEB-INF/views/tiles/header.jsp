@@ -5,9 +5,9 @@
     	
     	<div class="nav-left d-flex ">
     		<div class="brand-logo mx-2">
-    			<a class="py-1" href="#">
-    	 			<i class="fas fa-paw fa-2x"></i>
-    	 			&nbsp;
+    			<a class="py-1" href="/">
+    	 			<i class="fas fa-paw fa-2x"></i> 
+    	 			&nbsp; 
     				<span class="logo-title">PetSHOP</span>
     			</a> 
     		</div>
@@ -15,18 +15,33 @@
 		</div>
     	
     	<div class="nav-right d-flex">
-    		<div class="nav-ui-btn d-flex flex-column mx-2">
-    			<div class="nav-ui-icon">
-    				<i class="far fa-user"></i>
-    			</div> 
-    			<div class="nav-ui-icon-title">
-    				<span class="nav-ui-icon-title-text">MY</span>
-    			</div> 
+    	
+    		
+    		<div class="nav-ui-btn d-flex flex-column mx-2 dropdown" >
+    			<a class="dropdown-toggle" id="myPageMenu" data-toggle="dropdown", aria-haspopup="true" aria-expanded="false">
+    				<div class="nav-ui-icon">
+    					<i class="far fa-user fa-2x"></i>
+    				</div> 
+    				<div class="nav-ui-icon-title">
+    					<span class="nav-ui-icon-title-text">MY</span>
+    				</div> 
+    			</a>
+    			<div class="dropdown-menu category-dropdown-menu" aria-labelledby="myPageMenu">
+					<a class="dropdown-item" href="#">최근 본 상품</a>
+					<a class="dropdown-item" href="#">찜 목록</a>
+					<a class="dropdown-item" href="#">주문 취소</a> 
+					<div class="dropdown-divider"></div>   
+					<a class="dropdown-item" href="/view/user/join.do" >회원가입</a>
+					<a class="dropdown-item" href="#">로그인</a>
+				</div> 
+			
     		</div> 
+    			
+    		 
     		<span class="py-2"></span> 
     		<div class="nav-ui-btn d-flex flex-column mx-2">
-    			<div class="nav-ui-icon">
-    				<i class="fas fa-shopping-basket"></i>
+    			<div class="nav-ui-icon ">
+    				<i class="fas fa-shopping-basket fa-2x"></i>
     			</div>
     			<div class="nav-ui-icon-title">
     				<span class="nav-ui-icon-title-text">장바구니</span>	
@@ -49,7 +64,7 @@
     			</a> 
     			
 				<div class="dropdown-menu category-dropdown-menu" aria-labelledby="category-dropdown">
-					<a class="dropdown-item" href="#">Action</a>
+					<a class="dropdown-item" href="/view/user/join.do">Action</a>
 					<a class="dropdown-item" href="#">Another action</a>
 					<a class="dropdown-item" href="#">Something else here</a>
 				</div>
@@ -96,5 +111,19 @@
 </nav>
 
 
+<script>
+$(document).ready(function(){
+	
+	
+	$("go-join-page").on("click",function(){
+		
+	alert("	/view/user/join.do");
+		
+	})
+	
+	
+	
+})
 
+</script>
 

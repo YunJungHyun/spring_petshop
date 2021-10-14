@@ -28,4 +28,20 @@ public class ViewController {
 		
 		return "main.page"; 
 	}
+	
+	
+	@RequestMapping(value="/user/join.do")
+	public String join(
+			Model model
+			) {
+
+		
+		log.debug("join.do"); 
+		
+		String pageTitle = "JOIN"; 
+		
+		model.addAttribute("pageTitle", pageTitle);
+		
+		return "user/join.page"; 
+	}
 }

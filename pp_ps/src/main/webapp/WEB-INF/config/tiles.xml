@@ -4,6 +4,7 @@
 <tiles-definitions>
 
 	<definition name="new.default_body" templateExpression="/WEB-INF/views/tiles/layout.jsp">
+	
 		<put-attribute name="header" expression="/WEB-INF/views/tiles/header.jsp"/> 
 		<put-attribute name="footer" expression="/WEB-INF/views/tiles/footer.jsp"/> 
 		<put-attribute name="body" expression=""/> 
@@ -29,3 +30,4 @@
 	 
 	
 </tiles-definitions> 
+ 
