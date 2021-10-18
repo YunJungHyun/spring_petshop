@@ -1,4 +1,5 @@
 @charset "UTF-8";
+
 @media ( min-width : 1200px) {
 	.page>.container {
 		max-width: 1400px;
@@ -109,3 +110,54 @@ h1.page-banner-title {
 
 /* 회원가입 페이지*/
 /*petshop join page */
+.page-join {
+	margin-top: 3rem;
+}
+
+.page-join>.page-box {
+	padding-top: 3rem;
+	padding-bottom: 3rem;
+}
+
+.join-guide-text {
+	margin-left: auto;
+	display: none;
+	max-height: 2rem;
+}
+
+.join-guide-text.col-sm-10 {
+	padding: unset;
+}
+
+.form-group.join-form-group {
+	margin-bottom: 2rem;
+}
+
+.petAdd-btn, .petRemove-btn {
+	border: none;
+	background-color: #fff;
+	color: rgb(7 198 198/ 75%);
+	border-radius: 8px;
+}
+
+.petAdd-btn {
+	margin-left: 1rem;
+	margin-right: 1rem;
+}
+
+.petAdd-btn:hover, .petAdd-btn:focus, .petAdd-btn:active, .petRemove-btn:hover,
+	.petRemove-btn:focus, .petRemove-btn:active {
+	outline: unset !important;
+	background-color: #fff;
+	color: rgb(7 198 198/ 31%);
+}
+
+.petSort {
+	margin-right: .5rem;
+	margin-left: 1rem;
+}
+
+.petName {
+	margin-left: .5rem;
+	margin-right: 1rem;
+}
