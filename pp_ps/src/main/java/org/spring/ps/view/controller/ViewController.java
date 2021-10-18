@@ -30,11 +30,25 @@ public class ViewController {
 	}
 	
 	
+	@RequestMapping(value="/user/joinsort.do")
+	public String joinsort(
+			Model model
+			) {
+
+		
+		log.debug("joinsort.do"); 
+		
+		String pageTitle = "회원가입 유형"; 
+		
+		model.addAttribute("pageTitle", pageTitle);
+		
+		return "user/joinsort.page"; 
+	}
 	@RequestMapping(value="/user/join.do")
 	public String join(
 			Model model
 			) {
-
+		
 		
 		log.debug("join.do"); 
 		

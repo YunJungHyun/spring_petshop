@@ -40,6 +40,8 @@
 <!-- Custom styles for this template -->
 <link href="/resources/css/product.css"  rel="stylesheet">
 <link href="/resources/css/navbar.css"  rel="stylesheet">
+<link href="/resources/css/page.css" rel="stylesheet">
+
  
 <!-- font-awesome  -->
  <script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
