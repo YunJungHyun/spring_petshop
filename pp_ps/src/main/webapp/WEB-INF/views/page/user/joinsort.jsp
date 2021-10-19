@@ -27,12 +27,12 @@
 					</div>
 				</div>
 				
-				<button class="joinsort-btn kakkao-join mb-1">
+				<button class="joinsort-btn kakkao-join mb-1" id="api-login-kakao">
 					<svg class="MuiSvgIcon-root" focusable="false" viewBox="0 0 28 28" aria-hidden="true" role="img"><path d="M13.9996 7C9.36025 7 5.59961 9.9729 5.59961 13.6407C5.59961 16.0278 7.19305 18.1199 9.58453 19.2904C9.40885 19.9465 8.94841 21.6669 8.85594 22.0349C8.74227 22.4918 9.02356 22.4856 9.20772 22.3626C9.35211 22.2664 11.5096 20.7999 12.4404 20.1669C12.9455 20.2417 13.4667 20.2815 13.9996 20.2815C18.6388 20.2815 22.3996 17.3079 22.3996 13.6407C22.3996 9.9729 18.6388 7 13.9996 7Z" fill="#391B1B"></path></svg> 
 					Kakao로 계속하기
 				</button>
 				
-				<button class="joinsort-btn naver-join mt-1 mb-1">
+				<button class="joinsort-btn naver-join mt-1 mb-1" id="api-login-naver">
 					<svg class="MuiSvgIcon-root" focusable="false" viewBox="0 0 28 28" aria-hidden="true" role="img"><path d="M16.0773 21L11.1442 13.7531V21H6V7H11.2158L16.1494 14.2463V7H21.291V21H16.0773Z" fill="white"></path></svg>
 					 Naver로 계속하기
 				</button>
@@ -59,4 +59,21 @@ $('.carousel').carousel({
 		location.href="/view/user/join.do"
 	})
 
+	
+$("#api-login-kakao").on("click",function(){
+	
+	$.ajax({ 
+		
+		url : "/join/kakao/getKakaoAuthUrl.do",
+		success : function(data){
+			
+			location.href=data;
+		}
+		
+	});
+})
+$("#api-login-naver").on("click",function(){
+	
+	alert("navberlogin");
+})
 </script>

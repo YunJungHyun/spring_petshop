@@ -103,8 +103,8 @@
 			<artifactId>spring-context-support</artifactId>
 			<version>5.2.0.RELEASE</version>
 		</dependency>
-			
-			
+
+
 		<!-- Tiles 설정 -->
 		<dependency>
 			<groupId>org.apache.tiles</groupId>
@@ -121,7 +121,18 @@
 			<artifactId>tiles-jsp</artifactId>
 			<version>3.0.5</version>
 		</dependency>
+		<!-- JSON -->
+		<dependency>
+			<groupId>com.googlecode.json-simple</groupId>
+			<artifactId>json-simple</artifactId>
+			<version>1.1.1</version>
+		</dependency>
 
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>2.8.7</version>
+		</dependency>
 		<!-- +ADD DEPENDENCY END -->
 		<!-- Spring -->
 		<dependency>
@@ -162,8 +173,8 @@
 			<artifactId>jackson-core-asl</artifactId>
 			<version>1.9.13</version>
 		</dependency>
- 
- 
+
+
 
 		<!-- Logging -->
 		<dependency>
