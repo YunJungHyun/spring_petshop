@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration 
+    PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<!-- 추후에 <typeAliases> 태그를 통해 VO클래스를 등록해 둘 것이다. 
+VO클래스 등록하면 mapper.xml에서 VO 클래스를 mybatis-config.xml에 등록한 이름으로 사용 할 수 있다. -->
+<configuration>
+	
+   <typeAliases>
+            <typeAlias type="org.spring.ps.vo.UserVO" alias="userVO"/>
+           
+            
+        </typeAliases>
+</configuration>
+

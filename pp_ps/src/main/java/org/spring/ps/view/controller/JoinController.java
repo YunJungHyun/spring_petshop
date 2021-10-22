@@ -1,172 +1,67 @@
 package org.spring.ps.view.controller;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.HashMap;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.json.simple.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import org.springframework.web.client.RestTemplate;
 
 @Controller
 @RequestMapping("/join")
 public class JoinController {
 
 	Log log = LogFactory.getLog(this.getClass());
-
-	@RequestMapping(value = "/kakao/getKakaoAuthUrl.do")
-	@ResponseBody
-	public String getKakaoAuthUrl(HttpServletRequest request) {
-
-		String reqUrl = "https://kauth.kakao.com/oauth/authorize" + "?client_id=9539c2a2417f7ade53f95908a382dd70"
-				+ "&redirect_uri=http://localhost:8080/join/kakao/oauth.do" + "&response_type=code";
-		log.debug(reqUrl);
-
-		return reqUrl;
-
-	}
-
-	// 카카오 연동정보 조회
-	@RequestMapping(value = "/kakao/oauth.do")
-	public String oauthKakao(@RequestParam(value = "code", required = false) String code, Model model)
-			throws Exception {
-
-		log.debug(code);
-
-		String access_Token = getAccessToken(code);
-		log.debug("###access_Token#### : " + access_Token);
-
-
-		HashMap<String, Object> userInfo = getUserInfo(access_Token);
-		log.debug("###access_Token#### : " + access_Token);
-		log.debug("###userInfo#### : " + userInfo.get("email"));
-		log.debug("###nickname#### : " + userInfo.get("nickname"));
-
-
-		JSONObject kakaoInfo = new JSONObject(userInfo);
-		model.addAttribute("kakaoInfo", kakaoInfo);
-
-		return "redirect:/"; // 본인 원하는 경로 설정
-	}
-
-	// 토큰발급
-	public String getAccessToken(String authorize_code) {
-		String access_Token = "";
-		String refresh_Token = "";
-		String reqURL = "https://kauth.kakao.com/oauth/token";
-
-		try {
-			URL url = new URL(reqURL);
-
-			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-
-			// URL연결은 입출력에 사용 될 수 있고, POST 혹은 PUT 요청을 하려면 setDoOutput을 true로 설정해야함.
-			conn.setRequestMethod("POST");
-			conn.setDoOutput(true);
-
-			// POST 요청에 필요로 요구하는 파라미터 스트림을 통해 전송
-			BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
-			StringBuilder sb = new StringBuilder();
-			sb.append("grant_type=authorization_code");
-			sb.append("&client_id=9539c2a2417f7ade53f95908a382dd70"); // 본인이 발급받은 key
-			sb.append("&redirect_uri=http://localhost:8080/join/kakao/oauth.do"); // 본인이 설정해 놓은 경로
-			sb.append("&code=" + authorize_code);
-			bw.write(sb.toString());
-			bw.flush();
-
-			// 결과 코드가 200이라면 성공
-			int responseCode = conn.getResponseCode();
-			log.debug("responseCode : " + responseCode);
-
-			// 요청을 통해 얻은 JSON타입의 Response 메세지 읽어오기
-			BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-			String line = "";
-			String result = "";
-
-			while ((line = br.readLine()) != null) {
-				result += line;
-			}
-			log.debug("response body : " + result);
-
-			// Gson 라이브러리에 포함된 클래스로 JSON파싱 객체 생성
-			JsonParser parser = new JsonParser();
-			JsonElement element = parser.parse(result);
-
-			access_Token = element.getAsJsonObject().get("access_token").getAsString();
-			refresh_Token = element.getAsJsonObject().get("refresh_token").getAsString();
-
-
-			br.close();
-			bw.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		return access_Token;
-	}
 	
-	//유저정보조회
-    public HashMap<String, Object> getUserInfo (String access_Token) {
+	// oauth_join
+	@RequestMapping(value = "/getAuthUrl/{oauth_sort}")
+	public @ResponseBody String getKakaoAuthUrl(
+			HttpServletRequest request,
+			@PathVariable("oauth_sort") String oauth_sort) throws Exception {
+		
+		log.debug("oauth_sort :" +oauth_sort);
+		
+		String REQ_URL ="";
+		String CLIENT_ID = "";
+		String CLIENT_SECRET ="";
+		String REDIRECT_URI ="";
+		String RESPONSE_TYPE = "code";
+		String SESSION_STATE ="oauth_state";
+		
+		if(oauth_sort.equals("kakao_join")) {
+			 
+			CLIENT_ID = "9539c2a2417f7ade53f95908a382dd70";
+			REDIRECT_URI ="http://localhost:8080/oauth_kakao/auth";
+			
+			REQ_URL ="https://kauth.kakao.com/oauth/authorize"
+				+ "?client_id="+CLIENT_ID
+				+ "&redirect_uri="+REDIRECT_URI
+				+ "&response_type="+RESPONSE_TYPE;
+			
+			
+		}else {
+			
+			CLIENT_ID ="w_mKmFnHbZEQdrndRrv7";
+			CLIENT_SECRET="4xHK0JoeEA";
+			REDIRECT_URI ="http://localhost:8080/oauth_naver/auth";
+			
+			REQ_URL ="https://nid.naver.com/oauth2.0/authorize"
+					+ "?client_id="+CLIENT_ID
+					+ "&client_secret="+CLIENT_SECRET
+					+ "&redirect_uri="+REDIRECT_URI
+					+ "&response_type="+RESPONSE_TYPE;
+			
+		}
+		log.debug("REQ_URL :" +REQ_URL);
+		return REQ_URL; //본인 원하는 경로 설정
+	}
 
-        //    요청하는 클라이언트마다 가진 정보가 다를 수 있기에 HashMap타입으로 선언
-        HashMap<String, Object> userInfo = new HashMap<String, Object>();
-        String reqURL = "https://kapi.kakao.com/v2/user/me";
-        try {
-            URL url = new URL(reqURL);
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestMethod("GET");
 
-            //    요청에 필요한 Header에 포함될 내용
-            conn.setRequestProperty("Authorization", "Bearer " + access_Token);
 
-            int responseCode = conn.getResponseCode();
-            log.debug("responseCode : " + responseCode);
 
-            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-
-            String line = "";
-            String result = "";
-
-            while ((line = br.readLine()) != null) {
-                result += line;
-            }
-            System.out.println("response body : " + result);
-
-            JsonParser parser = new JsonParser();
-            JsonElement element = parser.parse(result);
-
-            JsonObject properties = element.getAsJsonObject().get("properties").getAsJsonObject();
-            JsonObject kakao_account = element.getAsJsonObject().get("kakao_account").getAsJsonObject();
-
-            String nickname = properties.getAsJsonObject().get("nickname").getAsString();
-            String email = kakao_account.getAsJsonObject().get("email").getAsString();
-            
-            userInfo.put("accessToken", access_Token);
-            userInfo.put("nickname", nickname);
-            userInfo.put("email", email);
-
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-
-        return userInfo;
-    }
 }

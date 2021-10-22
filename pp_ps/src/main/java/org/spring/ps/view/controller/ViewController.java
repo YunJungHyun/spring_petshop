@@ -4,6 +4,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
@@ -14,13 +15,14 @@ public class ViewController {
 
 	Log log = LogFactory.getLog(this.getClass());
 
-	@RequestMapping(value="/main/petshop.do")
+	@RequestMapping(value="/main/petshop")
 	public String home(
 			Model model
 			) {
 
 		
 		log.debug("home"); 
+		
 		
 		String pageTitle = "HOME"; 
 		
@@ -30,32 +32,32 @@ public class ViewController {
 	}
 	
 	
-	@RequestMapping(value="/user/joinsort.do")
+	@RequestMapping(value="/user/signUpSort")
 	public String joinsort(
 			Model model
 			) {
 
 		
-		log.debug("joinsort.do"); 
+		log.debug("signUpSort"); 
 		
 		String pageTitle = "회원가입 유형"; 
 		
 		model.addAttribute("pageTitle", pageTitle);
 		
-		return "user/joinsort.page"; 
+		return "user/signUpSort.page"; 
 	}
-	@RequestMapping(value="/user/join.do")
+	
+	@RequestMapping(value="/user/signUpPage")
 	public String join(
 			Model model
 			) {
 		
+		log.debug("signUpPage"); 
 		
-		log.debug("join.do"); 
-		
-		String pageTitle = "JOIN"; 
+		String pageTitle = "회원가입"; 
 		
 		model.addAttribute("pageTitle", pageTitle);
 		
-		return "user/join.page"; 
+		return "user/signUpPetShop.page"; 
 	}
 }
