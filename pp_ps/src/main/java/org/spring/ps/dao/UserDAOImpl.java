@@ -66,8 +66,17 @@ public class UserDAOImpl implements UserDAO {
 		HashMap<String, String> map = new HashMap();
 		
 		
+		String sql = "INSERT INTO user(userid,userpw,username,user_prod_info,user_pet_info) VALUES ("
+				+ "'"+jsonUserData.get("userid")+"','"+jsonUserData.get("userpw")+"','"+jsonUserData.get("username")+"'"
+				+",JSON_OBJECT('BASKETLIST','none','WISHLIST','none','PURCHASELIST','none') ,";
+		
+		
 		if(jsonUserData.get("pet").equals("none")) {
 			log.debug("[userPetShopSignUp] jsonUserData pet none:"+jsonUserData);
+			
+			sql += "JSON_OBJECT('PET','none'))";
+			
+			log.debug(sql);
 			
 		}else {
 			
@@ -78,8 +87,37 @@ public class UserDAOImpl implements UserDAO {
 			JsonElement element =parser.parse(jsonString);
 		
 			JsonObject pet  = element.getAsJsonObject().get("pet").getAsJsonObject();
+			sql += "JSON_OBJECT('PET',JSON_OBJECT(";
+			
+			
+			for(int i = 1 ; i <= pet.size() ; i++) {
+				
+				
+				JsonObject pet_info_oneLine =pet.getAsJsonObject().get("pet_info_"+i).getAsJsonObject();
+				
+				String pet_sort =pet_info_oneLine.getAsJsonObject().get("pet_sort").getAsString();
+				String pet_gender =pet_info_oneLine.getAsJsonObject().get("pet_gender").getAsString();
+				String pet_birth =pet_info_oneLine.getAsJsonObject().get("pet_birth").getAsString();
+				String pet_name =pet_info_oneLine.getAsJsonObject().get("pet_name").getAsString();
+				
+				String pet_info_oneLine_str = "'pet_info_"+i+"',JSON_OBJECT('pet_sort','"+pet_sort+"','pet_gender','"+pet_gender+"','pet_birth','"+pet_birth+"','pet_name','"+pet_name+"')";
+				
+				if(i < pet.size()) {
+					pet_info_oneLine_str += " , ";
+				}
+				sql+= pet_info_oneLine_str;
+			}
+			
+			sql += ")))";
+			
+			log.debug(sql);
 		}
 		
+		
+		map.put("sql", sql);
+		int result  = sqlSession.insert(Namespace+".userPetShopSignUp", map);
+		
+		log.debug("[userPetShopSignUp result] :" +result);
 		
 		//	map.put("sql", sql);
 	}
