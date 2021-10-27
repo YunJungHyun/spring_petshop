@@ -13,5 +13,21 @@
 		]]>
 		
 	</select>
- 
+ 	
+ 	
+ 	<insert id="authSignUp" parameterType="HashMap">
+ 	
+ 	<![CDATA[
+			${sql}
+		]]>
+ 	</insert>
+ 	
+ 	
+ 	<select id="petShopIdCheck" parameterType="HashMap" resultType="int">
+ 	
+ 	<![CDATA[
+			${sql}
+		]]>
+ 	
+ 	</select>
  </mapper>

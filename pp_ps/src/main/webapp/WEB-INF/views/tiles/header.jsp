@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+
 <nav class="site-header sticky-top py-3 ">
 	<div class="container site-header-nav d-flex justify-content-between">
     	
@@ -30,9 +33,18 @@
 					<a class="dropdown-item" href="#">최근 본 상품</a>
 					<a class="dropdown-item" href="#">찜 목록</a>
 					<a class="dropdown-item" href="#">주문 취소</a> 
-					<div class="dropdown-divider"></div>   
-					<a class="dropdown-item" href="/view/user/signUpSort" >회원가입</a>
-					<a class="dropdown-item" href="#">로그인</a>
+					
+					<c:if test="${userInfo.id == null }">
+						<div class="dropdown-divider"></div>   
+						<a class="dropdown-item" href="/view/user/signUpSort" >회원가입</a>
+						<a class="dropdown-item" href="#">로그인</a>
+					</c:if>
+					<c:if test="${userInfo.id != null }">
+						<div class="dropdown-divider"></div>   
+						<a class="dropdown-item" href="#">내 정보</a>
+						<a class="dropdown-item logout_btn" href="/join/logout" >로그아웃</a>
+					</c:if>
+					
 				</div> 
 			
     		</div> 
@@ -115,11 +127,6 @@
 $(document).ready(function(){
 	
 	
-	$("go-join-page").on("click",function(){
-		
-	alert("	/view/user/join.do");
-		
-	})
 	
 	
 	

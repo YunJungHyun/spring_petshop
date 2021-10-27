@@ -121,10 +121,13 @@ h1.page-banner-title {
 
 .join-guide-text {
 	margin-left: auto;
-	display: none;
 	max-height: 2rem;
 }
 
+.join-guide-text > small{
+	
+	display : none;
+}
 .join-guide-text.col-sm-10 {
 	padding: unset;
 }
@@ -153,11 +156,29 @@ h1.page-banner-title {
 }
 
 .petSort {
+	margin-left: .5rem;
 	margin-right: .5rem;
-	margin-left: 1rem;
 }
 
-.petName {
+.petName, .petGender, .petBirth {
 	margin-left: .5rem;
-	margin-right: 1rem;
+	margin-right: .5rem;
+}
+
+button.petShop_reg_btn {
+	margin: 3rem auto 2rem;
+	display: block;
+	border: unset;
+	background-color: #45d4d4;
+	color: #fff;
+	width: 15rem;
+	font-size: 1.5rem;
+	border-radius: 5px;
+	padding: .5rem;
+}
+
+.petShop_reg_btn:hover, .petShop_reg_btn:focus, .petShop_reg_btn:active
+	{
+	outline: unset !important;
+	background-color: #45d4d4a6;
 }

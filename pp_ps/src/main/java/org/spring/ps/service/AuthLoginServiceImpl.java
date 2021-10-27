@@ -29,7 +29,19 @@ public class AuthLoginServiceImpl implements AuthLoginService {
 		
 		UserVO userVO= userDAO.getOneUserInfo(userid);
 		
-		log.debug(userVO);
+		if(userVO  == null) {
+			log.debug("[userVO] : 회원정보가 없습니다....");
+			userDAO.authSignUp(jsonUserInfo);
+			userVO =userDAO.getOneUserInfo(userid);
+			
+			log.debug("[userVO] : "+userVO.toString()+" 회원정보가 생겼습니다....");
+		}else {
+			
+			log.debug("[userVO] : "+userVO.toString()+"이미 등록된 회원 정보가 있습니다.");
+			
+		}
 		//return jsonUserInfo ;
 	}
+	
+	
 }
