@@ -2,8 +2,7 @@ package org.spring.ps.vo;
 
 
 import java.util.List;
-
-import org.json.simple.JSONObject;
+import java.util.Map;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -17,9 +16,13 @@ public class UserVO {
 	
 	private int unum;
 	private String userid;
+	private String userpw;
 	private String username;
 	private String uadress;
 	
+    private String user_pet_info;
+    private String user_prod_info;
     
+   
 }
 

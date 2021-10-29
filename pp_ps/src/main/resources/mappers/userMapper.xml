@@ -37,4 +37,11 @@
 		]]>
  	
  	</select>
+ 	<select id="petShopLogin" parameterType="HashMap" resultType="userVO">
+ 	
+ 	<![CDATA[
+			${sql}
+		]]>
+ 	
+ 	</select>
  </mapper>

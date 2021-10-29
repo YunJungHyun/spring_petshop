@@ -60,4 +60,18 @@ public class ViewController {
 		
 		return "user/signUpPetShop.page"; 
 	}
+	
+	@RequestMapping(value="/user/joinInPage")
+	public String joinIn(
+			Model model
+			) {
+		
+		log.debug("joinInPage"); 
+		
+		String pageTitle = "로그인"; 
+		
+		model.addAttribute("pageTitle", pageTitle);
+		
+		return "user/joinIn.page"; 
+	}
 }

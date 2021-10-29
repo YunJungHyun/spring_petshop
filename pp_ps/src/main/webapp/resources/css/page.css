@@ -177,8 +177,32 @@ button.petShop_reg_btn {
 	padding: .5rem;
 }
 
-.petShop_reg_btn:hover, .petShop_reg_btn:focus, .petShop_reg_btn:active
+.petShop_reg_btn:hover, .petShop_reg_btn:focus, .petShop_reg_btn:active 
 	{
 	outline: unset !important;
 	background-color: #45d4d4a6;
+}
+.petShop-login-btn:hover, .petShop-login-btn:focus, .petShop-login-btn:active 
+	{
+	outline: unset !important;
+	background-color: #45d4d4a6;
+}
+
+.petShop-login-btn {
+    border: unset;
+    border-radius: 5px;
+    background-color: #47d5d4;
+    color: #fff;
+    font-size: 1.5rem;
+    padding:.5rem;
+}
+
+.help-userinfo-lose{
+	
+	
+}
+
+.help-userinfo-lose >a {
+	
+	text-decoration: none;
 }

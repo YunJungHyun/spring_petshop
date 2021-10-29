@@ -46,7 +46,7 @@ public class naverOauth  {
 	private final HttpSession session;
 	
 	@RequestMapping(value="/oauth_naver/auth")
-	public String oauthKakao(
+	public String oauthNaver(
 			@RequestParam(value = "code", required = false) String code
 			, Model model) throws Exception {
 
@@ -60,9 +60,10 @@ public class naverOauth  {
 
 
 		JSONObject jsonUserInfo =  new JSONObject(userInfo);
+		log.debug("[oauthNaver] jsonUserInfo :"+ jsonUserInfo.toJSONString());
+		jsonUserInfo=authLoginService.authJoinInfo(jsonUserInfo);
 		session.setAttribute("userInfo", jsonUserInfo);
 
-		authLoginService.authJoinInfo(jsonUserInfo);
 
 		return "redirect:/"; //본인 원하는 경로 설정
 	}
@@ -180,9 +181,10 @@ public class naverOauth  {
 			String name = response.getAsJsonObject().get("name").getAsString();
 			String email = response.getAsJsonObject().get("email").getAsString();
 
-			userInfo.put("id", id);
-			userInfo.put("name", name); 
-			userInfo.put("email", email);
+			userInfo.put("userid", id);
+			userInfo.put("username", name); 
+			userInfo.put("useremail", email);
+			
 			userInfo.put("access_token", access_Token);
 
 		} catch (IOException e) {

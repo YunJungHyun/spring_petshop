@@ -34,16 +34,17 @@
 					<a class="dropdown-item" href="#">찜 목록</a>
 					<a class="dropdown-item" href="#">주문 취소</a> 
 					
-					<c:if test="${userInfo.id == null }">
+					<c:if test="${userInfo.userid == null }">
 						<div class="dropdown-divider"></div>   
 						<a class="dropdown-item" href="/view/user/signUpSort" >회원가입</a>
-						<a class="dropdown-item" href="#">로그인</a>
+						<a class="dropdown-item" href="/view/user/joinInPage">로그인</a>
 					</c:if>
-					<c:if test="${userInfo.id != null }">
+					<c:if test="${userInfo.userid != null }">
 						<div class="dropdown-divider"></div>   
 						<a class="dropdown-item" href="#">내 정보</a>
 						<a class="dropdown-item logout_btn" href="/join/logout" >로그아웃</a>
 					</c:if>
+					
 					
 				</div> 
 			

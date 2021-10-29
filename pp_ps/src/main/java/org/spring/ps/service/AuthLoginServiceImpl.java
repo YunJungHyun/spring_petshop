@@ -19,13 +19,13 @@ public class AuthLoginServiceImpl implements AuthLoginService {
 	UserDAO userDAO;
 	
 	@Override
-	public void authJoinInfo(JSONObject jsonUserInfo) {
+	public JSONObject authJoinInfo(JSONObject jsonUserInfo) {
 		
 
 		
-		String userid = (String)jsonUserInfo.get("id");
+		String userid = (String)jsonUserInfo.get("userid");
 		
-
+		log.debug("[authJoinInfo] userid : "+userid);
 		
 		UserVO userVO= userDAO.getOneUserInfo(userid);
 		
@@ -35,12 +35,17 @@ public class AuthLoginServiceImpl implements AuthLoginService {
 			userVO =userDAO.getOneUserInfo(userid);
 			
 			log.debug("[userVO] : "+userVO.toString()+" 회원정보가 생겼습니다....");
+			jsonUserInfo.put("user_pet_info", userVO.getUser_pet_info());
+		
 		}else {
 			
 			log.debug("[userVO] : "+userVO.toString()+"이미 등록된 회원 정보가 있습니다.");
+			jsonUserInfo.put("user_pet_info", userVO.getUser_pet_info());
 			
 		}
 		//return jsonUserInfo ;
+		
+		return jsonUserInfo;
 	}
 	
 	

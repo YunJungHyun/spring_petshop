@@ -15,4 +15,6 @@ public interface UserDAO {
 
 	int petShopIdCheck(String userid);
 
+	UserVO petShopLogin(String userid, String userpw);
+
 }

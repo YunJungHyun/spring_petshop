@@ -136,4 +136,22 @@ public class UserDAOImpl implements UserDAO {
 		return result;
 	}
 	
+	@Override
+	public UserVO petShopLogin(String userid, String userpw) {
+		HashMap<String , String> map = new HashMap();
+		
+		String sql="SELECT * "
+				+"FROM USER "
+				+"WHERE userid ='"+userid+"' "
+				+"AND userpw = '"+userpw+"' ";
+		
+		map.put("sql", sql);
+		
+		UserVO result =sqlSession.selectOne(Namespace+".petShopLogin", map);
+		
+		
+		
+		return result;
+	}
+	
 }

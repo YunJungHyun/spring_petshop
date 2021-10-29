@@ -58,9 +58,9 @@ public class kakaoOauth {
 		JSONObject jsonUserInfo =  new JSONObject(userInfo);
 		
 		
-		authLoginService.authJoinInfo(jsonUserInfo);
+		jsonUserInfo =authLoginService.authJoinInfo(jsonUserInfo);
 		
-		log.debug("LOGIN jsonUserInfo :"+ jsonUserInfo.toJSONString());
+		log.debug("[oauthKakao] jsonUserInfo :"+ jsonUserInfo.toJSONString());
 		session.setAttribute("userInfo", jsonUserInfo);
 	
 		return "redirect:/"; //본인 원하는 경로 설정
@@ -178,9 +178,10 @@ public class kakaoOauth {
 	            String email = kakao_account.getAsJsonObject().get("email").getAsString();
 	            id += element.getAsJsonObject().get("id").getAsString();
 	            
-	            userInfo.put("id", id);
-	            userInfo.put("name", name);
-	            userInfo.put("email", email);
+	            userInfo.put("userid", id);
+	            userInfo.put("username", name);
+	            userInfo.put("useremail", email);
+	            
 	            
 	            userInfo.put("access_token", access_Token);
 

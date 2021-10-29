@@ -7,5 +7,5 @@ import org.springframework.stereotype.Service;
 public interface AuthLoginService {
 
 	
-	void authJoinInfo( JSONObject jsonUserInfo) ;
+	JSONObject authJoinInfo( JSONObject jsonUserInfo) ;
 }
