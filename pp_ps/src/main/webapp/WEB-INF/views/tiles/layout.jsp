@@ -41,6 +41,7 @@
 <link href="/resources/css/product.css"  rel="stylesheet">
 <link href="/resources/css/navbar.css"  rel="stylesheet">
 <link href="/resources/css/page.css" rel="stylesheet">
+<link href="/resources/css/adminPage.css" rel="stylesheet">
 
  
 <!-- font-awesome  -->

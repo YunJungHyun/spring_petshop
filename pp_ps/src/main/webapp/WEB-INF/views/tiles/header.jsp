@@ -12,6 +12,7 @@
     	 			<i class="fas fa-paw fa-2x"></i> 
     	 			&nbsp; 
     				<span class="logo-title">PetSHOP</span>
+    				<span class="logo-title">${userInfo.state }</span> 
     			</a> 
     		</div>
     		
@@ -19,9 +20,9 @@
     	
     	<div class="nav-right d-flex">
     	
-    		
+    		<c:if test="${userInfo.state != 'super' }">
     		<div class="nav-ui-btn d-flex flex-column mx-2 dropdown" >
-    			<a class="dropdown-toggle" id="myPageMenu" data-toggle="dropdown", aria-haspopup="true" aria-expanded="false">
+    			<a class="dropdown-toggle nav-menu-btn" id="myPageMenu"  data-toggle="dropdown", aria-haspopup="true" aria-expanded="false">
     				<div class="nav-ui-icon">
     					<i class="far fa-user fa-2x"></i>
     				</div> 
@@ -29,7 +30,7 @@
     					<span class="nav-ui-icon-title-text">MY</span>
     				</div> 
     			</a> 
-    			<div class="dropdown-menu category-dropdown-menu" aria-labelledby="myPageMenu">
+    			<div class="dropdown-menu dropdown-menu-right category-dropdown-menu" aria-labelledby="myPageMenu">
 					<a class="dropdown-item" href="#">최근 본 상품</a>
 					<a class="dropdown-item" href="#">찜 목록</a>
 					<a class="dropdown-item" href="#">주문 취소</a> 
@@ -60,17 +61,45 @@
     				<span class="nav-ui-icon-title-text">장바구니</span>	
     			</div>
     		</div>
+    		</c:if>
     		
+    		<c:if test="${userInfo.state == 'super' }">
+    			<div class="nav-ui-btn d-flex flex-column mx-2 dropdown" >
+    			<a class="dropdown-toggle nav-menu-btn"  id="adminMenu" data-toggle="dropdown", aria-haspopup="true" aria-expanded="false">
+    				<div class="nav-ui-icon">
+    					<i class="far fa-user fa-2x"></i>
+    				</div> 
+    				<div class="nav-ui-icon-title">
+    					<span class="nav-ui-icon-title-text">ADMIN</span>
+    				</div> 
+    			</a> 
+    			<div class="dropdown-menu dropdown-menu-right category-dropdown-menu" aria-labelledby="adminMenu">
+					<a class="dropdown-item" href="#">공지사항</a>
+					<a class="dropdown-item" href="#">문의</a>
+					<a class="dropdown-item" href="#">제품 등록</a> 
+					
+					
+					<div class="dropdown-divider"></div>   
+						
+						<a class="dropdown-item logout_btn" href="/join/logout" >로그아웃</a>
+				
+					
+					
+				</div> 
+			
+    		</div> 
+    		</c:if>
  	 	</div>
 	</div>
 </nav>
- 
+
+<c:if test="${page != 'admin' }">
 <nav class="site-header-lg-menu  py-2 ">
 	<div class="container site-header-nav d-flex justify-content-between">
     	
     	<div class="site-header-lg-menu-left d-flex ">
     		<div class="site-header-lg-menu-btn category-btn mx-3 dropdown">
-    			<a class="py-1 dropdown-toggle " href="#" id="category-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    			<a class="py-1 dropdown-toggle "  href="#" id="category-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
     				<i class="fas fa-bars"></i>
     				&nbsp;
     				<span class="lg-menu-title">카테고리</span>   
@@ -122,7 +151,7 @@
     	
 	</div>
 </nav>
-
+</c:if>
 
 <script>
 $(document).ready(function(){

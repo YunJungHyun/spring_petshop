@@ -36,11 +36,12 @@ public class AuthLoginServiceImpl implements AuthLoginService {
 			
 			log.debug("[userVO] : "+userVO.toString()+" 회원정보가 생겼습니다....");
 			jsonUserInfo.put("user_pet_info", userVO.getUser_pet_info());
-		
+			jsonUserInfo.put("state", "normal");
 		}else {
 			
 			log.debug("[userVO] : "+userVO.toString()+"이미 등록된 회원 정보가 있습니다.");
 			jsonUserInfo.put("user_pet_info", userVO.getUser_pet_info());
+			jsonUserInfo.put("state", "normal");
 			
 		}
 		//return jsonUserInfo ;

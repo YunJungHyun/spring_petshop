@@ -11,7 +11,7 @@ public interface UserDAO {
 
 	void authSignUp(JSONObject jsonUserInfo);
 
-	void userPetShopSignUp(JSONObject jsonUserData);
+	int userPetShopSignUp(JSONObject jsonUserData);
 
 	int petShopIdCheck(String userid);
 

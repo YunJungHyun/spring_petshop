@@ -11,7 +11,9 @@ import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.json.simple.JSONObject;
+import org.spring.ps.service.AdminService;
 import org.spring.ps.service.UserService;
+import org.spring.ps.vo.AdminVO;
 import org.spring.ps.vo.UserVO;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,6 +33,9 @@ public class JoinController {
 
 	@Inject
 	private UserService userService;
+	
+	@Inject
+	private AdminService adminService;
 
 	private final HttpSession session;
 
@@ -113,7 +118,7 @@ public class JoinController {
 
 	@RequestMapping(value="/petShop" , method=RequestMethod.POST)
 	@ResponseBody
-	public void join_petShop (@RequestParam Map<String, Object> userData) {
+	public int join_petShop (@RequestParam Map<String, Object> userData) {
 
 
 
@@ -175,7 +180,9 @@ public class JoinController {
 		log.debug(jsonPetData);
 		log.debug(jsonUserData);
 
-		userService.userPetShopSignUp(jsonUserData);
+		int result = userService.userPetShopSignUp(jsonUserData);
+		
+		return result;
 
 	}
 
@@ -223,6 +230,7 @@ public class JoinController {
 				userInfo.put("username", userVO.getUsername());
 				userInfo.put("uaddress", userVO.getUadress());
 				userInfo.put("user_pet_info", userVO.getUser_pet_info());
+				userInfo.put("state", "normal");
 
 				JSONObject jsonUserInfo =  new JSONObject(userInfo);
 
@@ -242,6 +250,59 @@ public class JoinController {
 
 
 
+		return resultStr;
+	}
+	@RequestMapping(value="/admin/login")
+	@ResponseBody
+	public String adminLogin(
+			@RequestParam(value="adminid") String adminid,
+			@RequestParam(value="adminpw") String adminpw
+			) {
+		
+		
+		log.debug("[adminLogin] input adminid ,adminpw : "+adminid+","+adminpw);
+		int resultCnt1= adminService.adminIdCheck(adminid);
+		HashMap<String, Object> adminInfo = new HashMap<String, Object>();
+		
+		String resultStr= "";
+		if(resultCnt1 >=1 ) {
+			
+			log.debug("[adminLogin] : 아이디가 존재함" );
+			//resultStr ="idFound";
+			AdminVO adminVO= adminService.adminLogin(adminid,adminpw);
+			
+			if(adminVO == null) {
+				
+				log.debug("[adminLogin] : 비밀번호가 틀림" );
+				
+				resultStr ="pwError";
+			}else{
+				 
+				log.debug("[adminLogin] : 로그인 성공" );
+				adminInfo.put("userid", adminVO.getAdminid());
+				adminInfo.put("username", adminVO.getAdminname()+" 관리자님");
+				adminInfo.put("state", "super");
+				
+				
+				
+				JSONObject jsonAdminInfo =  new JSONObject(adminInfo);
+				
+				//log.debug(userInfo.toString());
+				//log.debug(jsonUserInfo.toJSONString());
+				session.setAttribute("userInfo", jsonAdminInfo);
+				resultStr="loginSuccess";
+			}
+			
+			
+		}else {
+			
+			
+			log.debug("[adminLogin] : 아이디가 존재 하지않음");
+			resultStr ="idNotFound";
+		}
+		
+		
+		
 		return resultStr;
 	}
 

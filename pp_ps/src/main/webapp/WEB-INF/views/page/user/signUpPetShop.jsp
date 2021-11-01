@@ -391,7 +391,22 @@
 				dataType: "json",
 				success : function(data){
 				
-					console.log(userData);
+					if(data >=1){
+						var result = confirm("회원가입이 완료되었습니다. 로그인 하시겠습니까?");
+						
+						
+						if(result){
+							
+							location.href="/view/user/joinInPage";
+						}else{
+							
+							location.href="/";
+						}
+						
+					}else{
+						
+						alert("회원가입실패");
+					}
 				}
 			
 			})   
@@ -400,6 +415,8 @@
 	 		console.log("id : "+useridOkay+"/ pw : "+userpwOkay+"/ pwchk : "+ userpwChkOkay+"/ name :"+ usernameOkay+"/ pet :"+ userpetOkay );
 	 		
 	 	}
+	 	
+	 	
 	})  
 	
 </script>

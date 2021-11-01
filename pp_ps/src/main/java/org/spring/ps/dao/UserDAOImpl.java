@@ -49,11 +49,11 @@ public class UserDAOImpl implements UserDAO {
 	@Override
 	public void authSignUp(JSONObject jsonUserInfo) {
 		HashMap<String, String> map = new HashMap();
-		log.debug("[authSignUp jsonUserInfo] :" +jsonUserInfo.get("id")+","+jsonUserInfo.get("name"));
+		log.debug("[authSignUp jsonUserInfo] :" +jsonUserInfo.get("userid")+","+jsonUserInfo.get("username"));
 		
 		String sql ="INSERT INTO "
 				+ "user(userid,username,user_pet_info,user_prod_info) "
-				+ "VALUES ('"+jsonUserInfo.get("id")+"','"+jsonUserInfo.get("name")+"',JSON_OBJECT('PET','none'),JSON_OBJECT('BASKETLIST','none','WISHLIST','none','PURCHASELIST','none'))";			
+				+ "VALUES ('"+jsonUserInfo.get("userid")+"','"+jsonUserInfo.get("username")+"',JSON_OBJECT('PET','none'),JSON_OBJECT('BASKETLIST','none','WISHLIST','none','PURCHASELIST','none'))";			
 		map.put("sql", sql);
 		int result  = sqlSession.insert(Namespace+".authSignUp", map);
 		
@@ -62,7 +62,7 @@ public class UserDAOImpl implements UserDAO {
 	
 	
 	@Override
-	public void userPetShopSignUp(JSONObject jsonUserData) {
+	public int userPetShopSignUp(JSONObject jsonUserData) {
 		HashMap<String, String> map = new HashMap();
 		
 		
@@ -112,14 +112,14 @@ public class UserDAOImpl implements UserDAO {
 			
 			log.debug(sql);
 		}
-		
+		 
 		
 		map.put("sql", sql);
 		int result  = sqlSession.insert(Namespace+".userPetShopSignUp", map);
 		
 		log.debug("[userPetShopSignUp result] :" +result);
 		
-		//	map.put("sql", sql);
+		return result;
 	}
 	
 	@Override

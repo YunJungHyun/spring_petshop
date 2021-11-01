@@ -60,6 +60,7 @@ public class kakaoOauth {
 		
 		jsonUserInfo =authLoginService.authJoinInfo(jsonUserInfo);
 		
+		
 		log.debug("[oauthKakao] jsonUserInfo :"+ jsonUserInfo.toJSONString());
 		session.setAttribute("userInfo", jsonUserInfo);
 	

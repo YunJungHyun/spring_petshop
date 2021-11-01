@@ -74,4 +74,52 @@ public class ViewController {
 		
 		return "user/joinIn.page"; 
 	}
+	
+	@RequestMapping(value="/admin/loginPage")
+	public String adminLoginPage(
+			Model model
+			) {
+		
+		log.debug("adminLoginPage"); 
+		
+		String pageTitle = "관리자 로그인"; 
+		
+		model.addAttribute("page" , "admin");
+		model.addAttribute("pageTitle", pageTitle);
+		
+		return "admin/adminLogin.page"; 
+	}
+	
+	
+	
+	
+	@RequestMapping(value="/admin/managementPage")
+	public String adminManageMentPage(
+			Model model
+			) {
+		
+		log.debug("[adminManageMentPage]"); 
+		
+		String pageTitle = "관리자 페이지"; 
+		
+		model.addAttribute("page" , "admin");
+		model.addAttribute("pageTitle", pageTitle);
+		
+		return "admin/adminManagement.page"; 
+	}
+	
+	
+	
+	@RequestMapping(value="/admin/go/{page}")
+	public String adminPage(
+			@PathVariable("page") String page
+			) {
+		
+		log.debug("[adminPage] :"+page);
+		
+		
+		return "admin/"+page+".page";
+	}
+	
+	
 }

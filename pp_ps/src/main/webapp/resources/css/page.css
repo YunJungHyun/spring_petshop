@@ -187,8 +187,13 @@ button.petShop_reg_btn {
 	outline: unset !important;
 	background-color: #45d4d4a6;
 }
+.admin-login-btn:hover, .admin-login-btn:focus, .admin-login-btn:active 
+	{
+	outline: unset !important;
+	background-color: #45d4d4a6;
+}
 
-.petShop-login-btn {
+.petShop-login-btn ,.admin-login-btn {
     border: unset;
     border-radius: 5px;
     background-color: #47d5d4;
