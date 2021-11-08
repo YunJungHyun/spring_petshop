@@ -15,17 +15,38 @@
 	background-color: #90f3f24a;
 	border-radius: 8px;
 	color: #6b6c6b;
-	
-} 
+}
 
-.admin-ui-box:hover{
-	
+.admin-ui-box:hover {
 	cursor: pointer;
-	box-shadow:1px 1px 20px 1px #82c3c2;
+	box-shadow: 1px 1px 20px 1px #82c3c2;
 }
 
 .admin-ui-box:active {
-    cursor: pointer;
-    box-shadow: 1px 1px 10px 3px #a8d1d0 inset;
+	cursor: pointer;
+	box-shadow: 1px 1px 10px 3px #a8d1d0 inset;
+}
 
+.page-emptied-admin {
+	height: 3rem;
+}
+
+.admin-shop-search-form {
+	width: 50%;
+	margin: 0px 0 px 0 px auto;
+}
+
+.insert-product-btn {
+	background-color: rgb(71, 213, 212);
+	color: #fff;
+}
+
+.prod-list-oneLine {
+	padding: 0.5 rem;
+	border: 1 px solid;
+}
+
+.prod-list-img-box{
+	
+	
 }

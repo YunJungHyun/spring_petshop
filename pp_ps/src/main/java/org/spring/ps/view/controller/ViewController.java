@@ -112,12 +112,13 @@ public class ViewController {
 	
 	@RequestMapping(value="/admin/go/{page}")
 	public String adminPage(
-			@PathVariable("page") String page
+			@PathVariable("page") String page,
+			Model model
 			) {
 		
 		log.debug("[adminPage] :"+page);
 		
-		
+		model.addAttribute("page" , "admin");
 		return "admin/"+page+".page";
 	}
 	
