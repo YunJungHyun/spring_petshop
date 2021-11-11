@@ -9,6 +9,7 @@ VO클래스 등록하면 mapper.xml에서 VO 클래스를 mybatis-config.xml에 
    <typeAliases>
             <typeAlias type="org.spring.ps.vo.UserVO" alias="userVO"/>
             <typeAlias type="org.spring.ps.vo.AdminVO" alias="adminVO"/>
+            <typeAlias type="org.spring.ps.vo.CategoryVO" alias="categoryVO"/>
            
             
         </typeAliases>
