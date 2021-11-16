@@ -11,4 +11,6 @@ public interface CategoryService {
 
 	List<CategoryVO> categoryList();
 
+	int categoryUpdate(CategoryVO categoryVO);
+
 }

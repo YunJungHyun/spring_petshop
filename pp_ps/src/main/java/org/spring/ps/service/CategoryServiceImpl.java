@@ -27,4 +27,10 @@ public class CategoryServiceImpl implements CategoryService {
 		
 		return categoryDAO.categoryList();
 	}
+	
+	@Override
+	public int categoryUpdate(CategoryVO categoryVO) {
+		// TODO Auto-generated method stub
+		return  categoryDAO.categoryUpdate(categoryVO);
+	}
 }

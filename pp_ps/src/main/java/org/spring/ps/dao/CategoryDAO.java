@@ -11,4 +11,6 @@ public interface CategoryDAO {
 
 	List<CategoryVO> categoryList();
 
+	int categoryUpdate(CategoryVO categoryVO);
+
 }

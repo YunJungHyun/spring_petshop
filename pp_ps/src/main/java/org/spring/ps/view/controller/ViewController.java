@@ -1,12 +1,21 @@
 package org.spring.ps.view.controller;
 
+import java.util.List;
+
+import javax.inject.Inject;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.spring.ps.service.CategoryService;
+import org.spring.ps.vo.CategoryVO;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
 @Controller
 @RequestMapping("/view")
 public class ViewController {
@@ -15,13 +24,17 @@ public class ViewController {
 
 	Log log = LogFactory.getLog(this.getClass());
 
+	
+	@Inject
+	private CategoryService categoryService;
+	
 	@RequestMapping(value="/main/petshop")
 	public String home(
 			Model model
 			) {
 
 		
-		log.debug("home"); 
+		log.debug("home");  
 		
 		
 		String pageTitle = "HOME"; 
@@ -117,8 +130,22 @@ public class ViewController {
 			) {
 		
 		log.debug("[adminPage] :"+page);
+		String pageTitle = null; 
+		switch(page) {
 		
+			case "prodListPage" : 
+								log.debug("카테고리 리스트 불러오기");
+								pageTitle = "제품관리";
+								List<CategoryVO> result= categoryService.categoryList();
+								
+								model.addAttribute("cList",result);
+			 					break;
+				
+		
+		}
+		model.addAttribute("pageTitle" , pageTitle);
 		model.addAttribute("page" , "admin");
+		
 		return "admin/"+page+".page";
 	}
 	

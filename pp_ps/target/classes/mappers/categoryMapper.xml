@@ -20,6 +20,13 @@
  	
  	</select>
  	
+ 	<update id="categoryUpdate">
+ 	<![CDATA[
+			${sql}
+		]]>
+ 	
+ 	
+ 	</update>
  	
  	
  </mapper>

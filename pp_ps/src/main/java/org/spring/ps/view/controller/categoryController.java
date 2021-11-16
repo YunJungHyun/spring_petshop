@@ -49,4 +49,21 @@ public class categoryController {
 		
 		return categoryList;
 	}
+	
+	
+	@RequestMapping(value="/categoryUpdate")
+	@ResponseBody
+	public int categoryList(
+			CategoryVO categoryVO
+			) {
+		
+		log.debug("[categoryUpdate]");
+	
+		int result = categoryService.categoryUpdate(categoryVO);
+	
+		log.debug("result : "+result);
+		return result;
+	}
+	
+	
 }
