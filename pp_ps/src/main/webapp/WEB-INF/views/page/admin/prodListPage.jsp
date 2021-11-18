@@ -4,16 +4,13 @@
 	<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 
-<script src="https://cdn.ckeditor.com/ckeditor5/31.0.0/classic/ckeditor.js"></script>
-<script src="/resources/js/ko.js"></script>
+
 <style>
-	#psi-input-btn{
+	.prod_slide_file{
 	
-		display: none;
+		 display: none; 
 	}
-	.ck-editor__editable {
-	    min-height: 500px;
-	}
+
 	</style>
 <div class="page">
 	<div class="container">
@@ -68,6 +65,7 @@
 	<div class="modal-content">
 		<div class="modal-header">
 		<h5 class="modal-title" id="prodInsertModalLabel">제품 등록</h5>
+		
 		<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 			<span aria-hidden="true">&times;</span>
 		</button>
@@ -80,12 +78,12 @@
 						<input type="text" class="form-control" id="pname"  placeholder="제품이름을 입력하세요" value="제품이름1">
 					</div>	
 					<div class="form-group col-sm-6">
-						<label for="formGroupExampleInput">제품 카테고리</label>
+						<label for="formGroupExampleInput">제품 카테고리</label> 
 						
-						<select class="custom-select">
+						<select class="custom-select" id="categoryNumber">
 								<option value="">카테고리를 선택하세요</option>
 							<c:forEach var = "clist" items="${cList}">
-								<option value="${clist}">${clist.cname }</option>
+								<option value="${clist.cnum}">${clist.cname }</option>
 							</c:forEach>
 						</select>
 					</div>	
@@ -97,50 +95,31 @@
 					</div>	
 					<div class="form-group col-sm-6">
 						<label for="formGroupExampleInput">제품 가격</label>
-						<input type="text" class="form-control" id="pcnt"  placeholder="제품가격을 입력하세요" value="200">
+						<input type="text" class="form-control" id="pprice"  placeholder="제품가격을 입력하세요" value="200">
 					</div>	
 				</div>
 				
-				<div class="form-group">
-					<label for="formGroupExampleInput">제품 슬라이드 이미지 추가</label>
-					<button type="button" id="psi-btn">
+				<div class="form-group addFileGroup">
+					<label>제품 슬라이드 이미지 추가</label>
+					<button type="button" class="file_addBtn" onclick="fn_addFile()">
 						<i class="fas fa-plus"></i>
-					</button>
-					<input type="file" id="psi-input-btn"/>
+					</button> 
+				
 				</div>
-				<%=request.getRealPath("/") %>
+				
 				<div class="form-group">
 					<div class="d-flex flex-row justify-content-center" id="select-img-list">
 						<h2 class="select-img-none-guide show">슬라이드로 사용될 이미지를 업로드해주세요.</h2>
 					</div>
 				</div>
-				<div class="form-group">  
-					<label for="formGroupExampleInput">제품 설명</label>
-				<div id="pexplicate"></div>
-				<script>
-				ClassicEditor
-					.create( 
-							document.querySelector( '#pexplicate' ), 
-							{
-								ckfinder: {
-									uploadUrl: '/admin/editor/image'
-								},
-								language: 'ko'
-								}
-						)
-					
-					.catch( error => {
-               				 console.error( error );
-           				 } );
-    			</script> 
-				</div>	
+				
 			 
 				
 			</form>
 		</div>
 		<div class="modal-footer">
-			<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-			<button type="button" class="btn btn-primary">Save changes</button>
+			<button type="button" class="btn btn-primary" onclick="javascript:prod_insert_submit()">제품 등록 완료</button>
+			<button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
 		</div>
 	</div>
 	</div>
@@ -221,19 +200,87 @@
 </div>
 
 <script>
-//제품 슬라이드 이미지 인풋버튼 클릭시 파일업로드
-$("#psi-btn").on("click",function(){
+
+function prod_insert_submit(){
 	
-
-	$('#psi-input-btn').click();
-
 	
-})
+	var formData =  new FormData();
+	formData.append("pname", $("#pname").val());
+	formData.append("pcnt", $("#pcnt").val());
+	formData.append("pprice", $("#pprice").val());
+	formData.append("categoryNumber", $("#categoryNumber").val());
+	$(".prod_slide_file").each(function(){
+		
+		formData.append("article_file", this.files[0]);
+	
+	})
+	
+	$.ajax({
+		
+		type : "POST",
+		enctype :"multipart/form-data",
+		url : "/admin/slide/upload",
+		data : formData,
+		processData : false,
+		contentType :false,
+		success:function(data){
+			
+			if(data >=1 ){
+				
+				alert("제품 등록되었습니다.");
+				
+				location.reload();
+				
+			}else{
+				
+				alert("제품 등록 실패하였습니다..");
+			}
+		}
+	})
+	
+}
 
-$('#psi-input-btn').change(function(){ 
+var inputFileCnt = 1; 
+
+function fn_addFile(){
+	
+	if($(".prod_slide_file").length >=1){
+	
+		$(".prod_slide_file").each(function(){
+			
+			//console.log(this.files[0]);
+			if(!this.files[0]){
+				
+				$(this).remove();
+			}
+		})
+	}
+	
+	var html ="<input type='file' class='prod_slide_file' name='prod_slide_file_"+inputFileCnt+"'>";
+
+	$(".addFileGroup").append(html);
+	
+	//console.log("input[name='prod_slide_file_"+inputFileCnt+"']");
+	$("input[name='prod_slide_file_"+inputFileCnt+"']").click();
+	
+	inputFileCnt++;
+	
+	
+	
+		
+		
+}
+
+
+
+ 
+$(document).on("change",".prod_slide_file",function(){
+	
+	
+	var selctOneId = $(this).attr("name");
 	
 	if($(".select-list-one").length >=5){
-		
+		$(this).remove();
 		alert("슬라이드 이미지는 5개까지 등록가능합니다.");
 		return false;
 	}
@@ -245,9 +292,11 @@ $('#psi-input-btn').change(function(){
 		reader.onload = function(data) {
 			
 			
-		   	var html =  "<div class='select-list-one'>";
+		   	var html =  "<div class='select-list-one  d-flex flex-column' id='"+selctOneId+"' >";
 				html +="<button type='button' class='select-img-cancle badge'><i class='fas fa-times'></i></button>"
-				html +=	"<img src='"+data.target.result+"'/>";
+				html += "<div class='product-slide-img-box d-flex flex-row'>"
+				html +=	"<img src='"+data.target.result+"'/>";				
+				html += "</div>";
 				html += "</div>";
 			
 			if($(".select-img-none-guide").hasClass("show")){
@@ -263,11 +312,27 @@ $('#psi-input-btn').change(function(){
 		
 	} 
 	
+	
+	
 }) 
 
 $(document).on("click",".select-img-cancle",function(){
 	
 	$(this).parent().remove();
+	
+	var selctOneId = $(this).parent().attr("id");
+	
+	$(".prod_slide_file").each(function(){
+		
+		
+		alert($(this).attr("name")+"/"+selctOneId);
+		
+		if($(this).attr("name") == selctOneId){	
+			$(this).remove();
+		}
+	})
+	
+	
 	
 	if($(".select-list-one").length == 0){
 		

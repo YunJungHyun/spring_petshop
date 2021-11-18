@@ -90,7 +90,7 @@
 	border-bottom-right-radius: .25rem;
 }
 
-#psi-btn {
+.file_addBtn {
 	border: unset;
 	border-radius: 8px;
 	background-color: #90f3f24a;
@@ -100,13 +100,12 @@
 	width: 200px;
 	max-height: 300px;
 	margin: 0px auto;
-	border: 2px solid #bbb;
-	border-radius: 8px;
-	padding: 0.5rem;
+	border: 1px solid #ced4da;
 }
 
-.select-list-one>img {
+.select-list-one>.product-slide-img-box>img {
 	width: -webkit-fill-available;
+	align-self: center;
 }
 
 .select-img-none-guide.show {
@@ -118,10 +117,23 @@
 }
 
 .select-img-cancle {
-	float: right;
+	align-self: flex-end;
 	background-color: #fff;
-	border: 2px solid rgb(0 0 0/ 90%);
 	border-radius: 10px;
 	color: red;
-	margin-bottom: 0.5rem;
+	border: unset;
+}
+
+#select-img-list {
+	padding: 3rem;
+	border: 1px solid #ced4da;
+	border-radius: 5px;
+}
+
+.select-img-none-guide {
+	color: #ced4da;
+}
+
+.product-slide-img-box {
+	text-align: center;
 }

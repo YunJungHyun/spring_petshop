@@ -134,7 +134,7 @@ public class ViewController {
 		switch(page) {
 		
 			case "prodListPage" : 
-								log.debug("카테고리 리스트 불러오기");
+								
 								pageTitle = "제품관리";
 								List<CategoryVO> result= categoryService.categoryList();
 								

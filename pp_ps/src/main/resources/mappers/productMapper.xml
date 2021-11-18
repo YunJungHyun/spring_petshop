@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.spring.ps.mapper.productMapper">
+
+
+	<insert id="productBaseInsert" parameterType="productVO" >
+
+ 		<![CDATA[
+ 				INSERT INTO product(pname, pcnt,pprice,pcname,ptype,psort) VALUES(
+ 					
+ 					#{pname},#{pcnt},#{pprice},
+ 					
+ 					(
+					SELECT cname 
+						FROM category  WHERE cnum =#{categoryNumber}
+					), (
+					SELECT ctype 
+						FROM category  WHERE cnum =#{categoryNumber}
+					), (
+					SELECT csort 
+						FROM category  WHERE cnum =#{categoryNumber}
+					)
+ 				
+ 				)
+ 				
+ 		
+	
+		]]>
+		
+		<selectKey resultType="int" keyProperty="pnum" order="AFTER">
+					<![CDATA[
+						SELECT LAST_INSERT_ID() as pnum
+					]]>
+		</selectKey>
+		
+	</insert>
+	<update id="productSlideImgUpload"  >
+
+ 		<![CDATA[
+ 			${sql}
+		]]>
+		
+		
+	</update>
+
+
+
+
+
+</mapper>
