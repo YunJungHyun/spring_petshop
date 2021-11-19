@@ -1,6 +1,7 @@
 package org.spring.ps.dao;
 
 import java.util.HashMap;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -82,6 +83,20 @@ public class ProductDAOImpl implements ProductDAO{
 		map.put("sql", sql);
 		int result =sqlSession.update(Namespace+".productSlideImgUpload", map);
 		log.debug("[productSlideImgUpload] result :"+result);
+		return result;
+	}
+	
+	@Override
+	public List<ProductVO> productList() {
+		
+		HashMap<String,String> map = new HashMap<String, String>();
+		
+		
+		String sql = "SELECT * FROM product";
+		
+		map.put("sql", sql);
+		
+		List<ProductVO> result = sqlSession.selectList(Namespace+".productList" ,map);		
 		return result;
 	}
 }

@@ -39,12 +39,19 @@
 	</insert>
 	<update id="productSlideImgUpload"  >
 
- 		<![CDATA[
+ 		<![CDATA[ 
  			${sql}
 		]]>
 		
 		
 	</update>
+	
+	<select id="productList" parameterType="HashMap" resultType="productVO"> 
+		<![CDATA[
+ 			${sql}
+		]]>
+	
+	</select>
 
 
 

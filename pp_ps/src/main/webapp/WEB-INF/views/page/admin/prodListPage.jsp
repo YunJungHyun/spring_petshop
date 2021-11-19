@@ -39,24 +39,155 @@
  	 			 
 			</div>
 			
-			<div class="prod-list-body d-flex flex-column my-4">
-				
-				<div class="prod-list-oneLine">
-					<div class="prod-list-content d-flex flex-row">
-						<div class="prod-list-img-box col-sm-4">
+			<div class="product-list-body my-2"> 
+				<div class="row">
+					<c:forEach items="${pList}" var="list" varStatus="status">
+						<div class="product-content col-lg-6 col-md-12">
+						<table class="table table-bordered product-content-table">
+								<tr >
+									<td colspan="2">제품 아이디</td>
+								</tr>
+								<tr>
+									<td rowspan="6" class="col-sm-4" >
+										<div class="prdouct-img-box">
+											<img id="product-img-${status.count}" src=""/>
+										</div>
+										<script> 
+											var pslideimgJSON_str =`${list.pslideimg}`;
+											var pslideimgJSON = JSON.parse(pslideimgJSON_str);
+											
+											var imgDirJSON_str = JSON.stringify(pslideimgJSON.imgDir); 
+											var imgDirJSON = JSON.parse(imgDirJSON_str);
+											
+											//var imgDirJSON_len = Object.keys(imgDirJSON).length;
+											
+												
+											//대표이미지
+											var imgDirOneJSON = imgDirJSON.slideImg_1
+												
+											var path = "/resources/imgUpload/product/";
+											var s_path = "slide/s/";
+											var yearDir = imgDirOneJSON.year+"/";
+											var monthDir = imgDirOneJSON.month+"/";
+											var dateDir = imgDirOneJSON.date+"/";
+											var productDir = imgDirOneJSON.product+"/";
+											var s_fileName = imgDirOneJSON.s_fileName;
+												
+											
+											
+											console.log(path+yearDir+monthDir+dateDir+productDir+s_path+s_fileName);
+											
+											$("#product-img-"+${status.count}).attr("src" , path+yearDir+monthDir+dateDir+productDir+s_path+s_fileName );
+											 
+										</script>
+									</td>
+									<td>
+										${list.pname }
+									</td>
+								</tr>
 							
-						</div>
-						<div class="prod-list-info-box">
-					
-						</div>
-					</div>
+								<tr>
+									<td>카테고리 : ${list.pcname }</td>
+								</tr>
+								<tr>
+									<td>가격 : ${list.pprice }</td>
+								</tr>
+								<tr> 
+									<td>수량 : ${list.pcnt }</td>
+								</tr>
+								<tr>
+									<td>제품 등록 날짜 : ${list.pregdate }</td>
+								</tr>
+								<tr>
+									<td>재입고 날짜 : ${list.prestockdate }</td>
+								</tr>
+								
+								
+								<tr> 
+									
+									<td class="text-right" colspan="2">
+										<a href="#" data-pnum="${list.pnum }" data-target="#prod-update-modal" data-toggle="modal">제품 기본 정보 수정</a> / 
+										<a href="#"> 제품 본문 보기 </a> 
+									</td>
+								</tr> 
+								
+							</table>
+						</div> 
+					</c:forEach>
 				</div>
-				
+					
 			</div>		
 	
 		</div>
 	</div>
 </div>  
+
+<!-- Modal -->
+<div class="modal fade " id="prod-update-modal" tabindex="-1" role="dialog" aria-labelledby="prodUpdateModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-xl" role="document">
+	<div class="modal-content">
+		<div class="modal-header">
+		<h5 class="modal-title" id="prodUpdateModalLabel">제품 기본 정보 수정</h5>
+		
+		<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		</button>
+		</div>
+		<div class="modal-body">
+			<form>
+				<div class="form-row">
+					<div class="form-group col-sm-6">
+						<label for="pname">제품 이름</label>
+						<input type="text" class="form-control" id="pname"  placeholder="제품이름을 입력하세요" value="제품이름1">
+					</div>	
+					<div class="form-group col-sm-6">
+						<label for="formGroupExampleInput">제품 카테고리</label> 
+						
+						<select class="custom-select" id="categoryNumber">
+								<option value="">카테고리를 선택하세요</option>
+							<c:forEach var = "clist" items="${cList}">
+								<option value="${clist.cnum}">${clist.cname }</option>
+							</c:forEach>
+						</select>
+					</div>	
+				</div>
+				<div class="form-row">
+					<div class="form-group col-sm-6">
+						<label for="pcnt">제품 수량</label>
+						<input type="text" class="form-control" id="pcnt"  placeholder="제품수량을 입력하세요" value="200">
+					</div>	
+					<div class="form-group col-sm-6">
+						<label for="formGroupExampleInput">제품 가격</label>
+						<input type="text" class="form-control" id="pprice"  placeholder="제품가격을 입력하세요" value="200">
+					</div>	
+				</div>
+				
+				<div class="form-group addFileGroup">
+					<label>제품 슬라이드 이미지 추가</label>
+					<button type="button" class="file_addBtn" onclick="fn_addFile()">
+						<i class="fas fa-plus"></i>
+					</button> 
+				
+				</div>
+				
+				<div class="form-group">
+					<div class="d-flex flex-row justify-content-center" id="select-img-list">
+						<h2 class="select-img-none-guide show">슬라이드로 사용될 이미지를 업로드해주세요.</h2>
+					</div>
+				</div>
+				
+			 
+				
+			</form>
+		</div>
+		<div class="modal-footer">
+			<button type="button" class="btn btn-primary" onclick="javascript:prod_insert_submit()">제품 등록 완료</button>
+			<button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+		</div>
+	</div>
+	</div>
+</div>
+
 
 
 <!-- Modal -->
@@ -345,13 +476,13 @@ $(document).on("click",".select-img-cancle",function(){
 
 
 
+ $('#prod-update-modal').on('show.bs.modal', function(event) {          
+           var pnum=  $(event.relatedTarget).data('pnum');
+           
+           alert(pnum);
+            
+   });
 
-//카테고리 목록 불러오기
-$("#prod-insert-modal").on('show.bs.modal', function (e) {
-	
-	
-	
-})
 
 $("#category-insert-modal").on('hidden.bs.modal', function (e) {
 	$("#categoryList").children().remove();

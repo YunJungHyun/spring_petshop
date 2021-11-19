@@ -41,15 +41,6 @@
 	color: #fff;
 }
 
-.prod-list-oneLine {
-	padding: 0.5 rem;
-	border: 1 px solid;
-}
-
-.prod-list-img-box {
-	
-}
-
 .categoryList {
 	padding-left: 2rem;
 	padding-right: 2rem;
@@ -136,4 +127,24 @@
 
 .product-slide-img-box {
 	text-align: center;
+}
+
+.product-list-body {
+	padding: 1rem;
+	border: 2px solid #45d4d4;
+	border-radius: 5px;
+}
+
+.product-content-table {
+	border-collapse: collapse;
+	border-radius: 5px;
+	border-style: hidden;
+	box-shadow: 0 0 0 1px #dee2e6;
+}
+
+.prdouct-img-box {
+	min-height: 300px;
+	max-height: 300px;
+	min-width: 250px;
+	max-width: 250px;
 }

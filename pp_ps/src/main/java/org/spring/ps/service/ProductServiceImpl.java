@@ -1,5 +1,7 @@
 package org.spring.ps.service;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.json.simple.JSONObject;
@@ -24,5 +26,11 @@ public class ProductServiceImpl implements ProductService{
 	public int productSlideImgUpload(JSONObject jsonObject, int pnum) {
 		
 		return productDAO.productSlideImgUpload(jsonObject, pnum);
+	}
+	
+	@Override
+	public List<ProductVO> productList() {
+		// TODO Auto-generated method stub
+		return productDAO.productList();
 	}
 }

@@ -7,7 +7,9 @@ import javax.inject.Inject;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.spring.ps.service.CategoryService;
+import org.spring.ps.service.ProductService;
 import org.spring.ps.vo.CategoryVO;
+import org.spring.ps.vo.ProductVO;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,6 +29,8 @@ public class ViewController {
 	
 	@Inject
 	private CategoryService categoryService;
+	@Inject
+	private ProductService productService;
 	
 	@RequestMapping(value="/main/petshop")
 	public String home(
@@ -137,8 +141,10 @@ public class ViewController {
 								
 								pageTitle = "제품관리";
 								List<CategoryVO> result= categoryService.categoryList();
+								List<ProductVO> pList = productService.productList();
 								
 								model.addAttribute("cList",result);
+								model.addAttribute("pList",pList);
 			 					break;
 				
 		
