@@ -18,7 +18,7 @@
 	<!-- 업로드 패스 설정 -->
 	<beans:bean class="java.lang.String" id="uploadPath">
 		<beans:constructor-arg
-			value="C:\Users\yjh_z\workspace\portpolio_renewal\pp_ps\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\pp_ps\resources" />
+			value="C:\Users\yjh_z\workspace\portpolio_renewal\pp_ps\.metadata\.plugins\org.eclipse.wst.server.core\tmp1\wtpwebapps\pp_ps\resources" />
 	</beans:bean>
 
 	<!-- 일반 파일 업로드 경로 -->

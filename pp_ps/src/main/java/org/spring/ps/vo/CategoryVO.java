@@ -11,6 +11,6 @@ public class CategoryVO {
 	
 	private int cnum;
 	private String cname;
-	private String ctype;
-	private String csort;
+	private String ccode;
+	private String ccoderef;
 }

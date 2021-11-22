@@ -109,7 +109,7 @@ public class fileUploadController {
 
 		productVO.setPname(pname);
 
-		log.debug("[slideUpload] categoryNumber: "+productVO.getCategoryNumber());
+		log.debug("[slideUpload] pcnum: "+productVO.getPcnum());
 		log.debug("[slideUpload] uploadPath: "+uploadPath);
 		// C:\Users\yjh_z\workspace\portpolio_renewal\pp_ps\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\pp_ps\resources
 

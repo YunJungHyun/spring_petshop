@@ -14,11 +14,11 @@ public class ProductVO {
 	
 	private int pnum;
 	private String pname;
-	private String pcname;
 	private int pcnt;
 	private int pprice;
 	private String pslideimg;
-	private int categoryNumber;
+	private int pcnum; 
 	private Timestamp pregdate;
+	private Timestamp pupdatedate;
 	private Timestamp prestockdate;
 }

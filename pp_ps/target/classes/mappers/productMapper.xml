@@ -9,20 +9,11 @@
 	<insert id="productBaseInsert" parameterType="productVO" >
 
  		<![CDATA[
- 				INSERT INTO product(pname, pcnt,pprice,pcname,ptype,psort) VALUES(
+ 				INSERT INTO product(pname, pcnt,pprice,pcnum) VALUES(
  					
- 					#{pname},#{pcnt},#{pprice},
+ 					#{pname},#{pcnt},#{pprice},#{pcnum}
  					
- 					(
-					SELECT cname 
-						FROM category  WHERE cnum =#{categoryNumber}
-					), (
-					SELECT ctype 
-						FROM category  WHERE cnum =#{categoryNumber}
-					), (
-					SELECT csort 
-						FROM category  WHERE cnum =#{categoryNumber}
-					)
+ 			
  				
  				)
  				

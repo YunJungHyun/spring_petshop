@@ -5,28 +5,32 @@
   
  <mapper namespace="org.spring.ps.mapper.categoryMapper">
  	
- 	<insert id="categoryInsert" parameterType="HashMap">
  	
- 	<![CDATA[
-			${sql}
+ 	<select id="getCategoryList" parameterType="HashMap" resultType="categoryVO">
+ 	
+ 		
+ 		<![CDATA[ 
+ 			${sql}
 		]]>
- 	
- 	</insert>
- 	<select id="categoryList" parameterType="HashMap" resultType="categoryVO">
- 	
- 	<![CDATA[
-			${sql}
-		]]>
- 	
+		
+		
  	</select>
+ 	<select id="categroyChk" parameterType="HashMap" resultType="int">
  	
- 	<update id="categoryUpdate">
- 	<![CDATA[
-			${sql}
+ 		
+ 		<![CDATA[ 
+ 			${sql}
 		]]>
+		
+		
+ 	</select>
+ 	<insert id="categoryInsert" parameterType="HashMap" >
  	
- 	
- 	</update>
- 	
- 	
+ 		
+ 		<![CDATA[ 
+ 			${sql}
+		]]>
+		
+		
+ 	</insert>
  </mapper>

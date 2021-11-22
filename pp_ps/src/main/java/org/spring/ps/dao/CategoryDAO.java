@@ -7,10 +7,10 @@ import org.spring.ps.vo.CategoryVO;
 
 public interface CategoryDAO {
 
-	int categoryInsert(Map<String, Object> categoryData);
+	List<CategoryVO> getCategoryList();
 
-	List<CategoryVO> categoryList();
+	int categoryChk(String cname);
 
-	int categoryUpdate(CategoryVO categoryVO);
+	int categoryInsert(int parentCategory, String cname);
 
 }

@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
+<div class="container">
 <div class="d-md-flex flex-md-equal w-100 my-md-3 pl-md-3">
   <div class="mr-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden admin-ui-box" id="prodListPage"> 
     <div class="my-3 py-3">
@@ -11,7 +11,7 @@
     	<img src="/resources/img/dog_food_01.png" class="w-100">
     </div>
   </div>
-  <div class="mr-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden admin-ui-box" id="QnAListPage">
+  <div class="mr-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden admin-ui-box" id="QnAListPage"> 
     <div class="my-3 p-3">
       <h2 class="display-5">Q & A</h2>
       <p class="lead">고객 질의 응답</p>
@@ -45,7 +45,7 @@
     </div>
   </div>
 </div> 
-
+</div>
  <script>
  
  $(".admin-ui-box").click(function(){

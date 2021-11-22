@@ -26,42 +26,45 @@ public class CategoryDAOImpl implements CategoryDAO{
 
 
 	@Override
-	public int categoryInsert(Map<String, Object> categoryData) {
-		HashMap<String, String> map = new HashMap();
-
-		String sql = "INSERT INTO category(cname, ctype, csort) "
-				+ "VALUES('"+categoryData.get("cname")+"','"+categoryData.get("ctype")+"','"+categoryData.get("csort")+"')";
-
-		map.put("sql", sql);
-
-		int result = sqlSession.insert(Namespace+".categoryInsert", map);
-		return result;
-	}
-
-	@Override
-	public List<CategoryVO> categoryList() {
-		HashMap<String, String> map = new HashMap();
-
+	public List<CategoryVO> getCategoryList() {
+		// TODO Auto-generated method stub
+		
+		HashMap<String,String> map = new HashMap<String, String>();
+		
 		String sql = "SELECT * FROM category";
-
+		
 		map.put("sql", sql);
-
-		List<CategoryVO> result = sqlSession.selectList(Namespace+".categoryList", map);
+		
+		
+		List<CategoryVO> list = sqlSession.selectList(Namespace + ".getCategoryList", map);
+		return list;
+	}
+	
+	@Override
+	public int categoryChk(String cname) {
+		
+		HashMap<String,String> map = new HashMap<String, String>();
+		
+		String sql = "SELECT COUNT(*) FROM category WHERE cname= '"+cname+"'";
+		
+		map.put("sql", sql);
+		int result = sqlSession.selectOne(Namespace+".categroyChk", map);
+		
 		return result;
 	}
-
+	
 	@Override
-	public int categoryUpdate(CategoryVO categoryVO) {
-		HashMap<String, String> map = new HashMap();
-
-		String sql = "UPDATE category "
-				+"SET cname = '"+categoryVO.getCname()+"', ctype = '"+categoryVO.getCtype()+"', csort = '"+categoryVO.getCsort()+"' "
-				+"WHERE cnum = "+categoryVO.getCnum();
-					
-
+	public int categoryInsert(int parentCategory, String cname) {
+		HashMap<String,String> map = new HashMap<String, String>();
+		
+		int maxCategoryCode = parentCategory+99;
+		String sql = "INSERT INTO category(cname,ccode,ccoderef) "
+				+ "VALUES('"+cname+"', ( SELECT MAX(ccode + 1) AS ccode FROM category AS a WHERE ccode BETWEEN "+parentCategory+" AND "+maxCategoryCode+" ), "+parentCategory+")";
+		
+		
 		map.put("sql", sql);
-
-		int result = sqlSession.update(Namespace+".categoryUpdate", map);
+		
+		int result = sqlSession.insert(Namespace+".categoryInsert", map);
 		return result;
 	}
 }

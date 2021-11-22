@@ -16,21 +16,21 @@ public class CategoryServiceImpl implements CategoryService {
 	@Inject
 	private CategoryDAO categoryDAO;
 	
-	@Override
-	public int categoryInsert(Map<String, Object> categoryData) {
-	
-		return categoryDAO.categoryInsert(categoryData);
-	}
-	
-	@Override
-	public List<CategoryVO> categoryList() {
-		
-		return categoryDAO.categoryList();
-	}
-	
-	@Override
-	public int categoryUpdate(CategoryVO categoryVO) {
+	@Override 
+	public List<CategoryVO> getCategoryList() {
 		// TODO Auto-generated method stub
-		return  categoryDAO.categoryUpdate(categoryVO);
+		return categoryDAO.getCategoryList();
+	}
+	
+	@Override
+	public int categoryChk(String cname) {
+		// TODO Auto-generated method stub
+		return categoryDAO.categoryChk(cname);
+	}
+	
+	@Override
+	public int categoryInsert(int parentCategory, String cname) {
+		// TODO Auto-generated method stub
+		return categoryDAO.categoryInsert(parentCategory,cname);
 	}
 }

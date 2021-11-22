@@ -1,7 +1,6 @@
 package org.spring.ps.view.controller;
 
 import java.util.List;
-import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -11,6 +10,7 @@ import org.spring.ps.service.CategoryService;
 import org.spring.ps.vo.CategoryVO;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -18,7 +18,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Controller
-@RequestMapping("/admin")
+@RequestMapping("/admin/category")
 public class categoryController {
 
 	
@@ -27,43 +27,58 @@ public class categoryController {
 	@Inject
 	private CategoryService categoryService;
 	
-	@RequestMapping(value="/categoryInsert")
-	@ResponseBody
-	public int categoryInsert(@RequestParam Map<String, Object> categoryData) {
-		
-		log.debug(categoryData.toString());
-		
-		int result=categoryService.categoryInsert(categoryData);
-		
-		return result;
-	}
 	
-	@RequestMapping(value="/categoryList")
+	@RequestMapping(value= "/getCategoryList", method=RequestMethod.POST)
 	@ResponseBody
-	public List<CategoryVO> categoryList() {
+	public List<CategoryVO> getCategoryList() {
 		
-		log.debug("[categoryList]");
 		
-		List<CategoryVO> categoryList = categoryService.categoryList();
-		log.debug(categoryList.toString());
+		List<CategoryVO> categoryList =categoryService.getCategoryList();
+		
+		log.debug("[getParentCategoryList] parentCList.size() :" +categoryList.size());
+		
 		
 		return categoryList;
 	}
-	
-	
-	@RequestMapping(value="/categoryUpdate")
+	@RequestMapping(value= "/categoryInsert", method=RequestMethod.POST)
 	@ResponseBody
-	public int categoryList(
-			CategoryVO categoryVO
+	public String categoryInsert(
+			@RequestParam(value="parentCategory") int parentCategory,
+			@RequestParam(value="cname") String cname
+			
 			) {
 		
-		log.debug("[categoryUpdate]");
-	
-		int result = categoryService.categoryUpdate(categoryVO);
-	
-		log.debug("result : "+result);
-		return result;
+		int categoryChk = categoryService.categoryChk(cname);
+		
+		String message = "";
+		
+		if(categoryChk >=1) {
+			
+			log.debug("[categoryInsert] categoryChk :" +categoryChk);
+			message = "chkFalse";
+		
+		}else {
+			log.debug("[categoryInsert] 입력 카테고리 이름 :" +parentCategory);
+			log.debug("[categoryInsert] 입력 대분류 :" +cname);
+			
+			
+			int insertResult = categoryService.categoryInsert(parentCategory ,cname);
+			
+			log.debug("[categoryInsert] insertResult :" +insertResult);
+			
+			if(insertResult >=1 ) {
+				
+				message = "categoryInsertSuccess";
+			}else {
+				
+				message = "categoryInsertFail";
+			}
+			
+		}
+		
+		
+		log.debug("[categoryInsert] message :" +message);
+		
+		return message;
 	}
-	
-	
 }
