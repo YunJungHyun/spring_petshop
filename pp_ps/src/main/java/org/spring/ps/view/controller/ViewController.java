@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import lombok.RequiredArgsConstructor;
+import net.sf.json.JSONArray;
 
 @RequiredArgsConstructor
 @Controller
@@ -148,8 +149,9 @@ public class ViewController {
 			break;
 		case "productInsertPage" : 
 
-			pageTitle = "제품 등록";
-			
+			pageTitle = "제품 등록"; 
+			List<CategoryVO> cList = categoryService.getCategoryList();
+			model.addAttribute("cList",JSONArray.fromObject(cList));
 			page = "product/"+page;
 			break;
 

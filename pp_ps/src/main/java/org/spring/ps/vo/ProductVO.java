@@ -14,11 +14,14 @@ public class ProductVO {
 	
 	private int pnum;
 	private String pname;
-	private int pcnt;
-	private int pprice;
-	private String pslideimg;
-	private int pcnum; 
-	private Timestamp pregdate;
-	private Timestamp pupdatedate;
-	private Timestamp prestockdate;
+	private String pcnt;
+	private String pprice;
+	private String parentCategory;
+	private String cname;
+	
+	private String explicateHead;
+	private String explicateBody;
+	private String explicateFooterLeft;
+	private String explicateFooterRight;
+	
 }

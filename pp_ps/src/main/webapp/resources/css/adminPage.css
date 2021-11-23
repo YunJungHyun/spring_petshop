@@ -1,4 +1,9 @@
 @charset "UTF-8";
+button{
+	
+	border : unset;
+	background-color: unset;
+}
 
 .admin-ui-menu {
 	overflow: hidden;
@@ -50,7 +55,6 @@
 
 button.categoryName-btn {
 	margin: 2px;
-
 	border-radius: 6px;
 	border: 1px solid #3db1b1;
 	background-color: #98dede;
@@ -58,3 +62,32 @@ button.categoryName-btn {
 	font-weight: bold;
 }
 
+.slide-img-box {
+	border: 1px solid #ced4da;
+	color : #ced4da;
+	border-radius: 7px;
+	padding: 2rem;
+	text-align: center;
+}
+
+
+#explicateHead,#explicateBody,#explicateFooterLeft,#explicateFooterRight{
+	
+	border: 1px solid #ced4da;
+	border-radius: 7px;
+	padding : 1rem;
+}
+
+#explicateHead ,#explicateFooterLeft,#explicateFooterRight{
+	
+	min-height : 200px;
+}
+#explicateBody{
+	
+	min-height : 600px;
+}
+
+.img-box > img{
+
+	width : 200px;
+}

@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-	<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-	<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+	
 <style>
 	
 </style>
@@ -100,6 +99,7 @@ $("#category-insert-modal").on('show.bs.modal', function (e) {
 			var html = "<option value=''>선택하세요.</option>";
 			
 			var categoryListHtml = ""
+			
 			for(var i = 0 ; i < data.length ; i++){
 				
 				if(data[i].ccoderef == null){
