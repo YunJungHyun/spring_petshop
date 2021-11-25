@@ -9,10 +9,10 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.ibatis.session.SqlSession;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.spring.ps.vo.ProductVO;
 import org.springframework.stereotype.Service;
 
-import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -30,15 +30,31 @@ public class ProductDAOImpl implements ProductDAO{
 	@Override
 	public int productBaseInsert(ProductVO productVO) {
 		
-
-		sqlSession.insert(Namespace+".productBaseInsert", productVO);
 		
-		log.debug("[productBaseInsert] pnum : "+ productVO.getPnum());
-		return productVO.getPnum();
+		HashMap<String, String> map = new HashMap();
+		
+		
+		String sql1 = "INSERT INTO product(pid,pname, pcnt,pprice,pccode)"
+					+" VALUES('"+productVO.getPid()+"','"+productVO.getPname()+"','"+productVO.getPcnt()+"','"+productVO.getPprice()+"','"+productVO.getPccode()+"')";
+		map.put("sql1", sql1);
+		
+		String sql2 ="SELECT LAST_INSERT_ID() as pnum";
+		log.debug("[productBaseInsert] sql1 : "+sql1);
+		log.debug("[productBaseInsert] sql2 : "+sql2);
+		
+		map.put("sql2", sql2);
+		sqlSession.insert(Namespace+".productBaseInsert", map);
+		
+		log.debug("[productBaseInsert] pnum : "+ String.valueOf(map.get("pnum")));
+		
+		String pnumStr =String.valueOf(map.get("pnum"));
+		
+		int pnum = Integer.parseInt(pnumStr);
+		return pnum;
 	}
 	
 	@Override
-	public int productSlideImgUpload(JSONObject jsonObject, int pnum) {
+	public int productRemainderUpdate(JSONObject jsonObject, String explicate, int pnum) {
 
 		HashMap<String, String> map = new HashMap();
 		
@@ -76,23 +92,41 @@ public class ProductDAOImpl implements ProductDAO{
 			sql+= img_info_oneLine_str;
 		}
 		
-		sql+= "))"
-				+ " WHERE pnum ="+pnum;
+		sql+= ")) , ";
+				
+		JsonElement element2 =parser.parse(explicate);		
+		log.debug("[element2]:"+element2.toString());
+		
+		JsonObject explicateObj = element2.getAsJsonObject().get("explicate").getAsJsonObject();
+		
+		String head = explicateObj.getAsJsonObject().get("head").getAsString();
+		String body = explicateObj.getAsJsonObject().get("body").getAsString();
+		String footerLeft = explicateObj.getAsJsonObject().get("footerLeft").getAsString();
+		String footerRight = explicateObj.getAsJsonObject().get("footerRight").getAsString();
+		
+		//log.debug("[head]:"+head);
+		//log.debug("[body]:"+body);
+		//log.debug("[footerLeft]:"+footerLeft);
+		//log.debug("[footerRight]:"+footerRight);
+		
+		sql += " pexplicate = JSON_OBJECT('explicate', JSON_OBJECT('head','"+head+"','body','"+body+"','footerLeft','"+footerLeft+"','footerRight','"+footerRight+"'))";
+				
+		sql += " WHERE pnum ="+pnum;
 				
 		log.debug("[productSlideImgUpload] updateSQL :"+sql);
 		map.put("sql", sql);
 		int result =sqlSession.update(Namespace+".productSlideImgUpload", map);
-		log.debug("[productSlideImgUpload] result :"+result);
+		
 		return result;
 	}
 	
 	@Override
-	public List<ProductVO> productList() {
+	public List<ProductVO> productBaseList() {
 		
 		HashMap<String,String> map = new HashMap<String, String>();
 		
 		
-		String sql = "SELECT * FROM product";
+		String sql =  "SELECT A.pnum,A.pid,A.pname,A.pcnt,A.pccode,B.ccoderef pccoderef,A.pprice,A.pslideimg FROM product AS A LEFT JOIN category AS B ON A.pccode = B.ccode";
 		
 		map.put("sql", sql);
 		

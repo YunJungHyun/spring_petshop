@@ -26,7 +26,7 @@
 				<div class="form-row">
 					<div class="col-md-6 mb-3">
 					<label >제품 이름</label>
-						<input type="text" class="form-control" id="pname" placeholder="제품 이름" value="고급 사료" >
+						<input type="text" class="form-control" id="pname" placeholder="제품 이름" >
 					
 					</div>
 					<div class="col-md-3 mb-3">
@@ -37,7 +37,7 @@
 					</div>
 					<div class="col-md-3 mb-3">
 					<label >카테고리 이름</label>
-						<select class="custom-select" id="cname">
+						<select class="custom-select" id="pccode">
 							<option value="">선택하세요</option>
 							
 						</select>
@@ -92,7 +92,7 @@
 									}
 								} 
 								 
-								var categorySelect =$("#cname"); 
+								var categorySelect =$("#pccode"); 
 								
 								categorySelect.children().remove();
 								
@@ -115,13 +115,13 @@
 				<div class="form-row">
 					<div class="col-md-6 mb-3">
 					<label >제품 가격</label>
-						<input type="text" class="form-control" id="pprice" placeholder="제품 가격" value="99,000" onkeyup="inputNumberFormat(this)" >
+						<input type="text" class="form-control" id="pprice" placeholder="제품 가격"  onkeyup="inputNumberFormat(this)" >
 					
 					</div>
 					
 					<div class="col-md-6 mb-3">
 					<label >제품 수량</label>
-						<input type="text" class="form-control" id="pcnt" placeholder="제품 수량" value="3,000" onkeyup="inputNumberFormat(this)">
+						<input type="text" class="form-control" id="pcnt" placeholder="제품 수량"  onkeyup="inputNumberFormat(this)">
 					
 					</div>
 					
@@ -143,7 +143,7 @@
 					<div class="file-input-list"></div>
 				</div>
 				
-				<div class="form-group">
+				<div class="form-group" id="explicate-group">
 				
 					<label>제품 본문</label> 
 					
@@ -178,36 +178,128 @@
 				    CKEDITOR.inline( 'explicateFooterLeft',ckeditor_config );
 				    CKEDITOR.inline( 'explicateFooterRight',ckeditor_config );
 				     
-				
+				 
 				</script>
+				
+				
 				<button type="button" class="btn btn-primary" id="product-insert-btn">저장하기</button>
 			</form>
  
 		</div>
 	</div>
-</div>
+</div> 
 
 <script>
+ 
+$("#product-test-btn").on("click",function(){
 
-
-$("#product-insert-btn").on("click",function(){
-	
-	var formData = new FormData();
-	
-	var pname =  $("#pname").val();
-	var parentCategory =  $("#parentCategory").val();
-	var cname =  $("#cname").val();
-	var pprice =  $("#pprice").val();
-	var pcnt=  $("#pcnt").val();
-	
 	var explicateHead = CKEDITOR.instances.explicateHead.getData();
 	var explicateBody = CKEDITOR.instances.explicateBody.getData();
 	var explicateFooterLeft = CKEDITOR.instances.explicateFooterLeft.getData();
 	var explicateFooterRight = CKEDITOR.instances.explicateFooterRight.getData();
 	
+	
+	
+}) 
+ 
+$("#product-insert-btn").on("click",function(){
+	
+	
+	//제품 본문에 작성된 데이터 가져오기
+	var explicateHead = CKEDITOR.instances.explicateHead.getData();
+	var explicateBody = CKEDITOR.instances.explicateBody.getData();
+	var explicateFooterLeft = CKEDITOR.instances.explicateFooterLeft.getData();
+	var explicateFooterRight = CKEDITOR.instances.explicateFooterRight.getData();
+	
+	
+ 	/*유효성 검사 시작 */
+	if($("#pname").val()==""){
+		
+		alert("제품 이름을 입력해주세요.");
+		$("#pname").focus();
+		return false;
+	}
+	
+	if($("#pccode").val()==""){
+		
+		alert("카테고리를 선택해주세요.");
+		$("#pccode").focus();
+		return false;
+	}
+	
+	if($("#pprice").val()==""){
+		
+		alert("제품 가격을 입력해주세요.");
+		$("#pprice").focus();
+		return false;
+	}
+	if($("#pcnt").val()==""){
+	
+		alert("제품 수량을 입력해주세요.");
+		$("#pcnt").focus();
+		return false;
+	}
+	
+	 
+	 
+	 
+	if($(".slide-img-box .img-box").length < 1){ 
+		
+		alert("대표 이미지는 한가지 이상 반드시 등록해야합니다.");
+		$('html').scrollTop(0);
+		return false;
+	}
+
+	
+	
+	if(explicateHead == "" && explicateBody == "" && explicateFooterLeft == "" && explicateFooterRight == "" ){
+		
+		
+		var conResult =confirm("본문에 작성된 내용이 없습니다. 제품 등록하시겠습니까?");
+		
+		if(!conResult){
+			 	
+			$('html').scrollTop(0);
+			return false;
+		}
+	}
+ 	/*유효성 검사 끝  */
+	
+	
+	var img_fileName_arr_str = "";
+	//ckeditor에 이미지있는지
+	if($("#explicate-group img.cke_widget_element").length){
+		
+		var widget_len= $("#explicate-group img.cke_widget_element").length;
+		
+		
+		$("#explicate-group img.cke_widget_element").each(function(e){
+			//alert(e);
+			var src_str = $(this).attr("src");
+			var src_arr = src_str.split("/");
+			
+			if(e+1 !=widget_len){
+				img_fileName_arr_str += src_arr[3]+"/";
+			}else{
+				
+				img_fileName_arr_str += src_arr[3]
+			}
+		})
+		
+	}
+	
+	var formData = new FormData();
+	
+	
+	var pname =  $("#pname").val();
+	var pccode =  $("#pccode").val();
+	var pprice =  $("#pprice").val();
+	var pcnt=  $("#pcnt").val();
+	
+	
+	formData.append("img_fileName_arr_str",img_fileName_arr_str);
 	formData.append("pname",pname);
-	formData.append("parentCategory",parentCategory);
-	formData.append("cname",cname);
+	formData.append("pccode",pccode);
 	formData.append("pprice",pprice);
 	formData.append("pcnt",pcnt);
 	
@@ -216,6 +308,7 @@ $("#product-insert-btn").on("click",function(){
 	formData.append("explicateFooterLeft",explicateFooterLeft);
 	formData.append("explicateFooterRight",explicateFooterRight);
 	
+
 	
 	$("input[name='s_file_input']").each(function(){
 		
@@ -227,7 +320,7 @@ $("#product-insert-btn").on("click",function(){
 		}
 	})
 	
-	$.ajax({
+	 $.ajax({
 		
 		url :"/admin/product/insert",
 		data : formData,
@@ -235,13 +328,22 @@ $("#product-insert-btn").on("click",function(){
 		enctype: 'multipart/form-data',  
         processData: false,    
         contentType: false,
-        success:function(){
+        success:function(data){
         	
         	
+        	if(data >=1){
+        		
+        		alert("제품이 등록 되었습니다");
+        		
+        		location.href="/view/admin/go/prodListPage"
+        	}else{
+        		
+        		alert("제품 등록에 실패하였습니다.");
+        	}
         	
         }
 		
-	})
+	}) 
 })
 
 

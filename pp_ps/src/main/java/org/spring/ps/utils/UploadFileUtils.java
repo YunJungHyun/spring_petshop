@@ -39,6 +39,30 @@ public class UploadFileUtils {
 		return newFileName;
 	}
 	
+	public static String ex_fileUpload(String uploadPath,
+			String fileName,
+			byte[] fileData, String ymdPath) throws Exception {
+		
+		UUID uid = UUID.randomUUID();
+		
+		String newFileName = uid + "_" + fileName;
+		String imgPath = uploadPath + ymdPath;
+		
+		File target = new File(imgPath, newFileName);
+		FileCopyUtils.copy(fileData, target);
+		
+		String thumbFileName = "s_" + newFileName;
+		File image = new File(imgPath + File.separator + newFileName);
+		
+		File thumbnail = new File(imgPath + File.separator + "s" + File.separator + thumbFileName);
+		
+		if (image.exists()) {
+			thumbnail.getParentFile().mkdirs();
+			Thumbnails.of(image).size(THUMB_WIDTH, THUMB_HEIGHT).toFile(thumbnail);
+		}
+		return newFileName;
+	}
+	
 	
 	// 디렉토리 생성
 	public static HashMap<String,String> calcPath(String uploadPath , int pnum) {
@@ -53,11 +77,12 @@ public class UploadFileUtils {
 		String monthPath = yearPath + File.separator + month ;
 		String datePath = monthPath + File.separator + date;
 		String productPath = datePath + File.separator+"product_code_"+ pnum;
-		String slideImgPath = productPath + File.separator+"slide";
+		String img_uploadPath = productPath + File.separator+"slide";
+		String ex_img_uploadPath = productPath + File.separator+"explicate";
 		
 		makeDir(uploadPath, yearPath, monthPath, datePath,productPath);
-		makeDir(uploadPath, yearPath, monthPath, datePath,productPath , slideImgPath);
-		makeDir(uploadPath, yearPath, monthPath, datePath,productPath , slideImgPath+ "\\s");
+		makeDir(uploadPath, yearPath, monthPath, datePath,productPath , img_uploadPath);
+		makeDir(uploadPath, yearPath, monthPath, datePath,productPath , img_uploadPath+ "\\s");
 		makeDir(uploadPath, yearPath, monthPath, datePath,productPath + "\\explicate");
 		
 		HashMap<String,String> dirMap = new HashMap(); 
@@ -65,7 +90,8 @@ public class UploadFileUtils {
 		dirMap.put("month", month);
 		dirMap.put("date", date);
 		dirMap.put("product", "product_code_"+ pnum);
-		dirMap.put("slideImgPath", slideImgPath);
+		dirMap.put("img_uploadPath", img_uploadPath);
+		dirMap.put("ex_img_uploadPath", ex_img_uploadPath);
 		
 		return dirMap;
 	}

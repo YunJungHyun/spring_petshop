@@ -23,14 +23,14 @@ public class ProductServiceImpl implements ProductService{
 	}
 	
 	@Override
-	public int productSlideImgUpload(JSONObject jsonObject, int pnum) {
+	public int productRemainderUpdate(JSONObject jsonObject,String explicate, int pnum) {
 		
-		return productDAO.productSlideImgUpload(jsonObject, pnum);
+		return productDAO.productRemainderUpdate(jsonObject, explicate, pnum);
 	}
 	
 	@Override
-	public List<ProductVO> productList() {
+	public List<ProductVO> productBaseList() {
 		// TODO Auto-generated method stub
-		return productDAO.productList();
+		return productDAO.productBaseList();
 	}
 }

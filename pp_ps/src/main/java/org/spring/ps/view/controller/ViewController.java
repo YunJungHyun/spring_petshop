@@ -142,14 +142,20 @@ public class ViewController {
 
 			pageTitle = "제품 목록";
 			
-			List<ProductVO> pList = productService.productList();
+			List<ProductVO> prodListPage_pList = productService.productBaseList();
+			List<CategoryVO> prodListPage_cList = categoryService.getCategoryList();
 			page = "product/"+page;
 			
-			model.addAttribute("pList",pList);
+			//log.debug("[adminPage] prodListPage pList:"+prodListPage_pList.size());
+			
+			model.addAttribute("pList",JSONArray.fromObject(prodListPage_pList));
+			model.addAttribute("cList",JSONArray.fromObject(prodListPage_cList));
+			
 			break;
 		case "productInsertPage" : 
 
 			pageTitle = "제품 등록"; 
+			
 			List<CategoryVO> cList = categoryService.getCategoryList();
 			model.addAttribute("cList",JSONArray.fromObject(cList));
 			page = "product/"+page;

@@ -1,8 +1,33 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-	
+	<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <style>
+	.category-list{
 	
+		
+	}
+	a{
+		color :#000;
+	}
+	a:hover{
+	 	text-decoration: none;
+	 	color :#000; 
+	 	font-weight: bold; 
+	}
+	
+	.list-group-item:hover{
+		
+		cursor: pointer;
+		font-weight: bold; 
+	}
+	
+	.card-deck .card {
+    
+     margin-right: 0px; 
+ 
+     margin-left: 0px; 
+}
 </style>
 
 <div class="page">
@@ -29,8 +54,30 @@
  	 			</div>
 			</div>
 			<%-- <%=request.getRealPath("/") %> --%>
-		</div>
-	</div>
+			<hr>
+			<div class="product-list-body">
+				<div class="row">
+				<div class="col-2">
+					<div class="category-list list-group" id="category-list">
+						<a type="#" class="list-group-item list-group-item-action" onclick="productAll()">
+								전체
+						</a>
+					</div>
+				</div>
+				<div class="col-10">
+					<div class="product-list " id="product-list">
+						<c:forEach begin ="0" end="${fn:length(pList)/4 }" step="1" varStatus="status">
+							<div class="card-deck mb-3 text-center" id="card-deck-${status.count }">
+    							
+							</div>
+						</c:forEach>
+					</div> 
+				</div>
+				</div>
+				
+			</div>
+		</div> 
+	</div> 
 </div>  
 
 
@@ -74,6 +121,7 @@
 			</form>
 			
 			<div class="categoryList" id="categoryList">
+				
 			
 			</div>
 		</div>
@@ -86,8 +134,171 @@
 </div>
 
 
+
+
 <script>
 
+$(document).ready(function(){
+	
+	var plistJson =JSON.parse('${pList}');
+	var onelineCnt = 1;
+	var forCnt=1;
+	
+	var plistArr = new Array;
+	var pListObj = new Object;
+	
+	for(var i = 0 ; i < plistJson.length ;i++){
+		
+		
+		var pListObj = new Object;
+		pListObj.pid = plistJson[i].pid;
+		pListObj.pname = plistJson[i].pname;
+		pListObj.pprice = plistJson[i].pprice;
+		pListObj.pcnt = plistJson[i].pcnt;
+		pListObj.pccode = plistJson[i].pccode;
+		plistArr.push(pListObj);
+		
+	}
+	//7
+	for(var i = 0 ; i <plistArr.length; i++){
+		
+		var html ="<div class='card shadow-sm' style='max-width:25%'>"
+			html +="<div class='card-header'>"
+			html +="<h4 class='my-0 font-weight-normal'>"+plistArr[i].pccode+"</h4>"
+			html +="</div>"
+			html +="</div>"
+			
+			if(forCnt <= 4){
+		
+				$("#card-deck-"+onelineCnt).append(html);
+				forCnt++;
+			}else{
+				
+				onelineCnt++;
+				forCnt = 2;
+				$("#card-deck-"+onelineCnt).append(html);
+			}
+	}
+	
+	
+})
+
+
+					var jsonData = JSON.parse('${cList}');
+				
+					var parentCategoryArray = new Array;
+					var parentCategoryObj = new Object;
+				
+					var categoryArray = new Array;
+					var categoryObj = new Object;
+					
+					for(var i = 0 ; i < jsonData.length ; i++){
+						
+						if(jsonData[i].ccoderef ==""){
+							parentCategoryObj = new Object;
+						
+							parentCategoryObj.ccode = jsonData[i].ccode;
+							parentCategoryObj.cname = jsonData[i].cname;
+							parentCategoryArray.push(parentCategoryObj);
+						}else{
+							categoryObj = new Object;
+							categoryObj.ccode = jsonData[i].ccode;
+							categoryObj.cname = jsonData[i].cname;
+							categoryObj.ccoderef = jsonData[i].ccoderef;
+							categoryArray.push(categoryObj);
+						}
+					}
+				 
+					var parentCategoryList =$("#category-list"); 
+					
+					
+					for(var i = 0 ; i <parentCategoryArray.length; i++){
+						var html = "<a href='#' data-toggle='collapse' aria-expanded='true' aria-controls='category"+parentCategoryArray[i].ccode+"' ";
+							html += "data-target='#category"+parentCategoryArray[i].ccode+"' "
+							html += "class='list-group-item list-group-item parent-Category' "
+							html += "id='"+parentCategoryArray[i].ccode+"'>"
+							html += parentCategoryArray[i].cname
+							html +="</a>";
+						
+							parentCategoryList.append(html);
+							
+							
+							var html2 ="<ul id='category"+parentCategoryArray[i].ccode+"' class='collapse list-group'>"
+								html2 +="<li id='"+parentCategoryArray[i].ccode+"' class='list-group-item pl-5' onclick='selectCategory("+parentCategoryArray[i].ccode+")'>전체</li>"
+							for(var j = 0 ; j <categoryArray.length ; j++){
+								if(parentCategoryArray[i].ccode == categoryArray[j].ccoderef){
+									
+									html2 +="<li  id='"+categoryArray[j].ccode+"' class='list-group-item pl-5' onclick='selectCategory("+categoryArray[j].ccode+")' >"+categoryArray[j].cname+"</li>";
+								}
+								
+							}
+							html2 +="</ul>"
+							parentCategoryList.append(html2);
+						
+					}
+					
+function productAll(){
+						
+	location.reload();
+					}
+
+function selectCategory(code){
+	
+	$(".card-deck").children().remove();
+	var sortNum = code%10;
+	var plistJson =JSON.parse('${pList}');
+	var onelineCnt = 1;
+	var forCnt=1;
+	
+	var plistArr = new Array;
+	var pListObj = new Object;
+	
+	for(var i = 0 ; i < plistJson.length ;i++){
+		
+		if(sortNum == 0 ){
+			
+			if(code == plistJson[i].pccoderef){
+				var pListObj = new Object;
+				pListObj.pid = plistJson[i].pid;
+				pListObj.pccode = plistJson[i].pccode;
+				plistArr.push(pListObj);
+			
+			}
+		}else{
+			
+			if(code == plistJson[i].pccode){
+				var pListObj = new Object;
+				pListObj.pid = plistJson[i].pid;
+				pListObj.pccode = plistJson[i].pccode;
+				plistArr.push(pListObj);
+			}
+		}
+		
+		
+	}
+	//7
+	for(var i = 0 ; i <plistArr.length; i++){
+		
+		var html ="<div class='card shadow-sm' style='max-width:25%'>"
+			html +="<div class='card-header'>"
+			html +="<h4 class='my-0 font-weight-normal'>"+plistArr[i].pccode+"</h4>"
+			html +="</div>"
+			html +="</div>"
+			
+			if(forCnt <= 4){
+		
+				$("#card-deck-"+onelineCnt).append(html);
+				forCnt++;
+			}else{
+				
+				onelineCnt++;
+				forCnt = 2;
+				$("#card-deck-"+onelineCnt).append(html);
+			}
+	}
+}
+					 
+			
 $("#category-insert-modal").on('show.bs.modal', function (e) {
 	
 	$.ajax({
@@ -154,7 +365,19 @@ $("#parentCategory").on("change", function(){
 })
 
 $("#category-insert-btn").on("click",function(){
-	
+	/* 유효성검사 시작*/
+	if($("#parentCategory").val() ==""){
+		
+		alert("분류를 선택해주세요.");
+		return false;
+	}
+	if($("#cname").val() ==""){
+		$("#cname").focus();
+		alert("카테고리 이름을 입력해주세요");
+		return false;
+	}
+	/* 유효성검사 끝*/
+
 	var cname = $("#cname").val();
 	var parentCategory = $("#parentCategory").val();
 	

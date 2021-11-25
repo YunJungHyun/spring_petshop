@@ -6,24 +6,18 @@
 <mapper namespace="org.spring.ps.mapper.productMapper">
 
 
-	<insert id="productBaseInsert" parameterType="productVO" >
+	<insert id="productBaseInsert" parameterType="HashMap" >
 
  		<![CDATA[
- 				INSERT INTO product(pname, pcnt,pprice,pcnum) VALUES(
- 					
- 					#{pname},#{pcnt},#{pprice},#{pcnum}
- 					
- 			
  				
- 				)
- 				
+ 				${sql1}
  		
 	
 		]]>
 		
 		<selectKey resultType="int" keyProperty="pnum" order="AFTER">
 					<![CDATA[
-						SELECT LAST_INSERT_ID() as pnum
+						${sql2}
 					]]>
 		</selectKey>
 		

@@ -9,9 +9,9 @@ public interface ProductService {
 
 	int productBaseInsert(ProductVO productVO);
 
-	int productSlideImgUpload(JSONObject jsonObject, int pnum);
+	int productRemainderUpdate(JSONObject jsonObject, String explicate ,int pnum);
 
-	List<ProductVO> productList();
+	List<ProductVO> productBaseList();
 
 	
 }
