@@ -1,7 +1,7 @@
 @charset "UTF-8";
-button{
-	
-	border : unset;
+
+button {
+	border: unset;
 	background-color: unset;
 }
 
@@ -64,30 +64,88 @@ button.categoryName-btn {
 
 .slide-img-box {
 	border: 1px solid #ced4da;
-	color : #ced4da;
+	color: #ced4da;
 	border-radius: 7px;
 	padding: 2rem;
 	text-align: center;
 }
 
-
-#explicateHead,#explicateBody,#explicateFooterLeft,#explicateFooterRight{
-	
+#explicateHead, #explicateBody, #explicateFooterLeft,
+	#explicateFooterRight {
 	border: 1px solid #ced4da;
 	border-radius: 7px;
-	padding : 1rem;
+	padding: 1rem;
 }
 
-#explicateHead ,#explicateFooterLeft,#explicateFooterRight{
+#explicateHead, #explicateFooterLeft, #explicateFooterRight {
+	min-height: 200px;
+}
+
+#explicateBody {
+	min-height: 600px;
+}
+
+.img-box>img {
+	width: 200px;
+}
+
+.product-card {
+	background-color: #45d4d429;
+}
+
+.product-card>img {
+	height: 250px;
+	object-fit: cover;
+}
+
+.product-card-body {
+	border-top: 1px solid #ccc;
+}
+
+.product-card-li>p {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.product-card-li.pn {
+	font-weight: bold;
+}
+
+.list-group-item:hover {
+	background-color: #45d4d429;
+}
+
+.category-list {
+	font-size: 16px;
+}
+
+a {
+	color: #000;
+}
+
+a:hover {
+	text-decoration: none;
+	color: #000;
+	font-weight: bold;
+}
+
+.list-group-item:hover {
+	cursor: pointer;
+	font-weight: bold;
+}
+
+.card-deck .card {
+	margin-right: 0px;
+	margin-left: 0px;
+}
+
+.category-ul {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.product-btn-group > button{
 	
-	min-height : 200px;
-}
-#explicateBody{
-	
-	min-height : 600px;
-}
-
-.img-box > img{
-
-	width : 200px;
+	background-color: #fff;
 }

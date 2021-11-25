@@ -1,40 +1,19 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-	<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <style>
-	.category-list{
 	
-		
-	}
-	a{
-		color :#000;
-	}
-	a:hover{
-	 	text-decoration: none;
-	 	color :#000; 
-	 	font-weight: bold; 
-	}
-	
-	.list-group-item:hover{
-		
-		cursor: pointer;
-		font-weight: bold; 
-	}
-	
-	.card-deck .card {
-    
-     margin-right: 0px; 
- 
-     margin-left: 0px; 
-}
 </style>
+
+<script src="/resources/js/moment.js"></script>
 
 <div class="page">
 	<div class="container">
-		<div class="page-emptied-admin"></div>
+		
 		<div class="page-contents d-flex flex-column justify-content-center ">
-			<div class="prod-list-header d-flex flex-row justify-content-between">
+			<div class="prod-list-header d-flex flex-row justify-content-between my-3">
 				<div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
 					<div class="btn-group mr-2" role="group" aria-label="First group">
 						<button type="button" class="btn btn-secondary" onClick="location.href='/view/admin/go/productInsertPage'">제품 등록</button>
@@ -54,7 +33,7 @@
  	 			</div>
 			</div>
 			<%-- <%=request.getRealPath("/") %> --%>
-			<hr>
+			
 			<div class="product-list-body">
 				<div class="row">
 				<div class="col-2">
@@ -65,13 +44,13 @@
 					</div>
 				</div>
 				<div class="col-10">
-					<div class="product-list " id="product-list">
+					 <div class="product-list " id="product-list">
 						<c:forEach begin ="0" end="${fn:length(pList)/4 }" step="1" varStatus="status">
 							<div class="card-deck mb-3 text-center" id="card-deck-${status.count }">
     							
 							</div>
 						</c:forEach>
-					</div> 
+					</div>  
 				</div>
 				</div>
 				
@@ -140,31 +119,71 @@
 
 $(document).ready(function(){
 	
-	var plistJson =JSON.parse('${pList}');
+	var pList_str = JSON.stringify(${pList});
+	var pList_json = JSON.parse(pList_str);
+	var pList_Array = new Array;
 	var onelineCnt = 1;
-	var forCnt=1;
+	var forCnt=1; 
 	
-	var plistArr = new Array;
-	var pListObj = new Object;
-	
-	for(var i = 0 ; i < plistJson.length ;i++){
+	for(var i = 0 ; i <pList_json.length ;i++){
 		
+			var pListObj = new Object;
+			//대표이미지
+			var pSlideImg_json = JSON.parse(pList_json[i].pslideimg);
+			
+			
+			var imgDirJSON_str = JSON.stringify(pSlideImg_json.imgDir); 
+			var imgDirJSON = JSON.parse(imgDirJSON_str);
+			
+			//var imgDirJSON_len = Object.keys(imgDirJSON).length;
+
+				
+			//대표이미지
+			var imgDirOneJSON = imgDirJSON.slideImg_1
+				
+			var path = "/resources/imgUpload/product/";
+			var s_path = "slide/s/";
+			var yearDir = imgDirOneJSON.year+"/";
+			var monthDir = imgDirOneJSON.month+"/";
+			var dateDir = imgDirOneJSON.date+"/";
+			var productDir = imgDirOneJSON.product+"/";
+			var s_fileName = imgDirOneJSON.s_fileName;
 		
-		var pListObj = new Object;
-		pListObj.pid = plistJson[i].pid;
-		pListObj.pname = plistJson[i].pname;
-		pListObj.pprice = plistJson[i].pprice;
-		pListObj.pcnt = plistJson[i].pcnt;
-		pListObj.pccode = plistJson[i].pccode;
-		plistArr.push(pListObj);
+			
+			pListObj.pimgDir =path+yearDir+monthDir+dateDir+productDir+s_path+s_fileName;
+			pListObj.pregdate = pList_json[i].pregdate
+			pListObj.pid = pList_json[i].pid;
+			pListObj.pname = pList_json[i].pname;
+			pListObj.pprice = pList_json[i].pprice;
+			pListObj.pcnt = pList_json[i].pcnt;
+			pListObj.pccode = pList_json[i].pccode;
+			pListObj.pnum = pList_json[i].pnum;
+			
+			
+			
+			pList_Array.push(pListObj);
 		
 	}
-	//7
-	for(var i = 0 ; i <plistArr.length; i++){
+	
+	
+	for(var i = 0 ; i <pList_Array.length; i++){
 		
-		var html ="<div class='card shadow-sm' style='max-width:25%'>"
-			html +="<div class='card-header'>"
-			html +="<h4 class='my-0 font-weight-normal'>"+plistArr[i].pccode+"</h4>"
+		var html ="<div class='product-card card shadow-sm mx-1' style='max-width:25%'>"
+			
+			html +="<img class='py-1 px-1' src='"+pList_Array[i].pimgDir+"'/>"
+			
+			html +="<div class='product-card-body py-3 px-2 card-body'>"
+			html +="<ul class='list-unstyled product-card-ul mb-2'>"
+			html +="<li class='product-card-li pn'><p class='mb-1'>"+pList_Array[i].pname+"</p></li>";
+			html +="<li class='product-card-li'><p class='mb-1'>가격 : "+pList_Array[i].pprice+"</p></li>";
+			html +="<li class='product-card-li'><p class='mb-1'>남은 수량 : "+pList_Array[i].pcnt+"</p></li>";
+			html +="<li class='product-card-li'><p class='mb-1'>등록일: "+pList_Array[i].pregdate+"</p></li>";
+			html +="</ul>"
+			html +="<div class='product-btn-group'>"
+			html +="<button type='button' class='btn btn-outline-primary mx-1'>재입고신청</button>"
+			html +="<button type='button' class='btn btn-outline-info mx-1' onclick='goPUpdatePage("+pList_Array[i].pnum+")'>제품 수정</button>"
+			html +="<button type='button' class='btn btn-outline-danger mx-1'><i class='far fa-trash-alt'></i></button>"
+			html +="</div>"
 			html +="</div>"
 			html +="</div>"
 			
@@ -181,61 +200,67 @@ $(document).ready(function(){
 	}
 	
 	
+	//카테고리 불러오기
+	var jsonData = JSON.parse('${cList}');
+					
+	var parentCategoryArray = new Array;
+	var parentCategoryObj = new Object;
+					
+	var categoryArray = new Array;
+	var categoryObj = new Object;
+						
+	for(var i = 0 ; i < jsonData.length ; i++){
+							
+		if(jsonData[i].ccoderef ==""){
+								parentCategoryObj = new Object;
+							
+								parentCategoryObj.ccode = jsonData[i].ccode;
+								parentCategoryObj.cname = jsonData[i].cname;
+								parentCategoryArray.push(parentCategoryObj);
+		}else{
+								categoryObj = new Object;
+								categoryObj.ccode = jsonData[i].ccode;
+								categoryObj.cname = jsonData[i].cname;
+								categoryObj.ccoderef = jsonData[i].ccoderef;
+								categoryArray.push(categoryObj);
+							}
+						}
+					 
+		var parentCategoryList =$("#category-list"); 
+						
+						
+		for(var i = 0 ; i <parentCategoryArray.length; i++){
+			var html = "<a href='#' data-toggle='collapse' aria-expanded='true' aria-controls='category"+parentCategoryArray[i].ccode+"' ";
+								html += "data-target='#category"+parentCategoryArray[i].ccode+"' "
+								html += "class='list-group-item list-group-item parent-category' "
+								html += "id='"+parentCategoryArray[i].ccode+"'>"
+								html += parentCategoryArray[i].cname
+								html +="</a>";
+							
+								parentCategoryList.append(html);
+								
+								
+			var html2 ="<ul id='category"+parentCategoryArray[i].ccode+"' class='collapse category-ul list-group'>"
+									html2 +="<li id='"+parentCategoryArray[i].ccode+"' class='list-group-item pl-5' onclick='selectCategory("+parentCategoryArray[i].ccode+")'>전체</li>"
+		for(var j = 0 ; j <categoryArray.length ; j++){
+			if(parentCategoryArray[i].ccode == categoryArray[j].ccoderef){
+										
+										html2 +="<li  id='"+categoryArray[j].ccode+"' class='list-group-item pl-5' onclick='selectCategory("+categoryArray[j].ccode+")' >"+categoryArray[j].cname+"</li>";
+									}
+									
+								}
+								html2 +="</ul>"
+								parentCategoryList.append(html2);
+							
+						}
+	 
 })
 
+function goPUpdatePage(pnum){
+	
+	location.href="/view/admin/go/productUpdatePage?pnum="+pnum;
+}
 
-					var jsonData = JSON.parse('${cList}');
-				
-					var parentCategoryArray = new Array;
-					var parentCategoryObj = new Object;
-				
-					var categoryArray = new Array;
-					var categoryObj = new Object;
-					
-					for(var i = 0 ; i < jsonData.length ; i++){
-						
-						if(jsonData[i].ccoderef ==""){
-							parentCategoryObj = new Object;
-						
-							parentCategoryObj.ccode = jsonData[i].ccode;
-							parentCategoryObj.cname = jsonData[i].cname;
-							parentCategoryArray.push(parentCategoryObj);
-						}else{
-							categoryObj = new Object;
-							categoryObj.ccode = jsonData[i].ccode;
-							categoryObj.cname = jsonData[i].cname;
-							categoryObj.ccoderef = jsonData[i].ccoderef;
-							categoryArray.push(categoryObj);
-						}
-					}
-				 
-					var parentCategoryList =$("#category-list"); 
-					
-					
-					for(var i = 0 ; i <parentCategoryArray.length; i++){
-						var html = "<a href='#' data-toggle='collapse' aria-expanded='true' aria-controls='category"+parentCategoryArray[i].ccode+"' ";
-							html += "data-target='#category"+parentCategoryArray[i].ccode+"' "
-							html += "class='list-group-item list-group-item parent-Category' "
-							html += "id='"+parentCategoryArray[i].ccode+"'>"
-							html += parentCategoryArray[i].cname
-							html +="</a>";
-						
-							parentCategoryList.append(html);
-							
-							
-							var html2 ="<ul id='category"+parentCategoryArray[i].ccode+"' class='collapse list-group'>"
-								html2 +="<li id='"+parentCategoryArray[i].ccode+"' class='list-group-item pl-5' onclick='selectCategory("+parentCategoryArray[i].ccode+")'>전체</li>"
-							for(var j = 0 ; j <categoryArray.length ; j++){
-								if(parentCategoryArray[i].ccode == categoryArray[j].ccoderef){
-									
-									html2 +="<li  id='"+categoryArray[j].ccode+"' class='list-group-item pl-5' onclick='selectCategory("+categoryArray[j].ccode+")' >"+categoryArray[j].cname+"</li>";
-								}
-								
-							}
-							html2 +="</ul>"
-							parentCategoryList.append(html2);
-						
-					}
 					
 function productAll(){
 						
@@ -246,42 +271,78 @@ function selectCategory(code){
 	
 	$(".card-deck").children().remove();
 	var sortNum = code%10;
-	var plistJson =JSON.parse('${pList}');
+	var pList_str = JSON.stringify(${pList});
+	var pList_json = JSON.parse(pList_str);
+	var pList_Array = new Array;
 	var onelineCnt = 1;
-	var forCnt=1;
+	var forCnt=1; 
 	
-	var plistArr = new Array;
-	var pListObj = new Object;
-	
-	for(var i = 0 ; i < plistJson.length ;i++){
+	for(var i = 0 ; i <pList_json.length ;i++){
 		
-		if(sortNum == 0 ){
+			var pListObj = new Object;
+			//대표이미지
+			var pSlideImg_json = JSON.parse(pList_json[i].pslideimg);
+				
+			var imgDirJSON_str = JSON.stringify(pSlideImg_json.imgDir); 
+			var imgDirJSON = JSON.parse(imgDirJSON_str);
 			
-			if(code == plistJson[i].pccoderef){
-				var pListObj = new Object;
-				pListObj.pid = plistJson[i].pid;
-				pListObj.pccode = plistJson[i].pccode;
-				plistArr.push(pListObj);
+			//var imgDirJSON_len = Object.keys(imgDirJSON).length;
+
+			//대표이미지
+			var imgDirOneJSON = imgDirJSON.slideImg_1
+				
+			var path = "/resources/imgUpload/product/";
+			var s_path = "slide/s/";
+			var yearDir = imgDirOneJSON.year+"/";
+			var monthDir = imgDirOneJSON.month+"/";
+			var dateDir = imgDirOneJSON.date+"/";
+			var productDir = imgDirOneJSON.product+"/";
+			var s_fileName = imgDirOneJSON.s_fileName;
+				
 			
+			pListObj.pimgDir =path+yearDir+monthDir+dateDir+productDir+s_path+s_fileName;
+			pListObj.pregdate = pList_json[i].pregdate;
+			pListObj.pid = pList_json[i].pid;
+			pListObj.pname = pList_json[i].pname;
+			pListObj.pprice = pList_json[i].pprice;
+			pListObj.pcnt = pList_json[i].pcnt;
+			pListObj.pccode = pList_json[i].pccode;
+			
+			if(sortNum == 0){
+				
+				if(code == pList_json[i].pccoderef){
+					
+					pList_Array.push(pListObj);
+				}
+			}else{
+				
+				if(code == pList_json[i].pccode){
+					
+					pList_Array.push(pListObj);
+				}
 			}
-		}else{
 			
-			if(code == plistJson[i].pccode){
-				var pListObj = new Object;
-				pListObj.pid = plistJson[i].pid;
-				pListObj.pccode = plistJson[i].pccode;
-				plistArr.push(pListObj);
-			}
-		}
-		
-		
 	}
-	//7
-	for(var i = 0 ; i <plistArr.length; i++){
+	
+	
+	for(var i = 0 ; i <pList_Array.length; i++){
 		
-		var html ="<div class='card shadow-sm' style='max-width:25%'>"
-			html +="<div class='card-header'>"
-			html +="<h4 class='my-0 font-weight-normal'>"+plistArr[i].pccode+"</h4>"
+		var html ="<div class='product-card card shadow-sm mx-1' style='max-width:25%'>"
+			
+			html +="<img class='py-1 px-1' src='"+pList_Array[i].pimgDir+"'/>"
+			
+			html +="<div class='product-card-body py-3 px-2 card-body'>"
+			html +="<ul class='list-unstyled product-card-ul mb-2'>"
+			html +="<li class='product-card-li pn'><p class='mb-1'>"+pList_Array[i].pname+"</p></li>";
+			html +="<li class='product-card-li'><p class='mb-1'>가격 : "+pList_Array[i].pprice+"</p></li>";
+			html +="<li class='product-card-li'><p class='mb-1'>남은 수량 : "+pList_Array[i].pcnt+"</p></li>";
+			html +="<li class='product-card-li'><p class='mb-1'>등록일 : "+pList_Array[i].pregdate+"</p></li>";
+			html +="</ul>"
+			html +="<div class='product-btn-group'>"
+			html +="<button type='button' class='btn btn-outline-primary mx-1'>재입고신청</button>"
+			html +="<button type='button' class='btn btn-outline-info mx-1'>제품 수정</button>"
+			html +="<button type='button' class='btn btn-outline-danger mx-1'><i class='far fa-trash-alt'></i></button>"
+			html +="</div>"
 			html +="</div>"
 			html +="</div>"
 			
@@ -297,6 +358,21 @@ function selectCategory(code){
 			}
 	}
 }
+					 
+
+$(document).on('show.bs.collapse',".category-ul",function(){
+	
+	$(this).prev().css("background-color","#45d4d429");
+	$(this).prev().css("font-weight","bold");
+	$(this).prev().css("font-size","larger");
+})
+
+$(document).on('hide.bs.collapse',".category-ul",function(){
+	
+	$(this).prev().css("background-color","unset");
+	$(this).prev().css("font-weight","unset");
+	$(this).prev().css("font-size","unset");
+})
 					 
 			
 $("#category-insert-modal").on('show.bs.modal', function (e) {
@@ -417,5 +493,7 @@ $("#category-insert-btn").on("click",function(){
 	
 	
 })
+
+
 </script>
 

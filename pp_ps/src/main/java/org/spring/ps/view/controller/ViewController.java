@@ -14,6 +14,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import com.google.gson.Gson;
 
 import lombok.RequiredArgsConstructor;
 import net.sf.json.JSONArray;
@@ -131,6 +134,7 @@ public class ViewController {
 	@RequestMapping(value="/admin/go/{page}")
 	public String adminPage(
 			@PathVariable("page") String page,
+			@RequestParam(value="pnum",required= false ) String pnum,
 			Model model
 			) {
 
@@ -145,10 +149,11 @@ public class ViewController {
 			List<ProductVO> prodListPage_pList = productService.productBaseList();
 			List<CategoryVO> prodListPage_cList = categoryService.getCategoryList();
 			page = "product/"+page;
-			
-			//log.debug("[adminPage] prodListPage pList:"+prodListPage_pList.size());
-			
-			model.addAttribute("pList",JSONArray.fromObject(prodListPage_pList));
+				
+			log.debug("[adminPage] prodListPage pList:"+prodListPage_pList.toString());
+			Gson jsonParser = new Gson();
+			jsonParser.toJson(prodListPage_pList);
+			model.addAttribute("pList", jsonParser.toJson(prodListPage_pList));
 			model.addAttribute("cList",JSONArray.fromObject(prodListPage_cList));
 			
 			break;
@@ -158,6 +163,14 @@ public class ViewController {
 			
 			List<CategoryVO> cList = categoryService.getCategoryList();
 			model.addAttribute("cList",JSONArray.fromObject(cList));
+			page = "product/"+page;
+			break;
+			
+		case "productUpdatePage" : 
+			
+			pageTitle = "제품 수정"; 
+			log.debug("[adminPage]  pnum:" +pnum);
+			
 			page = "product/"+page;
 			break;
 

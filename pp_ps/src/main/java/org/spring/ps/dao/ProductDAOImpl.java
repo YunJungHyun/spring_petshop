@@ -126,7 +126,8 @@ public class ProductDAOImpl implements ProductDAO{
 		HashMap<String,String> map = new HashMap<String, String>();
 		
 		
-		String sql =  "SELECT A.pnum,A.pid,A.pname,A.pcnt,A.pccode,B.ccoderef pccoderef,A.pprice,A.pslideimg FROM product AS A LEFT JOIN category AS B ON A.pccode = B.ccode";
+		String sql =  "SELECT A.pnum, A.pid, A.pname,A.pcnt,A.pccode,B.ccoderef pccoderef,A.pprice, A.pslideimg,A.pregdate FROM product AS A LEFT JOIN category AS B ON A.pccode = B.ccode ";
+			sql	+= "ORDER BY A.pregdate DESC";
 		
 		map.put("sql", sql);
 		

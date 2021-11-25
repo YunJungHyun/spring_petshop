@@ -1,5 +1,7 @@
 package org.spring.ps.vo;
 
+import java.sql.Date;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -19,6 +21,9 @@ public class ProductVO {
 	private String pprice;
 	private int pccode;
 	private int pccoderef;
+	private String pslideimg;
+	
+	private Date pregdate;
 	
 	private String img_fileName_arr_str;
 	

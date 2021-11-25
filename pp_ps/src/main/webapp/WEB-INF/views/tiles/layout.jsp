@@ -44,8 +44,10 @@
 
  
 <!-- font-awesome  -->
- <script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
-	
+<script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
+<script src="/resources/js/ckeditorFull/ckeditor.js"></script>
+
+  
 <title>PETSHOP - ${pageTitle}</title>
 
 </head>
