@@ -1,0 +1,51 @@
+@charset "UTF-8";
+
+@media ( min-width : 1200px) {
+	.site-header>.container, .ps-nav-lower>.container {
+		max-width: 1400px;
+	}
+}
+
+.site-header {
+	background-color: rgb(7 198 198/ 75%);
+	-webkit-backdrop-filter: saturate(180%) blur(20px);
+	backdrop-filter: saturate(180%) blur(20px);
+	-webkit-backdrop-filter: saturate(180%) blur(20px);
+	
+}
+
+.site-header a {
+	color: #fff;
+	transition: ease-in-out color .15s;
+	align-self: center;
+	font-weight: bold;
+}
+
+.site-header a:hover {
+	color: #999 !important;
+}
+
+.logo-title {
+	font-size: 24px;
+}
+
+.ps-nav {
+	width: 5rem;
+}
+
+
+.ps-nav-a-1 {
+	text-align: center;
+	align-items: center;
+	width: fit-content;
+	margin: 0px auto;
+}
+
+.ps-nav-lower {
+	background-color: #fff;
+}
+
+.ps-nav-lower a {
+	color: black !important;
+}
+

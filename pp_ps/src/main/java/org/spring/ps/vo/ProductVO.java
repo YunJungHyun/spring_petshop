@@ -21,7 +21,7 @@ public class ProductVO {
 	private String pprice;
 	private int pccode;
 	private int pccoderef;
-	private String pslideimg;
+	private String pimg;
 	
 	private Date pregdate;
 	

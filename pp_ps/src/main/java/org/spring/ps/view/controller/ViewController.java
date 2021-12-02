@@ -8,12 +8,15 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.spring.ps.service.CategoryService;
 import org.spring.ps.service.ProductService;
+import org.spring.ps.service.UserService;
 import org.spring.ps.vo.CategoryVO;
 import org.spring.ps.vo.ProductVO;
+import org.spring.ps.vo.UserVO;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.google.gson.Gson;
@@ -35,6 +38,8 @@ public class ViewController {
 	private CategoryService categoryService;
 	@Inject
 	private ProductService productService;
+	@Inject
+	private UserService userService;
 
 	@RequestMapping(value="/main/petshop")
 	public String home(
@@ -46,7 +51,10 @@ public class ViewController {
 
 
 		String pageTitle = "HOME"; 
+		
+		List<CategoryVO> cList = categoryService.getCategoryList();
 
+		model.addAttribute("cList",JSONArray.fromObject(cList));
 		model.addAttribute("pageTitle", pageTitle);
 
 		return "main.page"; 
@@ -129,58 +137,119 @@ public class ViewController {
 		return "admin/adminManagement.page"; 
 	}
 
+	
+	@RequestMapping(value="/product", method = RequestMethod.GET)
+	public String product(
+			Model model,
+			@RequestParam(value = "ccode" , required=false) String ccode,
+			@RequestParam(value = "ccoderef" , required=false) String ccoderef
+			) {
+		
+		log.debug("[product]");
+		String pageTitle = "제품"; 
+		
+		List<CategoryVO> cList = categoryService.getCategoryList();
 
+		model.addAttribute("cList",JSONArray.fromObject(cList));
+		model.addAttribute("pageTitle", pageTitle);
+		
+		
+		return "user/product.page";
+	}
+	
 
 	@RequestMapping(value="/admin/go/{page}")
 	public String adminPage(
 			@PathVariable("page") String page,
-			@RequestParam(value="pnum",required= false ) String pnum,
+			@RequestParam(value="pid",required= false ) String pid,
 			Model model
 			) {
 
 		log.debug("[adminPage] :"+page);
 		String pageTitle = null; 
+		Gson gson = new Gson();
+		List<CategoryVO> cList = null;
+		List<ProductVO> pList = null;
+		List<UserVO> uList = null;
+		
 		switch(page) {
 
 		case "prodListPage" : 
 
 			pageTitle = "제품 목록";
-			
-			List<ProductVO> prodListPage_pList = productService.productBaseList();
-			List<CategoryVO> prodListPage_cList = categoryService.getCategoryList();
+
+
+			cList = categoryService.getCategoryList();
+			pList = productService.getProductList();
 			page = "product/"+page;
-				
-			log.debug("[adminPage] prodListPage pList:"+prodListPage_pList.toString());
-			Gson jsonParser = new Gson();
-			jsonParser.toJson(prodListPage_pList);
-			model.addAttribute("pList", jsonParser.toJson(prodListPage_pList));
-			model.addAttribute("cList",JSONArray.fromObject(prodListPage_cList));
-			
+
+			log.debug("[prodListPage] pList.size():"+pList.size());
+
+			gson = new Gson();
+
+			model.addAttribute("pList",gson.toJson(pList,List.class).toString());
+			model.addAttribute("cList",JSONArray.fromObject(cList));
+
 			break;
 		case "productInsertPage" : 
 
 			pageTitle = "제품 등록"; 
-			
-			List<CategoryVO> cList = categoryService.getCategoryList();
+
+			cList = categoryService.getCategoryList();
+
 			model.addAttribute("cList",JSONArray.fromObject(cList));
 			page = "product/"+page;
 			break;
-			
+
 		case "productUpdatePage" : 
-			
+
 			pageTitle = "제품 수정"; 
-			log.debug("[adminPage]  pnum:" +pnum);
-			
+
+			log.debug("[productUpdatePage] pid : "+pid);
+
+			ProductVO pvo = productService.getProductOne(pid);
+			log.debug("[productUpdatePage] pvo : "+pvo.toString());
+
+
+			cList = categoryService.getCategoryList();
+
+			model.addAttribute("pvo" , pvo);
+			model.addAttribute("cList" , JSONArray.fromObject(cList));
+
 			page = "product/"+page;
 			break;
 
+		case "QnAListPage" : 
 
+			pageTitle = "제품 QnA"; 
+
+
+			page = "QnA/"+page;
+			break;		
+		case "userListPage" : 
+			
+			pageTitle = "회원관리"; 
+			
+			uList = userService.getUserList();
+			
+			page = "member/"+page;
+			break;		
+		case "notiseListPage" : 
+			
+			pageTitle = "공지사항"; 
+			
+			
+			page = "notise/"+page;
+			break;		
 		}
-		model.addAttribute("pageTitle" , pageTitle);
-		model.addAttribute("page" , "admin");
+		
 
-		return "admin/"+page+".page";
-	}
+
+	model.addAttribute("pageTitle" , pageTitle);
+	model.addAttribute("page" , "admin");
+
+	return "admin/"+page+".page";
+}
 
 
 }

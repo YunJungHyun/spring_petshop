@@ -67,4 +67,6 @@ public class CategoryDAOImpl implements CategoryDAO{
 		int result = sqlSession.insert(Namespace+".categoryInsert", map);
 		return result;
 	}
+	
+	
 }

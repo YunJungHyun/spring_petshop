@@ -33,4 +33,6 @@ public class CategoryServiceImpl implements CategoryService {
 		// TODO Auto-generated method stub
 		return categoryDAO.categoryInsert(parentCategory,cname);
 	}
+	
+	
 }

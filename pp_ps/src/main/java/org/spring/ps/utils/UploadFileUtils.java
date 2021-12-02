@@ -77,7 +77,7 @@ public class UploadFileUtils {
 		String monthPath = yearPath + File.separator + month ;
 		String datePath = monthPath + File.separator + date;
 		String productPath = datePath + File.separator+"product_code_"+ pnum;
-		String img_uploadPath = productPath + File.separator+"slide";
+		String img_uploadPath = productPath + File.separator+"cover";
 		String ex_img_uploadPath = productPath + File.separator+"explicate";
 		
 		makeDir(uploadPath, yearPath, monthPath, datePath,productPath);

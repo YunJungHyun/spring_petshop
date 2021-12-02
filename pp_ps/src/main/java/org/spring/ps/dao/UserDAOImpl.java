@@ -1,6 +1,7 @@
 package org.spring.ps.dao;
 
 import java.util.HashMap;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -154,4 +155,10 @@ public class UserDAOImpl implements UserDAO {
 		return result;
 	}
 	
+	
+	@Override
+	public List<UserVO> getUserList() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

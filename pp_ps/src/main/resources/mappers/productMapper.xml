@@ -6,7 +6,7 @@
 <mapper namespace="org.spring.ps.mapper.productMapper">
 
 
-	<insert id="productBaseInsert" parameterType="HashMap" >
+	<insert id="productInsert" parameterType="HashMap" >
 
  		<![CDATA[
  				
@@ -22,7 +22,15 @@
 		</selectKey>
 		
 	</insert>
-	<update id="productSlideImgUpload"  >
+	<update id="productRegUpdate"  >
+
+ 		<![CDATA[ 
+ 			${sql}
+		]]>
+		
+		
+	</update>
+	<update id="productUpdate"  >
 
  		<![CDATA[ 
  			${sql}
@@ -31,14 +39,20 @@
 		
 	</update>
 	
-	<select id="productList" parameterType="HashMap" resultType="productVO"> 
-		<![CDATA[
+	<select id="getProductList" parameterType="HashMap" resultType="productVO">
+		<![CDATA[ 
  			${sql}
 		]]>
-	
+		
 	</select>
-
-
+	
+	 <select id="getProductOne" parameterType="HashMap" resultType="productVO">
+		<![CDATA[ 
+ 			${sql}
+		]]>
+		
+	</select>
+	
 
 
 

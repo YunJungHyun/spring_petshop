@@ -37,10 +37,12 @@
 }
 </style>
 <!-- Custom styles for this template -->
+<link href="/resources/css/ps.css"  rel="stylesheet">
 <link href="/resources/css/product.css"  rel="stylesheet">
-<link href="/resources/css/navbar.css"  rel="stylesheet">
+<link href="/resources/css/header.css"  rel="stylesheet">
 <link href="/resources/css/page.css" rel="stylesheet">
 <link href="/resources/css/adminPage.css" rel="stylesheet">
+<link href="/resources/css/dropdown.css" rel="stylesheet">
 
  
 <!-- font-awesome  -->
@@ -70,3 +72,11 @@
 	<tiles:insertAttribute name="footer" />
 </body>
 </html>
+
+
+<script>
+
+
+</script>
+
+

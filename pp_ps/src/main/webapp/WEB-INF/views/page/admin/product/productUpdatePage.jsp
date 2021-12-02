@@ -14,6 +14,9 @@
 	}
 }
 
+#img-file{
+	 display : none;
+}
 </style>
 
 
@@ -26,7 +29,7 @@
 				<div class="form-row">
 					<div class="col-md-6 mb-3">
 					<label >제품 이름</label>
-						<input type="text" class="form-control" id="pname" placeholder="제품 이름" >
+						<input type="text" class="form-control" id="pname" placeholder="제품 이름" value="${pvo.pname }">
 					
 					</div>
 					<div class="col-md-3 mb-3">
@@ -44,84 +47,19 @@
 						
 					</div>
 					
-					<script>
-						
-							var jsonData = JSON.parse('${cList}');
-						
-							var parentCategoryArray = new Array;
-							var parentCategoryObj = new Object;
-							
-							for(var i = 0 ; i < jsonData.length ; i++){
-								
-								if(jsonData[i].ccoderef ==""){
-									parentCategoryObj = new Object;
-									
-									parentCategoryObj.ccode = jsonData[i].ccode;
-									parentCategoryObj.cname = jsonData[i].cname;
-									parentCategoryArray.push(parentCategoryObj);
-								}
-							}
-							 
-							var parentCategorySelect =$("#parentCategory"); 
-							
-							for(var i = 0 ; i <parentCategoryArray.length; i++){
-								
-								parentCategorySelect.append("<option value='"+parentCategoryArray[i].ccode+"'>"+parentCategoryArray[i].cname+"</option>");
-								
-							}
-							
-							
-							//카테고리 change
-							$(document).on("change","#parentCategory",function(){
-								
-								
-							
-								var categoryArray = new Array();
-								var categoryobj = new Object();
-								
-								
-								for(var i = 0 ; i < jsonData.length ; i++){
-									
-									if(jsonData[i].ccoderef !=""){
-										categoryobj = new Object;
-										
-										categoryobj.ccode = jsonData[i].ccode;
-										categoryobj.cname = jsonData[i].cname;
-										categoryobj.ccoderef = jsonData[i].ccoderef;
-										categoryArray.push(categoryobj);
-									}
-								} 
-								 
-								var categorySelect =$("#pccode"); 
-								
-								categorySelect.children().remove();
-								
-								categorySelect.append("<option value=''>선택하세요</option>");
-								
-								var selectParentCategory = $(this).val();
-								
-								for(var i = 0; i < categoryArray.length; i++) {
-									  
-									if(selectParentCategory == categoryArray[i].ccoderef ){
-									  categorySelect.append("<option value='" + categoryArray[i].ccode + "'>"+categoryArray[i].cname + "</option>");
-									}
-								}
-								
-							})
-							
-					</script>
+				
 
 				</div>
 				<div class="form-row">
 					<div class="col-md-6 mb-3">
 					<label >제품 가격</label>
-						<input type="text" class="form-control" id="pprice" placeholder="제품 가격"  onkeyup="inputNumberFormat(this)" >
+						<input type="text" class="form-control" id="pprice" placeholder="제품 가격"  onkeyup="inputNumberFormat(this)" value="${pvo.pprice }" >
 					
 					</div>
 					
 					<div class="col-md-6 mb-3">
 					<label >제품 수량</label>
-						<input type="text" class="form-control" id="pcnt" placeholder="제품 수량"  onkeyup="inputNumberFormat(this)">
+						<input type="text" class="form-control" id="pcnt" placeholder="제품 수량"  onkeyup="inputNumberFormat(this)" value="${pvo.pcnt }">
 					
 					</div>
 					
@@ -130,18 +68,33 @@
 				
 				<div class="form-group">
 					<label>제품 대표 이미지</label> 
-					<button type="button" class="s-img-addBtn">
+					<button type="button" class="select-img-btn" id="select-img-btn">
 						<i class="fas fa-plus fa-2x"></i>
 					</button>
-					<div class="slide-img-box d-flex justify-content-center">  
-						
+					<input type="file" id="img-file">
+					<div class="img-box col-lg-4 col-sm-12">  
+						<img src=""/>
+						<input type="hidden" id="existing-path" value="">
+						<input type="hidden" id="existing-fileName" value="">
 					</div>
  					
+ 					<script>
+						
+						var src_json = JSON.parse(`${pvo.pimg}`);
+						
+						var path = src_json.img.path;
+						var fileName =src_json.img.fileName;
+						//console.log(path);
+						//console.log(fileName);
+						$(".img-box > img").attr("src",path+"/"+fileName);
+						$("#existing-path").val(path);
+						$("#existing-fileName").val(fileName);
+						
+ 					</script>
+	
 				</div> 
 	
-				<div class="form-group">
-					<div class="file-input-list"></div>
-				</div>
+				
 				
 				<div class="form-group" id="explicate-group">
 				
@@ -182,7 +135,8 @@
 				</script>
 				
 				
-				<button type="button" class="btn btn-primary" id="product-insert-btn">저장하기</button>
+				<button type="button" class="btn btn-primary" id="test-btn">테스트</button>
+				<button type="button" class="btn btn-primary" id="product-update-btn">수정하기</button>
 			</form>
  
 		</div>
@@ -190,139 +144,79 @@
 </div> 
 
 <script>
- 
-$("#product-test-btn").on("click",function(){
+$(document).ready(function(){
+	
+	getCategoryList('${pvo.pccoderef}');
+	getChildrenCategoryList('${pvo.pccode}','${pvo.pccoderef}');
+})
 
-	var explicateHead = CKEDITOR.instances.explicateHead.getData();
-	var explicateBody = CKEDITOR.instances.explicateBody.getData();
-	var explicateFooterLeft = CKEDITOR.instances.explicateFooterLeft.getData();
-	var explicateFooterRight = CKEDITOR.instances.explicateFooterRight.getData();
+$("#test-btn").on("click",function(){
 	
+	var pname = $("#pname").val();
+	var pprice = $("#pprice").val();
+	var pcnt = $("#pcnt").val();
+	var pccode = $("#pccode").val();
 	
-	
-}) 
- 
-$("#product-insert-btn").on("click",function(){
-	
-	
-	//제품 본문에 작성된 데이터 가져오기
-	var explicateHead = CKEDITOR.instances.explicateHead.getData();
-	var explicateBody = CKEDITOR.instances.explicateBody.getData();
-	var explicateFooterLeft = CKEDITOR.instances.explicateFooterLeft.getData();
-	var explicateFooterRight = CKEDITOR.instances.explicateFooterRight.getData();
-	
-	
- 	/*유효성 검사 시작 */
-	if($("#pname").val()==""){
-		
-		alert("제품 이름을 입력해주세요.");
-		$("#pname").focus();
-		return false;
-	}
-	
-	if($("#pccode").val()==""){
-		
-		alert("카테고리를 선택해주세요.");
-		$("#pccode").focus();
-		return false;
-	}
-	
-	if($("#pprice").val()==""){
-		
-		alert("제품 가격을 입력해주세요.");
-		$("#pprice").focus();
-		return false;
-	}
-	if($("#pcnt").val()==""){
-	
-		alert("제품 수량을 입력해주세요.");
-		$("#pcnt").focus();
-		return false;
-	}
-	
-	 
-	 
-	 
-	if($(".slide-img-box .img-box").length < 1){ 
-		
-		alert("대표 이미지는 한가지 이상 반드시 등록해야합니다.");
-		$('html').scrollTop(0);
-		return false;
-	}
+	var pimgFile = $("#img-file")[0].files[0];
+	console.log(pname+"/"+pprice+"/"+pcnt+"/"+pccode+"/"+pimgFile);
+})
 
+
+$("#select-img-btn").on("click",function(){
 	
-	
-	if(explicateHead == "" && explicateBody == "" && explicateFooterLeft == "" && explicateFooterRight == "" ){
-		
-		
-		var conResult =confirm("본문에 작성된 내용이 없습니다. 제품 등록하시겠습니까?");
-		
-		if(!conResult){
-			 	
-			$('html').scrollTop(0);
-			return false;
+	$("#img-file").click();
+})
+
+$("#img-file").on("change",function(){
+	if(this.files && this.files[0]) {
+		var reader = new FileReader;
+		reader.onload = function(data) {
+			$(".img-box img").attr("src", data.target.result);       
 		}
-	}
- 	/*유효성 검사 끝  */
+		reader.readAsDataURL(this.files[0]);
+		}
 	
-	
-	var img_fileName_arr_str = "";
-	//ckeditor에 이미지있는지
-	if($("#explicate-group img.cke_widget_element").length){
-		
-		var widget_len= $("#explicate-group img.cke_widget_element").length;
-		
-		
-		$("#explicate-group img.cke_widget_element").each(function(e){
-			//alert(e);
-			var src_str = $(this).attr("src");
-			var src_arr = src_str.split("/");
-			
-			if(e+1 !=widget_len){
-				img_fileName_arr_str += src_arr[3]+"/";
-			}else{
-				
-				img_fileName_arr_str += src_arr[3]
-			}
-		})
-		
-	}
+})
+
+
+$("#product-update-btn").on("click",function(){
 	
 	var formData = new FormData();
 	
+	var pnum = '${pvo.pnum}';
+	var pid = '${pvo.pid}';
+	var pname = $("#pname").val();
+	var pprice = $("#pprice").val();
+	var pcnt = $("#pcnt").val();
+	var pccode = $("#pccode").val();
 	
-	var pname =  $("#pname").val();
-	var pccode =  $("#pccode").val();
-	var pprice =  $("#pprice").val();
-	var pcnt=  $("#pcnt").val();
+	var pimgFile = $("#img-file")[0].files[0];
 	
+	var path = $("#existing-path").val();
+	var fileName = $("#existing-fileName").val();
 	
-	formData.append("img_fileName_arr_str",img_fileName_arr_str);
+	formData.append("pnum",pnum);
+	formData.append("pid",pid);
 	formData.append("pname",pname);
-	formData.append("pccode",pccode);
 	formData.append("pprice",pprice);
 	formData.append("pcnt",pcnt);
+	formData.append("pccode",pccode);
 	
-	formData.append("explicateHead",explicateHead);
-	formData.append("explicateBody",explicateBody);
-	formData.append("explicateFooterLeft",explicateFooterLeft);
-	formData.append("explicateFooterRight",explicateFooterRight);
+	formData.append("path",path);
+	formData.append("fileName",fileName);
 	
-
-	
-	$("input[name='s_file_input']").each(function(){
+	if(pimgFile != undefined){
+		formData.append("pimgFile",pimgFile);
+		console.log("파일있음")
+	}else{
 		
-		console.log(this.files[0]);
 		
-		if(this.files[0] != undefined){
-			formData.append("article_file", this.files[0]);
-			//console.log("파일 있음"+e);
-		}
-	})
+		console.log("파일없음")
+	}
 	
-	 $.ajax({
+	$.ajax({
 		
-		url :"/admin/product/insert",
+		url :"/admin/product/update",
 		data : formData,
 		type : "POST",
 		enctype: 'multipart/form-data',  
@@ -330,91 +224,24 @@ $("#product-insert-btn").on("click",function(){
         contentType: false,
         success:function(data){
         	
-        	
+        
         	if(data >=1){
         		
-        		alert("제품이 등록 되었습니다");
+        		alert("제품이 수정 되었습니다");
         		
         		location.href="/view/admin/go/prodListPage"
         	}else{
         		
         		alert("제품 등록에 실패하였습니다.");
-        	}
+        	}  
         	
         }
 		
-	}) 
+	})
 })
 
 
-	var file_input_cnt = 1;
-	$(".s-img-addBtn").on("click",function(){
-		
-		if($(".file-input-one").length >=5){
-			
-			alert("이미지는 5개까지 업로드 가능합니다.");	
-		}else{
-			
-			var html = "<div class='file-input-one mb-1'>"
-				html+= "<input type='file' name='s_file_input' id='s_file_"+file_input_cnt+"'/>"
-				html+= "<button type='button' class='f-remove-btn'><i class='fas fa-minus'></i></button>"
-				html+= "</div>"
-				
-				$(".file-input-list").append(html);
-				
-			 file_input_cnt++;
-		}
-	})
 
-	$(document).on("click",".f-remove-btn",function(){ 
-		var inputFile_id= $(this).prev().attr("id");
-		var img_id = "img_"+inputFile_id;
-		
-		$(".img-box").each(function(){
-			
-			if($(this).attr("id") == img_id ){
-				
-				$(this).remove();
-			}
-		})
-		$(this).parent().remove();
-		
-	})
-	
-	
-	$(document).on("change","input[name='s_file_input']",function(){
-		
-		
-		var inputFile_id= $(this).attr("id");
-		var img_id = "img_"+inputFile_id;
-		
-		
-		
-		if(this.files && this.files[0]) {
-		  
-			$(".img-box").each(function(){
-				
-				
-				if($(this).attr("id") == img_id){
-					
-					$(this).remove();
-				}
-				
-				
-			})
-			var reader = new FileReader;
-		    reader.onload = function(data) {
-		    	var html = "<div class='img-box mx-2' id='"+img_id+"' >"
-		    		html +="<img src='"+data.target.result+"'/>"
-		    		
-		    		html +="</div>";	
-		    	$(".slide-img-box").append(html);
-		    }
-		    reader.readAsDataURL(this.files[0]);
-		  }
-		
-	})
-	
 	//가격 포맷
 function inputNumberFormat(obj) {
      obj.value = comma(uncomma(obj.value));
@@ -430,5 +257,114 @@ function comma(str) {
      return str.replace(/[^\d]+/g, '');
  }
  
+function getChildrenCategoryList(pccode,pccoderef){
+	
+	var jsonData = JSON.parse('${cList}');
+	var categoryArray = new Array();
+	var categoryobj = new Object();
+	
+	for(var i = 0 ; i < jsonData.length ; i++){
+			
+			if(jsonData[i].ccoderef !="" && jsonData[i].ccoderef == pccoderef ){
+			categoryobj = new Object;
+				
+			categoryobj.ccode = jsonData[i].ccode;
+			categoryobj.cname = jsonData[i].cname;
+			categoryobj.ccoderef = jsonData[i].ccoderef;
+			categoryArray.push(categoryobj);
+		}
+	}
+	
+	var categorySelect =$("#pccode"); 
+		
+		categorySelect.children().remove();
+		
+		categorySelect.append("<option value=''>선택하세요</option>");
+		
+		
+	for(var i = 0; i < categoryArray.length; i++) {
+			  
+			var option =$("<option>",{"value":categoryArray[i].ccode,"text":categoryArray[i].cname});
+			
+			categorySelect.append(option);
+			
+	}
+	
+	$("#pccode").val(pccode).prop("selected", true);
+
+	
+	
+} 
+
+function getCategoryList(pccoderef){
+ 		
+ 	var jsonData = JSON.parse('${cList}');
+
+ 	var parentCategoryArray = new Array;
+ 	var parentCategoryObj = new Object;
+ 	
+ 	for(var i = 0 ; i < jsonData.length ; i++){
+ 		
+ 		if(jsonData[i].ccoderef ==""){
+ 			parentCategoryObj = new Object;
+ 			
+ 			parentCategoryObj.ccode = jsonData[i].ccode;
+ 			parentCategoryObj.cname = jsonData[i].cname;
+ 			parentCategoryArray.push(parentCategoryObj);
+ 		}
+ 	}
+ 	 
+ 	var parentCategorySelect =$("#parentCategory"); 
+ 	
+ 	for(var i = 0 ; i <parentCategoryArray.length; i++){
+ 		
+ 		parentCategorySelect.append("<option value='"+parentCategoryArray[i].ccode+"'>"+parentCategoryArray[i].cname+"</option>");
+ 		
+ 	}
+ 	
+ 	$("#parentCategory").val(pccoderef).prop("selected", true);
+ 	
+ 	
+ 	//카테고리 change
+ 	$(document).on("change","#parentCategory",function(){
+ 		
+ 		
+ 	
+ 		var categoryArray = new Array();
+ 		var categoryobj = new Object();
+ 		
+ 		
+ 		for(var i = 0 ; i < jsonData.length ; i++){
+ 			
+ 			if(jsonData[i].ccoderef !=""){
+ 				categoryobj = new Object;
+ 				
+ 				categoryobj.ccode = jsonData[i].ccode;
+ 				categoryobj.cname = jsonData[i].cname;
+ 				categoryobj.ccoderef = jsonData[i].ccoderef;
+ 				categoryArray.push(categoryobj);
+ 			}
+ 		} 
+ 		 
+ 		var categorySelect =$("#pccode"); 
+ 		
+ 		categorySelect.children().remove();
+ 		
+ 		categorySelect.append("<option value=''>선택하세요</option>");
+ 		
+ 		var selectParentCategory = $(this).val();
+ 		
+ 		for(var i = 0; i < categoryArray.length; i++) {
+ 			  
+ 			if(selectParentCategory == categoryArray[i].ccoderef ){
+ 			  categorySelect.append("<option value='" + categoryArray[i].ccode + "'>"+categoryArray[i].cname + "</option>");
+ 			}
+ 		}
+ 		
+ 	})
+ 	
+
+ 	
+ }
  
 </script>

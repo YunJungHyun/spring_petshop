@@ -1,0 +1,14 @@
+@charset "UTF-8";
+
+a {
+	
+	text-decoration: non;
+	
+}
+
+.ps-vl-1 {
+    width: 2px;
+    background-color: #fff;
+    border-radius: 30%;
+}
+

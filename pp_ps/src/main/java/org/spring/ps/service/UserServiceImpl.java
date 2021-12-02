@@ -1,5 +1,7 @@
 package org.spring.ps.service;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.json.simple.JSONObject;
@@ -32,5 +34,11 @@ public class UserServiceImpl implements UserService{
 	public UserVO petShopLogin(String userid, String userpw) {
 		// TODO Auto-generated method stub
 		return userDAO.petShopLogin(userid,userpw);
+	}
+	
+	@Override
+	public List<UserVO> getUserList() {
+		// TODO Auto-generated method stub
+		return userDAO.getUserList();
 	}
 }

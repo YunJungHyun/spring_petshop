@@ -1,38 +1,5 @@
 @charset "UTF-8";
 
-/*
- * Custom translucent site header
- */
-.site-header {
-	background-color: rgb(7 198 198/ 75%);
-	-webkit-backdrop-filter: saturate(180%) blur(20px);
-	backdrop-filter: saturate(180%) blur(20px);
-	-webkit-backdrop-filter: saturate(180%) blur(20px);
-	border-bottom: 1px solid #bbb;
-}
-
-.site-header a {
-	color: #fff;
-	transition: ease-in-out color .15s;
-	align-self: center;
-	font-weight: bold;
-}
-
-@media ( min-width : 1200px) {
-	.site-header>.container {
-		max-width: 1400px;
-	}
-}
-
-@media ( min-width : 1200px) {
-	.site-header-lg-menu>.container {
-		max-width: 1400px;
-	}
-}
-
-/*
- * Dummy devices (replace them with your own or something else entirely!)
- */
 .product-device-2 {
 	top: -25%;
 	right: auto;

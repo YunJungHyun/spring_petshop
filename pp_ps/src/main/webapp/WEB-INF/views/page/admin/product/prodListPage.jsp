@@ -45,11 +45,13 @@
 				</div>
 				<div class="col-10">
 					 <div class="product-list " id="product-list">
-						<c:forEach begin ="0" end="${fn:length(pList)/4 }" step="1" varStatus="status">
-							<div class="card-deck mb-3 text-center" id="card-deck-${status.count }">
-    							
+					 	<div class="container">
+							<div class="row product-list-row">
+      	
+
+      
 							</div>
-						</c:forEach>
+						</div>  
 					</div>  
 				</div>
 				</div>
@@ -58,7 +60,7 @@
 		</div> 
 	</div> 
 </div>  
-
+ 
 
 <!-- Modal -->
 <div class="modal fade " id="category-insert-modal" tabindex="-1" role="dialog" aria-labelledby="categoryInsertModalLabel" aria-hidden="true">
@@ -119,87 +121,120 @@
 
 $(document).ready(function(){
 	
-	var pList_str = JSON.stringify(${pList});
-	var pList_json = JSON.parse(pList_str);
-	var pList_Array = new Array;
-	var onelineCnt = 1;
-	var forCnt=1; 
+	getProductList("allList");
+	AdminGetCategoryList();
 	
-	for(var i = 0 ; i <pList_json.length ;i++){
-		
-			var pListObj = new Object;
-			//대표이미지
-			var pSlideImg_json = JSON.parse(pList_json[i].pslideimg);
-			
-			
-			var imgDirJSON_str = JSON.stringify(pSlideImg_json.imgDir); 
-			var imgDirJSON = JSON.parse(imgDirJSON_str);
-			
-			//var imgDirJSON_len = Object.keys(imgDirJSON).length;
+})
 
-				
-			//대표이미지
-			var imgDirOneJSON = imgDirJSON.slideImg_1
-				
-			var path = "/resources/imgUpload/product/";
-			var s_path = "slide/s/";
-			var yearDir = imgDirOneJSON.year+"/";
-			var monthDir = imgDirOneJSON.month+"/";
-			var dateDir = imgDirOneJSON.date+"/";
-			var productDir = imgDirOneJSON.product+"/";
-			var s_fileName = imgDirOneJSON.s_fileName;
-		
-			
-			pListObj.pimgDir =path+yearDir+monthDir+dateDir+productDir+s_path+s_fileName;
-			pListObj.pregdate = pList_json[i].pregdate
-			pListObj.pid = pList_json[i].pid;
-			pListObj.pname = pList_json[i].pname;
-			pListObj.pprice = pList_json[i].pprice;
-			pListObj.pcnt = pList_json[i].pcnt;
-			pListObj.pccode = pList_json[i].pccode;
-			pListObj.pnum = pList_json[i].pnum;
-			
-			
-			
-			pList_Array.push(pListObj);
-		
-	}
+function productArrayInput(json){
+	var productObject = new Object;
+	
+	var pimg_JSON = JSON.parse(json.pimg);
+	
+	productObject.pid = json.pid;
+	productObject.pname = json.pname;
+	productObject.pprice = json.pprice;
+	productObject.pcnt = json.pcnt;
+	
+	productObject.path = pimg_JSON.img.path;
+	productObject.fileName = pimg_JSON.img.fileName;
+	
+	return productObject;
+}
+
+function getProductList(ccode){
+	
+	var pList = JSON.stringify(${pList});
+	var pList_JSON = JSON.parse(pList);
 	
 	
-	for(var i = 0 ; i <pList_Array.length; i++){
+	var productArray = new Array;
+	var productObject = new Object;
+	//console.log(cardRowCnt);
 		
-		var html ="<div class='product-card card shadow-sm mx-1' style='max-width:25%'>"
-			
-			html +="<img class='py-1 px-1' src='"+pList_Array[i].pimgDir+"'/>"
-			
-			html +="<div class='product-card-body py-3 px-2 card-body'>"
-			html +="<ul class='list-unstyled product-card-ul mb-2'>"
-			html +="<li class='product-card-li pn'><p class='mb-1'>"+pList_Array[i].pname+"</p></li>";
-			html +="<li class='product-card-li'><p class='mb-1'>가격 : "+pList_Array[i].pprice+"</p></li>";
-			html +="<li class='product-card-li'><p class='mb-1'>남은 수량 : "+pList_Array[i].pcnt+"</p></li>";
-			html +="<li class='product-card-li'><p class='mb-1'>등록일: "+pList_Array[i].pregdate+"</p></li>";
-			html +="</ul>"
-			html +="<div class='product-btn-group'>"
-			html +="<button type='button' class='btn btn-outline-primary mx-1'>재입고신청</button>"
-			html +="<button type='button' class='btn btn-outline-info mx-1' onclick='goPUpdatePage("+pList_Array[i].pnum+")'>제품 수정</button>"
-			html +="<button type='button' class='btn btn-outline-danger mx-1'><i class='far fa-trash-alt'></i></button>"
-			html +="</div>"
-			html +="</div>"
-			html +="</div>"
-			
-			if(forCnt <= 4){
+	
+	if(ccode=="allList"){
 		
-				$("#card-deck-"+onelineCnt).append(html);
-				forCnt++;
-			}else{
+		
+		for(var i = 0 ; i < pList_JSON.length ;i++){
+			
+			
+			
+			productObject = productArrayInput(pList_JSON[i]);
+			productArray.push(productObject);
+			
+		}
+		
+	}else{
+		$(".product-list-row").children().remove();
+		
+		var ccodeSort = ccode % 10;
+		
+		if( ccodeSort == 0){
+			
+			for(var i = 0 ; i < pList_JSON.length ;i++){
 				
-				onelineCnt++;
-				forCnt = 2;
-				$("#card-deck-"+onelineCnt).append(html);
+				if(pList_JSON[i].pccoderef == ccode){
+					productObject = productArrayInput(pList_JSON[i]);
+					productArray.push(productObject);
+			
+				}
+				
+				
 			}
+		
+		}else{
+			
+			for(var i = 0 ; i < pList_JSON.length ;i++){
+				
+				if(pList_JSON[i].pccode == ccode){
+					productObject = productArrayInput(pList_JSON[i]);
+					productArray.push(productObject);
+			
+				}
+				
+				
+				
+			}
+			
+		}
+		
 	}
 	
 	
+	for(var i = 0 ; i <productArray.length ; i++){
+	
+		
+		var html ="<div class='col-lg-4 col-md-6 col-sm-6 col-6'>";
+				html+=" <div class='card mb-4 shadow-sm'>"
+      			html+="<img class='product-img' src='"+productArray[i].path+"/s/s_"+productArray[i].fileName+"'/>"
+	     		html+="<div class='card-body'>";
+	        	html+="<p>"+productArray[i].pname+"</p>";
+	        	html+="<p> 가격 : "+productArray[i].pprice+"</p>";
+	        	html+="<p> 남은 수량 : "+productArray[i].pcnt+"</p>";
+	        	html+="<div class='d-flex justify-content-between align-items-center'>"
+	         	html+="<div class='btn-group' id='product-btn-group-"+i+"'>"
+	         	
+	         	html+="</div>"
+	          	html+="<small class='text-muted'>9 mins</small>"
+	            html+="</div>";
+	            html+="</div>";
+	            html+="</div>";
+	            html+="</div>";
+	               
+	      
+		$(".product-list-row").append(html);
+		var btn1 = $("<button>",{"type":"button","class":"btn btn-sm btn-outline-success","text":"재입고 신청"});
+		var btn2 = $("<button>",{"type":"button","class":"btn btn-sm btn-outline-primary","text":"제품 수정","onclick":"location.href='/view/admin/go/productUpdatePage?pid="+productArray[i].pid+"'"});
+		
+		$("#product-btn-group-"+i).append(btn1);
+		$("#product-btn-group-"+i).append(btn2);
+	 }
+	
+ }
+
+
+function AdminGetCategoryList(){
 	//카테고리 불러오기
 	var jsonData = JSON.parse('${cList}');
 					
@@ -212,152 +247,63 @@ $(document).ready(function(){
 	for(var i = 0 ; i < jsonData.length ; i++){
 							
 		if(jsonData[i].ccoderef ==""){
-								parentCategoryObj = new Object;
+			parentCategoryObj = new Object;
 							
-								parentCategoryObj.ccode = jsonData[i].ccode;
-								parentCategoryObj.cname = jsonData[i].cname;
-								parentCategoryArray.push(parentCategoryObj);
+			parentCategoryObj.ccode = jsonData[i].ccode;
+			parentCategoryObj.cname = jsonData[i].cname;
+			parentCategoryArray.push(parentCategoryObj);
 		}else{
-								categoryObj = new Object;
-								categoryObj.ccode = jsonData[i].ccode;
-								categoryObj.cname = jsonData[i].cname;
-								categoryObj.ccoderef = jsonData[i].ccoderef;
-								categoryArray.push(categoryObj);
-							}
-						}
+			categoryObj = new Object;
+			categoryObj.ccode = jsonData[i].ccode;
+			categoryObj.cname = jsonData[i].cname;
+			categoryObj.ccoderef = jsonData[i].ccoderef;
+			categoryArray.push(categoryObj);
+			}
+		}
 					 
 		var parentCategoryList =$("#category-list"); 
 						
-						
-		for(var i = 0 ; i <parentCategoryArray.length; i++){
-			var html = "<a href='#' data-toggle='collapse' aria-expanded='true' aria-controls='category"+parentCategoryArray[i].ccode+"' ";
-								html += "data-target='#category"+parentCategoryArray[i].ccode+"' "
-								html += "class='list-group-item list-group-item parent-category' "
-								html += "id='"+parentCategoryArray[i].ccode+"'>"
-								html += parentCategoryArray[i].cname
-								html +="</a>";
+	for(var i = 0 ; i <parentCategoryArray.length; i++){
+		
+		
+		var html = "<a href='#' data-toggle='collapse' aria-expanded='true' aria-controls='category"+parentCategoryArray[i].ccode+"' ";
+			html += "data-target='#category"+parentCategoryArray[i].ccode+"' "
+			html += "class='list-group-item list-group-item parent-category' "
+			html += "id='"+parentCategoryArray[i].ccode+"'>"
+			html += parentCategoryArray[i].cname
+			html +="</a>";
 							
-								parentCategoryList.append(html);
+			parentCategoryList.append(html);
 								
 								
-			var html2 ="<ul id='category"+parentCategoryArray[i].ccode+"' class='collapse category-ul list-group'>"
-									html2 +="<li id='"+parentCategoryArray[i].ccode+"' class='list-group-item pl-5' onclick='selectCategory("+parentCategoryArray[i].ccode+")'>전체</li>"
+		var html2 ="<ul id='category"+parentCategoryArray[i].ccode+"' class='collapse category-ul list-group'>"
+			html2 +="<li id='"+parentCategoryArray[i].ccode+"' class='list-group-item pl-5' onclick='getProductList("+parentCategoryArray[i].ccode+")'>전체</li>"
+		
+		
 		for(var j = 0 ; j <categoryArray.length ; j++){
+			
 			if(parentCategoryArray[i].ccode == categoryArray[j].ccoderef){
 										
-										html2 +="<li  id='"+categoryArray[j].ccode+"' class='list-group-item pl-5' onclick='selectCategory("+categoryArray[j].ccode+")' >"+categoryArray[j].cname+"</li>";
-									}
+				html2 +="<li  id='"+categoryArray[j].ccode+"' class='list-group-item pl-5' onclick='getProductList("+categoryArray[j].ccode+")' >"+categoryArray[j].cname+"</li>";
+						
+					}
 									
-								}
-								html2 +="</ul>"
-								parentCategoryList.append(html2);
+			}
+			html2 +="</ul>"
+			parentCategoryList.append(html2);
 							
-						}
-	 
-})
-
-function goPUpdatePage(pnum){
+		}
 	
-	location.href="/view/admin/go/productUpdatePage?pnum="+pnum;
 }
+
+
 
 					
 function productAll(){
 						
 	location.reload();
-					}
-
-function selectCategory(code){
-	
-	$(".card-deck").children().remove();
-	var sortNum = code%10;
-	var pList_str = JSON.stringify(${pList});
-	var pList_json = JSON.parse(pList_str);
-	var pList_Array = new Array;
-	var onelineCnt = 1;
-	var forCnt=1; 
-	
-	for(var i = 0 ; i <pList_json.length ;i++){
-		
-			var pListObj = new Object;
-			//대표이미지
-			var pSlideImg_json = JSON.parse(pList_json[i].pslideimg);
-				
-			var imgDirJSON_str = JSON.stringify(pSlideImg_json.imgDir); 
-			var imgDirJSON = JSON.parse(imgDirJSON_str);
-			
-			//var imgDirJSON_len = Object.keys(imgDirJSON).length;
-
-			//대표이미지
-			var imgDirOneJSON = imgDirJSON.slideImg_1
-				
-			var path = "/resources/imgUpload/product/";
-			var s_path = "slide/s/";
-			var yearDir = imgDirOneJSON.year+"/";
-			var monthDir = imgDirOneJSON.month+"/";
-			var dateDir = imgDirOneJSON.date+"/";
-			var productDir = imgDirOneJSON.product+"/";
-			var s_fileName = imgDirOneJSON.s_fileName;
-				
-			
-			pListObj.pimgDir =path+yearDir+monthDir+dateDir+productDir+s_path+s_fileName;
-			pListObj.pregdate = pList_json[i].pregdate;
-			pListObj.pid = pList_json[i].pid;
-			pListObj.pname = pList_json[i].pname;
-			pListObj.pprice = pList_json[i].pprice;
-			pListObj.pcnt = pList_json[i].pcnt;
-			pListObj.pccode = pList_json[i].pccode;
-			
-			if(sortNum == 0){
-				
-				if(code == pList_json[i].pccoderef){
-					
-					pList_Array.push(pListObj);
-				}
-			}else{
-				
-				if(code == pList_json[i].pccode){
-					
-					pList_Array.push(pListObj);
-				}
-			}
-			
-	}
-	
-	
-	for(var i = 0 ; i <pList_Array.length; i++){
-		
-		var html ="<div class='product-card card shadow-sm mx-1' style='max-width:25%'>"
-			
-			html +="<img class='py-1 px-1' src='"+pList_Array[i].pimgDir+"'/>"
-			
-			html +="<div class='product-card-body py-3 px-2 card-body'>"
-			html +="<ul class='list-unstyled product-card-ul mb-2'>"
-			html +="<li class='product-card-li pn'><p class='mb-1'>"+pList_Array[i].pname+"</p></li>";
-			html +="<li class='product-card-li'><p class='mb-1'>가격 : "+pList_Array[i].pprice+"</p></li>";
-			html +="<li class='product-card-li'><p class='mb-1'>남은 수량 : "+pList_Array[i].pcnt+"</p></li>";
-			html +="<li class='product-card-li'><p class='mb-1'>등록일 : "+pList_Array[i].pregdate+"</p></li>";
-			html +="</ul>"
-			html +="<div class='product-btn-group'>"
-			html +="<button type='button' class='btn btn-outline-primary mx-1'>재입고신청</button>"
-			html +="<button type='button' class='btn btn-outline-info mx-1'>제품 수정</button>"
-			html +="<button type='button' class='btn btn-outline-danger mx-1'><i class='far fa-trash-alt'></i></button>"
-			html +="</div>"
-			html +="</div>"
-			html +="</div>"
-			
-			if(forCnt <= 4){
-		
-				$("#card-deck-"+onelineCnt).append(html);
-				forCnt++;
-			}else{
-				
-				onelineCnt++;
-				forCnt = 2;
-				$("#card-deck-"+onelineCnt).append(html);
-			}
-	}
 }
+
 					 
 
 $(document).on('show.bs.collapse',".category-ul",function(){
@@ -413,7 +359,7 @@ $("#category-insert-modal").on('hidden.bs.modal', function (e) {
 	$("#cname").val("");
 	
 })
-
+//
 $("#parentCategory").on("change", function(){
 	
 	var selectCcode =$(this).val();
@@ -439,7 +385,7 @@ $("#parentCategory").on("change", function(){
 	}
 	
 })
-
+//카테고리 insert
 $("#category-insert-btn").on("click",function(){
 	/* 유효성검사 시작*/
 	if($("#parentCategory").val() ==""){
