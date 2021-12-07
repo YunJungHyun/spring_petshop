@@ -51,8 +51,16 @@ $(document).ready(function(){
 	
 	
 	getCategoryList();
+	getProductList();
+	
+	
 	
 })
+
+function getProductList(){
+	
+
+}
 
 
 function getCategoryList(){

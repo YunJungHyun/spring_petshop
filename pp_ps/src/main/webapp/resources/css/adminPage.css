@@ -68,11 +68,11 @@ button.categoryName-btn {
 	border-radius: 7px;
 	margin: 0px auto;
 	padding: unset;
-	min-height : 256px;
+	min-height: 256px;
 }
 
-.img-box > img {
-    width: -webkit-fill-available;
+.img-box>img {
+	width: -webkit-fill-available;
 }
 
 #explicateHead, #explicateBody, #explicateFooterLeft,
@@ -89,8 +89,6 @@ button.categoryName-btn {
 #explicateBody {
 	min-height: 600px;
 }
-
-
 
 .product-card {
 	background-color: #45d4d429;
@@ -144,16 +142,14 @@ a:hover {
 }
 
 .category-ul {
-    font-size: 14px;
-    font-weight: bold;
+	font-size: 14px;
+	font-weight: bold;
 }
 
-.product-btn-group > button{
-	
+.product-btn-group>button {
 	background-color: #fff;
 }
 
-.product-img{
-	
-	    height: 15vw;
+.product-img {
+	height: 10vw;
 }

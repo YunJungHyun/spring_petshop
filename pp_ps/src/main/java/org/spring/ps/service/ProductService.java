@@ -22,7 +22,10 @@ public interface ProductService {
 
 	int productUpdate(ProductVO productVO, String path, String fileName);
 
-	
+
+	List<ProductVO> getUserProductList(String ccode, String ccoderef);
+
+
 
 	
 }

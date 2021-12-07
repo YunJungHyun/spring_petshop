@@ -8,6 +8,7 @@ import javax.inject.Inject;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.ibatis.session.SqlSession;
+import org.spring.ps.vo.CategoryVO;
 import org.spring.ps.vo.ProductVO;
 import org.springframework.stereotype.Service;
 
@@ -99,6 +100,21 @@ public class ProductDAOImpl implements ProductDAO{
 
 		map.put("sql", sql);
 		int result = sqlSession.update(Namespace+".productRegUpdate", map);
+		return result;
+	}
+	
+	
+	@Override
+	public List<ProductVO> getUserProductList(String ccode, String ccoderef) {
+		log.debug("[getUserProductList] ccode :"+ccode);
+		log.debug("[getUserProductList] ccoderef :"+ccoderef);
+		
+		HashMap<String, String> map = new HashMap();
+
+		String sql =  "SELECT A.pnum,A.pid,A.pname,A.pcnt,A.pccode,B.ccoderef pccoderef,A.pprice,A.pimg FROM product AS A LEFT JOIN category AS B ON A.pccode = B.ccode ORDER BY A.pregdate DESC";
+
+		map.put("sql", sql);
+		List<ProductVO> result = sqlSession.selectList(Namespace+".getUserProductList", map);
 		return result;
 	}
 }

@@ -205,7 +205,7 @@ function getProductList(ccode){
 	for(var i = 0 ; i <productArray.length ; i++){
 	
 		
-		var html ="<div class='col-lg-4 col-md-6 col-sm-6 col-6'>";
+		var html ="<div class='col-lg-3 col-md-4 col-sm-6 col-6'>";
 				html+=" <div class='card mb-4 shadow-sm'>"
       			html+="<img class='product-img' src='"+productArray[i].path+"/s/s_"+productArray[i].fileName+"'/>"
 	     		html+="<div class='card-body'>";

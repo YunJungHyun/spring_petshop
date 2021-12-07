@@ -3,6 +3,10 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 
+<style>
+
+
+</style>
 <nav class="site-header sticky-top d-flex flex-column ">
 	<div class="container ps-nav-top pt-3 pb-2 d-flex justify-content-between">
     	<div class="nav-left d-flex ">
@@ -23,7 +27,7 @@
     				<i class="far fa-user fa-2x"></i>
 					<span class="ps-nav-text">MY</span>
     			</a>
-    			<div id="myDropdown" class="dropdown-content ps-nav-dropdown-content">
+    			<div id="myDropdown" class="dropdown-content ps-nav-dropdown-content ">
 	    			<a href="#">최근 본 상품</a>
 					<a href="#">찜목록</a>
 					<a href="#">주문 취소</a>
@@ -55,7 +59,7 @@
     					<span class="lg-menu-title">카테고리</span>   
     				</a> 
     			
-					<div id="categoryDropdown" class="dropdown-content my-2" >
+					<div id="categoryDropdown" class="dropdown-content my-2 " >
 						<div class="category-children-content"></div>
 						<div class="category-parent-content"></div>
 					
@@ -99,14 +103,41 @@
 
 	function navDropdown(sort){
 		
-		$("#"+sort).toggle("show");
+		
+		if($("#"+sort).hasClass("show")){
+			
+			//$("#"+sort).toggle("hide");
+			$("#"+sort).slideToggle("fast");
+			$("#"+sort).removeClass("show");
+			
+		}else{
+			
+			$("#"+sort).slideToggle("fast");
+			$("#"+sort).addClass("show");
+		}
+		
 	}
 	
-	/* $('.dropdown-container').focusout(function(e) {
+	  $('.dropdown-container').focusout(function(e) {
 		
-		$(".dropdown-content").toggle("hide");
+		  
+		if($(this).children(".dropdown-content").hasClass("show")){
+			$(this).children(".dropdown-content").slideToggle("fast");
+			$(this).children(".dropdown-content").removeClass("show");
+		}
 		
-	}); */
+	});  
+
+	
+	 $(document).on("mousedown",".dropdown-content a ",function(){
+		 
+		 var href_str=$(this).attr("href");
+		 
+		 location.href = href_str;
+	 })
+	
+
+
 </script>
 
 
@@ -117,7 +148,7 @@ $(document).ready(function(){
 	
 	navGetCategoryList();
 	
-	
+	//자식카테고리
 	$("a[name='parentCategory']").hover(function(){
 		 
 		$(".category-children-content").css("display","block");

@@ -149,7 +149,12 @@ public class ViewController {
 		String pageTitle = "제품"; 
 		
 		List<CategoryVO> cList = categoryService.getCategoryList();
+		List<ProductVO> pList = productService.getUserProductList(ccode,ccoderef);
+		
+		Gson gson = new Gson();
 
+		
+		model.addAttribute("pList",gson.toJson(pList,List.class).toString());
 		model.addAttribute("cList",JSONArray.fromObject(cList));
 		model.addAttribute("pageTitle", pageTitle);
 		

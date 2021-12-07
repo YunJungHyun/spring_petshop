@@ -11,6 +11,20 @@
 	object-fit: cover;
 }
 
+.p-parent-c-imgBox {
+    border: unset;
+    border-radius: 50%;
+    overflow: hidden;
+    width: 10rem;
+    margin: 0px auto;
+    height: 10rem;
+}
+
+.p-parent-c-imgBox >img {
+    width: -webkit-fill-available;
+    padding: 2rem;
+}
+
 /* before  */
 @media ( min-width : 1200px) {
 	.page>.container {

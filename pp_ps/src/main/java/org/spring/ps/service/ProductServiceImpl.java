@@ -46,4 +46,10 @@ public class ProductServiceImpl implements ProductService{
 		// TODO Auto-generated method stub
 		return productDAO.productUpdate(productVO,path,fileName);
 	}
+	
+	@Override
+	public List<ProductVO> getUserProductList(String ccode, String ccoderef) {
+		// TODO Auto-generated method stub
+		return productDAO.getUserProductList(ccode,ccoderef);
+	}
 }

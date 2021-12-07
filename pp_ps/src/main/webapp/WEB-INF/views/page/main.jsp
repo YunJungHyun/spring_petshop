@@ -31,19 +31,32 @@
 		</a>
 	</div>
 </div>
-<div class="position-relative overflow-hidden text-center"></div>
 
-<div class="d-md-flex flex-md-equal w-100">
- 
-  <div class="bg-light mr-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
-    <div class="my-3 p-3">
-      <h2 class="display-5">Another headline</h2>
-      <p class="lead">And an even wittier subheading.</p>
-    </div>
-    <div class="bg-dark shadow-sm mx-auto" style="width: 80%; height: 300px; border-radius: 21px 21px 0 0;"></div>
-  </div>
+<div class="container my-3">
+	<div class="row justify-content-center">
+		<div class="col-2 text-center">
+			<div class="p-parent-c-imgBox">
+				<img src="/resources/img_main/puppy.png">
+			</div>
+			<h5 class="font-weight-bold">식품</h5>
+		
+		</div><!-- /.col-lg-4 -->
+		<div class="col-2 text-center">
+			<div class="p-parent-c-imgBox">
+				<img src="/resources/img_main/clothes.png">
+			</div>
+			<h5 class="font-weight-bold">의류</h5>
+		
+		</div><!-- /.col-lg-4 -->
+		<div class="col-2 text-center">
+			<div class="p-parent-c-imgBox">
+				<img src="/resources/img_main/toys.png">
+			</div>
+			<h5 class="font-weight-bold">생활</h5>
+			
+		</div><!-- /.col-lg-4 -->
+	</div>
 </div>
-
 <div class="d-md-flex flex-md-equal w-100 my-md-3 pl-md-3">
   <div class="bg-light mr-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
     <div class="my-3 p-3">
