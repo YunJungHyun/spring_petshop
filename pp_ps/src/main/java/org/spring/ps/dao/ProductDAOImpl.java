@@ -8,7 +8,6 @@ import javax.inject.Inject;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.ibatis.session.SqlSession;
-import org.spring.ps.vo.CategoryVO;
 import org.spring.ps.vo.ProductVO;
 import org.springframework.stereotype.Service;
 
@@ -62,11 +61,29 @@ public class ProductDAOImpl implements ProductDAO{
 
 
 	@Override
-	public List<ProductVO> getProductList() {
+	public List<ProductVO> getProductList(String openCcode) {
+
+		
+
 		HashMap<String, String> map = new HashMap();
 
-		String sql =  "SELECT A.pnum,A.pid,A.pname,A.pcnt,A.pccode,B.ccoderef pccoderef,A.pprice,A.pimg FROM product AS A LEFT JOIN category AS B ON A.pccode = B.ccode ORDER BY A.pregdate DESC";
+		String sql =  "SELECT A.pnum,A.pid,A.pname,A.pcnt,A.pccode,B.ccoderef pccoderef,A.pprice,A.pimg FROM product AS A ";
+			sql	+= "LEFT JOIN category AS B ";
+			sql	+="ON A.pccode = B.ccode ";
+			if(openCcode.length() >=3 && openCcode.length() <=4) {
+				sql+="WHERE B.ccoderef = "+openCcode;
+			}else if(openCcode.length() > 4) {
+				
+				String ccoderef =openCcode.substring(0, openCcode.length()/2);
+				String ccode =openCcode.substring(openCcode.length()/2, openCcode.length());
+				
+				sql+="WHERE B.ccoderef = "+ccoderef+" AND B.ccode="+ccode;
+			}else if(openCcode.equals("000")) {
+				
+				sql +="";
+			}
 
+			sql	+= " ORDER BY A.pregdate DESC ";
 		map.put("sql", sql);
 		List<ProductVO> result = sqlSession.selectList(Namespace+".getProductList", map);
 		return result;
@@ -75,16 +92,16 @@ public class ProductDAOImpl implements ProductDAO{
 	@Override
 	public ProductVO getProductOne(String pid) {
 		HashMap<String, String> map = new HashMap();
-		
+
 		String sql = "SELECT  A.pnum,A.pid,A.pname,A.pcnt,A.pccode,B.ccoderef pccoderef,A.pprice,A.pimg,A.pexplicate FROM product  AS A ";
 		sql +="LEFT JOIN category AS B ON a.pccode =b.ccode ";
 		sql	+="WHERE pid = '"+pid+"'";
-		
+
 		map.put("sql", sql);
 		ProductVO result = sqlSession.selectOne(Namespace+".getProductOne", map);		
 		return result;
 	}
-	
+
 	@Override
 	public int productUpdate(ProductVO productVO, String path, String fileName) {
 
@@ -102,13 +119,13 @@ public class ProductDAOImpl implements ProductDAO{
 		int result = sqlSession.update(Namespace+".productRegUpdate", map);
 		return result;
 	}
-	
-	
+
+
 	@Override
 	public List<ProductVO> getUserProductList(String ccode, String ccoderef) {
 		log.debug("[getUserProductList] ccode :"+ccode);
 		log.debug("[getUserProductList] ccoderef :"+ccoderef);
-		
+
 		HashMap<String, String> map = new HashMap();
 
 		String sql =  "SELECT A.pnum,A.pid,A.pname,A.pcnt,A.pccode,B.ccoderef pccoderef,A.pprice,A.pimg FROM product AS A LEFT JOIN category AS B ON A.pccode = B.ccode ORDER BY A.pregdate DESC";

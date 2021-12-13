@@ -1,14 +1,30 @@
 @charset "UTF-8";
 
 a {
-	
-	text-decoration: non;
-	
+	text-decoration: none;
+	color: #000;
 }
 
-.ps-vl-1 {
-    width: 2px;
-    background-color: #fff;
-    border-radius: 30%;
+a:hover {
+	text-decoration: none;
+	color: #000;
 }
 
+button {
+	
+	background-color: unset;
+	border : unset;
+
+}
+
+button:focus{
+	
+	outline: unset;
+}
+
+ul{
+	
+	list-style: none;
+	padding : unset;
+	
+}

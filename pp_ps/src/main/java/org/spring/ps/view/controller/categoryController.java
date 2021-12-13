@@ -7,8 +7,13 @@ import javax.inject.Inject;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.spring.ps.service.CategoryService;
+import org.spring.ps.service.ProductService;
 import org.spring.ps.vo.CategoryVO;
+import org.spring.ps.vo.ProductVO;
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,7 +23,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Controller
-@RequestMapping("/admin/category")
+@RequestMapping("/category")
 public class categoryController {
 
 	
@@ -26,21 +31,46 @@ public class categoryController {
 	
 	@Inject
 	private CategoryService categoryService;
+	@Inject
+	private ProductService productService;
 	
 	
-	@RequestMapping(value= "/getCategoryList", method=RequestMethod.POST)
+	@RequestMapping(value ="/getCategoryList", method=RequestMethod.POST)
 	@ResponseBody
-	public List<CategoryVO> getCategoryList() {
-		
+	public List<CategoryVO> getCategoryList() { 
 		
 		List<CategoryVO> categoryList =categoryService.getCategoryList();
-		
-		log.debug("[getParentCategoryList] parentCList.size() :" +categoryList.size());
-		
-		
+		log.debug("[getCategoryList] categoryList.size() :" +categoryList.size());
 		return categoryList;
 	}
-	@RequestMapping(value= "/categoryInsert", method=RequestMethod.POST)
+	
+	@RequestMapping(value="/{categoryCode}", method=RequestMethod.GET)
+	public String categoryProduct(
+			@PathVariable("categoryCode") String openCcode,
+			@RequestParam(value="page", required= false) String page,
+			@RequestParam(value="sortBy", required= false) String sortBy,
+			Model model
+			) {
+		log.debug("[categoryProduct] openCcode :" +openCcode);
+		log.debug("[categoryProduct] page :" +page);
+		String pageTitle = "제품";  
+		
+		model.addAttribute("pageTitle", pageTitle);
+		
+		List<CategoryVO> cList =categoryService.getCategoryList();
+		
+		List<ProductVO> pList = productService.getProductList(openCcode);
+		
+		model.addAttribute("cList",cList);
+		model.addAttribute("pList",pList);
+		model.addAttribute("openCcode",openCcode);
+		return "user/product/productList.page"; 
+		
+	}
+	
+	
+
+	@RequestMapping(value= "/admin/categoryInsert", method=RequestMethod.POST)
 	@ResponseBody
 	public String categoryInsert(
 			@RequestParam(value="parentCategory") int parentCategory,

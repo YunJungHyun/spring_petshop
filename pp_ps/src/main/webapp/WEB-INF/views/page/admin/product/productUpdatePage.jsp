@@ -216,7 +216,7 @@ $("#product-update-btn").on("click",function(){
 	
 	$.ajax({
 		
-		url :"/admin/product/update",
+		url :"/product/admin/update",
 		data : formData,
 		type : "POST",
 		enctype: 'multipart/form-data',  

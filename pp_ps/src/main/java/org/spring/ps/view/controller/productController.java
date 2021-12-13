@@ -30,7 +30,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Controller
-@RequestMapping("/admin/product")
+@RequestMapping("/product")
 public class productController {
 
 	Log log = LogFactory.getLog(this.getClass());
@@ -41,7 +41,7 @@ public class productController {
 	@Inject
 	private ProductService productService;
 	
-	@RequestMapping(value="/update", method=RequestMethod.POST)
+	@RequestMapping(value="/admin/update", method=RequestMethod.POST)
 	@ResponseBody
 	public int productUpdate(
 			ProductVO productVO,
@@ -95,7 +95,7 @@ public class productController {
 		
 	}
 
-	@RequestMapping(value="/insert" ,method=RequestMethod.POST)
+	@RequestMapping(value="/admin/insert" ,method=RequestMethod.POST)
 	@ResponseBody
 	public int productInsert(
 			ProductVO productVO,

@@ -14,7 +14,7 @@ public interface ProductService {
 	int productRegUpdate(int pnum, String imgPath, String fileName);
 
 
-	List<ProductVO> getProductList();
+	List<ProductVO> getProductList(String openCcode);
 
 
 	ProductVO getProductOne(String pid);

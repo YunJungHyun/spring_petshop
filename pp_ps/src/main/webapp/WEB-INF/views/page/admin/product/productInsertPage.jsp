@@ -206,7 +206,7 @@ $("#product-insert-btn").on("click",function(){
 	
 	 $.ajax({
 		
-		url :"/admin/product/insert",
+		url :"/product/admin/insert",
 		data : formData,
 		type : "POST",
 		enctype: 'multipart/form-data',  

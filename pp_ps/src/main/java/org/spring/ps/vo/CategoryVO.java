@@ -9,7 +9,7 @@ import lombok.ToString;
 @ToString(callSuper=true)
 public class CategoryVO {
 	
-	private int cnum;
+	private int level;
 	private String cname;
 	private String ccode;
 	private String ccoderef;

@@ -19,37 +19,21 @@
 	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
 	crossorigin="anonymous">
 
-
 <style>
-.bd-placeholder-img {
-	font-size: 1.125rem;
-	text-anchor: middle;
-	-webkit-user-select: none; 
-	-moz-user-select: none;
-	-ms-user-select: none;
-	user-select: none;
-}
-
-@media ( min-width : 768px) {
-	.bd-placeholder-img-lg {
-		font-size: 3.5rem;
-	}
-}
 </style>
 <!-- Custom styles for this template -->
-<link href="/resources/css/ps.css"  rel="stylesheet">
-<link href="/resources/css/product.css"  rel="stylesheet">
-<link href="/resources/css/header.css"  rel="stylesheet">
-<link href="/resources/css/page.css" rel="stylesheet">
-<link href="/resources/css/adminPage.css" rel="stylesheet">
-<link href="/resources/css/dropdown.css" rel="stylesheet">
 
- 
+
 <!-- font-awesome  -->
 <script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
 <script src="/resources/js/ckeditorFull/ckeditor.js"></script>
 
-  
+
+<link href="/resources/css/ps.css" rel="stylesheet" type="text/css">
+<link href="/resources/css/dropdown.css" rel="stylesheet" type="text/css">
+<link href="/resources/css/header.css" rel="stylesheet" type="text/css">
+<link href="/resources/css/category.css" rel="stylesheet" type="text/css">
+
 <title>PETSHOP - ${pageTitle}</title>
 
 </head>
@@ -66,17 +50,30 @@
 		src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
 		integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
 		crossorigin="anonymous"></script>
+	
+	
+	<div class="container px-0">
+		<header class="py-3 px-3 ps-header ">
+			<tiles:insertAttribute name="header" />
+		</header>
+		<tiles:insertAttribute name="category" />
+		<tiles:insertAttribute name="body" />
 
-	<tiles:insertAttribute name="header" />
-	<tiles:insertAttribute name="body" />
-	<tiles:insertAttribute name="footer" />
+		<footer>
+			<tiles:insertAttribute name="footer" />
+		</footer>
+	</div>
 </body>
 </html>
 
-
 <script>
+ 
 
+$(".ps-dropdown").hover(function(){
+	 
+	$(this).children("ul").stop().slideToggle(100);
+	
+})
 
 </script>
-
 

@@ -28,10 +28,10 @@ public class ProductServiceImpl implements ProductService{
 		// TODO Auto-generated method stub
 		return productDAO.productRegUpdate(pnum,imgPath,fileName);
 	}
-	@Override
-	public List<ProductVO> getProductList() {
+	@Override 
+	public List<ProductVO> getProductList(String openCcode) {
 		// TODO Auto-generated method stub
-		return productDAO.getProductList();
+		return productDAO.getProductList(openCcode);
 	}
 	
 	

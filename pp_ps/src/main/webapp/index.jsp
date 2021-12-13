@@ -2,4 +2,4 @@
     pageEncoding="UTF-8"%>
 <%-- <jsp:forward page="/sample/openSampleList.do"/> --%>
 
-<jsp:forward page="/view/main/petshop"/>
+<jsp:forward page="/view/petshop"/>

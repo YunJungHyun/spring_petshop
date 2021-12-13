@@ -325,7 +325,7 @@ $("#category-insert-modal").on('show.bs.modal', function (e) {
 	
 	$.ajax({
 		
-		url : "/admin/category/getCategoryList",
+		url : "/category/admin/getCategoryList",
 		type: "POST",
 		success : function(data){
 			
@@ -412,7 +412,7 @@ $("#category-insert-btn").on("click",function(){
 	
 	$.ajax({
 		
-		url: "/admin/category/categoryInsert",
+		url: "/category/admin/categoryInsert",
 		data : categoryData,
 		method: "POST",
 		success: function(data){
