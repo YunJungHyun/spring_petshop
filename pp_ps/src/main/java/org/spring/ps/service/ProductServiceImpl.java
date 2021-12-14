@@ -4,9 +4,8 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import org.json.simple.JSONObject;
 import org.spring.ps.dao.ProductDAO;
-import org.spring.ps.vo.CategoryVO;
+import org.spring.ps.vo.PagingVO;
 import org.spring.ps.vo.ProductVO;
 import org.springframework.stereotype.Service;
 
@@ -29,9 +28,15 @@ public class ProductServiceImpl implements ProductService{
 		return productDAO.productRegUpdate(pnum,imgPath,fileName);
 	}
 	@Override 
-	public List<ProductVO> getProductList(String openCcode) {
+	public List<ProductVO> getProductList(String openCcode ,PagingVO pagingVO) {
 		// TODO Auto-generated method stub
-		return productDAO.getProductList(openCcode);
+		return productDAO.getProductList(openCcode , pagingVO);
+	}
+	
+	@Override
+	public int countProduct(String openCcode) {
+		// TODO Auto-generated method stub
+		return productDAO.countProduct(openCcode);
 	}
 	
 	

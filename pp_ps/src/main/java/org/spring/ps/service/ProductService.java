@@ -2,8 +2,7 @@ package org.spring.ps.service;
 
 import java.util.List;
 
-import org.json.simple.JSONObject;
-import org.spring.ps.vo.CategoryVO;
+import org.spring.ps.vo.PagingVO;
 import org.spring.ps.vo.ProductVO;
 
 public interface ProductService {
@@ -14,7 +13,7 @@ public interface ProductService {
 	int productRegUpdate(int pnum, String imgPath, String fileName);
 
 
-	List<ProductVO> getProductList(String openCcode);
+	List<ProductVO> getProductList(String openCcode, PagingVO pagingVO);
 
 
 	ProductVO getProductOne(String pid);
@@ -24,6 +23,9 @@ public interface ProductService {
 
 
 	List<ProductVO> getUserProductList(String ccode, String ccoderef);
+
+
+	int countProduct(String openCcode);
 
 
 

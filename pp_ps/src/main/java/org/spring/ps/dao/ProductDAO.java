@@ -2,8 +2,7 @@ package org.spring.ps.dao;
 
 import java.util.List;
 
-import org.json.simple.JSONObject;
-import org.spring.ps.vo.CategoryVO;
+import org.spring.ps.vo.PagingVO;
 import org.spring.ps.vo.ProductVO;
 
 public interface ProductDAO {
@@ -12,13 +11,15 @@ public interface ProductDAO {
 
 	int productRegUpdate(int pnum,String imgPath, String fileName);
 
-	List<ProductVO> getProductList(String openCcode);
+	List<ProductVO> getProductList(String openCcode ,PagingVO pagingVO);
 
 	ProductVO getProductOne(String pid);
 
 	int productUpdate(ProductVO productVO, String path, String fileName);
 
-	List<ProductVO> getUserProductList(String ccode, String ccoderef); 
+	List<ProductVO> getUserProductList(String ccode, String ccoderef);
+
+	int countProduct(String openCcode); 
 
 
 

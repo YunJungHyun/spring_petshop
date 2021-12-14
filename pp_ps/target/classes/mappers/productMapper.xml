@@ -41,9 +41,17 @@
 	
 	<select id="getProductList" parameterType="HashMap" resultType="productVO">
 		<![CDATA[ 
+ 			
+ 			
  			${sql}
 		]]>
 		
+	</select>
+	
+	<select id ="countProduct" parameterType="HashMap" resultType="int">
+		<![CDATA[ 
+ 			${sql}
+		]]>
 	</select>
 	
 	<select id="getUserProductList" parameterType="HashMap" resultType="productVO">

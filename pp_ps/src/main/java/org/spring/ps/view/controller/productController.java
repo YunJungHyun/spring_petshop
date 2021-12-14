@@ -3,23 +3,19 @@ package org.spring.ps.view.controller;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Random;
 
 import javax.annotation.Resource;
 import javax.inject.Inject;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 import org.spring.ps.service.ProductService;
 import org.spring.ps.utils.UploadFileUtils;
 import org.spring.ps.vo.ProductVO;
-import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -41,6 +37,19 @@ public class productController {
 	@Inject
 	private ProductService productService;
 	
+	@RequestMapping(value="/{pid}", method=RequestMethod.GET)
+	public String product(
+			Model model,
+			@PathVariable("pid") String pid
+			) {
+		
+		ProductVO pvo = productService.getProductOne(pid);
+		model.addAttribute("pvo",pvo);
+		String pageTitle = pvo.getPname();  
+		model.addAttribute("pageTitle", pageTitle);
+		
+		return "user/product/product.page";
+	}
 	@RequestMapping(value="/admin/update", method=RequestMethod.POST)
 	@ResponseBody
 	public int productUpdate(

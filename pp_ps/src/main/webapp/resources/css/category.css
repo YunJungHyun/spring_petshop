@@ -56,3 +56,43 @@
 .category-li-span {
 	border-bottom: 1px solid #ccc;
 }
+
+.category-page-name {
+	border-bottom: 1px solid #cccccc73;
+	font-weight: bold;
+	font-size: 1rem;
+	line-height: 3;
+	text-indent: 10px;
+}
+
+.category-page-cnt {
+	font-size: .75rem;
+	border-bottom: 1px solid #ccc;
+	line-height: 3;
+	font-weight: 500;
+	text-indent: 10px;
+}
+
+.product-list {
+	padding-right: unset;
+}
+
+.product-img-box-1 {
+	width: 100%;
+	height: 260px;
+	border-radius: 8px;
+	overflow: hidden;
+	text-align: center;
+}
+
+.product-img-box-1>img {
+	width: -webkit-fill-available;
+	height: inherit;
+	object-fit: cover;
+}
+.sort-select{
+	
+	width: 120px;
+    font-size: 12px;
+    font-weight: bold;
+}

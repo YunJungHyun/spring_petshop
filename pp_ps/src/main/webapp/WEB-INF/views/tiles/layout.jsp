@@ -33,6 +33,7 @@
 <link href="/resources/css/dropdown.css" rel="stylesheet" type="text/css">
 <link href="/resources/css/header.css" rel="stylesheet" type="text/css">
 <link href="/resources/css/category.css" rel="stylesheet" type="text/css">
+<link href="/resources/css/product.css" rel="stylesheet" type="text/css">
 
 <title>PETSHOP - ${pageTitle}</title>
 

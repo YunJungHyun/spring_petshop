@@ -1,0 +1,15 @@
+@charset "UTF-8";
+
+.product-img-box-2{
+	
+	width : 100%;
+	border-radius: 8px;
+	overflow: hidden;
+	text-align: center;
+}
+
+.product-img-box-2>img {
+	width: -webkit-fill-available;
+	height: inherit;
+	object-fit: cover;
+}

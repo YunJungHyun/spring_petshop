@@ -9,8 +9,8 @@ import org.apache.commons.logging.LogFactory;
 import org.spring.ps.service.CategoryService;
 import org.spring.ps.service.ProductService;
 import org.spring.ps.vo.CategoryVO;
+import org.spring.ps.vo.PagingVO;
 import org.spring.ps.vo.ProductVO;
-import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -46,23 +46,37 @@ public class categoryController {
 	
 	@RequestMapping(value="/{categoryCode}", method=RequestMethod.GET)
 	public String categoryProduct(
+			PagingVO pagingVO,
 			@PathVariable("categoryCode") String openCcode,
 			@RequestParam(value="page", required= false) String page,
 			@RequestParam(value="sortBy", required= false) String sortBy,
 			Model model
 			) {
-		log.debug("[categoryProduct] openCcode :" +openCcode);
-		log.debug("[categoryProduct] page :" +page);
-		String pageTitle = "제품";  
 		
-		model.addAttribute("pageTitle", pageTitle);
+		if(page == null ) {
+			
+			page = "1";
+		}
+		
+		int total = productService.countProduct(openCcode);
+		
+		pagingVO = new PagingVO(total , Integer.parseInt(page) );
+		log.debug("[categoryProduct] total "+openCcode+" :"+total);
+		log.debug("[categoryProduct] start/ end "+pagingVO.getStart()+" :"+pagingVO.getEnd());
 		
 		List<CategoryVO> cList =categoryService.getCategoryList();
 		
-		List<ProductVO> pList = productService.getProductList(openCcode);
+		List<ProductVO> pList = productService.getProductList(openCcode,pagingVO);
 		
+		log.debug("[categoryProduct] pList.size() :"+pList.size());
+	
+		String pageTitle = "제품";  
+		model.addAttribute("pageTitle", pageTitle);
+		model.addAttribute("pTotal", total);
 		model.addAttribute("cList",cList);
 		model.addAttribute("pList",pList);
+		model.addAttribute("paging",pagingVO);
+		
 		model.addAttribute("openCcode",openCcode);
 		return "user/product/productList.page"; 
 		
