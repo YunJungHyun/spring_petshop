@@ -17,9 +17,9 @@ public class UserServiceImpl implements UserService{
 	
 	
 	@Override
-	public int userPetShopSignUp(JSONObject jsonUserData) {
+	public int userPetShopSignUp(UserVO userVO) {
 		
-		return userDAO.userPetShopSignUp(jsonUserData);
+		return userDAO.userPetShopSignUp(userVO);
 		 
 	} 
 

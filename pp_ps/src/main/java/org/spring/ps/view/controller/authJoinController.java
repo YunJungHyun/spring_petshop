@@ -1,40 +1,23 @@
 package org.spring.ps.view.controller;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.HashMap;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.json.simple.JSONObject;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 
 @Controller
 @RequestMapping(value="/auth")
-public class signUpController {
+public class authJoinController {
 	
 	Log log = LogFactory.getLog(this.getClass());
 	
-	@RequestMapping(value = "/{signUpType}")
-	public String intro( @PathVariable("signUpType") String signUpType) throws Exception{
+	@RequestMapping(value = "/{type}")
+	public String intro( @PathVariable("type") String type) throws Exception{
 		
 		String reqUrl ="";
-		log.debug("signUpType : "+signUpType);
-		switch(signUpType) {
+		log.debug("type : "+type);
+		switch(type) {
 		
 			case "kakao":
 				

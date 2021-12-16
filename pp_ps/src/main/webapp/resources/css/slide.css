@@ -1,0 +1,18 @@
+@charset "UTF-8";
+
+.ps-login-slide-item {
+	height: 10rem;
+	border-radius: 50%;
+	overflow: hidden;
+	width: 10rem;
+}
+.ps-login-slide-inner {
+    width: 10rem;
+    margin: 0px auto;
+    border-radius: 50%;
+}
+
+.ps-login-slide-item > img {
+    object-fit: cover;
+    height: inherit;
+}

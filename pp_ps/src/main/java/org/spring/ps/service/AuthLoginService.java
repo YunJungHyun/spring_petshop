@@ -1,11 +1,12 @@
 package org.spring.ps.service;
 
-import org.json.simple.JSONObject;
-import org.springframework.stereotype.Service;
+import java.util.HashMap;
+
+import org.spring.ps.vo.UserVO;
 
 
 public interface AuthLoginService {
 
 	
-	JSONObject authJoinInfo( JSONObject jsonUserInfo) ;
+	UserVO authJoinInfo(HashMap<String, Object> userInfo) ;
 }

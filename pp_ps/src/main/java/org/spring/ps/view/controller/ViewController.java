@@ -49,6 +49,50 @@ public class ViewController {
 
 		return "home.page"; 
 	}
-
+	
+	@RequestMapping(value="/login")
+	public String userLogin(Model model) {
+		
+		log.debug("[userLogin]");
+		
+		String pageTitle = "LOGIN";
+		model.addAttribute("pageTitle",pageTitle);
+		
+		
+		return "user/join/login.page";
+	}
+	@RequestMapping(value="/signUpSort")
+	public String signUpSort(Model model) {
+		
+		log.debug("[signUp]");
+		
+		String pageTitle = "회원가입유형";
+		model.addAttribute("pageTitle",pageTitle);
+		
+		
+		return "user/join/signUpSort.page";
+	}
+	@RequestMapping(value="/signUp")
+	public String signUp(Model model) {
+		
+		log.debug("[signUp]");
+		
+		String pageTitle = "PETSHOP 회원가입";
+		model.addAttribute("pageTitle",pageTitle);
+		
+		 
+		return "user/join/signUp.page";
+	}
+	@RequestMapping(value="/signUpAfter")
+	public String signUpAfter(Model model) {
+		
+		log.debug("[signUpAfter]");
+		
+		String pageTitle = "PETSHOP 회원가입 완료";
+		model.addAttribute("pageTitle",pageTitle);
+		
+		
+		return "user/join/signUpAfter.page";
+	}
 
 }

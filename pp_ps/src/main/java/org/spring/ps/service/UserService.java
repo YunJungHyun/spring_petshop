@@ -7,7 +7,7 @@ import org.spring.ps.vo.UserVO;
 
 public interface UserService {
 	
-	int userPetShopSignUp(JSONObject jsonUserData);
+	int userPetShopSignUp(UserVO userVO);
 	
 	int petShopIdCheck(String userid);
 

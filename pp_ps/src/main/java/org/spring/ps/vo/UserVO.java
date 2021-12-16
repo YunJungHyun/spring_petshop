@@ -18,11 +18,15 @@ public class UserVO {
 	private String userid;
 	private String userpw;
 	private String username;
+	private String uemail;
 	private String uadress;
 	
-    private String user_pet_info;
-    private String user_prod_info;
-    
+	private String ubasket;
+	private String ulike;
+	private String ubuy;
+	private int ulevel;
+	private String utype;
+
    
 }
 

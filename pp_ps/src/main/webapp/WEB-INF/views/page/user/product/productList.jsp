@@ -2,6 +2,14 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<style>
+.product-one:hover{
+	
+	cursor:pointer;
+
+}
+</style>
+
 
 <div class="page d-flex px-0">
 	<div class="category-menu col-2 px-0 border-right ">

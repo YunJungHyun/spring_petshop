@@ -27,15 +27,14 @@ public class UserDAOImpl implements UserDAO {
 	private static final String Namespace = "org.spring.ps.mapper.userMapper";
 	
 	@Override
-	public UserVO getOneUserInfo(String userid) {
+	public UserVO getOneUserInfo(HashMap<String,Object> userInfo) {
 		
 		HashMap<String, String> map = new HashMap();
 		
-		String sql = "SELECT * FROM user WHERE userid = '"+userid+"'";
+		String sql = "SELECT * FROM user WHERE userid = '"+userInfo.get("userid")+"' "
+				+ "AND utype = '"+userInfo.get("utype")+"'";
 		
-		
-
-
+	
 		map.put("sql", sql);
 		
 		UserVO result  = sqlSession.selectOne(Namespace+".getOneUserInfo", map);
@@ -48,77 +47,34 @@ public class UserDAOImpl implements UserDAO {
 	}
 	
 	@Override
-	public void authSignUp(JSONObject jsonUserInfo) {
+	public void authSignUp(HashMap<String,Object> userInfo) {
 		HashMap<String, String> map = new HashMap();
-		log.debug("[authSignUp jsonUserInfo] :" +jsonUserInfo.get("userid")+","+jsonUserInfo.get("username"));
 		
+		log.debug("[authSignUp] userInfo.toString():" +userInfo.toString());
 		String sql ="INSERT INTO "
-				+ "user(userid,username,user_pet_info,user_prod_info) "
-				+ "VALUES ('"+jsonUserInfo.get("userid")+"','"+jsonUserInfo.get("username")+"',JSON_OBJECT('PET','none'),JSON_OBJECT('BASKETLIST','none','WISHLIST','none','PURCHASELIST','none'))";			
+				+ "user(userid,username,uemail,ulevel,utype) "
+				+ "VALUES ('"+userInfo.get("userid")+"','"+userInfo.get("username")+"','"+userInfo.get("uemail")+"',1,'"+userInfo.get("utype")+"'"
+							
+						+ ")";			
 		map.put("sql", sql);
+		
+		log.debug("[authSignUp] sql :" +sql);
 		int result  = sqlSession.insert(Namespace+".authSignUp", map);
 		
-		log.debug("[authSignUp result] :" +result);
+		//log.debug("[authSignUp result] :" +result);
 	}
 	
 	
 	@Override
-	public int userPetShopSignUp(JSONObject jsonUserData) {
+	public int userPetShopSignUp(UserVO userVO) {
 		HashMap<String, String> map = new HashMap();
 		
-		
-		String sql = "INSERT INTO user(userid,userpw,username,user_prod_info,user_pet_info) VALUES ("
-				+ "'"+jsonUserData.get("userid")+"','"+jsonUserData.get("userpw")+"','"+jsonUserData.get("username")+"'"
-				+",JSON_OBJECT('BASKETLIST','none','WISHLIST','none','PURCHASELIST','none') ,";
-		
-		
-		if(jsonUserData.get("pet").equals("none")) {
-			log.debug("[userPetShopSignUp] jsonUserData pet none:"+jsonUserData);
-			
-			sql += "JSON_OBJECT('PET','none'))";
-			
-			log.debug(sql);
-			
-		}else {
-			
-			log.debug("[userPetShopSignUp] jsonUserData pet has :"+jsonUserData);
-			String jsonString =jsonUserData.toString();
-		
-			JsonParser parser = new JsonParser();
-			JsonElement element =parser.parse(jsonString);
-		
-			JsonObject pet  = element.getAsJsonObject().get("pet").getAsJsonObject();
-			sql += "JSON_OBJECT('PET',JSON_OBJECT(";
-			
-			
-			for(int i = 1 ; i <= pet.size() ; i++) {
-				
-				
-				JsonObject pet_info_oneLine =pet.getAsJsonObject().get("pet_info_"+i).getAsJsonObject();
-				
-				String pet_sort =pet_info_oneLine.getAsJsonObject().get("pet_sort").getAsString();
-				String pet_gender =pet_info_oneLine.getAsJsonObject().get("pet_gender").getAsString();
-				String pet_birth =pet_info_oneLine.getAsJsonObject().get("pet_birth").getAsString();
-				String pet_name =pet_info_oneLine.getAsJsonObject().get("pet_name").getAsString();
-				
-				String pet_info_oneLine_str = "'pet_info_"+i+"',JSON_OBJECT('pet_sort','"+pet_sort+"','pet_gender','"+pet_gender+"','pet_birth','"+pet_birth+"','pet_name','"+pet_name+"')";
-				
-				if(i < pet.size()) {
-					pet_info_oneLine_str += " , ";
-				}
-				sql+= pet_info_oneLine_str;
-			}
-			
-			sql += ")))";
-			
-			log.debug(sql);
-		}
-		 
-		
+		String sql = "INSERT INTO user(userid, username,userpw,uemail ,ulevel ,utype) ";
+			sql += "VALUES('"+userVO.getUserid()+"','"+userVO.getUsername()+"','"+userVO.getUserpw()+"','"+userVO.getUemail()+"',"+userVO.getUlevel()+",'"+userVO.getUtype()+"')";
+	
 		map.put("sql", sql);
 		int result  = sqlSession.insert(Namespace+".userPetShopSignUp", map);
 		
-		log.debug("[userPetShopSignUp result] :" +result);
 		
 		return result;
 	}
@@ -129,9 +85,10 @@ public class UserDAOImpl implements UserDAO {
 		
 		String sql = "SELECT COUNT(*) "
 					+"FROM USER "
-					+"WHERE userid = '"+userid+"'";
+					+"WHERE userid = '"+userid+"' "
+					+"AND utype = 'ps'";
 		
-		map.put("sql", sql);
+		map.put("sql", sql); 
 		
 		int result = sqlSession.selectOne(Namespace+".petShopIdCheck", map);
 		return result;
@@ -144,7 +101,8 @@ public class UserDAOImpl implements UserDAO {
 		String sql="SELECT * "
 				+"FROM USER "
 				+"WHERE userid ='"+userid+"' "
-				+"AND userpw = '"+userpw+"' ";
+				+"AND userpw = '"+userpw+"' "
+				+"AND utype = 'ps'";
 		
 		map.put("sql", sql);
 		

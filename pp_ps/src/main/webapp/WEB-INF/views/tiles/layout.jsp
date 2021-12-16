@@ -34,6 +34,8 @@
 <link href="/resources/css/header.css" rel="stylesheet" type="text/css">
 <link href="/resources/css/category.css" rel="stylesheet" type="text/css">
 <link href="/resources/css/product.css" rel="stylesheet" type="text/css">
+<link href="/resources/css/join.css" rel="stylesheet" type="text/css">
+<link href="/resources/css/slide.css" rel="stylesheet" type="text/css">
 
 <title>PETSHOP - ${pageTitle}</title>
 
@@ -75,6 +77,18 @@ $(".ps-dropdown").hover(function(){
 	$(this).children("ul").stop().slideToggle(100);
 	
 })
+//auth 로그인 및 회원가입
+function authLogin(auth_sort){
+	$.ajax({
+		
+		url : "/join/getAuthUrl/"+auth_sort,
+		success :function(data){
+		
+			location.href=data;
+		}
+	})
+	
+}
 
 </script>
 

@@ -12,6 +12,29 @@
 	
 		<a class="ps-logo" href="/"><i class="fas fa-paw"></i>&nbsp;PetShop</a>
 	</div>
+	<c:if test="${userInfo == null }">
+	<div class="col-4 d-flex justify-content-end align-items-center">		
+		<div class="ps-dropdown">
+			<a href="#" class="my-menu-btn"><i class="fas fa-user"></i></a>
+			<ul class="ps-dropdown-content my-menu-content list-group">
+				<li class="dropdown-li p-2 my-2">
+					<a href="/view/login">장바구니</a>
+				</li>
+				<li class="dropdown-li p-2 my-2">
+					<a href="/view/login">찜목록</a>
+				</li>
+				<li class="dropdown-li p-2 my-2">
+					<a href="/view/login">로그인</a> 
+				</li>
+				
+				<li  class="dropdown-li p-2 my-2"> 
+					<a href="/view/signUpSort">회원가입</a>
+				</li>
+			</ul>
+		</div>
+	</div> 
+	</c:if>
+	<c:if test="${userInfo != null && userInfo.ulevel == 1}">
 	<div class="col-4 d-flex justify-content-end align-items-center">		
 		<div class="ps-dropdown">
 			<a href="#" class="my-menu-btn"><i class="fas fa-user"></i></a>
@@ -23,14 +46,32 @@
 					<a href="#">찜목록</a>
 				</li>
 				<li class="dropdown-li p-2 my-2">
-					<a href="#">로그인</a> 
+					<a href="/join/logout">로그아웃</a> 
 				</li>
-				<li  class="dropdown-li p-2 my-2"> 
-					<a href="#">회원가입</a>
-				</li>
+				
+			
 			</ul>
 		</div>
 	</div> 
+	</c:if>
+	<c:if test="${userInfo != null && userInfo.ulevel == 2}">
+	<div class="col-4 d-flex justify-content-end align-items-center">		
+		<div class="ps-dropdown">
+			<a href="#" class="my-menu-btn"><i class="fas fa-user"></i></a>
+			<ul class="ps-dropdown-content my-menu-content list-group">
+				<li class="dropdown-li p-2 my-2">
+					<a href="/adminView/management">관리자 페이지</a>
+				</li>
+				
+				<li class="dropdown-li p-2 my-2">
+					<a href="/join/logout">로그아웃</a> 
+				</li>
+				 
+			
+			</ul>
+		</div>
+	</div> 
+	</c:if>
 </div> 
 
 

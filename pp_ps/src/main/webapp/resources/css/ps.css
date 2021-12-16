@@ -11,20 +11,22 @@ a:hover {
 }
 
 button {
-	
 	background-color: unset;
-	border : unset;
-
+	border: unset;
 }
 
-button:focus{
-	
+button:focus {
 	outline: unset;
 }
 
-ul{
-	
+ul {
 	list-style: none;
-	padding : unset;
-	
+	padding: unset;
+}
+
+.division-line-1 {
+	border-right: 1px solid  #ced4da;
+	margin: 0.5rem;
+	width: 1px;
+	height: 0.5rem;
 }

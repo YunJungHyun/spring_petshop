@@ -16,6 +16,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.json.simple.JSONObject;
 import org.spring.ps.service.AuthLoginService;
+import org.spring.ps.vo.UserVO;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -55,14 +56,14 @@ public class kakaoOauth {
 
 		HashMap<String, Object> userInfo = getUserInfo(access_Token);
 	
-		JSONObject jsonUserInfo =  new JSONObject(userInfo);
 		
 		
-		jsonUserInfo =authLoginService.authJoinInfo(jsonUserInfo);
+		UserVO userVO =authLoginService.authJoinInfo(userInfo);
 		
 		
-		log.debug("[oauthKakao] jsonUserInfo :"+ jsonUserInfo.toJSONString());
-		session.setAttribute("userInfo", jsonUserInfo);
+		log.debug("[oauthKakao] jsonUserInfo :"+ userVO.toString());
+		session.setAttribute("userInfo", userVO);
+		session.setAttribute("access_token", access_Token);
 	
 		return "redirect:/"; //본인 원하는 경로 설정
 	}
@@ -71,12 +72,14 @@ public class kakaoOauth {
 	public String auth_Logout(
 			HttpSession session
 			) throws Exception {
-		JSONObject userInfo = (JSONObject)session.getAttribute("userInfo"); 
-		String access_Token = (String)userInfo.get("access_token");
+		UserVO userInfo = (UserVO)session.getAttribute("userInfo"); 
+		String access_token = (String)session.getAttribute("access_token");
+		log.debug("[auth_Logout] access_Token:" +access_token);
 		
-		kakao_logout(access_Token);
+		kakao_logout(access_token);
 		
 		session.removeAttribute("userInfo");
+		session.removeAttribute("access_token");
 		
 		return "redirect:/"; //본인 원하는 경로 설정
 	}
@@ -181,11 +184,13 @@ public class kakaoOauth {
 	            
 	            userInfo.put("userid", id);
 	            userInfo.put("username", name);
-	            userInfo.put("useremail", email);
+	            userInfo.put("uemail", email);
+	            userInfo.put("utype", "kakao");
+	            userInfo.put("ulevel", "1");
 	            
 	            
 	            userInfo.put("access_token", access_Token);
-
+ 
 	        } catch (IOException e) {
 	            // TODO Auto-generated catch block
 	            e.printStackTrace();

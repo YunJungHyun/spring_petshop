@@ -41,7 +41,8 @@ public class JoinController {
 
 	// oauth_join
 	@RequestMapping(value = "/getAuthUrl/{oauth_sort}")
-	public @ResponseBody String getKakaoAuthUrl(
+	@ResponseBody
+	public String getKakaoAuthUrl(
 			HttpServletRequest request,
 			@PathVariable("oauth_sort") String oauth_sort) throws Exception {
 
@@ -82,7 +83,48 @@ public class JoinController {
 		return REQ_URL; //본인 원하는 경로 설정
 	}
 
+	@RequestMapping(value="/petShop/login")
+	@ResponseBody
+	public String petShopLogin(
+			@RequestParam(value="userid") String userid,
+			@RequestParam(value="userpw") String userpw,
+			HttpServletRequest request
+			) {
 
+
+		log.debug("[petShopLogin] input userid ,userpw : "+userid+","+userpw);
+		String loginResult = "";
+		int idResult= userService.petShopIdCheck(userid);
+		
+		HttpSession session = request.getSession();
+		
+		
+		if(idResult >= 1) {
+			
+			//비밀번호 체크
+			UserVO userVO = userService.petShopLogin(userid, userpw);
+			
+			if(userVO == null) {
+				
+				loginResult="pwFail";
+				session.setAttribute("userInfo", null);
+			
+			}else {
+				
+				session.setAttribute("userInfo", userVO);
+				loginResult ="success";
+			}
+		}else {
+			
+			session.setAttribute("userInfo", null);
+			loginResult = "idFail";
+		}
+		
+		log.debug("[petShopLogin] : "+ loginResult);
+
+		return loginResult;
+	}
+	
 
 	@RequestMapping(value="/logout")
 	public String logout_sort(
@@ -91,102 +133,35 @@ public class JoinController {
 			) {
 
 
-		JSONObject userInfo = (JSONObject)session.getAttribute("userInfo"); 
-		log.debug("userInfo.toJSONString() :" +userInfo.toJSONString());
-		String userid =(String) userInfo.get("userid");
-
-		if(userid.contains("k_")) {
-
-
-
-			return "redirect:/oauth_kakao/logout";
-
-		}else if(userid.contains("n_")) {
-
-
-			return "redirect:/oauth_naver/logout";
-
-		}else {
-
-
-			session.removeAttribute("userInfo");
-
+		UserVO userInfo =(UserVO)session.getAttribute("userInfo"); 
+		if(userInfo == null) {
+			
+			return "redirect:/";
+		}else { 
+			log.debug("userInfo.toString() :" +userInfo.toString());
+			String utype =(String) userInfo.getUtype();
+			
+			
+			if(utype.equals("ps")) {
+			
+				session.removeAttribute("userInfo");
+			}else if(utype.equals("kakao")) {
+			
+				return "redirect:/oauth_kakao/logout";
+			}else if(utype.equals("naver")) {
+			
+			
+				return "redirect:/oauth_naver/logout";
+			 
+			}
 		}
+		
 		return "redirect:/";
 	}
 
-
-	@RequestMapping(value="/petShop" , method=RequestMethod.POST)
-	@ResponseBody
-	public int join_petShop (@RequestParam Map<String, Object> userData) {
-
-
-
-		JSONObject jsonUserData = new JSONObject();
-		JSONObject jsonPetData = new JSONObject();
-		Map<String,Object> map_PetData= new HashedMap();
-
-		log.debug("[join_petShop] Map<String, Object> userData : "+userData.toString());
-		for(Map.Entry<String, Object> entry : userData.entrySet()) {
-
-			log.debug("key : "+entry.getKey()+" / value : "+entry.getValue());
-
-			if(entry.getKey().contains("pet[")) {
-				map_PetData.put(entry.getKey(), entry.getValue());
-
-			}else {
-
-				jsonUserData.put(entry.getKey(), entry.getValue());
-			}
-		}
-		if(map_PetData.size() >=1) {
-			for(int i = 1 ; i <= map_PetData.size()/4 ; i++) {
-
-				String pet_info_number = "pet_info_"+i;
-
-				HashMap<String, Object > pet_info_one = new HashMap<String, Object >();
-
-				for(Map.Entry<String, Object> entry : map_PetData.entrySet()) {
-
-					if(entry.getKey().contains(pet_info_number)) {
-						log.debug(i+" [map_PetData] key : "+entry.getKey()+" / value : "+entry.getValue());
-
-						if(entry.getKey().contains("pet_name")) {
-							pet_info_one.put("pet_name", entry.getValue());
-						}else if(entry.getKey().contains("pet_sort")) {
-							pet_info_one.put("pet_sort", entry.getValue());
-
-						}else if(entry.getKey().contains("pet_birth")) {
-							pet_info_one.put("pet_birth", entry.getValue());
-
-						}else if(entry.getKey().contains("pet_gender")) {
-							pet_info_one.put("pet_gender", entry.getValue());
-
-						}
-					}
-				}
-
-				//log.debug(i+"pet_info_one.toString() :"+pet_info_one.toString());
-
-				jsonPetData.put(pet_info_number, pet_info_one);
-			}
-
-			jsonUserData.put("pet", jsonPetData);
-
-		}else {
-
-			jsonUserData.put("pet", "none");
-		}
-		log.debug(jsonPetData);
-		log.debug(jsonUserData);
-
-		int result = userService.userPetShopSignUp(jsonUserData);
-		
-		return result;
-
-	}
-
-	@RequestMapping(value="/petShop/idCheck")
+	
+	
+	@RequestMapping(value="/idCheck")
 	@ResponseBody
 	public int petShopIdChk(
 			@RequestParam(value="userid") String userid
@@ -199,111 +174,33 @@ public class JoinController {
 		log.debug("[petShopIdChk] input result : "+result+" 결과가 1이라면 중복");
 		return result;
 	}
-	@RequestMapping(value="/petShop/login")
+
+	
+	@RequestMapping(value="/signUp")
 	@ResponseBody
-	public String petShopLogin(
-			@RequestParam(value="userid") String userid,
-			@RequestParam(value="userpw") String userpw
+	public String signUp(
+			UserVO userVO,
+			HttpServletRequest request
 			) {
+ 
+		
+		log.debug("[signUp] userVO : "+userVO.toString());
 
-
-		log.debug("[petShopLogin] input userid ,userpw : "+userid+","+userpw);
-		HashMap<String, Object> userInfo = new HashMap<String, Object>();
-		int resultCnt1= userService.petShopIdCheck(userid);
-
-		String resultStr= "";
-		if(resultCnt1 >=1 ) {
-
-			log.debug("[petShopLogin] : 아이디가 존재함" );
-			//resultStr ="idFound";
-			UserVO userVO= userService.petShopLogin(userid,userpw);
-
-			if(userVO == null) {
-
-				log.debug("[petShopLogin] : 비밀번호가 틀림" );
-
-				resultStr ="pwError";
-			}else{
-
-				log.debug("[petShopLogin] : 로그인 성공" );
-				userInfo.put("userid", userVO.getUserid());
-				userInfo.put("username", userVO.getUsername());
-				userInfo.put("uaddress", userVO.getUadress());
-				userInfo.put("user_pet_info", userVO.getUser_pet_info());
-				userInfo.put("state", "normal");
-
-				JSONObject jsonUserInfo =  new JSONObject(userInfo);
-
-				//log.debug(userInfo.toString());
-				//log.debug(jsonUserInfo.toJSONString());
-				session.setAttribute("userInfo", jsonUserInfo);
-				resultStr="loginSuccess";
-			}
-
-
+		int result = userService.userPetShopSignUp(userVO);
+		HttpSession session = request.getSession();
+		
+		String resultStr = "";
+		if(result == 1) {
+			resultStr ="success";
+			UserVO userInfo = userService.petShopLogin(userVO.getUserid(), userVO.getUserpw());
+			session.setAttribute("userInfo", userVO);
+		
 		}else {
-
-
-			log.debug("[petShopLogin] : 아이디가 존재 하지않음");
-			resultStr ="idNotFound";
+			resultStr ="fail";
+			session.setAttribute("userInfo", null);
 		}
-
-
-
-		return resultStr;
-	}
-	@RequestMapping(value="/admin/login")
-	@ResponseBody
-	public String adminLogin(
-			@RequestParam(value="adminid") String adminid,
-			@RequestParam(value="adminpw") String adminpw
-			) {
-		
-		
-		log.debug("[adminLogin] input adminid ,adminpw : "+adminid+","+adminpw);
-		int resultCnt1= adminService.adminIdCheck(adminid);
-		HashMap<String, Object> adminInfo = new HashMap<String, Object>();
-		
-		String resultStr= "";
-		if(resultCnt1 >=1 ) {
-			
-			log.debug("[adminLogin] : 아이디가 존재함" );
-			//resultStr ="idFound";
-			AdminVO adminVO= adminService.adminLogin(adminid,adminpw);
-			
-			if(adminVO == null) {
-				
-				log.debug("[adminLogin] : 비밀번호가 틀림" );
-				
-				resultStr ="pwError";
-			}else{
-				 
-				log.debug("[adminLogin] : 로그인 성공" );
-				adminInfo.put("userid", adminVO.getAdminid());
-				adminInfo.put("username", adminVO.getAdminname()+" 관리자님");
-				adminInfo.put("state", "super");
-				
-				
-				
-				JSONObject jsonAdminInfo =  new JSONObject(adminInfo);
-				
-				//log.debug(userInfo.toString());
-				//log.debug(jsonUserInfo.toJSONString());
-				session.setAttribute("userInfo", jsonAdminInfo);
-				resultStr="loginSuccess";
-			}
-			
-			
-		}else {
-			
-			
-			log.debug("[adminLogin] : 아이디가 존재 하지않음");
-			resultStr ="idNotFound";
-		}
-		
-		
-		
 		return resultStr;
 	}
 
+	
 }

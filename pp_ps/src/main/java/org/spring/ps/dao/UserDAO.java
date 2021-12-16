@@ -1,19 +1,19 @@
 package org.spring.ps.dao;
 
+import java.util.HashMap;
 import java.util.List;
 
-import org.json.simple.JSONObject;
 import org.spring.ps.vo.UserVO;
 
 public interface UserDAO {
 	
 	
 	
-	UserVO getOneUserInfo(String userid) ;
+	UserVO getOneUserInfo(HashMap<String,Object> userInfo) ;
 
-	void authSignUp(JSONObject jsonUserInfo);
+	void authSignUp(HashMap<String,Object> userInfo);
 
-	int userPetShopSignUp(JSONObject jsonUserData);
+	int userPetShopSignUp(UserVO jsonUserData);
 
 	int petShopIdCheck(String userid);
 
@@ -22,3 +22,4 @@ public interface UserDAO {
 	List<UserVO> getUserList();
 
 }
+ 

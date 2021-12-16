@@ -1,10 +1,11 @@
 package org.spring.ps.service;
 
+import java.util.HashMap;
+
 import javax.inject.Inject;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.json.simple.JSONObject;
 import org.spring.ps.dao.UserDAO;
 import org.spring.ps.vo.UserVO;
 import org.springframework.stereotype.Service;
@@ -19,34 +20,33 @@ public class AuthLoginServiceImpl implements AuthLoginService {
 	UserDAO userDAO;
 	
 	@Override
-	public JSONObject authJoinInfo(JSONObject jsonUserInfo) {
+	public UserVO authJoinInfo(HashMap<String,Object> userInfo) {
 		
 
 		
-		String userid = (String)jsonUserInfo.get("userid");
+		String userid = (String)userInfo.get("userid");
+		String utype = (String)userInfo.get("utype");
 		
-		log.debug("[authJoinInfo] userid : "+userid);
 		
-		UserVO userVO= userDAO.getOneUserInfo(userid);
+		UserVO userVO= userDAO.getOneUserInfo(userInfo);
 		
 		if(userVO  == null) {
 			log.debug("[userVO] : 회원정보가 없습니다....");
-			userDAO.authSignUp(jsonUserInfo);
-			userVO =userDAO.getOneUserInfo(userid);
-			
+			userDAO.authSignUp(userInfo);
+			 
+			userVO =userDAO.getOneUserInfo(userInfo);
+			 
 			log.debug("[userVO] : "+userVO.toString()+" 회원정보가 생겼습니다....");
-			jsonUserInfo.put("user_pet_info", userVO.getUser_pet_info());
-			jsonUserInfo.put("state", "normal");
+		
 		}else {
 			
 			log.debug("[userVO] : "+userVO.toString()+"이미 등록된 회원 정보가 있습니다.");
-			jsonUserInfo.put("user_pet_info", userVO.getUser_pet_info());
-			jsonUserInfo.put("state", "normal");
+			
 			
 		}
 		//return jsonUserInfo ;
 		
-		return jsonUserInfo;
+		return userVO;
 	}
 	
 	

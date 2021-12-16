@@ -17,9 +17,9 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.json.simple.JSONObject;
 import org.spring.ps.service.AuthLoginService;
+import org.spring.ps.vo.UserVO;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -57,12 +57,10 @@ public class naverOauth  {
 
 		HashMap<String, Object> userInfo = getUserInfo(access_Token);
 
-
-
-		JSONObject jsonUserInfo =  new JSONObject(userInfo);
-		log.debug("[oauthNaver] jsonUserInfo :"+ jsonUserInfo.toJSONString());
-		jsonUserInfo=authLoginService.authJoinInfo(jsonUserInfo);
-		session.setAttribute("userInfo", jsonUserInfo);
+		
+		UserVO userVO=authLoginService.authJoinInfo(userInfo);
+		session.setAttribute("userInfo", userVO);
+		session.setAttribute("access_token", access_Token);
 
 
 		return "redirect:/"; //본인 원하는 경로 설정
@@ -71,15 +69,17 @@ public class naverOauth  {
 	public String auth_Logout(
 			HttpSession session
 			) throws Exception {
-		JSONObject userInfo = (JSONObject)session.getAttribute("userInfo"); 
-		String access_Token = (String)userInfo.get("access_token");
 		
-		log.debug("[auth_Logout] :" +userInfo.toJSONString());
+		UserVO userInfo = (UserVO)session.getAttribute("userInfo"); 
+		String access_Token = (String)session.getAttribute("access_token");
+		
+		
 		log.debug("[auth_Logout] :" +access_Token);
 		
 		naver_logout(access_Token);
 		
 		session.removeAttribute("userInfo");
+		session.removeAttribute("access_token");
 		return "redirect:/"; //본인 원하는 경로 설정
 	}
 
@@ -183,7 +183,9 @@ public class naverOauth  {
 
 			userInfo.put("userid", id);
 			userInfo.put("username", name); 
-			userInfo.put("useremail", email);
+			userInfo.put("uemail", email);
+			userInfo.put("utype", "naver");
+			userInfo.put("ulevel", "1");
 			
 			userInfo.put("access_token", access_Token);
 
