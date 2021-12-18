@@ -22,43 +22,6 @@ public class ProductDAOImpl implements ProductDAO{
 
 	private static final String Namespace = "org.spring.ps.mapper.productMapper";
 
-	@Override
-	public int productInsert(ProductVO productVO) {
-
-
-		HashMap<String, String> map = new HashMap();
-
-
-		String sql1 = "INSERT INTO product(pid,pname, pcnt,pprice,pccode)"
-				+" VALUES('"+productVO.getPid()+"','"+productVO.getPname()+"','"+productVO.getPcnt()+"','"+productVO.getPprice()+"','"+productVO.getPccode()+"')";
-		map.put("sql1", sql1);
-
-		String sql2 ="SELECT LAST_INSERT_ID() as pnum";
-
-		map.put("sql2", sql2);
-		sqlSession.insert(Namespace+".productInsert", map);
-
-		//log.debug("[productBaseInsert] pnum : "+ String.valueOf(map.get("pnum")));
-
-		String pnumStr =String.valueOf(map.get("pnum"));
-
-		int pnum = Integer.parseInt(pnumStr);
-		return pnum;
-	}
-
-	@Override
-	public int productRegUpdate(int pnum, String imgPath, String fileName) {
-
-		log.debug("[productRegUpdate] imgPath:"+imgPath);
-		HashMap<String, String> map = new HashMap();
-
-		String sql = "UPDATE product set pimg = JSON_OBJECT('img',JSON_OBJECT('path','"+imgPath+"','fileName','"+fileName+"')) "
-				+ "WHERE pnum = "+pnum;
-
-		map.put("sql", sql);
-		int result = sqlSession.update(Namespace+".productRegUpdate", map);
-		return result;
-	}
 
 	@Override
 	public int countProduct(String openCcode) {
@@ -98,7 +61,7 @@ public class ProductDAOImpl implements ProductDAO{
 		
 		String sql = "SELECT * FROM ( ";
 		sql += "SELECT @rownum:=@rownum+1 AS RN, C.* FROM (SELECT @ROWNUM:=0) as R , ( ";
-		sql +=  "SELECT A.pnum,A.pid,A.pname,A.pcnt,A.pccode,B.ccoderef pccoderef,A.pprice,A.pimg FROM product AS A ";
+		sql +=  "SELECT A.pnum,A.pid,A.pname,A.pcnt,A.pccode,B.ccoderef pccoderef,A.pprice,A.pimg,A.pregdate,A.state,A.pbrand FROM product AS A ";
 		sql	+= "LEFT JOIN category AS B ";
 		sql	+="ON A.pccode = B.ccode ";
 		//전체 보기
@@ -127,6 +90,7 @@ public class ProductDAOImpl implements ProductDAO{
 		return result;
 	}
 
+	
 	@Override
 	public ProductVO getProductOne(String pid) {
 		HashMap<String, String> map = new HashMap();
@@ -140,36 +104,5 @@ public class ProductDAOImpl implements ProductDAO{
 		return result;
 	}
 
-	@Override
-	public int productUpdate(ProductVO productVO, String path, String fileName) {
 
-		log.debug("[productUpdate] path:"+path);
-		HashMap<String, String> map = new HashMap();
-
-		String sql = "UPDATE product set pimg = JSON_OBJECT('img',JSON_OBJECT('path','"+path+"','fileName','"+fileName+"')) "
-				+ ", pname = '"+productVO.getPname()+"' "
-				+ ", pccode = "+productVO.getPccode()+" "
-				+ ", pprice = '"+productVO.getPprice()+"' "
-				+ ", pcnt = '"+productVO.getPcnt()+"' "
-				+ "WHERE pnum = "+productVO.getPnum();
-
-		map.put("sql", sql);
-		int result = sqlSession.update(Namespace+".productRegUpdate", map);
-		return result;
-	}
-
-
-	@Override
-	public List<ProductVO> getUserProductList(String ccode, String ccoderef) {
-		log.debug("[getUserProductList] ccode :"+ccode);
-		log.debug("[getUserProductList] ccoderef :"+ccoderef);
-
-		HashMap<String, String> map = new HashMap();
-
-		String sql =  "SELECT A.pnum,A.pid,A.pname,A.pcnt,A.pccode,B.ccoderef pccoderef,A.pprice,A.pimg FROM product AS A LEFT JOIN category AS B ON A.pccode = B.ccode ORDER BY A.pregdate DESC";
-
-		map.put("sql", sql);
-		List<ProductVO> result = sqlSession.selectList(Namespace+".getUserProductList", map);
-		return result;
-	}
 }

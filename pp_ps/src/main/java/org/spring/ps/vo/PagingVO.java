@@ -11,14 +11,14 @@ public class PagingVO {
 	private int start; // 쿼리에 쓸 start
 	private int end; // 쿼리에 쓸 end
 
-	private int cntPerPage =8; //페이지당 글 갯수,
+	private int cntPerPage ; //페이지당 글 갯수,
 	private int cntPage = 5;
 
 	public PagingVO() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public PagingVO(int total, int nowPage) {
+	public PagingVO(int total, int nowPage, int cntPerPage) {
 		setNowPage(nowPage);
 		setCntPerPage(cntPerPage);
 		setTotal(total);

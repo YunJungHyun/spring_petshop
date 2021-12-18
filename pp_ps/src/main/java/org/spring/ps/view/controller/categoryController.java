@@ -60,7 +60,7 @@ public class categoryController {
 		
 		int total = productService.countProduct(openCcode);
 		
-		pagingVO = new PagingVO(total , Integer.parseInt(page) );
+		pagingVO = new PagingVO(total , Integer.parseInt(page), 8 );
 		log.debug("[categoryProduct] total "+openCcode+" :"+total);
 		log.debug("[categoryProduct] start/ end "+pagingVO.getStart()+" :"+pagingVO.getEnd());
 		

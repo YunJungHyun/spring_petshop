@@ -23,6 +23,9 @@ public class ProductVO {
 	private int pccoderef;
 	private String pimg;
 	
+	private int state;
+	private String pbrand;
+	
 	private Date pregdate;
 	
 	private String img_fileName_arr_str;

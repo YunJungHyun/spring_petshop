@@ -60,7 +60,7 @@
 			<a href="#" class="my-menu-btn"><i class="fas fa-user"></i></a>
 			<ul class="ps-dropdown-content my-menu-content list-group">
 				<li class="dropdown-li p-2 my-2">
-					<a href="/adminView/management">관리자 페이지</a>
+					<a href="/adminView/Management">관리자 페이지</a>
 				</li>
 				
 				<li class="dropdown-li p-2 my-2">

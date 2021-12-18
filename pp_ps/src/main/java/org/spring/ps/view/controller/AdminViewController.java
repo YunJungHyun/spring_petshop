@@ -2,17 +2,25 @@ package org.spring.ps.view.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.spring.ps.service.CategoryService;
+import org.spring.ps.service.ProductService;
+import org.spring.ps.vo.CategoryVO;
+import org.spring.ps.vo.PagingVO;
+import org.spring.ps.vo.ProductVO;
 import org.spring.ps.vo.UserVO;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import lombok.RequiredArgsConstructor;
 
@@ -20,60 +28,106 @@ import lombok.RequiredArgsConstructor;
 @Controller
 @RequestMapping("/adminView")
 public class AdminViewController {
-	
+
 	Log log = LogFactory.getLog(this.getClass());
 	
-	@RequestMapping("/management")
-	public ModelAndView adminManagement(Model model, HttpSession session,HttpServletResponse response) throws IOException {
-		
-		
-		String pageTitle = "관리자 페이지";
-		model.addAttribute("pageTitle",pageTitle);
-		
-		UserVO userVO = (UserVO)session.getAttribute("userInfo");
-	
-		ModelAndView mav = new ModelAndView();
-		String chkStr= adminChk(userVO); 
-	
 
-		log.debug("[adminManagement] chkStr :"+chkStr);
-		
-		if(chkStr.equals("adminNo") || chkStr.equals("")  ) {
-			
-			response.setContentType("text/html; charset=utf-8");
+	@Inject
+	private CategoryService categoryService;
+	@Inject
+	private ProductService productService;
+	
+	@RequestMapping("/{view}")
+	public String adminView(
+			@PathVariable("view") String view,
+			HttpSession session,
+			HttpServletResponse response,
+			PagingVO pagingVO,
+			@RequestParam(value="ccode", required= false) String ccode,
+			@RequestParam(value="page", required= false) String page,
+			@RequestParam(value="sortBy", required= false) String sortBy,
+			Model model
+
+			) throws IOException {
+
+
+		UserVO userInfo = (UserVO)session.getAttribute("userInfo");
+
+		log.debug("[adminView] userInfo :"+userInfo);
+
+		if(page == null ) {
+
+			page = "1";
+		}
+
+
+
+		if(userInfo == null || userInfo.getUlevel() != 2) {
+
+			log.debug("[adminView] userInfo : 접근권한없음");
+
+			response.setContentType("text/html; charset=UTF-8");
+
 			PrintWriter out = response.getWriter();
-			 
-			out.println("<script>alert('해당 페이지에 접근권한이 없습니다.'); location.href='/';</script>");
-			 
+
+			out.println("<script>alert('페이지 접근권한이 없습니다.'); location.href='/';</script>");
+
 			out.flush();
-			  
-			
+
+			return "home.page";
 		}else {
-			mav.setViewName("/admin/management.page");
-			
-		}
-		
-		return mav;
-		
-	}
-	
-	public String adminChk(UserVO userVO) {
-		
-		String chkStr ="";
-		
-		if(userVO == null) {
-			
-			chkStr = "adminNo";
-		}else {
-			
-			if(userVO.getUlevel() !=2) {
-				chkStr = "adminNo";
-			}else {
-			
-			chkStr = "adminOkay";
+			String pageTitle = "";
+
+			switch(view) {
+
+			case "Management": 
+				pageTitle = "관리자 페이지";
+				break;
+			case "Product":
+				
+				if(ccode == null) {
+					ccode = "000";
+				}
+				int total = productService.countProduct(ccode);
+				
+				pagingVO = new PagingVO(total, Integer.parseInt(page), 20);
+				
+				
+				List<ProductVO> pList = productService.getProductList(ccode,pagingVO);
+				List<CategoryVO> cList =categoryService.getCategoryList();
+				
+				model.addAttribute("pTotal", total);
+				model.addAttribute("pList",pList);
+				model.addAttribute("cList",cList);
+				model.addAttribute("paging",pagingVO);
+				model.addAttribute("openCcode",ccode);
+				pageTitle = "제품 관리";
+				view = "product/ProductList";
+
+				break;
+			case "Member":
+				pageTitle = "회원 관리";
+				view = "member/Member";
+
+				break;
+			case "QnA":
+				pageTitle = "Q&A 관리";
+				view = "QnA/QnA";
+
+				break;
+			case "Notice": 
+				pageTitle = "공지사항 관리";
+				view = "notice/Notice";
+
+				break;
+
 			}
+
+
+			model.addAttribute("pageTitle", pageTitle);
+			return "admin/"+view+".page";
 		}
-		return chkStr;
+
 	}
-	
+
 }

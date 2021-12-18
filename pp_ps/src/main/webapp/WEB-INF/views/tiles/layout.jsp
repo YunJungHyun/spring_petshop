@@ -29,6 +29,7 @@
 <script src="/resources/js/ckeditorFull/ckeditor.js"></script>
 
 
+<link href="/resources/css/adminPage.css" rel="stylesheet" type="text/css">
 <link href="/resources/css/ps.css" rel="stylesheet" type="text/css">
 <link href="/resources/css/dropdown.css" rel="stylesheet" type="text/css">
 <link href="/resources/css/header.css" rel="stylesheet" type="text/css">

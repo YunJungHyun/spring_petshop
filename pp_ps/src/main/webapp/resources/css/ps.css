@@ -30,3 +30,8 @@ ul {
 	width: 1px;
 	height: 0.5rem;
 }
+
+.table td, .table th{
+	
+	vertical-align: middle;
+}
