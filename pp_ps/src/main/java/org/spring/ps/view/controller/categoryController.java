@@ -1,5 +1,6 @@
 package org.spring.ps.view.controller;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -53,12 +54,19 @@ public class categoryController {
 			Model model
 			) {
 		
+		HashMap<String,String> map = new HashMap();
+		
+		
+		map.put("openCcode",openCcode);
+		map.put("openSortBy",sortBy);
+		map.put("openState","0");
+		 
 		if(page == null ) {
 			
 			page = "1";
-		}
+		} 
 		
-		int total = productService.countProduct(openCcode);
+		int total = productService.countProduct(map);
 		
 		pagingVO = new PagingVO(total , Integer.parseInt(page), 8 );
 		log.debug("[categoryProduct] total "+openCcode+" :"+total);
@@ -66,7 +74,7 @@ public class categoryController {
 		
 		List<CategoryVO> cList =categoryService.getCategoryList();
 		
-		List<ProductVO> pList = productService.getProductList(openCcode,pagingVO);
+		List<ProductVO> pList = productService.getProductList(pagingVO,map);
 		
 		log.debug("[categoryProduct] pList.size() :"+pList.size());
 	

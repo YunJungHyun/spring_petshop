@@ -18,7 +18,7 @@
 					<option value="000">상위 카테고리</option>
 					<c:forEach items="${cList }" var ="clist">
 						<c:if test="${clist.level == 1 }">
-							<option  id="${clist.ccode }" value="${clist.ccode}" <c:if test="${clist.ccode == openCcode }">selected</c:if>>
+							<option  id="${clist.ccode }" value="${clist.ccode}" <c:if test="${clist.ccode == pagingMap.openCcode }">selected</c:if>>
 								${clist.cname}
 							</option>
 						</c:if>
@@ -40,22 +40,29 @@
 			<div class="mx-2">
 				<select class="custom-select" id="sortBy">
 					<option value="">정렬</option>
-					<option value="ORDER_BY_REGDATE_DESC" selected="selected">최신순</option>
-					<option value="ORDER_BY_REGDATE_ASC">오래된순</option>
-					<option value="ORDER_BY_PPRICE_DESC">가격높은순</option>
-					<option value="ORDER_BY_PPRICE_ASC">가격낮은순</option>
-					<option value="ORDER_BY_PCNT_DESC">재고많은순</option>
-					<option value="ORDER_BY_PCNT_ASC">재고적은순</option>
+					<option value="ORDER_BY_REGDATE_DESC" <c:if test="${pagingMap.openSortBy == 'ORDER_BY_REGDATE_DESC'  }">selected</c:if>>최신순</option>
+					<option value="ORDER_BY_REGDATE_ASC" <c:if test="${pagingMap.openSortBy == 'ORDER_BY_REGDATE_ASC'  }">selected</c:if>>오래된순</option>
+					<option value="ORDER_BY_PPRICE_DESC" <c:if test="${pagingMap.openSortBy == 'ORDER_BY_PPRICE_DESC'  }">selected</c:if>>가격높은순</option>
+					<option value="ORDER_BY_PPRICE_ASC" <c:if test="${pagingMap.openSortBy == 'ORDER_BY_PPRICE_ASC'  }">selected</c:if>>가격낮은순</option>
+					<option value="ORDER_BY_PCNT_DESC" <c:if test="${pagingMap.openSortBy == 'ORDER_BY_PCNT_DESC'  }">selected</c:if>>재고많은순</option>
+					<option value="ORDER_BY_PCNT_ASC" <c:if test="${pagingMap.openSortBy == 'ORDER_BY_PCNT_ASC'  }">selected</c:if>>재고적은순</option>
 				</select>
 			</div>
-			<div class="mx-2">
+			
+			<div class="mx-2"> 
 				<select class="custom-select" id="productState">
-					<option value="">제품현황</option>
-					<option value="0">미등록상품</option>
-					<option value="1">등록상품</option>
-					<option value="2">재입고</option>
-					
+					<option value="allState" <c:if test="${pagingMap.openState == 'allState'  }">selected</c:if>>모든 상태</option>
+					<option value="0" <c:if test="${pagingMap.openState == '0'  }">selected</c:if>>미등록상품</option>
+					<option value="1" <c:if test="${pagingMap.openState == '1'  }">selected</c:if>>등록상품</option>
+					<option value="2" <c:if test="${pagingMap.openState == '2'  }">selected</c:if>>재입고</option>
+					 
 				</select>
+			</div>
+			<div class="mx-2 d-flex flex-column page-reload-btn">
+				<a href="/adminView/Product">
+					<i class="fas fa-redo"></i>
+				</a>
+				<span>검색초기화</span>
 			</div>
 			<div  class="mx-2 float-right">
 				
@@ -196,9 +203,12 @@ $(document).ready(function(){
 	}
 })
 
-$(document).on("change","#ccoderef",function(){
+$(document).on("change","#ccoderef,#ccode,#sortBy,#productState",function(e){
 	
-	var ccoderef = $(this).val();
+	var ccode="";
+
+	var sortBy = $("#sortBy").val();
+	var productState = $("#productState").val();
 	
 	
 	$("#ccode").children().each(function(){
@@ -213,24 +223,20 @@ $(document).on("change","#ccoderef",function(){
 		}
 	})
 	
-	location.href="/adminView/Product?ccode="+ccoderef;
-})
-$(document).on("change","#ccode",function(){
+	if(e.currentTarget.id =="ccoderef"){
+		
+		ccode = $("#ccoderef").val();
+	}else{
+		ccode = $("#ccode").val();
+	}
 	
-	var ccode = $(this).val();
+	pageLocation(ccode,sortBy,productState);
 	
+}) 
+
+function pageLocation(ccode,sortBy,productState){
 	
-	location.href="/adminView/Product?ccode="+ccode;
-})
-$(document).on("change","#sortBy",function(){
-	
-	var sortBy = $(this).val();
-	var ccoderef = $("#ccoderef").val();
-	var ccode = $("#ccode").val();
-	
-	console.log(sortBy+"/"+ccoderef+"/"+ccode);
-	
-	
-})
+	location.href= "/adminView/Product?ccode="+ccode+"&sortBy="+sortBy+"&state="+productState;
+}
 
 </script>

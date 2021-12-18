@@ -1,5 +1,6 @@
 package org.spring.ps.dao;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.spring.ps.vo.PagingVO;
@@ -9,13 +10,13 @@ public interface ProductDAO {
 
 	
 
-	List<ProductVO> getProductList(String openCcode ,PagingVO pagingVO);
+	List<ProductVO> getProductList(PagingVO pagingVO,HashMap<String,String> pagingMap);
 
 	ProductVO getProductOne(String pid);
 
 
 
-	int countProduct(String openCcode); 
+	int countProduct(HashMap<String,String> pagingMap); 
 
 
 

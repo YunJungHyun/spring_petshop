@@ -1,5 +1,6 @@
 package org.spring.ps.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.spring.ps.vo.PagingVO;
@@ -8,7 +9,7 @@ import org.spring.ps.vo.ProductVO;
 public interface ProductService {
 
 
-	List<ProductVO> getProductList(String openCcode, PagingVO pagingVO);
+	List<ProductVO> getProductList( PagingVO pagingVO, HashMap<String,String> pagingMap);
 
 
 	ProductVO getProductOne(String pid);
@@ -16,7 +17,7 @@ public interface ProductService {
 
 
 
-	int countProduct(String openCcode);
+	int countProduct(HashMap<String,String> pagingMap);
 
 
 

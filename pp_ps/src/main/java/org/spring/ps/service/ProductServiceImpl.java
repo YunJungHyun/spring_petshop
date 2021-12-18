@@ -1,5 +1,6 @@
 package org.spring.ps.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -17,16 +18,16 @@ public class ProductServiceImpl implements ProductService{
 	private ProductDAO productDAO;
 	
 	@Override 
-	public List<ProductVO> getProductList(String openCcode ,PagingVO pagingVO) {
+	public List<ProductVO> getProductList(PagingVO pagingVO,HashMap<String,String> pagingMap) {
 		// TODO Auto-generated method stub
-		return productDAO.getProductList(openCcode , pagingVO);
+		return productDAO.getProductList(pagingVO, pagingMap);
 	}
 	
 	@Override
-	public int countProduct(String openCcode) {
+	public int countProduct(HashMap<String,String> pagingMap) {
 		// TODO Auto-generated method stub
-		return productDAO.countProduct(openCcode);
-	}
+		return productDAO.countProduct(pagingMap);
+	} 
 	
 	
 	@Override

@@ -24,7 +24,10 @@ public class ProductDAOImpl implements ProductDAO{
 
 
 	@Override
-	public int countProduct(String openCcode) {
+	public int countProduct(HashMap<String,String> pagingMap) {
+
+		String openCcode = pagingMap.get("openCcode");//
+		String openState = pagingMap.get("openState");
 		HashMap<String, String> map = new HashMap();
 		
 		String sql = "SELECT COUNT(*) FROM product AS A ";
@@ -34,11 +37,16 @@ public class ProductDAOImpl implements ProductDAO{
 		if(openCcode.equals("000")) {
 
 			sql +="";
-		
+			if(!openState.equals("allState")) {
+				sql+=" WHERE A.state = "+openState;
+			}
 		}else {
 			//상위 카테고리 보기
 			if(openCcode.length() >=3 && openCcode.length() <=4) {
 				sql+="WHERE B.ccoderef = "+openCcode;
+				if(!openState.equals("allState")) {
+					sql+=" AND A.state = "+openState;
+				}
 			//하위 카테고리 보기
 			}else if(openCcode.length() > 4) {
 
@@ -46,6 +54,9 @@ public class ProductDAOImpl implements ProductDAO{
 				String ccode =openCcode.substring(openCcode.length()/2, openCcode.length());
 
 				sql+=" WHERE B.ccoderef = "+ccoderef+" AND B.ccode="+ccode;
+				if(!openState.equals("allState")) {
+					sql+=" AND A.state = "+openState;
+				}
 			} 
 		}
 		map.put("sql", sql);
@@ -53,9 +64,11 @@ public class ProductDAOImpl implements ProductDAO{
 		return result;
 	}
 	@Override
-	public List<ProductVO> getProductList(String openCcode, PagingVO pagingVO) {
+	public List<ProductVO> getProductList( PagingVO pagingVO ,HashMap<String,String> pagingMap) {
 
-
+		String openCcode = pagingMap.get("openCcode");//
+		String openState = pagingMap.get("openState");
+		String openSortBy = pagingMap.get("openSortBy");
 
 		HashMap<String, String> map = new HashMap();
 		
@@ -68,11 +81,17 @@ public class ProductDAOImpl implements ProductDAO{
 		if(openCcode.equals("000")) {
 
 			sql +="";
+			if(!openState.equals("allState")) {
+				sql+=" WHERE A.state = "+openState;
+			}
 		 
 		}else {
 			//상위 카테고리 보기
 			if(openCcode.length() >=3 && openCcode.length() <=4) {
 				sql+="WHERE B.ccoderef = "+openCcode;
+				if(!openState.equals("allState")) {
+					sql+=" AND A.state = "+openState;
+				}
 			//하위 카테고리 보기
 			}else if(openCcode.length() > 4) {
 
@@ -80,9 +99,37 @@ public class ProductDAOImpl implements ProductDAO{
 				String ccode =openCcode.substring(openCcode.length()/2, openCcode.length());
 
 				sql+="WHERE B.ccoderef = "+ccoderef+" AND B.ccode="+ccode;
+				if(!openState.equals("allState")) {
+					sql+=" AND A.state = "+openState;
+				}
+				
 			} 
 		}
-		sql	+= " ORDER BY A.pregdate DESC ";
+		switch (openSortBy) {
+		
+			case "" :
+				sql	+= " ORDER BY A.pregdate DESC ";
+					break;
+			case "ORDER_BY_REGDATE_DESC" :
+				sql	+= " ORDER BY A.pregdate DESC ";
+				break;
+			case "ORDER_BY_REGDATE_ASC" :
+				sql	+= " ORDER BY A.pregdate ASC ";
+				break;
+			case "ORDER_BY_PPRICE_DESC" :
+				sql	+= " ORDER BY A.pprice*1 DESC ";
+				break;
+			case "ORDER_BY_PPRICE_ASC" :
+				sql	+= " ORDER BY A.pprice*1 ASC ";
+				break;
+			case "ORDER_BY_PCNT_DESC" :
+				sql	+= " ORDER BY A.pcnt*1 DESC ";
+				break;
+			case "ORDER_BY_PCNT_ASC" :
+				sql	+= " ORDER BY A.pcnt*1 ASC ";
+				break;
+		}
+		
 		sql += ") AS C ";
 		sql += ") AS D WHERE RN BETWEEN "+pagingVO.getStart()+" AND "+ pagingVO.getEnd();
 		map.put("sql", sql);

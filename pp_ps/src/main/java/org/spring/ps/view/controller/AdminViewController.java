@@ -2,6 +2,7 @@ package org.spring.ps.view.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -46,6 +47,7 @@ public class AdminViewController {
 			@RequestParam(value="ccode", required= false) String ccode,
 			@RequestParam(value="page", required= false) String page,
 			@RequestParam(value="sortBy", required= false) String sortBy,
+			@RequestParam(value="state", required= false) String state,
 			Model model
 
 			) throws IOException {
@@ -88,19 +90,38 @@ public class AdminViewController {
 				if(ccode == null) {
 					ccode = "000";
 				}
-				int total = productService.countProduct(ccode);
+				if(sortBy == null) {
+					sortBy = "";
+				}
+				if(state == null) {
+					state = "allState";
+				}
+				
+				HashMap<String,String> map = new HashMap();
+				
+				
+				map.put("openCcode",ccode);
+				map.put("openSortBy",sortBy);
+				map.put("openState",state);
+				
+				int total = productService.countProduct(map);
 				
 				pagingVO = new PagingVO(total, Integer.parseInt(page), 20);
 				
 				
-				List<ProductVO> pList = productService.getProductList(ccode,pagingVO);
+				List<ProductVO> pList = productService.getProductList(pagingVO,map);
 				List<CategoryVO> cList =categoryService.getCategoryList();
-				
+			 
 				model.addAttribute("pTotal", total);
 				model.addAttribute("pList",pList);
 				model.addAttribute("cList",cList);
 				model.addAttribute("paging",pagingVO);
+				model.addAttribute("pagingMap",map);
+				
+				
 				model.addAttribute("openCcode",ccode);
+				
+				
 				pageTitle = "제품 관리";
 				view = "product/ProductList";
 

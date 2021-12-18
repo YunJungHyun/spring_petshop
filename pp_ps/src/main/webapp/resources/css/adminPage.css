@@ -41,3 +41,12 @@
 	width: 50px;
 	height: auto;
 }
+
+.page-reload-btn > a{
+	
+	text-align: center;
+}
+.page-reload-btn > span{
+	font-size: 10px;
+	font-weight: bold;
+}
