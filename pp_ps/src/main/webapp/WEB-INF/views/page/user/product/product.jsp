@@ -13,7 +13,7 @@
 			var fileName = pimgJSON.img.fileName;
 							
 			$("#img-${pvo.pid}").attr("src" ,path+"/"+fileName);
-		</script>
+			</script>
 		</div>
 
 		<div class="col-6 px-4 py-4">

@@ -16,7 +16,11 @@ public interface ProductDAO {
 
 
 
-	int countProduct(HashMap<String,String> pagingMap); 
+	int countProduct(HashMap<String,String> pagingMap);
+
+	int stateChange(ProductVO productVO);
+
+	int productInsert(ProductVO productVO, HashMap<String, String> sql_dirMap); 
 
 
 

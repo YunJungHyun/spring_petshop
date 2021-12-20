@@ -36,17 +36,41 @@
 	box-shadow: none;
 }
 
-.product-img-box-3 > img{
-	
+.product-img-box-3>img {
 	width: 50px;
 	height: auto;
 }
 
-.page-reload-btn > a{
-	
+.page-reload-btn>a {
 	text-align: center;
 }
-.page-reload-btn > span{
+
+.page-reload-btn>span {
 	font-size: 10px;
 	font-weight: bold;
+}
+
+.product-insert-btn {
+	background-color: #7fe7d5;
+	font-weight: bold;
+}
+
+.col-form-label {
+	font-weight: bold;
+	line-height: 2.5;
+}
+
+.product-img-box-4 {
+	height: 50vh;
+	width: 100%;
+	align-items: center;
+	display: flex;
+	justify-content: center;
+	border: 1px solid  #cccccc73;
+	
+}
+ 
+.product-img-box-4>img {
+	max-width: -webkit-fill-available;
+    max-height: -webkit-fill-available;
 }

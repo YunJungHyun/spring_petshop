@@ -1,3 +1,4 @@
+<%@page import="org.spring.ps.vo.UserVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
@@ -5,13 +6,13 @@
 
 
 <div class="page">
-	<div class="container p-0">
+	<div class="ps-container p-0">
 
 		<div class="d-flex px-1 py-2">
 			<div class="mx-2">
-				<button class="btn">
+				<a href="/adminView/ProductInsert" class="btn product-insert-btn" id="product-insert-btn">
 					제품 등록
-				</button>
+				</a>
 			</div>
 			<div class="mx-2">
 				<select class="custom-select" id="ccoderef">
@@ -122,10 +123,10 @@
 						<td>${plist.pprice }</td>
 						
 						<td>
-							<select class="custom-select">
-								<option <c:if test="${plist.state ==0 }">selected="selected"</c:if>>미등록</option>
-								<option <c:if test="${plist.state ==1 }">selected="selected"</c:if>>등록</option>
-								<option <c:if test="${plist.state ==2 }">selected="selected"</c:if>>재입고</option>
+							<select class="custom-select state-select" id="${plist.pid}-state">
+								<option value="0" <c:if test="${plist.state ==0 }">selected="selected"</c:if>>미등록</option>
+								<option value="1" <c:if test="${plist.state ==1 }">selected="selected"</c:if>>등록</option>
+								<option value="2" <c:if test="${plist.state ==2 }">selected="selected"</c:if>>재입고</option>
 							</select>
 						</td> 
 						
@@ -211,17 +212,6 @@ $(document).on("change","#ccoderef,#ccode,#sortBy,#productState",function(e){
 	var productState = $("#productState").val();
 	
 	
-	$("#ccode").children().each(function(){
-		
-		if($(this).hasClass(ccoderef)){
-			$("#ccode").children(":first").css("display","block");
-			$(this).css("display","block");
-		}else{
-			$("#ccode").children(":first").css("display","block");
-			$(this).css("display","none");
-			
-		}
-	})
 	
 	if(e.currentTarget.id =="ccoderef"){
 		
@@ -233,6 +223,44 @@ $(document).on("change","#ccoderef,#ccode,#sortBy,#productState",function(e){
 	pageLocation(ccode,sortBy,productState);
 	
 }) 
+
+$(document).on("change",".state-select",function(){
+	
+	var stateSelectId =  $(this).attr("id");
+	var stateSelectIdArr =stateSelectId.split("-");
+	var pid = stateSelectIdArr[0];
+	var state = $(this).val();
+	
+	var userInfo = '<%=(UserVO)session.getAttribute("userInfo")%>';
+	if(userInfo == null ){
+		
+		alert("페이지 접근 권한이없습니다.");
+		location.href="/";
+	}else{
+		
+		console.log(userInfo);
+		$.ajax({
+		
+			url : "/product/admin/stateChange",
+			data : {
+			
+				"pid" : pid,
+				"state" : state
+			},success: function(data){
+			
+				if(data >=1){
+					
+					alert("제품 상태가 변경되었습니다.");
+				}else{
+					
+					
+					alert("제품 상태가 변경 실패하였습니다.");
+				}
+			}
+		})
+	}
+})
+
 
 function pageLocation(ccode,sortBy,productState){
 	

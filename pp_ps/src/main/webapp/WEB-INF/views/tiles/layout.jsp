@@ -26,7 +26,8 @@
 
 <!-- font-awesome  -->
 <script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
-<script src="/resources/js/ckeditorFull/ckeditor.js"></script>
+<script src="https://cdn.ckeditor.com/ckeditor5/31.1.0/classic/ckeditor.js"></script>
+<script src="/resources/js/ckeditor/ko.js"></script>
 
 
 <link href="/resources/css/adminPage.css" rel="stylesheet" type="text/css">

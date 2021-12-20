@@ -1,17 +1,26 @@
 package org.spring.ps.utils;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.log;
+
 import java.io.File;
 import java.text.DecimalFormat;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Random;
 import java.util.UUID;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.util.FileCopyUtils;
 
 import net.coobird.thumbnailator.Thumbnails;
 
 public class UploadFileUtils {
+	
 
+
+	
+	
 	static final int THUMB_WIDTH = 250;
 	static final int THUMB_HEIGHT = 250;
 
@@ -36,7 +45,7 @@ public class UploadFileUtils {
 			thumbnail.getParentFile().mkdirs();
 			Thumbnails.of(image).size(THUMB_WIDTH, THUMB_HEIGHT).toFile(thumbnail);
 		}
-		return newFileName;
+		return newFileName; 
 	}
 	
 	public static String ex_fileUpload(String uploadPath,
@@ -65,8 +74,10 @@ public class UploadFileUtils {
 	
 	
 	// 디렉토리 생성
-	public static HashMap<String,String> calcPath(String uploadPath , int pnum) {
+	public static HashMap<String,String> calcPath(String uploadPath ,String dirName) {
+		 
 		
+
 		Calendar cal = Calendar.getInstance(); 
 		int year= cal.get(Calendar.YEAR);
 		String yearStr = String.valueOf(year);
@@ -76,7 +87,7 @@ public class UploadFileUtils {
 		String yearPath = File.separator + year;
 		String monthPath = yearPath + File.separator + month ;
 		String datePath = monthPath + File.separator + date;
-		String productPath = datePath + File.separator+"product_code_"+ pnum;
+		String productPath = datePath + File.separator+dirName;
 		String img_uploadPath = productPath + File.separator+"cover";
 		String ex_img_uploadPath = productPath + File.separator+"explicate";
 		
@@ -89,7 +100,7 @@ public class UploadFileUtils {
 		dirMap.put("year", yearStr);
 		dirMap.put("month", month);
 		dirMap.put("date", date);
-		dirMap.put("product", "product_code_"+ pnum);
+		dirMap.put("product",dirName );
 		dirMap.put("img_uploadPath", img_uploadPath);
 		dirMap.put("ex_img_uploadPath", ex_img_uploadPath);
 		

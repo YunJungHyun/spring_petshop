@@ -26,12 +26,12 @@
 		<form class="form-signIn">
 
 
-			<div class="form-ps-group">
+			<div class="form-ps-group-1">
 				<input type="text" id="userid" placeholder="아이디"  autofocus>
 
 			</div>
 
-			<div class="form-ps-group"> 
+			<div class="form-ps-group-1"> 
 				<input type="password" id="userpw" placeholder="패스워드" >
 
 			</div>

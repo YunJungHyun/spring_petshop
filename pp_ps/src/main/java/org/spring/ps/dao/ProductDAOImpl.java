@@ -151,5 +151,42 @@ public class ProductDAOImpl implements ProductDAO{
 		return result;
 	}
 
+	
+	@Override
+	public int stateChange(ProductVO productVO) {
+		HashMap<String, String> map = new HashMap();
+		
+		String sql = "UPDATE product SET state =" +productVO.getState();
+				sql += " WHERE pid = '"+productVO.getPid()+"'";
+		map.put("sql", sql);
+		
+		int result = sqlSession.update(Namespace +".stateChange",map);
+		
+		
+		return result;
+	}
+	
+	@Override
+	public int productInsert(ProductVO productVO, HashMap<String, String> sql_dirMap) {
+		HashMap<String, String> map = new HashMap();
+		
+		String sql ="INSERT INTO product(pid,pname,pbrand,pcnt,pprice,pexplicate,pccode,pimg) ";
+		sql+="VALUES( ";
+		sql+="'"+productVO.getPid()+"', ";
+		sql+="'"+productVO.getPname()+"', ";
+		sql+="'"+productVO.getPbrand()+"', ";
+		sql+="'"+productVO.getPcnt()+"', ";
+		sql+="'"+productVO.getPprice()+"', ";
+		sql+="'"+productVO.getPexplicate()+"', ";
+		sql+="'"+productVO.getPccode()+"', ";
+		sql+="JSON_OBJECT('img', ";
+			sql+="JSON_OBJECT('path','"+sql_dirMap.get("path")+"','fileName','"+sql_dirMap.get("fileName")+"')";
+		sql+="))";
+		
+		map.put("sql", sql);
+		
+		int result = sqlSession.insert(Namespace +".productInsert",map);
+		return result;
+	}
 
 }

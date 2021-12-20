@@ -56,6 +56,11 @@ public class categoryController {
 		
 		HashMap<String,String> map = new HashMap();
 		
+		if(sortBy == null ) {
+			
+			sortBy = "";
+		} 
+		
 		
 		map.put("openCcode",openCcode);
 		map.put("openSortBy",sortBy);

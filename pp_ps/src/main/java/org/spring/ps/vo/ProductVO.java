@@ -17,6 +17,7 @@ public class ProductVO {
 	private String pid;
 	
 	private String pname;
+	private String pbrand;
 	private String pcnt;
 	private String pprice;
 	private int pccode;
@@ -24,17 +25,11 @@ public class ProductVO {
 	private String pimg;
 	
 	private int state;
-	private String pbrand;
 	
 	private Date pregdate;
 	
-	private String img_fileName_arr_str;
 	
 	private String pexplicate;
-	
-	private String explicateHead;
-	private String explicateBody;
-	private String explicateFooterLeft;
-	private String explicateFooterRight;
+
 	
 }

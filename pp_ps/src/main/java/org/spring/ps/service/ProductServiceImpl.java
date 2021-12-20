@@ -36,5 +36,15 @@ public class ProductServiceImpl implements ProductService{
 		return productDAO.getProductOne(pid);
 	}
 
+	@Override
+	public int stateChange(ProductVO productVO) {
+		// TODO Auto-generated method stub
+		return productDAO.stateChange(productVO);
+	}
 	
+	@Override
+	public int productInsert(ProductVO productVO, HashMap<String, String> sql_dirMap) {
+		// TODO Auto-generated method stub
+		return productDAO.productInsert(productVO,sql_dirMap);
+	}
 }

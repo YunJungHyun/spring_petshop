@@ -10,7 +10,7 @@
 			<form id="form-signUp" name="form-signUp">
 		 		<div class="row">
 		 			
-		 			<div class="col-lg-12 mb-3 form-ps-group my-0">
+		 			<div class="col-lg-12 mb-3 form-ps-group-1 my-0">
 						<label for="userid">아이디</label>
 							<input type="text" class="form-control signUp-input" id="userid" name="userid" placeholder="아이디를 입력하세요."  value="userid1234">
 						<div class="invalid-feedback id-feed">
@@ -20,7 +20,7 @@
 							<span class="feed-4" style="color:green">사용 가능한 아이디입니다.</span>
 						</div>
 					</div>
-		 			<div class="col-lg-12 mb-3 form-ps-group my-0">
+		 			<div class="col-lg-12 mb-3 form-ps-group-1 my-0">
 						<label for="userid">회원 이름</label>
 							<input type="text" class="form-control signUp-input" id="username" name="username" placeholder="이름을 입력하세요." value="윤정현" >
 						<div class="invalid-feedback">
@@ -28,7 +28,7 @@
 							<span class="feed-2">이름은 2자 이상 한글로만 작성해주세요.</span>
 						</div> 
 					</div>
-		 			<div class="col-lg-12 mb-3 form-ps-group my-0">
+		 			<div class="col-lg-12 mb-3 form-ps-group-1 my-0">
 						<label for="userpw">비밀번호</label>
 							<input type="password" class="form-control signUp-input" id="userpw"  name="userpw" placeholder="비밀번호를  8자리 이상 입력하세요."  value="sksWkd12@!" >
 						<div class="invalid-feedback">
@@ -36,7 +36,7 @@
 							<span class="feed-2">비밀번호는 알파벳,숫자,특수문자를 포함하여 8 ~ 24자로 작성해주세요.</span>
 						</div>
 					</div>
-		 			<div class="col-lg-12 mb-3 form-ps-group my-0">
+		 			<div class="col-lg-12 mb-3 form-ps-group-1 my-0">
 						<label for="firstName">비밀번호 확인</label>
 							<input type="password" class="form-control signUp-input"  id="userpwChk"  placeholder="비밀번호를 한 번 더 입력하세요."  value="sksWkd12@!" >
 						<div class="invalid-feedback">
@@ -44,7 +44,7 @@
 							<span class="feed-2">작성하신 비밀번호가 다릅니다.</span>
 						</div>
 					</div>
-		 			<div class="col-lg-12 mb-3 form-ps-group my-0">
+		 			<div class="col-lg-12 mb-3 form-ps-group-1 my-0">
 						<label for="firstName">이메일</label>
 							<input type="email" class="form-control signUp-input" id="uemail"  name="uemail" placeholder="이메일을 입력하세요."  value="yjh_zzzz@naver.com" >
 						<div class="invalid-feedback">

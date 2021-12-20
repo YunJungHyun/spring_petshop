@@ -53,17 +53,20 @@ public class AdminViewController {
 			) throws IOException {
 
 
-		UserVO userInfo = (UserVO)session.getAttribute("userInfo");
 
-		log.debug("[adminView] userInfo :"+userInfo);
-
+	
 		if(page == null ) {
 
 			page = "1";
 		}
 
+		UserVO userInfo = (UserVO)session.getAttribute("userInfo");
+		log.debug("[adminView] userInfo :"+userInfo);
 
-
+		
+		List<ProductVO> pList = null;
+		List<CategoryVO> cList = null;
+		
 		if(userInfo == null || userInfo.getUlevel() != 2) {
 
 			log.debug("[adminView] userInfo : 접근권한없음");
@@ -109,8 +112,8 @@ public class AdminViewController {
 				pagingVO = new PagingVO(total, Integer.parseInt(page), 20);
 				
 				
-				List<ProductVO> pList = productService.getProductList(pagingVO,map);
-				List<CategoryVO> cList =categoryService.getCategoryList();
+				pList = productService.getProductList(pagingVO,map);
+				cList =categoryService.getCategoryList();
 			 
 				model.addAttribute("pTotal", total);
 				model.addAttribute("pList",pList);
@@ -125,6 +128,15 @@ public class AdminViewController {
 				pageTitle = "제품 관리";
 				view = "product/ProductList";
 
+				break;
+			case "ProductInsert":
+				
+				cList =categoryService.getCategoryList();
+				model.addAttribute("cList",cList);
+				
+				pageTitle = "제품 등록";
+				view = "product/ProductInsert";
+				
 				break;
 			case "Member":
 				pageTitle = "회원 관리";

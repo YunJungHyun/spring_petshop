@@ -5,39 +5,6 @@
 
 <mapper namespace="org.spring.ps.mapper.productMapper">
 
-
-	<insert id="productInsert" parameterType="HashMap" >
-
- 		<![CDATA[
- 				
- 				${sql1}
- 		
-	
-		]]>
-		
-		<selectKey resultType="int" keyProperty="pnum" order="AFTER">
-					<![CDATA[
-						${sql2}
-					]]>
-		</selectKey>
-		
-	</insert>
-	<update id="productRegUpdate"  >
-
- 		<![CDATA[ 
- 			${sql}
-		]]>
-		
-		
-	</update>
-	<update id="productUpdate"  >
-
- 		<![CDATA[ 
- 			${sql}
-		]]>
-		
-		
-	</update>
 	
 	<select id="getProductList" parameterType="HashMap" resultType="productVO">
 		<![CDATA[ 
@@ -54,12 +21,7 @@
 		]]>
 	</select>
 	
-	<select id="getUserProductList" parameterType="HashMap" resultType="productVO">
-		<![CDATA[ 
- 			${sql}
-		]]>
-		
-	</select>
+
 	
 	 <select id="getProductOne" parameterType="HashMap" resultType="productVO">
 		<![CDATA[ 
@@ -69,6 +31,16 @@
 	</select>
 	
 
-
+	<update id="stateChange"  parameterType="HashMap">
+	<![CDATA[ 
+ 			${sql}
+		]]>
+	</update>
+	
+	<insert id="productInsert"  parameterType="HashMap">
+	<![CDATA[ 
+ 			${sql}
+		]]>
+	</insert>
 
 </mapper>
