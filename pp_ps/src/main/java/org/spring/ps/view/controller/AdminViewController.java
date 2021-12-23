@@ -44,6 +44,7 @@ public class AdminViewController {
 			HttpSession session,
 			HttpServletResponse response,
 			PagingVO pagingVO,
+			@RequestParam(value="pid", required= false) String pid,
 			@RequestParam(value="ccode", required= false) String ccode,
 			@RequestParam(value="page", required= false) String page,
 			@RequestParam(value="sortBy", required= false) String sortBy,
@@ -66,6 +67,7 @@ public class AdminViewController {
 		
 		List<ProductVO> pList = null;
 		List<CategoryVO> cList = null;
+		ProductVO pvo = null;
 		
 		if(userInfo == null || userInfo.getUlevel() != 2) {
 
@@ -138,10 +140,29 @@ public class AdminViewController {
 				view = "product/ProductInsert";
 				
 				break;
-			case "Member":
-				pageTitle = "회원 관리";
-				view = "member/Member";
+			case "ProductUpdate":
+				
+				if(pid==null || pid.equals("undefined")) { 
+					
+					response.setContentType("text/html; charset=UTF-8");
 
+					PrintWriter out = response.getWriter();
+
+					out.println("<script>alert('제품 아이디 없이 접근 할 수 없습니다.'); location.href='/adminView/Product';</script>");
+
+					out.flush();
+					
+					
+				}else {
+					cList =categoryService.getCategoryList();
+					pvo =productService.getProductOne(pid);
+					model.addAttribute("cList",cList);
+					model.addAttribute("pvo",pvo);
+					
+					
+					pageTitle = "제품 수정";
+					view = "product/ProductUpdate";
+				}	
 				break;
 			case "QnA":
 				pageTitle = "Q&A 관리";

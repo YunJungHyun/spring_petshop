@@ -4,7 +4,11 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-
+<style>
+.product-list-tr{
+	cursor:pointer;
+}
+</style>
 <div class="page">
 	<div class="ps-container p-0">
 
@@ -87,7 +91,7 @@
 			</thead> 
 			<tbody>
 				<c:forEach var="plist" items="${pList }" varStatus="status">
-					<tr>
+					<tr class="product-list-tr" id="${plist.pid }">
 						<td>${status.count }</td>
 						<td class="product-img-box-3">
 							<img id="img-${plist.pid }">
@@ -98,7 +102,7 @@
 							var path =pimgJSON.img.path;
 							var fileName = pimgJSON.img.fileName;
 							
-							$("#img-${plist.pid}").attr("src" ,path+"/s/s_"+fileName);
+							$("#img-${plist.pid}").attr("src" ,"/resources"+path+"/s/s_"+fileName);
 							</script>
 						</td>
 						<td>${plist.pid }</td>
@@ -261,6 +265,15 @@ $(document).on("change",".state-select",function(){
 	}
 })
 
+
+$(".product-list-tr").on("click",function(e){
+	
+	if(e.target.nodeName != "SELECT"){
+		var pid = $(this).attr("id");
+		location.href="/adminView/ProductUpdate?pid="+pid;
+	}
+	
+})
 
 function pageLocation(ccode,sortBy,productState){
 	

@@ -36,7 +36,7 @@
         <constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory"></constructor-arg>
     </bean>
  	
- 	
+
 	 
 	<context:component-scan base-package="org.spring.ps.vo"></context:component-scan>
 	<context:component-scan base-package="org.spring.ps.dao"></context:component-scan>

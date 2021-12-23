@@ -12,7 +12,7 @@
 			var path =pimgJSON.img.path;
 			var fileName = pimgJSON.img.fileName;
 							
-			$("#img-${pvo.pid}").attr("src" ,path+"/"+fileName);
+			$("#img-${pvo.pid}").attr("src" ,"/resources"+path+"/"+fileName);
 			</script>
 		</div>
 

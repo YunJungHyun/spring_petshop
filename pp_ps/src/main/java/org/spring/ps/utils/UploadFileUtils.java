@@ -89,21 +89,18 @@ public class UploadFileUtils {
 		String datePath = monthPath + File.separator + date;
 		String productPath = datePath + File.separator+dirName;
 		String img_uploadPath = productPath + File.separator+"cover";
-		String ex_img_uploadPath = productPath + File.separator+"explicate";
 		
 		makeDir(uploadPath, yearPath, monthPath, datePath,productPath);
 		makeDir(uploadPath, yearPath, monthPath, datePath,productPath , img_uploadPath);
 		makeDir(uploadPath, yearPath, monthPath, datePath,productPath , img_uploadPath+ "\\s");
-		makeDir(uploadPath, yearPath, monthPath, datePath,productPath + "\\explicate");
 		
 		HashMap<String,String> dirMap = new HashMap(); 
-		dirMap.put("year", yearStr);
-		dirMap.put("month", month);
-		dirMap.put("date", date);
-		dirMap.put("product",dirName );
-		dirMap.put("img_uploadPath", img_uploadPath);
-		dirMap.put("ex_img_uploadPath", ex_img_uploadPath);
-		
+		dirMap.put("year", yearStr); // year
+		dirMap.put("month", month); // month
+		dirMap.put("date", date); //  date
+		dirMap.put("product",dirName ); // p_pid
+		dirMap.put("img_uploadPath", img_uploadPath); // /year/month/date/p_pid/cover;
+			
 		return dirMap;
 	}
 	

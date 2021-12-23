@@ -20,7 +20,11 @@ public interface ProductDAO {
 
 	int stateChange(ProductVO productVO);
 
-	int productInsert(ProductVO productVO, HashMap<String, String> sql_dirMap); 
+	int productInsert(ProductVO productVO, HashMap<String, String> sql_dirMap);
+
+	int productUpdate(ProductVO productVO, HashMap<String, String> sql_dirMap);
+
+	int productDelete(String pid); 
 
 
 

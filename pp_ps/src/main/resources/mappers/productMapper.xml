@@ -42,5 +42,15 @@
  			${sql}
 		]]>
 	</insert>
+	<update id="productUpdate"  parameterType="HashMap">
+	<![CDATA[ 
+ 			${sql}
+		]]>
+	</update>
+	<delete id="productDelete"  parameterType="HashMap">
+	<![CDATA[ 
+ 			${sql}
+		]]>
+	</delete>
 
 </mapper>

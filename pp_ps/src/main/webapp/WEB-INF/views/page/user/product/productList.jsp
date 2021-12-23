@@ -71,7 +71,7 @@
 							var path =pimgJSON.img.path;
 							var fileName = pimgJSON.img.fileName;
 							
-							$("#img-${plist.pid}").attr("src" ,path+"/"+fileName);
+							$("#img-${plist.pid}").attr("src" ,"/resources"+path+"/"+fileName);
 						</script>
 					</div> 
 					<div class="product-content-box">

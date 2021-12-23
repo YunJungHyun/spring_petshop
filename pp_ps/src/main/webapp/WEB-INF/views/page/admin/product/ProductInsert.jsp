@@ -37,7 +37,7 @@
 }
 
 .ck-editor__editable {
-	    min-height: 300px;
+	    min-height: 600px;
 	}
 </style>
 
@@ -55,14 +55,14 @@
 			<div class="col-lg-6 px-0 pl-3">
 				<div class="form-group mb-4">
 					<label for="pname">제품 이름</label>
-					<input type="text" class="form-control" id="pname" placeholder="제품 이름을 입력하세요." value="test"> 
+					<input type="text" class="form-control" id="pname" placeholder="제품 이름을 입력하세요."> 
 					<div class="invalid-feedback">
 							
 					</div>
 				</div>
 				<div class="form-group mb-4">
 					<label for="pbrand">브랜드 이름</label>
-					<input type="text" class="form-control" id="pbrand" placeholder="브랜드 이름을 입력하세요." value="testBrand"> 
+					<input type="text" class="form-control" id="pbrand" placeholder="브랜드 이름을 입력하세요."> 
 					<div class="invalid-feedback">
 							
 					</div>
@@ -70,14 +70,14 @@
 				<div class="form-row m-0 mb-4">
 					<div class="form-group col-lg-6 pl-0" >
 						<label for="pcnt">입고량</label>
-						<input type="text" class="form-control" id="pcnt" placeholder="입고 수량을 입력해주세요." value="1,000"> 
+						<input type="text" class="form-control" id="pcnt" placeholder="입고 수량을 입력해주세요." onkeyup="inputNumberFormat(this)"> 
 						<div class="invalid-feedback">
 							
 						</div>
 					</div>
 					<div class="form-group col-lg-6 pr-0">
 						<label for="pprice">가격</label>
-						<input type="text" class="form-control" id="pprice" placeholder="제품 가격을 입력해주세요." value="30,000"> 
+						<input type="text" class="form-control" id="pprice" placeholder="제품 가격을 입력해주세요." onkeyup="inputNumberFormat(this)"> 
 						<div class="invalid-feedback">
 							
 						</div>
@@ -138,31 +138,32 @@
 		</div>
 		<div class="page-box">
 			<textarea id="pexplicate">
-				<h5><strong>제품 설명</strong></h5>
-					<br>
-				<h5><strong>제품 특징</strong></h5>
+				
 			</textarea>
 			
-			<script>  
+			 
+			<script>   
+			 var ckeditor_config = {
+					   resize_enaleb : false,
+					   enterMode : CKEDITOR.ENTER_BR,
+					   shiftEnterMode : CKEDITOR.ENTER_P
 				
-			  ClassicEditor
-	            .create( document.querySelector( '#pexplicate' ),
-	            		{
-	            	
-	            			language :'ko'
-	            			
-	            		} 
-	            	
-	            ) 
-	            .catch( error => {
-	                console.error( error );
-	            } );
+					 };
+					 
+					 CKEDITOR.replace("pexplicate", ckeditor_config);
+		
+			
+				CKEDITOR.instances.pexplicate.setData('<h5><strong>제품 설명</strong></h5><p><br /><h5><strong>제품 특징</strong></h5><p><br />');
 			</script>
+			 
 		</div>
 	</div>
 	
 	<div class="ps-container row justify-content-end p-3 ">
+	
 		<button type="button" class="btn btn-primary mx-2" id="product-insert-btn">제품 등록</button>
+
+  
 		<button type="button" class="btn btn-danger mx-2" id="product-insert-reset-btn">취소</button>
 	</div>
 </div>
@@ -171,22 +172,51 @@
 
 $("#product-insert-btn").on("click",function(){
 	
+	
 	var pname = $("#pname").val();
 	var pbrand = $("#pbrand").val();
 	var pcnt = $("#pcnt").val();
 	var pprice = $("#pprice").val();
 	var pccode = $("#pccode").val();
 	var pimgFile = $("#pimg")[0].files[0];
-	var pexplicate = $("#pexplicate").val(); 
-	
-	/* console.log(pname);
-	console.log(pbrand);
-	console.log(pcnt);
-	console.log(pprice);
-	console.log(pccode);
-	console.log(pimgFile);
-	console.log(pexplicate);
-	 */
+	var pexplicate = CKEDITOR.instances.pexplicate.getData();
+	if(pname == ""){
+		
+		alert("제품 이름을 입력하세요.");
+		$("#pname").focus();
+		return false;
+	}
+	if(pbrand == ""){
+		
+		alert("제품 브랜드를 입력하세요.");
+		$("#pbrand").focus();
+		return false;
+	}
+	if(pcnt == ""){
+		
+		alert("제품 입고량을 입력하세요.");
+		$("#pcnt").focus();
+		return false;
+	}
+	if(pprice == ""){
+		
+		alert("제품 가격을 입력하세요.");
+		$("#pprice").focus();
+		return false;
+	}
+	if(pccode == ""){
+		
+		alert("제품 카테고리를 선택해주세요.");
+		$("#pccode").focus();
+		return false;
+	}
+	if(pimgFile == undefined){
+		
+		alert("제품 이미지를 선택해주세요.");
+		$(".upload-name").focus();
+		return false;
+	}
+
 	var formData = new FormData();
 	formData.append("pname",pname);
 	formData.append("pbrand",pbrand);
@@ -197,7 +227,7 @@ $("#product-insert-btn").on("click",function(){
 	formData.append("pexplicate",pexplicate);
 	
 	/* console.log(formData); */
-	$.ajax({
+	 $.ajax({
 		
 		url : "/product/insert",
 		processData : false,
@@ -251,5 +281,18 @@ $("#pimg").on('change',function(){
 	var fileName = $("#pimg").val();
 	$(".upload-name").val(fileName);
 });
-	
+
+function inputNumberFormat(obj) {
+    obj.value = comma(uncomma(obj.value));
+}
+
+function comma(str) {
+    str = String(str);
+    return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+}
+
+function uncomma(str) {
+    str = String(str);
+    return str.replace(/[^\d]+/g, '');
+}
 </script> 

@@ -189,4 +189,40 @@ public class ProductDAOImpl implements ProductDAO{
 		return result;
 	}
 
+	
+	@Override
+	public int productUpdate(ProductVO productVO, HashMap<String, String> sql_dirMap) {
+		HashMap<String, String> map = new HashMap();
+		
+		String sql ="UPDATE product set ";
+		sql+="pname ='"+productVO.getPname()+"', ";
+		sql+="pbrand ='"+productVO.getPbrand()+"', ";
+		sql+="pcnt ='"+productVO.getPcnt()+"', ";
+		sql+="pprice ='"+productVO.getPprice()+"', ";
+		sql+="pccode ="+productVO.getPccode()+", ";
+		sql+="pexplicate ='"+productVO.getPexplicate()+"', ";
+		if(sql_dirMap != null) {
+		sql+="pimg =";
+	
+		sql+="JSON_OBJECT('img', ";
+			sql+="JSON_OBJECT('path','"+sql_dirMap.get("path")+"','fileName','"+sql_dirMap.get("fileName")+"')";
+		sql+=") ";
+		
+		}
+		sql+="WHERE pid = '"+productVO.getPid()+"'";
+		map.put("sql", sql);
+		
+		int result = sqlSession.insert(Namespace +".productUpdate",map);
+		return result;
+	}
+	
+	@Override
+	public int productDelete(String pid) {
+		HashMap<String, String> map = new HashMap();
+		String sql ="DELETE FROM product WHERE pid = '"+pid+"'";
+
+		map.put("sql", sql);
+		int result = sqlSession.insert(Namespace +".productDelete",map);
+		return result;
+	}
 }

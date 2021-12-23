@@ -47,4 +47,16 @@ public class ProductServiceImpl implements ProductService{
 		// TODO Auto-generated method stub
 		return productDAO.productInsert(productVO,sql_dirMap);
 	}
+	
+	@Override
+	public int productUpdate(ProductVO productVO, HashMap<String, String> sql_dirMap) {
+		// TODO Auto-generated method stub
+		return  productDAO.productUpdate(productVO,sql_dirMap);
+	}
+	
+	@Override
+	public int productDelete(String pid) {
+		// TODO Auto-generated method stub
+		return productDAO.productDelete(pid);
+	}
 }
