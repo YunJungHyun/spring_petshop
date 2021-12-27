@@ -11,6 +11,8 @@ VO클래스 등록하면 mapper.xml에서 VO 클래스를 mybatis-config.xml에 
             <typeAlias type="org.spring.ps.vo.AdminVO" alias="adminVO"/>
             <typeAlias type="org.spring.ps.vo.CategoryVO" alias="categoryVO"/>
             <typeAlias type="org.spring.ps.vo.ProductVO" alias="productVO"/>
+            <typeAlias type="org.spring.ps.vo.CartVO" alias="cartVO"/>
+            <typeAlias type="org.spring.ps.vo.CartListVO" alias="cartListVO"/>
            
             
         </typeAliases>

@@ -142,7 +142,7 @@ public class ProductDAOImpl implements ProductDAO{
 	public ProductVO getProductOne(String pid) {
 		HashMap<String, String> map = new HashMap();
 
-		String sql = "SELECT  A.* FROM product  AS A ";
+		String sql = "SELECT  A.*,B.ccoderef AS pccoderef FROM product  AS A ";
 		sql +="LEFT JOIN category AS B ON A.pccode =B.ccode ";
 		sql	+="WHERE pid = '"+pid+"'";
 
@@ -200,9 +200,9 @@ public class ProductDAOImpl implements ProductDAO{
 		sql+="pcnt ='"+productVO.getPcnt()+"', ";
 		sql+="pprice ='"+productVO.getPprice()+"', ";
 		sql+="pccode ="+productVO.getPccode()+", ";
-		sql+="pexplicate ='"+productVO.getPexplicate()+"', ";
+		sql+="pexplicate ='"+productVO.getPexplicate()+"' ";
 		if(sql_dirMap != null) {
-		sql+="pimg =";
+		sql+=", pimg =";
 	
 		sql+="JSON_OBJECT('img', ";
 			sql+="JSON_OBJECT('path','"+sql_dirMap.get("path")+"','fileName','"+sql_dirMap.get("fileName")+"')";

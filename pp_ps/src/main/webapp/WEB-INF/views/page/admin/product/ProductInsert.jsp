@@ -177,6 +177,9 @@ $("#product-insert-btn").on("click",function(){
 	var pbrand = $("#pbrand").val();
 	var pcnt = $("#pcnt").val();
 	var pprice = $("#pprice").val();
+	
+	
+	
 	var pccode = $("#pccode").val();
 	var pimgFile = $("#pimg")[0].files[0];
 	var pexplicate = CKEDITOR.instances.pexplicate.getData();
@@ -216,6 +219,17 @@ $("#product-insert-btn").on("click",function(){
 		$(".upload-name").focus();
 		return false;
 	}
+	
+	if(pcnt.indexOf(",") != -1 ){
+
+		pcnt = pcnt.replace(",","");
+	}
+	
+	if(pprice.indexOf(",") != -1 ){
+
+		pprice = pprice.replace(",","");
+	}
+	
 
 	var formData = new FormData();
 	formData.append("pname",pname);
@@ -224,10 +238,9 @@ $("#product-insert-btn").on("click",function(){
 	formData.append("pprice",pprice);
 	formData.append("pccode",pccode);
 	formData.append("pimgFile",pimgFile);
-	formData.append("pexplicate",pexplicate);
-	
+	formData.append("pexplicate",pexplicate); 
 	/* console.log(formData); */
-	 $.ajax({
+	  $.ajax({
 		
 		url : "/product/insert",
 		processData : false,
@@ -245,7 +258,7 @@ $("#product-insert-btn").on("click",function(){
 				alert("제품 등록 실패하였습니다.");
 			}
 		}
-	})
+	}) 
 })
 
 $("#ccoderef").on("change",function(){

@@ -18,10 +18,10 @@
 			<a href="#" class="my-menu-btn"><i class="fas fa-user"></i></a>
 			<ul class="ps-dropdown-content my-menu-content list-group">
 				<li class="dropdown-li p-2 my-2">
-					<a href="/view/login">장바구니</a>
+					<a href="#" onclick="goPage('cart')">장바구니</a>
 				</li>
 				<li class="dropdown-li p-2 my-2">
-					<a href="/view/login">찜목록</a>
+					<a href="#" onclick="goPage('like')">찜목록</a>
 				</li>
 				<li class="dropdown-li p-2 my-2">
 					<a href="/view/login">로그인</a> 
@@ -40,10 +40,10 @@
 			<a href="#" class="my-menu-btn"><i class="fas fa-user"></i></a>
 			<ul class="ps-dropdown-content my-menu-content list-group">
 				<li class="dropdown-li p-2 my-2">
-					<a href="#">장바구니</a>
+					<a href="#" onclick="goPage('cart')">장바구니</a>
 				</li>
 				<li class="dropdown-li p-2 my-2">
-					<a href="#">찜목록</a>
+					<a href="#" onclick="goPage('like')">찜목록</a>
 				</li>
 				<li class="dropdown-li p-2 my-2">
 					<a href="/join/logout">로그아웃</a> 
@@ -74,4 +74,22 @@
 	</c:if>
 </div> 
 
+<script>
+
+	function goPage(sort){
+		
+		
+		var userInfo = '${userInfo}';
+		
+		if(userInfo ==""){
+			
+			alert("로그인 후 이용가능합니다.");
+			location.href="/view/login?go=login";
+		}else{
+			
+			location.href="/view/"+sort;
+		}
+		
+	}
+</script>
 

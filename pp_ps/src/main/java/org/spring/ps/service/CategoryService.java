@@ -13,6 +13,8 @@ public interface CategoryService {
 
 	int categoryInsert(int parentCategory, String cname);
 
+	String getCategoryOne(String openCcode);
+
 	
 
 }

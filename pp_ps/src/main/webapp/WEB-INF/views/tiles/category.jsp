@@ -1,24 +1,42 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <div class="category-list p-2">
 	<div class="row flex-nowrap justify-content-between align-items-center">
 		<div class="col-4 d-flex justify-content-start align-items-center">
 			<div class="ps-dropdown">
 				<a href="#" class="category-menu-btn">카테고리</a>
-				
+
 				<ul class="ps-dropdown-content category-menu-content list-group">
-				
+
 				</ul>
-				
+
 			</div>
 		</div>
 	</div>
 </div>
-
+<c:if test="${breadcrumb !='none' }">
+	<nav aria-label="breadcrumb"> 
+		<ol class="breadcrumb mb-0">
+			<li class="breadcrumb-item" aria-current="page">
+				<a href="/">홈</a>
+			</li>
+			<c:forEach items="${breadcrumb }" var="bc">
+				<li class="breadcrumb-item" aria-current="page">
+					<a href="${bc.pageHref }">${bc.pageName }</a>
+				</li>
+			</c:forEach>
+		</ol>
+		 
+	</nav>
+</c:if>
 
 <script>
 $(document).ready(function(){
+	
 	getCategoryList();
+	 
+	
 	
 })
 

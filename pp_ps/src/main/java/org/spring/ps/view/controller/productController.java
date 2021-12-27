@@ -2,8 +2,9 @@ package org.spring.ps.view.controller;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import javax.annotation.Resource;
@@ -11,8 +12,11 @@ import javax.inject.Inject;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.spring.ps.service.CategoryService;
 import org.spring.ps.service.ProductService;
 import org.spring.ps.utils.UploadFileUtils;
+import org.spring.ps.utils.routeUtils;
+import org.spring.ps.vo.PageInfoVO;
 import org.spring.ps.vo.ProductVO;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -42,7 +46,10 @@ public class productController {
 
 	@Inject
 	private ProductService productService;
-
+	
+	@Inject
+	private CategoryService categoryService;
+	
 	@RequestMapping(value="/{pid}", method=RequestMethod.GET)
 	public String product(
 			Model model,
@@ -50,6 +57,20 @@ public class productController {
 			) {
 
 		ProductVO pvo = productService.getProductOne(pid);
+		//route
+		String cnameref = categoryService.getCategoryOne(Integer.toString(pvo.getPccoderef()));
+		String cname = categoryService.getCategoryOne(Integer.toString(pvo.getPccode()));
+		
+		Map<Integer,String[]> routeMap = new HashMap<>();
+		String routeArray[][] = {{cnameref,"/category/"+pvo.getPccoderef()},{cname,"/category/"+pvo.getPccoderef()+pvo.getPccode()},{pvo.getPname(),"/product/"+pvo.getPid()}};
+		routeMap.put(0,routeArray[0]);
+		routeMap.put(1,routeArray[1]);
+		routeMap.put(2,routeArray[2]);
+		List<PageInfoVO> breadcrumbList =routeUtils.pageInfo(routeMap);
+
+		model.addAttribute("breadcrumb",breadcrumbList);
+
+
 		model.addAttribute("pvo",pvo);
 		String pageTitle = pvo.getPname();  
 		model.addAttribute("pageTitle", pageTitle);
@@ -155,121 +176,121 @@ public class productController {
 
 		log.debug("[productUpdate] productVO :" +productVO.toString());
 		log.debug("[productUpdate] file :" +file);
-		
+
 		HashMap<String,String> sql_dirMap = new HashMap();
-		
+
 		if(file == null) {
-				
+
 			sql_dirMap= null;
-			
+
 		}else {
-			
+
 			//File file =  new File(uploadPath+)
 			JsonParser parser = new JsonParser();
 			JsonElement element = parser.parse(productVO.getPimg());
 
 			JsonObject img_json = element.getAsJsonObject().get("img").getAsJsonObject();
-			
-			 String path = img_json.getAsJsonObject().get("path").getAsString();
-			 String fileName = img_json.getAsJsonObject().get("fileName").getAsString();
-			 
-			 
-			 File dir_file_1 =  new File(uploadPath+path+ File.separator+fileName);
-			 File dir_file_2 =  new File(uploadPath+path+ File.separator+"s"+File.separator+"s_"+fileName);
-			 
-			 log.debug(uploadPath+path+ File.separator+fileName);
-			 log.debug(uploadPath+path+ File.separator+"s"+File.separator+"s_"+fileName);
-			 
-			 boolean f_delete_result = false;
-			 if (dir_file_1.exists() && dir_file_2.exists()){
-			
-			      // 파일 삭제 성공시
-			      if (dir_file_1.delete() &&  dir_file_2.delete()){
 
-			        log.debug("파일 삭제 성공");
-			        f_delete_result =true;
-			        
-			      //파일 삭제 실패시
-			      }else{
-			    	  log.debug("파일 삭제 실패");
-			      }
+			String path = img_json.getAsJsonObject().get("path").getAsString();
+			String fileName = img_json.getAsJsonObject().get("fileName").getAsString();
 
-			    // 지정한 경로에 파일이 존재안하는 경우 
-			 }else{
-				 f_delete_result =true;
-				 log.debug("파일이없습니다.");
-			  }
-			  
-			 
-			 if(f_delete_result ==  true) {
-				 
-				 String originalFilename = new String(file.getOriginalFilename().getBytes("8859_1"),"utf-8");
-					String imgUploadPath = uploadPath + File.separator +"imgUpload"+File.separator+"product";
-					
-					HashMap<String,String> dirMap = UploadFileUtils.calcPath(imgUploadPath ,productVO.getPid());
-					String ymdPidImgPath = dirMap.get("img_uploadPath"); 
-			        
-			        String New_fileName = UploadFileUtils.fileUpload(imgUploadPath, originalFilename, file.getBytes(), ymdPidImgPath);
-			        
-			       
-			        //데이터 삽입 준비
-				
-					String New_path = "/imgUpload/product/"+dirMap.get("year")+"/"+dirMap.get("month")+"/"+dirMap.get("date")+"/"+dirMap.get("product")+"/cover";
 
-					sql_dirMap.put("path",New_path);
-					sql_dirMap.put("fileName",New_fileName);
-				 
-			 }
-			 
+			File dir_file_1 =  new File(uploadPath+path+ File.separator+fileName);
+			File dir_file_2 =  new File(uploadPath+path+ File.separator+"s"+File.separator+"s_"+fileName);
+
+			log.debug(uploadPath+path+ File.separator+fileName);
+			log.debug(uploadPath+path+ File.separator+"s"+File.separator+"s_"+fileName);
+
+			boolean f_delete_result = false;
+			if (dir_file_1.exists() && dir_file_2.exists()){
+
+				// 파일 삭제 성공시
+				if (dir_file_1.delete() &&  dir_file_2.delete()){
+
+					log.debug("파일 삭제 성공");
+					f_delete_result =true;
+
+					//파일 삭제 실패시
+				}else{
+					log.debug("파일 삭제 실패");
+				}
+
+				// 지정한 경로에 파일이 존재안하는 경우 
+			}else{
+				f_delete_result =true;
+				log.debug("파일이없습니다.");
+			}
+
+
+			if(f_delete_result ==  true) {
+
+				String originalFilename = new String(file.getOriginalFilename().getBytes("8859_1"),"utf-8");
+				String imgUploadPath = uploadPath + File.separator +"imgUpload"+File.separator+"product";
+
+				HashMap<String,String> dirMap = UploadFileUtils.calcPath(imgUploadPath ,productVO.getPid());
+				String ymdPidImgPath = dirMap.get("img_uploadPath"); 
+
+				String New_fileName = UploadFileUtils.fileUpload(imgUploadPath, originalFilename, file.getBytes(), ymdPidImgPath);
+
+
+				//데이터 삽입 준비
+
+				String New_path = "/imgUpload/product/"+dirMap.get("year")+"/"+dirMap.get("month")+"/"+dirMap.get("date")+"/"+dirMap.get("product")+"/cover";
+
+				sql_dirMap.put("path",New_path);
+				sql_dirMap.put("fileName",New_fileName);
+
+			}
+
 		}
-		
-		
+
+
 		int result = productService.productUpdate(productVO,sql_dirMap);
-		
+
 		return result;
 
 	}
-	
+
 	@RequestMapping(value= "/delete", method=RequestMethod.POST)
 	@ResponseBody
 	public int productDelete(
 			@RequestParam(value = "pid") String pid,
 			@RequestParam(value = "pimg") String pimg
-			
+
 			) {
-		
+
 		JsonParser parser = new JsonParser();
 		JsonElement element = parser.parse(pimg);
 
 		JsonObject img_json = element.getAsJsonObject().get("img").getAsJsonObject();
-		
+
 		String path = img_json.getAsJsonObject().get("path").getAsString();
 		String fileName = img_json.getAsJsonObject().get("fileName").getAsString();
-		
+
 		String delete_path = path.replace("cover", "");
 		log.debug(delete_path);
-		
+
 		File rootDir =  new File(uploadPath+delete_path);
-		 
+
 		if(rootDir.exists()) {
 			deleteFilesRecursively(rootDir);
 		}
-		 
+
 		int reuslt = productService.productDelete(pid);
-		
+
 		return reuslt;
 	}
-	
-	static boolean deleteFilesRecursively(File rootFile) {
-        File[] allFiles = rootFile.listFiles();
-        if (allFiles != null) {
-            for (File file : allFiles) {
-                deleteFilesRecursively(file);
-            }
-        }
-        System.out.println("Remove file: " + rootFile.getPath());
-        return rootFile.delete();
 
-    }
+	static boolean deleteFilesRecursively(File rootFile) {
+		File[] allFiles = rootFile.listFiles();
+		if (allFiles != null) {
+			for (File file : allFiles) {
+				deleteFilesRecursively(file);
+			}
+		}
+		System.out.println("Remove file: " + rootFile.getPath());
+		return rootFile.delete();
+
+	}
 
 }

@@ -34,5 +34,9 @@ public class CategoryServiceImpl implements CategoryService {
 		return categoryDAO.categoryInsert(parentCategory,cname);
 	}
 	
-	
+	@Override
+	public String getCategoryOne(String openCcode) {
+		// TODO Auto-generated method stub
+		return categoryDAO.getCategoryOne(openCcode);
+	}
 }

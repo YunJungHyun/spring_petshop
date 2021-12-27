@@ -18,8 +18,8 @@ public class ProductVO {
 	
 	private String pname;
 	private String pbrand;
-	private String pcnt;
-	private String pprice;
+	private int pcnt;
+	private int pprice;
 	private int pccode;
 	private int pccoderef;
 	private String pimg;

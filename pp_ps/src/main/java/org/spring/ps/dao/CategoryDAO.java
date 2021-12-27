@@ -13,4 +13,6 @@ public interface CategoryDAO {
 
 	int categoryInsert(int parentCategory, String cname);
 
+	String getCategoryOne(String openCcode);
+
 }

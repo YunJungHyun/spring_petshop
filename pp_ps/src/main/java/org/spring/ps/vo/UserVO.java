@@ -21,9 +21,6 @@ public class UserVO {
 	private String uemail;
 	private String uadress;
 	
-	private String ubasket;
-	private String ulike;
-	private String ubuy;
 	private int ulevel;
 	private String utype;
 

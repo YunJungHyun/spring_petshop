@@ -1,8 +1,7 @@
 @charset "UTF-8";
 
-.product-img-box-2{
-	
-	width : 100%;
+.product-img-box-2 {
+	width: 100%;
 	border-radius: 8px;
 	overflow: hidden;
 	text-align: center;
@@ -12,4 +11,120 @@
 	width: -webkit-fill-available;
 	height: inherit;
 	object-fit: cover;
+}
+
+.card {
+	border-radius: unset !important;
+}
+
+.card-header-tabs {
+	margin-left: 0px !important;
+	margin-right: 0px !important;
+}
+
+.nav-item {
+	padding: 0px !important;
+}
+
+.ps-tab {
+	display: block;
+	padding: 0.5rem 1rem;
+	background: #7fe7d5;
+	color: #000;
+	font-weight: bold;
+}
+
+.ps-tab-1.active {
+	background-color: #fff;
+	border-right: 1px solid #cccccc;
+}
+
+.ps-tab-2.active, .ps-tab-3.active {
+	background-color: #fff;
+	border-left: 1px solid #cccccc;
+	border-right: 1px solid #cccccc;
+}
+
+.ps-tab-4.active {
+	background-color: #fff;
+	border-left: 1px solid #cccccc;
+}
+
+.ps-card-body {
+	text-align: left;
+}
+
+a.brand-badge {
+	color: #007bff;
+	display: block;
+}
+
+a.brand-badge:hover {
+	color: #007bff;
+	text-decoration: underline;
+}
+
+div#pexplicate {
+	font-size: .75rem;
+}
+
+.product-info-content>label {
+	font-size: 1.25rem;
+}
+
+.product-info-content>span {
+	font-size: 1.25rem;
+	font-weight: bold;
+}
+
+.product-info-ul>li {
+	padding-top: .25rem;
+	padding-bottom: .25rem;
+}
+
+.product-info-ul {
+	border-top: 1px solid #cccccc7d;
+	border-bottom: 1px solid #cccccc7d;
+	padding-top: 0.5rem;
+	padding-bottom: 0.5rem;
+}
+
+.product-info-title {
+	border-bottom: 1px solid #cccccc7d;
+}
+
+.user-input-content {
+	background-color: #f4f4f5;
+	padding: 20px;
+}
+
+.btn-group.ps-cnt-group {
+	border: 1px solid #ccc;
+}
+
+input.ps-cnt {
+	width: 3rem;
+	height: 3rem;
+	font-size: 1.5rem;
+	text-align: center;
+	border-top: unset;
+	border-left: 1px solid #ccc;
+	border-right: 1px solid #ccc;
+	border-bottom: unset;
+}
+
+input.ps-cnt:focus-visible {
+	outline: unset;
+}
+
+.ps-cnt-btn {
+	width: 3rem;
+	height: 3rem;
+	background-color: #fff;
+	justify-content: center;
+	align-items: center;
+}
+
+.ps-price-group {
+	font-size: 2rem;
 }

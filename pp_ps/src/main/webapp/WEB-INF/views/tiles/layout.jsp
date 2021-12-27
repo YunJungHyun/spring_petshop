@@ -36,6 +36,7 @@
 <link href="/resources/css/product.css" rel="stylesheet" type="text/css">
 <link href="/resources/css/join.css" rel="stylesheet" type="text/css">
 <link href="/resources/css/slide.css" rel="stylesheet" type="text/css">
+<link href="/resources/css/cart.css" rel="stylesheet" type="text/css">
 
 <title>PETSHOP - ${pageTitle}</title>
 

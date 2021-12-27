@@ -78,5 +78,14 @@ public class CategoryDAOImpl implements CategoryDAO{
 		return result;
 	}
 
-
+	@Override
+	public String getCategoryOne(String openCcode) {
+		HashMap<String,String> map = new HashMap<String, String>();
+		
+		String sql = "SELECT cname FROM category WHERE ccode = "+openCcode;
+		map.put("sql", sql);
+		
+		String result = sqlSession.selectOne(Namespace+".getCategoryOne",map);
+		return result;
+	}
 }

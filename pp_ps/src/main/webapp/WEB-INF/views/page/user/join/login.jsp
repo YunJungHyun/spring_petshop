@@ -78,6 +78,8 @@ $("#signIn-btn").on("click",function(){
 	var userid = $("#userid").val();
 	var userpw = $("#userpw").val();
 	
+	
+	
 /* 	if(userid == ""){
 		
 		alert("아이디를 입력해주세요");
@@ -114,7 +116,15 @@ $("#signIn-btn").on("click",function(){
 				$("#userpw").focus();
 			}else if(data =="success"){
 				
-				location.href="/";
+				
+				
+				if('${go}'!= ""){
+					
+					location.href = document.referrer;
+				}else{
+					
+					location.href = "/";
+				}
 			}
 			
 		}

@@ -24,6 +24,15 @@
 		
 		
  	</select>
+ 	<select id="getCategoryOne" parameterType="HashMap" resultType="String">
+ 	
+ 		
+ 		<![CDATA[ 
+ 			${sql}
+		]]>
+		
+		
+ 	</select>
  	<insert id="categoryInsert" parameterType="HashMap" >
  	
  		

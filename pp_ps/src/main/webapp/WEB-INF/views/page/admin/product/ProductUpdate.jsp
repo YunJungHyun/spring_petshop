@@ -80,14 +80,14 @@
 				<div class="form-row m-0 mb-4">
 					<div class="form-group col-lg-6 pl-0" >
 						<label for="pcnt">입고량</label>
-						<input type="text" class="form-control" id="pcnt" placeholder="입고 수량을 입력해주세요." value="${pvo.pcnt }"> 
+						<input type="text" class="form-control" id="pcnt" placeholder="입고 수량을 입력해주세요." value="${pvo.pcnt }" onkeyup="inputNumberFormat(this)"> 
 						<div class="invalid-feedback">
 							
 						</div>
 					</div>
 					<div class="form-group col-lg-6 pr-0">
 						<label for="pprice">가격</label>
-						<input type="text" class="form-control" id="pprice" placeholder="제품 가격을 입력해주세요." value="${pvo.pprice }"> 
+						<input type="text" class="form-control" id="pprice" placeholder="제품 가격을 입력해주세요." value="${pvo.pprice }" onkeyup="inputNumberFormat(this)"> 
 						<div class="invalid-feedback">
 							
 						</div>
@@ -267,6 +267,49 @@ $("#product-update-btn").on("click",function(){
 	var pimgFile = $("#pimg")[0].files[0];
 	var pexplicate = CKEDITOR.instances.pexplicate.getData();
 	
+	
+	if(pname == ""){
+		
+		alert("제품 이름을 입력하세요.");
+		$("#pname").focus();
+		return false;
+	}
+	if(pbrand == ""){
+		
+		alert("제품 브랜드를 입력하세요.");
+		$("#pbrand").focus();
+		return false;
+	}
+	if(pcnt == ""){
+		
+		alert("제품 입고량을 입력하세요.");
+		$("#pcnt").focus();
+		return false;
+	}
+	if(pprice == ""){
+		
+		alert("제품 가격을 입력하세요.");
+		$("#pprice").focus();
+		return false;
+	}
+	if(pccode == ""){
+		
+		alert("제품 카테고리를 선택해주세요.");
+		$("#pccode").focus();
+		return false;
+	}
+
+	
+	if(pcnt.indexOf(",") != -1 ){
+
+		pcnt = pcnt.replace(",","");
+	}
+	
+	if(pprice.indexOf(",") != -1 ){
+
+		pprice = pprice.replace(",","");
+	}
+	
 	 
 	
 	if(pimgFile == undefined){
@@ -355,5 +398,20 @@ $("#pimg").on('change',function(){
 	var fileName = $("#pimg").val();
 	$(".upload-name").val(fileName);
 });
-	
+
+
+
+function inputNumberFormat(obj) {
+    obj.value = comma(uncomma(obj.value));
+}
+
+function comma(str) {
+    str = String(str);
+    return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+}
+
+function uncomma(str) {
+    str = String(str);
+    return str.replace(/[^\d]+/g, '');
+}
 </script> 
