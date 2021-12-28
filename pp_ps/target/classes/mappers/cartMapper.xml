@@ -14,10 +14,36 @@
 
 	</insert>
 
+	<select id ="cartCheck" parameterType="HashMap" resultType="int">
+	<![CDATA[
+			${sql}
+		]]>
+	
+	</select>
 	<select id ="getCartList" parameterType="HashMap" resultType="cartListVO">
 	<![CDATA[
 			${sql}
 		]]>
 	
 	</select>
+
+	<delete id ="cartDelete" parameterType="HashMap">
+	<![CDATA[
+			${sql}
+		]]>
+	
+	</delete>
+	<update id ="cntUpdate" parameterType="HashMap">
+	<![CDATA[
+			${sql}
+		]]>
+	
+	</update>
+	
+	<delete id ="cartAllDelete" parameterType="HashMap">
+	<![CDATA[
+			${sql}
+		]]>
+	
+	</delete>
 </mapper>

@@ -36,8 +36,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Controller
 @RequestMapping("/product")
-public class productController {
-
+public class ProductController {
+ 
 	Log log = LogFactory.getLog(this.getClass());
 
 	@Resource(name="uploadPath")

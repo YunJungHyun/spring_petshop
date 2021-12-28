@@ -14,7 +14,6 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.json.simple.JSONObject;
 import org.spring.ps.service.AuthLoginService;
 import org.spring.ps.vo.UserVO;
 import org.springframework.stereotype.Controller;
@@ -31,8 +30,8 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Controller
-public class kakaoOauth {
-
+public class KakaoOauth {
+ 
 	final static String CLIENT_ID = "9539c2a2417f7ade53f95908a382dd70";
 	final static String REDIRECT_URI = "http://localhost:8080/oauth_kakao/auth";
 	

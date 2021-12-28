@@ -4,3 +4,20 @@
 	
 	border-bottom : 1px solid #ccc;
 }
+
+.product-content-box > p{
+	
+	
+	margin: unset;
+}
+
+.product-img-box-5 > img{
+	
+	width: 150px;
+    height: auto;
+} 
+
+.span-cart-pname{
+	
+	font-weight: bold;
+}

@@ -1,22 +1,27 @@
 package org.spring.ps.view.controller;
 
-import java.util.ArrayList;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.spring.ps.service.CartService;
+import org.spring.ps.service.OrderService;
 import org.spring.ps.utils.routeUtils;
 import org.spring.ps.vo.CartListVO;
+import org.spring.ps.vo.OrderVO;
 import org.spring.ps.vo.PageInfoVO;
 import org.spring.ps.vo.UserVO;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -33,6 +38,8 @@ public class ViewController {
 
 	@Inject
 	private CartService cartService;
+	@Inject
+	private OrderService orderService;
 
 
 
@@ -146,11 +153,26 @@ public class ViewController {
 
 
 	@RequestMapping(value="/cart")
-	public String cart(Model model,HttpSession session) {
+	public String cart(Model model,HttpSession session,
+			HttpServletResponse response) throws IOException {
 
 		UserVO userVO = (UserVO)session.getAttribute("userInfo");
-		List<CartListVO> cartList = cartService.getCartList(userVO.getUserid());
+		
+		if(userVO == null ) {
+			
+			response.setContentType("text/html; charset=UTF-8");
 
+			PrintWriter out = response.getWriter();
+
+			out.println("<script>alert('로그인 후 이용 가능합니다.'); location.href='/';</script>");
+
+			out.flush();
+
+			return "home.page";
+		}else {
+		
+		List<CartListVO> cartList = cartService.getCartList(userVO.getUserid());
+		
 		//route
 		Map<Integer,String[]> routeMap = new HashMap<>();
 		String routeArray[][] = {{"장바구니","/view/cart"}};
@@ -167,5 +189,95 @@ public class ViewController {
 
 
 		return "user/cart/cartList.page";
+		}
+	}
+	
+	
+	@RequestMapping(value="/mypage/{my}")
+	public String order(
+			HttpSession session,
+			HttpServletResponse response,Model model,
+			@PathVariable("my") String my
+			) throws IOException {
+
+		
+		UserVO userVO = (UserVO)session.getAttribute("userInfo");
+		Map<Integer,String[]> routeMap = new HashMap<>();
+		String page="";
+		
+		if(userVO == null ) {
+			
+			response.setContentType("text/html; charset=UTF-8");
+
+			PrintWriter out = response.getWriter();
+
+			out.println("<script>alert('로그인 후 이용가능합니다.'); location.href='/';</script>");
+
+			out.flush();
+
+			return "home.page";
+		}else {
+			switch(my) {
+			
+				case "order":
+					List<OrderVO> orderList = orderService.getOrderList(userVO.getUserid());
+					
+					model.addAttribute("oList",orderList);
+					
+					page ="user/my/myPageOrder.page";
+					String routeArray[][] = {{"마이페이지","/view/mypage/order"},{"주문 내역","/view/mypage/order"}};
+					routeMap.put(0,routeArray[0]);
+					routeMap.put(1,routeArray[1]);
+					
+					
+			}
+			
+		}
+		
+		List<PageInfoVO> breadcrumbList =routeUtils.pageInfo(routeMap);
+		model.addAttribute("breadcrumb",breadcrumbList);
+		String pageTitle ="마이페이지";
+		model.addAttribute("pageTitle",pageTitle);
+		
+		return page;
+	}
+	
+	@RequestMapping(value="/orderOkay")
+	public String orderOkay(HttpSession session,
+			HttpServletResponse response,Model model) throws IOException {
+
+		UserVO userVO = (UserVO)session.getAttribute("userInfo");
+		
+		if(userVO == null ) {
+			
+			response.setContentType("text/html; charset=UTF-8");
+
+			PrintWriter out = response.getWriter();
+
+			out.println("<script>alert('페이지 접근 권한이 없습니다.'); location.href='/';</script>");
+
+			out.flush();
+
+			return "home.page";
+		}else {
+		
+		
+		//route
+		Map<Integer,String[]> routeMap = new HashMap<>();
+		String routeArray[][] = {{"장바구니","/view/cart"},{"주문 완료","/view/orderOkay"}};
+		routeMap.put(0,routeArray[0]);
+		routeMap.put(1,routeArray[1]);
+	
+		List<PageInfoVO> breadcrumbList =routeUtils.pageInfo(routeMap);
+
+		model.addAttribute("breadcrumb",breadcrumbList);
+
+
+		String pageTitle = "주문 완료";
+		model.addAttribute("pageTitle",pageTitle);
+	
+
+		return "user/order/orderOkay.page";
+		}
 	}
 }

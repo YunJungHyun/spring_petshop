@@ -8,13 +8,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping(value="/auth")
-public class authJoinController {
+public class AuthJoinController {
 	
 	Log log = LogFactory.getLog(this.getClass());
 	
 	@RequestMapping(value = "/{type}")
 	public String intro( @PathVariable("type") String type) throws Exception{
-		
+		 
 		String reqUrl ="";
 		log.debug("type : "+type);
 		switch(type) {

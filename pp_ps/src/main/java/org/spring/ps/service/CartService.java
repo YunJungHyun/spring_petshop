@@ -11,4 +11,12 @@ public interface CartService {
 
 	List<CartListVO> getCartList(String userid);
 
+	int cartDelete(CartVO cartVO);
+
+	int cartCheck(CartVO cartVO);
+
+	int cntUpdate(CartVO cartVO);
+
+	void cartAllDelete(String userid);
+
 }

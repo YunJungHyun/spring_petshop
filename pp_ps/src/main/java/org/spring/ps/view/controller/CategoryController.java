@@ -1,6 +1,5 @@
 package org.spring.ps.view.controller;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,7 +28,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Controller
 @RequestMapping("/category")
-public class categoryController {
+public class CategoryController {
 
 
 	Log log = LogFactory.getLog(this.getClass());

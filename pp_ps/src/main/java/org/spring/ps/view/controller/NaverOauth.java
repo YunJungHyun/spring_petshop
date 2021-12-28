@@ -15,7 +15,6 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.json.simple.JSONObject;
 import org.spring.ps.service.AuthLoginService;
 import org.spring.ps.vo.UserVO;
 import org.springframework.stereotype.Controller;
@@ -31,7 +30,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Controller
-public class naverOauth  {
+public class NaverOauth  {
 
 
 	final static String CLIENT_ID = "w_mKmFnHbZEQdrndRrv7";
@@ -39,7 +38,7 @@ public class naverOauth  {
 	final static String CLIENT_SECRET="4xHK0JoeEA";
 	Log log = LogFactory.getLog(this.getClass());
 
-
+ 
 	@Inject
 	private AuthLoginService authLoginService;
 

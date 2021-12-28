@@ -178,6 +178,8 @@ function bring(sort){
 	}else{
 		
 		
+		var con = confirm("장바구니에 담으시겠습니까?");
+		if(con == true){
 		$.ajax({
 			
 			url : "/cart/"+sort,
@@ -189,18 +191,29 @@ function bring(sort){
 				
 			},success:function(data){
 				
-				if(data >=1){
+				if(data == "cartChkTrue"){
+					
+					alert("장바구니에 이미 제품이 있습니다.");
+					
+				}
+				
+				if(data =="cartAddSuccess"){
+					
 					
 					alert("장바구니에 담았습니다.");
 					
-				}else{
-					
-					
-					alert("장바구니에 담기 실패하였습니다.");
+					location.href="/view/cart";
 				}
+				
+				if(data =="cartAddFail"){
+					
+					alert("장바구니에 담기 실패 하였습다.");
+				}
+				
 			}
 			
 		})
+		}
 	}
 }
 

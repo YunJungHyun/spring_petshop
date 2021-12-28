@@ -47,7 +47,7 @@ public class AdminViewController {
 			@PathVariable("view") String view,
 			HttpSession session,
 			HttpServletResponse response,
-			PagingVO pagingVO,
+			PagingVO pagingVO, 
 			@RequestParam(value="pid", required= false) String pid,
 			@RequestParam(value="ccode", required= false) String ccode,
 			@RequestParam(value="page", required= false) String page,

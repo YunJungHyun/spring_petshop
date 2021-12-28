@@ -6,73 +6,259 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <style>
-.product-one:hover{
+.go-product{
 	
 	cursor:pointer;
-
+}
+span.span-cart-allPriceSum {
+    font-size: 2rem;
+    line-height: 2;
+    vertical-align: middle;
 }
 </style>
-<div class="page px-0 py-3">
-	<div class="row cart-list col-12 m-auto px-0">
-		<c:set var="sum" value="0"/>
-		<c:forEach var="cart" items="${cartList }"  varStatus="status">
-			<div class="col-3 product-one">
-				
-				<div class="product-img-box-1 " >
-						<img id="img-${status.count}"/>
-						<script>
+<div class="page px-0 my-3">
+	
+	<h3>장바구니</h3>
+	
+	<div class="cart-content">
+		<table class="table">
+			<thead>
+				<tr>
+					<th colspan="5">주문 상품</th>
+				</tr>
+			</thead>
+			<tbody class="cart-list-tbody">
+			<c:set var="allPriceSum" value="0"/>
+			<c:forEach items="${cartList }" var="cart">
+			<tr id="${cart.pid }">
+				<td class="product-img-box-5 text-center border-right col-2 go-product" >
+					<img id="img-${cart.pid }">
+					<script>
 							
 							var pimgStr = JSON.stringify(${cart.pimg});
 							var pimgJSON = JSON.parse(pimgStr);
 							var path =pimgJSON.img.path;
 							var fileName = pimgJSON.img.fileName;
 							
-							$("#img-${status.count}").attr("src" ,"/resources"+path+"/"+fileName);
-						</script>
-				</div>
-				<div class="product-content-box">
-						<p>${cart.pname }</p>	
-						<p>
-							<span>
-								<fmt:formatNumber value="${cart.pprice}" pattern="###,###"/>
-								
-							</span >
-							<span class="product-content-unit">
-								원
-							</span>
-							</p>  
-						<p class="stock">
-							<span class="stock">${cart.cstock}</span>
-							
-							<span class="product-content-unit">
-								개
-							</span>
-						</p>
-				</div>
-			</div>
+							$("#img-${cart.pid}").attr("src" ,"/resources"+path+"/s/s_"+fileName);
+					</script>
+					
+				</td>
+				<td style="vertical-align:top" class="border-right col-4 go-product">
+					<span class="span-cart-pname">
+						${cart.pname }
+					</span>
+				</td>
+				<td class="col-2 border-right text-center" >
+					<div class="btn-group ps-cnt-group">
+						<button type="button" class="ps-cnt-btn d-flex" onclick="cartProductCnt('-','${cart.pid}')">
+							<i class="fas fa-minus"></i>
+						</button>
+						<input type="text" class="ps-cnt" id="${cart.pid}-cnt"value="${cart.cstock }"/>
+						<button type="button" class="ps-cnt-btn d-flex" onclick="cartProductCnt('+','${cart.pid}')">
+							<i class="fas fa-plus"></i>
+						</button>
+					</div>
+				</td> 
+				<td class="col-2 border-right text-center"  > 
+					정가 : <fmt:formatNumber value="${cart.pprice}" pattern="###,###,###"/>
+					<br>
+					<c:set var="priceSum" value="${cart.pprice * cart.cstock}"/>
+					합계 : <fmt:formatNumber value="${priceSum }" pattern="###,###,###"/>
+				</td>
+				<td class="col-2 text-center"> 
+					<button type="button" class="btn btn-dark w-100" onclick="cartDeleteBtn('${cart.pid }')">
+							삭제
+					</button>
+				</td>
+			</tr>
+			<c:set var="allPriceSum" value="${allPriceSum+(cart.pprice * cart.cstock)}"/>
+			</c:forEach>
+			<tr>
+				<th colspan="5" class="text-right">
+					<span class="span-cart-allPriceSum">
+					결제 예상 금액 : <fmt:formatNumber value="${allPriceSum }" pattern="###,###,###"/> 원
+					</span>
+					
+					<button type="button" class="ps-btn-1 col-2" data-toggle="modal" data-target="#orderModal">주문하기 </button>
+				</th>
+			</tr>
+			</tbody>
 			
-			<c:set var="sum" value="${sum+(cart.pprice * cart.cstock)}"/>
-		</c:forEach>
-	</div> 
-	<div class="buy-content d-flex flex-column">
-		<div class="text-right">
-			총 합계 : <span class="sum-price">
-				<fmt:formatNumber value="${sum}" pattern="###,###,###"/>
-			</span>
-		</div>
-		<div class="text-right">
-			<button type="button">구매하기 </button>
-			<button type="button">취소 </button>
-		</div>
-	</div> 
+		</table>
+	</div>
+</div> 
+
+<!-- Modal -->
+<div class="modal fade" id="orderModal" tabindex="-1" role="dialog" aria-labelledby="orderModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title text-center" id="orderModallabel">주문 정보 입력</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+			<form id="form-order" name="form-order">
+		 		<div class="row">
+		 			
+		 			<div class="col-lg-12 mb-3 form-ps-group-1 my-0">
+						<label for="orderRec">받는 사람</label>
+							<input type="text" class="form-control" id="orderRec" name="orderRec" placeholder="제품을 수령 받는 분의 이름을 입력하세요." value="test-orderRec">
+						<div class="invalid-feedback">
+						
+						</div>
+					</div>
+		 			<div class="col-lg-12 mb-3 form-ps-group-1 my-0">
+						<label for="orderPhon">휴대 전화</label>
+							<input type="text" class="form-control " id="orderPhon" name="orderPhon" placeholder="휴대 전화 번호를 입력하세요." value="test-orderPhon">
+						<div class="invalid-feedback">
+							
+						</div> 
+					</div>
+		 			<div class="col-lg-12 mb-3 form-ps-group-1 my-0">
+						<label for="userAddr1">우편 번호</label>
+							<input type="text" class="form-control " id="userAddr1" name="userAddr1" placeholder="우편 번호를 입력하세요" value="test-userAddr1">
+						<div class="invalid-feedback">
+							
+						</div>
+					</div>
+		 			<div class="col-lg-12 mb-3 form-ps-group-1 my-0">
+						<label for="userAddr2">주소</label>
+							<input type="text" class="form-control " id="userAddr2" name="userAddr2" placeholder="주소를 입력하세요." value="test-userAddr2">
+						<div class="invalid-feedback">
+							
+						</div>
+					</div>
+		 			<div class="col-lg-12 mb-3 form-ps-group-1 my-0">
+						<label for="userAddr3">상세 주소</label>
+							<input type="text" class="form-control " id="userAddr3" name="userAddr3" placeholder="상세 주소를 입력하세요." value="test-userAddr3">
+						<div class="invalid-feedback">
+							
+						</div>
+					</div>
+		 			
+		 			<div class="col-lg-12 mb-3 form-ps-group-1 my-0 border-top text-right">
+						
+							 <span class="span-cart-allPriceSum ">
+								결제 금액 : <fmt:formatNumber value="${allPriceSum }" pattern="###,###,###"/>
+								<input type="hidden" class="form-control " id="amount" name="amount" value="${allPriceSum }">
+							</span>
+					
+						<div class="invalid-feedback">
+							
+						</div>
+					</div>
+		 		</div>
+		 		
+		 		
+		 	</form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" id="order-btn">주문</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+      </div>
+    </div>
+  </div>
 </div>
-
 <script>
-$(document).ready(function(){
+$(document).on("click",".go-product",function(){
 	
+	location.href="/product/"+$(this).parent().attr("id");
+})
 
+
+$("#order-btn").on("click",function(){
 	
-
+	var con = confirm("상품을 주문 하시겠습니까?");
+	if(con ==true){
+	var formData = $("#form-order").serialize(); 
+	$.ajax({
+		
+		url:"/order/orderInsert",
+		data:formData,
+		type:"POST",
+		success:function(data){
+			
+			if(data == "success"){
+				alert("주문 완료 되었습니다.");
+				location.href="/view/orderOkay";
+			}
+			
+		}
+	})
+	}
 	
 })
+function cartProductCnt(sign,pid){
+var cnt=$("#"+pid+"-cnt").val();
+	
+
+	if(sign == "-"){
+		if(cnt >1){
+		cnt--;
+		$("#"+pid+"-cnt").val(cnt);
+		}
+		
+	}
+	
+	if(sign=="+"){
+		
+		cnt++;
+		
+		$("#"+pid+"-cnt").val(cnt);
+	}
+	
+	
+	$.ajax({
+		
+		url : "/cart/cntUpdate",
+		data : {
+			
+			"cstock" :$("#"+pid+"-cnt").val(),
+			"pid" : pid
+			
+		},success:function(data){
+			
+			if(data >= 1){
+				
+				location.reload();
+			}else{
+				
+				alert("수량 변경에 실패하였습니다.");
+			}
+		}
+	})
+	
+}
+
+function cartDeleteBtn(pid){
+	
+	var con = confirm("선택하신 제품을 장바구니에서 삭제하시겠습니까?");
+	if(con == true){
+	$.ajax({
+		
+		url : "/cart/delete",
+		data : {
+			
+			"pid" : pid
+		},success:function(data){
+			
+			
+			if(data >=1){
+				
+				alert("장바구니에 담긴 제품이 삭제되었습니다.");
+				location.reload();
+			}else{
+				
+				alert("장바구니에 담긴 제품을 삭제는데 실패 하였습니다.");
+			}
+		}
+	
+	})
+	}
+	//삭제
+	
+}
 </script>

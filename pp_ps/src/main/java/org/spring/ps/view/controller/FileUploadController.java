@@ -25,7 +25,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Controller
 @RequestMapping("/admin/upload")
-public class fileUploadController {
+public class FileUploadController {
 
 
 	Log log = LogFactory.getLog(this.getClass());
