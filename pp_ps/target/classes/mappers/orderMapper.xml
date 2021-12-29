@@ -20,8 +20,25 @@
 		]]>
 
 	</insert>
+	<insert id="orderInfo_Details_Right" parameterType="HashMap">
+ 	
+ 	<![CDATA[
+			${sql}
+		]]>
+
+	</insert>
 	
 	<select id="getOrderList" parameterType="HashMap" resultType="orderVO">
+	<![CDATA[
+			${sql}
+		]]>
+	</select>
+	<select id="getOrderDetailList" parameterType="HashMap" resultType="orderListVO">
+	<![CDATA[
+			${sql}
+		]]>
+	</select>
+	<select id="getAllOrderList" parameterType="HashMap" resultType="orderVO">
 	<![CDATA[
 			${sql}
 		]]>

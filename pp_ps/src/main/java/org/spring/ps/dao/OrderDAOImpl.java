@@ -9,6 +9,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.ibatis.session.SqlSession;
 import org.spring.ps.vo.OrderDetailVO;
+import org.spring.ps.vo.OrderListVO;
 import org.spring.ps.vo.OrderVO;
 import org.springframework.stereotype.Service;
 
@@ -43,8 +44,8 @@ public class OrderDAOImpl implements OrderDAO {
 	public void orderInfo_Details(OrderDetailVO orderDetailVO) {
 
 		HashMap<String,String> map = new HashMap();
-		String sql = "INSERT INTO order_details(orderDetailNum,orderid,pid, cstock) ";
-		sql+="SELECT (select max(orderDetailNum)+1 from order_details) as num ,"+orderDetailVO.getOrderid()+", pid , cstock ";
+		String sql = "INSERT INTO order_details(orderid,pid, cstock) ";
+		sql+="SELECT "+orderDetailVO.getOrderid()+", pid , cstock ";
 		sql+="FROM cart";
 
 
@@ -52,6 +53,18 @@ public class OrderDAOImpl implements OrderDAO {
 
 		sqlSession.insert(Namespace+".orderInfo_Details",map);
 
+	}
+	
+	@Override
+	public void orderInfo_Details_Right(OrderDetailVO orderDetailVO) {
+		HashMap<String,String> map = new HashMap();
+		String sql = "INSERT INTO order_details(orderid,pid, cstock) ";
+		sql+="VALUES('"+orderDetailVO.getOrderid()+"','"+orderDetailVO.getPid()+"','"+orderDetailVO.getCstock()+"')";
+
+		map.put("sql", sql);
+
+		sqlSession.insert(Namespace+".orderInfo_Details_Right",map);
+		
 	}
 
 	@Override
@@ -62,6 +75,33 @@ public class OrderDAOImpl implements OrderDAO {
 		map.put("sql", sql);
 		
 		List<OrderVO> result= sqlSession.selectList(Namespace+".getOrderList",map);
+		return result;
+	}
+	
+	@Override
+	public List<OrderListVO> getOrderDetailList(OrderVO orderVO) {
+		HashMap<String,String> map = new HashMap();
+		String sql = "SELECT  o.orderid,o.userid,o.orderRec,o.userAddr1,o.userAddr2,o.userAddr3,o.orderPhon,o.amount,o.orderDate,";
+				sql += "d.orderDetailNum, d.pid, d.cstock,";
+				sql += "p.pname, p.pimg,p.pprice ";
+				sql += "FROM tbl_order o ";
+				sql += "INNER JOIN order_details d ";
+				sql += "	ON	o.orderid = d.orderid ";
+				sql += "INNER JOIN product p ";
+				sql += "	ON d.pid = p.pid ";
+				sql += "WHERE	o.userid ='"+orderVO.getUserid()+"' ";
+				sql += "AND o.orderid = '"+orderVO.getOrderid()+"'";
+		map.put("sql", sql);
+		List<OrderListVO> result= sqlSession.selectList(Namespace+".getOrderDetailList",map);
+		return result;
+	}
+	
+	@Override
+	public List<OrderVO> getAllOrderList() {
+		HashMap<String,String> map = new HashMap();
+		String sql ="SELECT * FROM tbl_order ";
+		map.put("sql", sql);
+		List<OrderVO> result= sqlSession.selectList(Namespace+".getAllOrderList",map);
 		return result;
 	}
 }

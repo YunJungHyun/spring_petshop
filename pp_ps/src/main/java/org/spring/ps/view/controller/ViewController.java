@@ -152,45 +152,7 @@ public class ViewController {
 	}
 
 
-	@RequestMapping(value="/cart")
-	public String cart(Model model,HttpSession session,
-			HttpServletResponse response) throws IOException {
 
-		UserVO userVO = (UserVO)session.getAttribute("userInfo");
-		
-		if(userVO == null ) {
-			
-			response.setContentType("text/html; charset=UTF-8");
-
-			PrintWriter out = response.getWriter();
-
-			out.println("<script>alert('로그인 후 이용 가능합니다.'); location.href='/';</script>");
-
-			out.flush();
-
-			return "home.page";
-		}else {
-		
-		List<CartListVO> cartList = cartService.getCartList(userVO.getUserid());
-		
-		//route
-		Map<Integer,String[]> routeMap = new HashMap<>();
-		String routeArray[][] = {{"장바구니","/view/cart"}};
-		routeMap.put(0,routeArray[0]);
-	
-		List<PageInfoVO> breadcrumbList =routeUtils.pageInfo(routeMap);
-
-		model.addAttribute("breadcrumb",breadcrumbList);
-
-
-		String pageTitle = "장바구니";
-		model.addAttribute("pageTitle",pageTitle);
-		model.addAttribute("cartList",cartList);
-
-
-		return "user/cart/cartList.page";
-		}
-	}
 	
 	
 	@RequestMapping(value="/mypage/{my}")
@@ -200,7 +162,7 @@ public class ViewController {
 			@PathVariable("my") String my
 			) throws IOException {
 
-		
+		log.debug("############## : "+my);
 		UserVO userVO = (UserVO)session.getAttribute("userInfo");
 		Map<Integer,String[]> routeMap = new HashMap<>();
 		String page="";
@@ -219,16 +181,26 @@ public class ViewController {
 		}else {
 			switch(my) {
 			
-				case "order":
+				case "myOrder":
 					List<OrderVO> orderList = orderService.getOrderList(userVO.getUserid());
 					
 					model.addAttribute("oList",orderList);
 					
-					page ="user/my/myPageOrder.page";
-					String routeArray[][] = {{"마이페이지","/view/mypage/order"},{"주문 내역","/view/mypage/order"}};
-					routeMap.put(0,routeArray[0]);
-					routeMap.put(1,routeArray[1]);
+					page ="myPageOrder";
+					String routeArray1[][] = {{"마이페이지","/view/mypage/myOrder"},{"주문 내역","/view/mypage/myOrder"}};
+					routeMap.put(0,routeArray1[0]);
+					routeMap.put(1,routeArray1[1]);
+					break;
+				case "myCart":
+					List<CartListVO> cartList = cartService.getCartList(userVO.getUserid());
 					
+					model.addAttribute("cartList",cartList);
+					
+					page ="cart/cart";
+					String routeArray2[][] = {{"마이페이지","/view/mypage/myOrder"},{"장바구니","/view/mypage/myCart"}};
+					routeMap.put(0,routeArray2[0]);
+					routeMap.put(1,routeArray2[1]);
+					break;
 					
 			}
 			
@@ -239,7 +211,7 @@ public class ViewController {
 		String pageTitle ="마이페이지";
 		model.addAttribute("pageTitle",pageTitle);
 		
-		return page;
+		return "user/my/"+page+".page";
 	}
 	
 	@RequestMapping(value="/orderOkay")

@@ -18,13 +18,13 @@
 			<a href="#" class="my-menu-btn"><i class="fas fa-user"></i></a>
 			<ul class="ps-dropdown-content my-menu-content list-group">
 				<li class="dropdown-li p-2 my-2">
-					<a href="#" onclick="goPage('order')">주문 내역</a>
+					<a href="#" onclick="goPage('mypage/myOrder')">주문 내역</a>
 				</li>
 				<li class="dropdown-li p-2 my-2">
-					<a href="#" onclick="goPage('cart')">장바구니</a>
+					<a href="#" onclick="goPage('mypage/myCart')">장바구니</a>
 				</li>
 				<li class="dropdown-li p-2 my-2">
-					<a href="#" onclick="goPage('like')">관심 상품</a>
+					<a href="#" onclick="goPage('mypage/myWish')">관심 상품</a>
 				</li>
 				<li class="dropdown-li p-2 my-2">
 					<a href="/view/login">로그인</a> 
@@ -43,13 +43,13 @@
 			<a href="#" class="my-menu-btn"><i class="fas fa-user"></i></a>
 			<ul class="ps-dropdown-content my-menu-content list-group">
 				<li class="dropdown-li p-2 my-2">
-					<a href="#" onclick="goPage('mypage/order')">주문 내역</a>
+					<a href="#" onclick="goPage('mypage/myOrder')">주문 내역</a>
 				</li>
 				<li class="dropdown-li p-2 my-2">
-					<a href="#" onclick="goPage('cart')">장바구니</a>
+					<a href="#" onclick="goPage('mypage/myCart')">장바구니</a>
 				</li>
 				<li class="dropdown-li p-2 my-2">
-					<a href="#" onclick="goPage('like')">관심 상품</a>
+					<a href="#" onclick="goPage('mypage/myWish')">관심 상품</a>
 				</li>
 				<li class="dropdown-li p-2 my-2">
 					<a href="/join/logout">로그아웃</a> 

@@ -28,11 +28,11 @@
     width: fit-content;
     margin: 0px auto;
 }
-.myPage-go:hover{
+
+ .my-icon-img-box:hover{ 
 	cursor:pointer;
-}
-.myPage-go:hover .my-icon-img-box{ 
 	background-color: #7fe7d5;
+	filter: drop-shadow(2px 4px 6px #ccc);
 
 }
 </style>
@@ -40,7 +40,7 @@
 	<div class="row">
 		<div class="col-3 ">
 		
-			<div class="d-flex flex-column myPage-go">
+			<div class="d-flex flex-column myPage-go" id="myInfo">
 				<div class="my-icon-img-box">
 					<i class="far fa-user fa-2x"></i>
 				</div>
@@ -48,7 +48,7 @@
 			</div>
 		</div>
 		<div class="col-3 ">
-			<div class="d-flex flex-column myPage-go">
+			<div class="d-flex flex-column myPage-go" id="myWish">
 				<div class="my-icon-img-box">
 					<i class="far fa-heart fa-2x"></i>
 				</div>
@@ -56,7 +56,7 @@
 			</div>
 		</div>
 		<div class="col-3 ">
-			<div class="d-flex flex-column myPage-go">
+			<div class="d-flex flex-column myPage-go" id="myOrder">
 				<div class="my-icon-img-box">
 					<i class="fas fa-shopping-cart fa-2x"></i>
 				</div>
@@ -64,7 +64,7 @@
 			</div>
 		</div>
 		<div class="col-3 ">
-			<div class="d-flex flex-column myPage-go">
+			<div class="d-flex flex-column myPage-go" id="myCart">
 				<div class="my-icon-img-box">
 					<i class="fas fa-shopping-basket fa-2x"></i>
 				</div>
@@ -74,3 +74,10 @@
 
 	</div>
 </div>
+
+<script>
+$(".myPage-go").on("click",function(){
+	
+	
+})
+</script>

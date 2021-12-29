@@ -27,6 +27,11 @@
 		<put-attribute name="body" value="/WEB-INF/views/page/{1}/{2}/{3}.jsp"/>
 	   
 	</definition> 
+	<definition name="*/*/*/*.page" extends="new.default_body"> 
+		<!-- Controller 에서 사용하기 위한 방법을 설정  -->
+		<put-attribute name="body" value="/WEB-INF/views/page/{1}/{2}/{3}/{4}.jsp"/>
+	   
+	</definition> 
 
 	 
 	

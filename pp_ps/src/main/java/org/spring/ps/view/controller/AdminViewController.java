@@ -2,7 +2,6 @@ package org.spring.ps.view.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.lang.reflect.Array;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,9 +13,12 @@ import javax.servlet.http.HttpSession;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.spring.ps.service.CategoryService;
+import org.spring.ps.service.OrderService;
 import org.spring.ps.service.ProductService;
 import org.spring.ps.utils.routeUtils;
 import org.spring.ps.vo.CategoryVO;
+import org.spring.ps.vo.OrderListVO;
+import org.spring.ps.vo.OrderVO;
 import org.spring.ps.vo.PageInfoVO;
 import org.spring.ps.vo.PagingVO;
 import org.spring.ps.vo.ProductVO;
@@ -41,6 +43,8 @@ public class AdminViewController {
 	private CategoryService categoryService;
 	@Inject
 	private ProductService productService;
+	@Inject
+	private OrderService orderService;
 
 	@RequestMapping("/{view}")
 	public String adminView(
@@ -207,8 +211,26 @@ public class AdminViewController {
 				view = "notice/Notice";
 
 				break;
+			case "Order": 
+				
+				List<OrderVO> oList = orderService.getAllOrderList();
+				model.addAttribute("oList",oList);
+				pageTitle = "주문 관리"; 
+				view = "order/Order";
+				String routeArray5[][] = {{"관리자 페이지","/adminView/Management"},{"주문 관리","/adminView/Order"}};
+				routeMap.put(0,routeArray5[0]);
+				routeMap.put(1,routeArray5[1]);
+		
+				
+				break;
+			case "Review": 
 
+				pageTitle = "구매후기 관리";
+				view = "review/Review";
+
+				break;			
 			}
+			
 			
 			List<PageInfoVO> breadcrumbList =routeUtils.pageInfo(routeMap);
 
