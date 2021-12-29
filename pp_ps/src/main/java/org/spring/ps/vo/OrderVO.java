@@ -17,6 +17,7 @@ public class OrderVO {
 	private String userAddr2;
 	private String userAddr3;
 	private String orderPhon;
+	private String delivery;
 	private int amount;
 	private Date orderDate;
 

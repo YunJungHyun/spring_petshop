@@ -116,14 +116,19 @@ public class OrderController {
 	@ResponseBody
 	public List<OrderListVO> orderDetailList(
 			HttpSession session,
-			@RequestParam(value="orderid") String orderid
+			@RequestParam(value="orderid") String orderid,
+			@RequestParam(value="userid", required = false) String userid
 			
 			) {
 		UserVO userVO = (UserVO)session.getAttribute("userInfo");
 		OrderVO orderVO = new OrderVO();
 		orderVO.setOrderid(orderid);
-		orderVO.setUserid(userVO.getUserid());
-		
+		if(userid == null) {
+			orderVO.setUserid(userVO.getUserid());
+		}else {
+			
+			orderVO.setUserid(userid);
+		}
 		List<OrderListVO> olList = orderService.getOrderDetailList(orderVO);
 		
 		

@@ -32,6 +32,10 @@
 
     font-size: 20px;
 }
+.od-data-text-delivery{
+
+	color : blue;
+}
 .od-data-text-1 {
     font-style: italic;
 }
@@ -126,6 +130,16 @@ ul.order-content-ul >li {
 								(원)
 							</span>
 						</li>				
+						<li>
+							<span class="od-title-span-1">
+							배송 상태 : 
+							</span>
+							<span class="od-data-text-delivery">
+								${olist.delivery }
+							</span>
+							
+							
+						</li>				
 					</ul>
 				</a>
 				
@@ -180,7 +194,7 @@ $('.orderCollapse').on('show.bs.collapse', function () {
 						html +="<td class='col-2 px-0 py-3'>";
 							html+="<div class='order-img-box m-auto'>";
 							html+="<img src='/resources"+path+"/s/s_"+fileName+"'>";
-							html+"</div>";
+							html+="</div>";
 						html +="</td>";
 						html +="<td class='col-10'>";			
 							html+="<ul class='order-detail-content-ul'>";
@@ -250,5 +264,7 @@ $('.orderCollapse').on('hide.bs.collapse', function () {
 	 $("#orderDetailList-"+status).children().remove();
 	
 })
+
+
 </script>
      

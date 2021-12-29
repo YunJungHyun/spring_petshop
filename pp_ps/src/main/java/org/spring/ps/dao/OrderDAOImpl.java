@@ -81,7 +81,7 @@ public class OrderDAOImpl implements OrderDAO {
 	@Override
 	public List<OrderListVO> getOrderDetailList(OrderVO orderVO) {
 		HashMap<String,String> map = new HashMap();
-		String sql = "SELECT  o.orderid,o.userid,o.orderRec,o.userAddr1,o.userAddr2,o.userAddr3,o.orderPhon,o.amount,o.orderDate,";
+		String sql = "SELECT  o.orderid,o.userid,o.orderRec,o.userAddr1,o.userAddr2,o.userAddr3,o.orderPhon,o.amount,o.orderDate,o.delivery,";
 				sql += "d.orderDetailNum, d.pid, d.cstock,";
 				sql += "p.pname, p.pimg,p.pprice ";
 				sql += "FROM tbl_order o ";
