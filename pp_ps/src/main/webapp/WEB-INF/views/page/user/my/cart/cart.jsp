@@ -13,7 +13,7 @@
 span.span-cart-allPriceSum {
     font-size: 2rem;
     line-height: 2;
-    vertical-align: middle;
+    vertical-align: middle; 
 }
 </style>
 <div class="page px-0 my-3">
@@ -152,7 +152,7 @@ span.span-cart-allPriceSum {
 					</div>
 		 		</div>
 		 		
-		 		
+		 		 
 		 	</form>
       </div>
       <div class="modal-footer">
@@ -174,14 +174,15 @@ $("#order-btn").on("click",function(){
 	var con = confirm("상품을 주문 하시겠습니까?");
 	if(con ==true){
 	var formData = $("#form-order").serialize(); 
+	console.log(formData);
 	$.ajax({
 		
 		url:"/order/orderInsert",
 		data:formData,
-		type:"POST",
+		type:"POST", 
 		success:function(data){
 			
-			if(data == "success"){
+			if(data == "success"){ 
 				alert("주문 완료 되었습니다.");
 				location.href="/view/orderOkay";
 			}
@@ -238,7 +239,7 @@ function cartDeleteBtn(pid){
 	var con = confirm("선택하신 제품을 장바구니에서 삭제하시겠습니까?");
 	if(con == true){
 	$.ajax({
-		
+		 
 		url : "/cart/delete",
 		data : {
 			
