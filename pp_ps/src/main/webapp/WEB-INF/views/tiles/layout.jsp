@@ -28,20 +28,17 @@
 <script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
 <script src="/resources/js/ckeditor/ckeditor.js"></script>
 
-<link href="/resources/css/adminPage.css" rel="stylesheet" type="text/css">
 <link href="/resources/css/ps.css" rel="stylesheet" type="text/css">
 <link href="/resources/css/dropdown.css" rel="stylesheet" type="text/css">
 <link href="/resources/css/header.css" rel="stylesheet" type="text/css">
-<link href="/resources/css/category.css" rel="stylesheet" type="text/css">
-<link href="/resources/css/product.css" rel="stylesheet" type="text/css">
-<link href="/resources/css/join.css" rel="stylesheet" type="text/css">
-<link href="/resources/css/slide.css" rel="stylesheet" type="text/css">
-<link href="/resources/css/cart.css" rel="stylesheet" type="text/css">
+<link href="/resources/css/button.css" rel="stylesheet" type="text/css">
+<link href="/resources/css/page.css" rel="stylesheet" type="text/css">
 
+ 
 <title>PETSHOP - ${pageTitle}</title>
 
 </head>
-<body>
+<body> 
 
 	<!-- Optional JavaScript -->
 	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -56,8 +53,8 @@
 		crossorigin="anonymous"></script>
 	
 	
-	<div class="container px-0">
-		<header class="py-3 px-3 ps-header ">
+	<div class="container">
+		<header class="ps-header">
 			<tiles:insertAttribute name="header" />
 		</header>
 		<tiles:insertAttribute name="category" />
@@ -72,6 +69,8 @@
 
 <script>
  
+
+
 
 $(".ps-dropdown").hover(function(){
 	 

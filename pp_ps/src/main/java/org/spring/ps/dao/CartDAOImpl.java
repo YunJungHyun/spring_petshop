@@ -54,7 +54,7 @@ public class CartDAOImpl implements CartDAO {
 
 		String sql = "SELECT @rownum:=@rownum+1 AS RN, C.* FROM(SELECT @ROWNUM:=0) AS R,(	";
 		sql+= "SELECT c.cnum, c.userid, c.pid, c.cstock, c.addDate, p.pname, p.pprice, p.pimg FROM cart AS c ";
-		sql += "INNER JOIN product AS p ";
+		sql += "INNER JOIN tbl_product AS p ";
 		sql += "ON c.pid = p.pid ";
 		sql += "WHERE c.userid ='"+userid+"') AS C";
 

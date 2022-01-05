@@ -11,14 +11,11 @@ span.span-cart-allPriceSum {
     vertical-align: middle;
 }
 </style>
-<div class="page">
-	
-	<div class="ps-container">
-		
-		<div class="row m-0">
-			<div class="col-lg-6 product-img-box-4 px-0" id="product-img-box">
-				<img id="img-${pvo.pid }" src="/resources/icon/no-pictures.png" />
-				
+<div class="pt-2"></div> 
+<div class="page">		
+		<div class="row">
+			<div class="col-6 ps-img-box-001">
+				<img id="this-img" src="/resources/icon/no-pictures.png" />
 				<script>
 							
 				var pimgStr = JSON.stringify(${pvo.pimg});
@@ -26,124 +23,130 @@ span.span-cart-allPriceSum {
 				var path =pimgJSON.img.path;
 				var fileName = pimgJSON.img.fileName;
 							
-				$("#img-${pvo.pid}").attr("src" ,"/resources"+path+"/"+fileName);
+				$("#this-img").attr("src" ,"/resources"+path+"/"+fileName);
 				</script>
 			</div>
 
-			<div class="col-lg-6 px-0 p-3">
-				<div class="d-flex flex-column product-info">
-					<div class="p-2 product-info-title mb-3">
-						<span class="badge text-left mb-0 p-0">
-							<a href="#" class="brand-badge">${pvo.pbrand }</a>
+			<div class="col-lg-6">
+				<div class="ps-info-box-002">
+					<div class="ps-group-004">
+						<span class="badge">
+							<a href="#" class="ps-a-003">${pvo.pbrand }</a>
 						</span>
-						<h4 class="col-12 p-0">${pvo.pname }</h4>
+						<span class="ps-title-004">${pvo.pname }</span>
 					</div>
 					
-					<div class="d-flex justify-content-between p-2 product-info-content">
-						<label class="mb-0">가격</label>
-						<span class="px-3">
+					<div class="ps-group-005">
+						<span class="ps-span-008">가격</span>
+						<span class="ps-span-008">
 							<fmt:formatNumber value="${pvo.pprice}" pattern="###,###"/>원
 						</span>
 					</div> 
 					
-					<div class="d-flex justify-content-between p-2 product-info-content">
-						<label class="mb-0">입고 상태</label>
-						<span class="px-3">
+					<div class="ps-group-005">
+						<span class="ps-span-008">입고 상태</span>
+						<span class="ps-span-008">
 							<c:if test="${pvo.pcnt >=1 }">
-								재고 있음
+								<span style="color:green;">재고 있음</span>
 							</c:if>
 							<c:if test="${pvo.pcnt <1 }">
-								재고 없음
+								<span style="color:red;">재고 없음</span>
 							</c:if>
 						</span>
 					</div>
 					
-					<ul class="product-info-ul mt-3">
+					<ul class="ps-ul-006">
 						<li>오늘 출발 마감까지 -12분남음</li>
 						<li>저녁 6시 이전 주문하면 오늘 출발! / 영업일 기준</li>
 						<li>30,000원 이상 구매 시, 무료배송</li>
 					</ul>
 					
-					<div class="user-input-content d-flex flex-column">
-						<div class="d-flex justify-content-between  mt-3 mb-1" >
-							<span class="badge text-left mb-0 p-0">
+					<div class="ps-input-group-001">
+						<div class="ps-group-006">
+							<span class="badge ps-span-009">
 								수량
 							</span>
-							<span class="badge text-left mb-0 p-0">
+							<span class="badge ps-span-009">
 								총 상품 금액
 							</span>
 						</div>
 						
-						<div class="d-flex justify-content-between my-2">
-							<div class="btn-group ps-cnt-group">
-								<button type="button" class="ps-cnt-btn d-flex" onclick="productCnt('-')">
+						<div class="ps-group-007">
+							<div class="btn-group ps-btn-group-001">
+								<button type="button" class="ps-btn-003" onclick="productCnt('-')">
 									<i class="fas fa-minus"></i>
 								</button>
-								<input type="text" class="ps-cnt" id="ps-cnt" value="1"/>
-								<button type="button" class="ps-cnt-btn d-flex" onclick="productCnt('+')">
+								<input type="text" class="ps-input-002" id="ps-cnt" value="1" readonly="readonly"/>
+								<button type="button" class="ps-btn-003" onclick="productCnt('+')">
 									<i class="fas fa-plus"></i>
 								</button>
 							</div>
-							<div class="ps-price-group">
-								<span class="sum-price"><fmt:formatNumber value="${pvo.pprice}" pattern="###,###"/></span>원
+							<div class="ps-group-008">
+								<span class="sum-price">
+									<fmt:formatNumber value="${pvo.pprice}" pattern="###,###"/>
+								</span>원
 							</div>
 						</div>
 						
 					</div>
-					<div class="d-flex p-3 justify-content-around">
-						<button type="button" class="ps-btn-2 col-6 mr-3" onclick="cart()">장바구니 담기</button>
-						<button type="button" class="ps-btn-1 col-6" data-toggle="modal" data-target="#orderModal">바로 주문</button>
+					<div class="ps-btn-group-002">
+						<button type="button" class="btn btn-outline-primary ps-btn-004" onclick="cart()">장바구니 담기</button>
+						<button type="button" class="btn btn-primary ps-btn-004" id="now-order-btn"  data-toggle="modal" data-target="#orderModal">바로 주문</button>
 					</div> 
 				</div>
 			</div>
 		</div>  
 	</div>
 	
-	<div class="ps-container my-2">
-		<div class="card text-center">
-			<div class="card-header pt-0 px-0">
-				<ul class="nav nav-tabs card-header-tabs">
-					<li class="nav-item col-3">
-						<a class="ps-tab ps-tab-1 active" href="#pexplicate" data-toggle="collapse"  role="button" aria-expanded="true" aria-controls="pexplicate" > 제품 정보</a>
-					</li> 
-					<li class="nav-item col-3">
-						<a class="ps-tab ps-tab-2" href="#QnA" data-toggle="collapse"  role="button" aria-expanded="true" aria-controls="QnA">질문/답변</a>
-					</li>
-					<li class="nav-item col-3">
-						<a class="ps-tab ps-tab-3" href="#review" data-toggle="collapse"  role="button" aria-expanded="true" aria-controls="#review">구매후기</a>
-					</li>
-					<li class="nav-item col-3">
-						<a class="ps-tab ps-tab-4" href="#notice" data-toggle="collapse"  role="button" aria-expanded="true" aria-controls="#notice">취소/교환/반품 안내</a>
-					</li>
-				</ul> 
+	<div class="ps-division-002"></div>
+	<div class="card ps-card-001">
+		<div class="card-header ps-cardheader-001">
+			<ul class="nav nav-tabs card-header-tabs ps-ul-007">
+				<li class="nav-item ps-li-005 col-3">
+					<a class="ps-tab ps-tab-1 active" href="#pexplicate" data-toggle="collapse"  role="button" aria-expanded="true" aria-controls="pexplicate" > 제품 정보</a>
+				</li> 
+				<li class="nav-item ps-li-005 col-3">
+					<a class="ps-tab ps-tab-2" href="#QnA" data-toggle="collapse"  role="button" aria-expanded="true" aria-controls="QnA">질문/답변</a>
+				</li>
+				<li class="nav-item ps-li-005 col-3">
+					<a class="ps-tab ps-tab-3" href="#review" data-toggle="collapse"  role="button" aria-expanded="true" aria-controls="#review">구매후기</a>
+				</li>
+				<li class="nav-item ps-li-005 col-3">
+					<a class="ps-tab ps-tab-4" href="#notice" data-toggle="collapse"  role="button" aria-expanded="true" aria-controls="#notice">취소/교환/반품 안내</a>
+				</li>
+			</ul> 
+		</div>
+		<div class="tab-content-all" style="min-height:600px">
+			<div class="tab-content collapse show" id="pexplicate">
+				<div class="card-body ps-card-body">
+					${pvo.pexplicate }
+				</div>
 			</div>
-			<div class="tab-content-all" style="min-height:600px">
-				<div class="tab-content collapse show" id="pexplicate">
-					<div class="card-body ps-card-body">
-						${pvo.pexplicate }
-					</div>
+			<div class="tab-content collapse" id="QnA">
+				<div class="card-body ps-card-body">
+					질문
 				</div>
-				<div class="tab-content collapse" id="QnA">
-					<div class="card-body ps-card-body">
-						질문
-					</div>
+			</div>
+			<div class=" tab-content collapse" id="review">
+				<div class="card-body ps-card-body">
+					<c:forEach items="${rList }" var="list">
+							
+							${list.rating }
+							
+					</c:forEach>
 				</div>
-				<div class=" tab-content collapse" id="review">
-					<div class="card-body ps-card-body">
-						구매후기
-					</div>
-				</div>
-				<div class="tab-content  collapse" id="notice">
-					<div class="card-body ps-card-body">
-						공지
-					</div>
+			</div>
+			<div class="tab-content  collapse" id="notice">
+				<div class="card-body ps-card-body">
+					공지
 				</div>
 			</div>
 		</div>
 	</div>
+
 	 
 	 
-</div>
+
 
 
 <!-- Modal -->
@@ -256,6 +259,11 @@ function productCnt(sign){
 function cart(){
 	
 	
+	if( ${pvo.pcnt} ==0){
+		
+		alert("선택하신 제품의 재고가 없습니다. ");
+		return false;
+	}
 	
 	var userInfo = '${userInfo}';
 	
@@ -286,8 +294,11 @@ function cart(){
 						}
 				
 						if(data =="cartAddSuccess"){
-								alert("장바구니에 담았습니다.");
-								location.href="/view/mypage/myCart";
+								
+								var con = confirm("장바구니에 담았습니다. 장바구니 목록 페이지로 가시겠습니까?");
+								if(con ==true){
+									location.href="/view/mypage/myCart";
+								}
 							}
 				
 							if(data =="cartAddFail"){
@@ -334,8 +345,17 @@ $(".ps-tab").on("click",function(e){
 	}
 })
 
+$('#now-order-btn').on('click', function (e) {
+	if( ${pvo.pcnt} ==0){
+		alert("선택하신 제품의 재고가 없습니다. ");
+		e.stopPropagation();
+	
+	}
+})
+
 $("#order-btn").on("click",function(){ 
 
+	
 var con = confirm("상품을 주문 하시겠습니까?");
 	
 	if(con ==true){

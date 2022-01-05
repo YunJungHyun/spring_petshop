@@ -16,22 +16,20 @@ span.span-cart-allPriceSum {
     vertical-align: middle; 
 }
 </style>
-<div class="page px-0 my-3">
+<div class="page">
+	<span class="ps-title-005">장바구니</span>
 	
-	<h3>장바구니</h3>
-	
-	<div class="cart-content">
 		<table class="table">
 			<thead>
 				<tr>
 					<th colspan="5">주문 상품</th>
 				</tr>
 			</thead>
-			<tbody class="cart-list-tbody">
+			<tbody class="ps-product-list-002">
 			<c:set var="allPriceSum" value="0"/>
 			<c:forEach items="${cartList }" var="cart">
 			<tr id="${cart.pid }">
-				<td class="product-img-box-5 text-center border-right col-2 go-product" >
+				<td class="ps-img-box-002 col-2 go-product" >
 					<img id="img-${cart.pid }">
 					<script>
 							
@@ -45,19 +43,24 @@ span.span-cart-allPriceSum {
 					
 				</td>
 				<td style="vertical-align:top" class="border-right col-4 go-product">
-					<span class="span-cart-pname">
+					<span class="ps-title-006">
 						${cart.pname }
 					</span>
 				</td>
 				<td class="col-2 border-right text-center" >
 					<div class="btn-group ps-cnt-group">
-						<button type="button" class="ps-cnt-btn d-flex" onclick="cartProductCnt('-','${cart.pid}')">
-							<i class="fas fa-minus"></i>
-						</button>
-						<input type="text" class="ps-cnt" id="${cart.pid}-cnt"value="${cart.cstock }"/>
-						<button type="button" class="ps-cnt-btn d-flex" onclick="cartProductCnt('+','${cart.pid}')">
-							<i class="fas fa-plus"></i>
-						</button>
+						
+								
+							
+							<div class="btn-group ps-btn-group-001">
+								<button type="button" class="ps-btn-003" onclick="cartProductCnt('-','${cart.pid}')">
+									<i class="fas fa-minus"></i>
+								</button>
+								<input type="text" class="ps-input-002" id="${cart.pid}-cnt" value="${cart.cstock }" readonly="readonly" />
+								<button type="button" class="ps-btn-003" onclick="cartProductCnt('+','${cart.pid}')">
+									<i class="fas fa-plus"></i>
+								</button>
+							</div>
 					</div>
 				</td> 
 				<td class="col-2 border-right text-center"  > 
@@ -80,14 +83,14 @@ span.span-cart-allPriceSum {
 					결제 예상 금액 : <fmt:formatNumber value="${allPriceSum }" pattern="###,###,###"/> 원
 					</span>
 					
-					<button type="button" class="ps-btn-1 col-2" data-toggle="modal" data-target="#orderModal">주문하기 </button>
+					<button type="button" class="btn btn-primary ps-btn-005" data-toggle="modal" data-target="#orderModal">주문하기 </button>
 				</th>
 			</tr>
 			</tbody>
 			
-		</table>
+		</table> 
 	</div>
-</div> 
+
 
 <!-- Modal -->
 <div class="modal fade" id="orderModal" tabindex="-1" role="dialog" aria-labelledby="orderModalLabel" aria-hidden="true">

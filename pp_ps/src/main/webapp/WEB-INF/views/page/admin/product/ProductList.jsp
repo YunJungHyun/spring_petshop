@@ -93,8 +93,8 @@
 				<c:forEach var="plist" items="${pList }" varStatus="status">
 					<tr class="product-list-tr" id="${plist.pid }">
 						<td>${status.count }</td>
-						<td class="product-img-box-3">
-							<img id="img-${plist.pid }">
+						<td class="ps-img-box-004">
+							<img id="img-${status.count }">
 							<script>
 							
 							var pimgStr = JSON.stringify(${plist.pimg});
@@ -102,7 +102,7 @@
 							var path =pimgJSON.img.path;
 							var fileName = pimgJSON.img.fileName;
 							
-							$("#img-${plist.pid}").attr("src" ,"/resources"+path+"/s/s_"+fileName);
+							$("#img-${status.count }").attr("src" ,"/resources"+path+"/s/s_"+fileName);
 							</script>
 						</td>
 						<td>${plist.pid }</td>

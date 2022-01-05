@@ -42,15 +42,12 @@
 </style>
 
 <div class="page">
-	
-	<div class="ps-container">
-		<div class="page-title p-2 my-3 bg-dark text-light">
-			<h4 class="text-left m-0">제품 기본 정보  업데이트</h4>
-		</div>
-		<div class="row m-0">
-			<div class="col-lg-6 product-img-box-4 px-0" id="product-img-box">
-				<img id="img-${pvo.pid }" src="/resources/icon/no-pictures.png" />
-				
+	<div class="page-title p-2 my-3 bg-dark text-light">
+		<h4 class="text-left m-0">제품 기본 정보  업데이트</h4>
+	</div>
+	<div class="row m-0">
+		<div class="col-lg-6 ps-img-box-001" id="product-img-box">
+			<img id="this-img" src="/resources/icon/no-pictures.png" />
 				<script>
 							
 				var pimgStr = JSON.stringify(${pvo.pimg});
@@ -58,14 +55,14 @@
 				var path =pimgJSON.img.path;
 				var fileName = pimgJSON.img.fileName;
 							
-				$("#img-${pvo.pid}").attr("src" ,"/resources"+path+"/"+fileName);
+				$("#this-img").attr("src" ,"/resources"+path+"/"+fileName);
 				</script>
-			</div>
+		</div>
 
-			<div class="col-lg-6 px-0 pl-3">
-				<div class="form-group mb-4">
-					<label for="pname">제품 이름</label>
-					<input type="text" class="form-control" id="pname" placeholder="제품 이름을 입력하세요." value="${pvo.pname }"> 
+		<div class="col-lg-6 px-0 pl-3">
+			<div class="form-group mb-4">
+				<label for="pname">제품 이름</label>
+				<input type="text" class="form-control" id="pname" placeholder="제품 이름을 입력하세요." value="${pvo.pname }"> 
 					<div class="invalid-feedback">
 							
 					</div>
@@ -191,7 +188,7 @@
 		<button type="button" class="btn btn-primary mx-2 float-left" id="product-delete-btn">삭제</button>
 		<button type="button" class="btn btn-danger mx-2" id="product-update-reset-btn">취소</button>
 	</div>
-</div>
+
 
 <script>
 $(document).ready(function(){

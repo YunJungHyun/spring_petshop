@@ -19,6 +19,8 @@ public class OrderListVO {
 	private String orderPhon;
 	private int amount;
 	private Date orderDate;
+	private String delivery;
+	private String eachDelivery;
 	
 	private int orderDetailNum;
 	private String pid;

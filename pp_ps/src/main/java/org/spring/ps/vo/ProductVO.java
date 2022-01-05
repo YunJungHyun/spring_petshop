@@ -30,6 +30,6 @@ public class ProductVO {
 	
 	
 	private String pexplicate;
-
+	
 	
 }

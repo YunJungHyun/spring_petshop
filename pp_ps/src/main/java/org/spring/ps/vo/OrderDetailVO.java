@@ -13,4 +13,6 @@ public class OrderDetailVO {
 	private String orderid;
 	private String pid;
 	private int cstock;
+	private String eachDelivery;
+	
 }

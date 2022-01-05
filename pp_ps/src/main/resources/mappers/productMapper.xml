@@ -37,6 +37,12 @@
 		]]>
 	</update>
 	
+	<update id="pcntDecrease"  parameterType="HashMap">
+	<![CDATA[ 
+ 			${sql}
+		]]>
+	</update>
+	
 	<insert id="productInsert"  parameterType="HashMap">
 	<![CDATA[ 
  			${sql}
@@ -52,5 +58,7 @@
  			${sql}
 		]]>
 	</delete>
+	
+	
 
 </mapper>

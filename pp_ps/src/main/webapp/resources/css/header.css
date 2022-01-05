@@ -1,28 +1,17 @@
 @charset "UTF-8";
-
+/* 헤더 */
 .ps-header {
 	line-height: 1;
 	border-bottom: 2px solid #e5e5e5;
 	background-color: #7fe7d5;
+	padding: 1rem;
 }
 
-.ps-logo {
-	color: #fff;
-	font-weight: bold;
-	font-size: 1.5rem;
-}
-
-.ps-logo:hover , .my-menu-btn:hover{
-	color: #bbb;
-}
-
-.my-menu-btn {
-	color: #fff;
-	font-size: 1.5rem
-}
-
-.ps-dropdown-content.my-menu-content{
+/* 카테고리   */
+.ps-category-group{
 	
-	right:0px;
+	padding-top :.25rem;
+	padding-bottom :.25rem;
+	border-bottom: 1px solid #ccc;
+	
 }
-

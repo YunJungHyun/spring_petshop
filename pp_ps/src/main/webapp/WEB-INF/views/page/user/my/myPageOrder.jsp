@@ -10,7 +10,7 @@
 }
 
 .order-img-box{
-	width :8rem;
+	width :12rem;
 }
 .order-img-box >img {
     width: -webkit-fill-available;
@@ -77,6 +77,9 @@ ul.order-content-ul >li {
 	font-size: 1.5rem;
     font-weight: bold;
 }
+.orderCancle-btn-group>button{
+	font-size: 12px;
+}
 </style>    
 <%@ include file="/WEB-INF/views/page/user/my/myPageHeader.jsp"%>
 
@@ -135,12 +138,16 @@ ul.order-content-ul >li {
 							배송 상태 : 
 							</span>
 							<span class="od-data-text-delivery">
-								${olist.delivery }
+							  
+								<c:if test="${olist.delivery eq 'deliveryReady'}"><span style="color:gray">배송준비</span></c:if>
+								<c:if test="${olist.delivery eq 'deliveryIn'}"><span style="color:blue">배송중</span></c:if>
+								<c:if test="${olist.delivery eq 'deliveryComplete'}"><span style="color:green">배송완료</span></c:if>
+								<c:if test="${olist.delivery eq 'orderCancle'}"><span style="color:red">주문취소</span></c:if>
 							</span>
 							
 							
 						</li>				
-					</ul>
+					</ul> 
 				</a>
 				
 				<div id="orderCollapse-${status.count}" class="collapse orderCollapse">
@@ -188,15 +195,32 @@ $('.orderCollapse').on('show.bs.collapse', function () {
 				var pimgJSON = JSON.parse(pimg);
 				var path =pimgJSON.img.path;
 				var fileName = pimgJSON.img.fileName;
-				 
+				var delivery = data[i].eachDelivery;
+				
+				
+				switch(delivery){
+				case "deliveryReady":
+					delivery = "<span style='color:gray'>배송준비</span>";
+					break;
+				case "deliveryIn":
+					delivery = "<span style='color:blue'>배송중</span>";
+					break;
+				case "deliveryComplete":
+					delivery = "<span style='color:green'>배송완료</span>";
+					break;
+				case "orderCancle":
+					delivery = "<span style='color:red'>주문취소</span>";
+					break;
+			
+				}
 
 				var html = "<tr id='od-"+data[i].pid+"'>";
-						html +="<td class='col-2 px-0 py-3'>";
+						html +="<td class='col-3 px-0 py-3'>";
 							html+="<div class='order-img-box m-auto'>";
 							html+="<img src='/resources"+path+"/s/s_"+fileName+"'>";
 							html+="</div>";
 						html +="</td>";
-						html +="<td class='col-10'>";			
+						html +="<td class='col-9'>";			
 							html+="<ul class='order-detail-content-ul'>";
 								html+="<li class='font-weight-bold'>";
 									html+="<span class='od-data-text-pname'>";
@@ -225,12 +249,32 @@ $('.orderCollapse').on('show.bs.collapse', function () {
 										html+=" (개)";
 								html +="</span>";
 								html+="</li>";
-								html+="<li class='border-top text-right'>";
+								html+="<li>";
+									html+="<span class='od-title-span-2'>";
+										html+="주문 상태 : "
+									html+="</span>";
+									html+="<span class='od-data-text-2'>";
+										html+="<span>";
+										html +=delivery;
+										html+="</span>";
+										if(data[i].delivery =='deliveryReady'){
+											html+="<span class='orderCancle-btn-group mx-3'>";
+												html +="<button type='button' class='btn btn-outline-danger'>주문 취소</button>";
+											html+="</span>";
+										}
+									html+="</span>";
+									
+								html+="</li>";
+								html+="<li class='border-top text-right mt-3'>";
 									html+="<span class='od-title-span'>";
 										html+="합계 : "
 									html+="</span>";
 									html+="<span class='od-data-text-2'>";
-									html +=data[i].cstock*data[i].pprice;
+									if( data[i].eachDelivery =='orderCancle'){
+										html+= "0";
+									}else{
+										html +=data[i].cstock*data[i].pprice;
+									}
 									html +="</span>";
 									html +="<span class='od-unit-span'>";
 									html+=" (원)";
@@ -246,13 +290,16 @@ $('.orderCollapse').on('show.bs.collapse', function () {
 	 
 	})
 
-$(document).on("click" ,".orderDetailList-table > tr",function(){
+$(document).on("click" ,".orderDetailList-table > tr",function(e){
+	console.log(e.target.nodeName);
+	if(e.target.nodeName !="BUTTON"){
+		
+		var od_pid = $(this).attr("id");
+		var od_pid_arr =od_pid.split("-");
 	
-	var od_pid = $(this).attr("id");
-	var od_pid_arr =od_pid.split("-");
-	
-	location.href="/product/"+od_pid_arr[1];
-	
+		location.href="/product/"+od_pid_arr[1];
+		
+	}
 })	
 
 $('.orderCollapse').on('hide.bs.collapse', function () {

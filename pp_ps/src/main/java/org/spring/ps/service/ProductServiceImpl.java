@@ -59,4 +59,12 @@ public class ProductServiceImpl implements ProductService{
 		// TODO Auto-generated method stub
 		return productDAO.productDelete(pid);
 	}
+	
+	@Override
+	public void pcntDecrease(String pid, int cstock) {
+		// TODO Auto-generated method stub
+		
+		 productDAO.pcntDecrease(pid,cstock);
+		
+	}
 }

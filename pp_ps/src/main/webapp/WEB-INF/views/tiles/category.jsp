@@ -1,18 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<div class="category-list p-2">
-	<div class="row flex-nowrap justify-content-between align-items-center">
-		<div class="col-4 d-flex justify-content-start align-items-center">
-			<div class="ps-dropdown">
-				<a href="#" class="category-menu-btn">카테고리</a>
-
-				<ul class="ps-dropdown-content category-menu-content list-group">
-
-				</ul>
-
-			</div>
+<div class="ps-category-group">
+	<div class="row">
+		<div class="ps-dropdown">
+			<a href="#" class="ps-a-002">카테고리</a>
+			<ul class="ps-ul-002" id="ps-category-list-001">
+			</ul>
 		</div>
+		
 	</div>
 </div>
 <c:if test="${breadcrumb !='none' }">
@@ -27,17 +23,13 @@
 				</li>
 			</c:forEach>
 		</ol>
-		 
+		  
 	</nav>
 </c:if>
 
 <script>
 $(document).ready(function(){
-	
 	getCategoryList();
-	 
-	
-	
 })
 
 function getCategoryList(){
@@ -74,17 +66,17 @@ function getCategoryList(){
 				}
 			}
 			
-			var parentCategory = $(".category-menu-content");
+			var parentCategory = $("#ps-category-list-001");
 			
 			for(var i = 0 ; i < cateArr.length; i++){
-				var html = "<li class='dropdown-li ps-sub-dropdown'>"
+				var html = "<li class='ps-li-002 ps-li ps-dropdown-sub'>"
 					html += "<a href='/category/"+cateArr[i].ccode+"'>"+cateArr[i].cname+"</a>"
-					html += "<ul class='ps-sub-dropdown-content list-group' >"
+					html += "<ul class='ps-ul-003' >"
 					
 					for(var j = 0 ; j <cateSubArr.length; j++){
 				
 						if(cateSubArr[j].ccoderef == cateArr[i].ccode ){ 
-							html += "<li class='dropdown-li'>"
+							html += "<li class='ps-li-002 ps-li'>"
 							html += "<a href='/category/"+cateSubArr[j].ccoderef+cateSubArr[j].ccode+"'>"+cateSubArr[j].cname+"</a>"
 							html += "</li>";
 						}
@@ -99,12 +91,12 @@ function getCategoryList(){
 	})  
 } 
 
-$(document).on("mouseenter",".ps-sub-dropdown",function(){
+$(document).on("mouseenter",".ps-dropdown-sub",function(){
 	
 	$(this).children("ul").stop().slideToggle(100);
 	$(this).children("ul").addClass("show");
 })
-$(document).on("mouseleave",".ps-sub-dropdown",function(){
+$(document).on("mouseleave",".ps-dropdown-sub",function(){
 	
 	if($(this).children("ul").hasClass("show")){
 		

@@ -24,7 +24,9 @@ public interface ProductDAO {
 
 	int productUpdate(ProductVO productVO, HashMap<String, String> sql_dirMap);
 
-	int productDelete(String pid); 
+	int productDelete(String pid);
+
+	void pcntDecrease(String pid, int cstock); 
 
 
 

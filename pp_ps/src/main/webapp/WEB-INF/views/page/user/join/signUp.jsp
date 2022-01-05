@@ -1,18 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-
-<div class="page py-5">
-	<div class="ps-container col-lg-6">
-			<div class="page-title">
-				<h2 class="text-center">회원가입</h2>
+<div class="pt-4">
+</div> 
+<div class="page">
+	<div class="col-6"> 
+			<div class="page-title-001"> 
+				<span class="ps-span-001">회원가입</span>
 			</div>
-			<div class="page-box py-4"> 
+			<div class="page-box"> 
 			<form id="form-signUp" name="form-signUp">
-		 		<div class="row">
-		 			
-		 			<div class="col-lg-12 mb-3 form-ps-group-1 my-0">
+		 		<div class="row"> 
+		 			<div class="col-12 ps-group-003">
 						<label for="userid">아이디</label>
-							<input type="text" class="form-control signUp-input" id="userid" name="userid" placeholder="아이디를 입력하세요."  value="userid1234">
+							<input type="text" class="form-control signUp-input" id="userid" name="userid" placeholder="아이디를 입력하세요."  value="">
 						<div class="invalid-feedback id-feed">
 							<span class="feed-1">아이디를 입력해주세요.</span>
 							<span class="feed-2">아이디는 6~20자 영문이나 숫자를 사용하여 작성해주세요.</span>
@@ -20,33 +20,33 @@
 							<span class="feed-4" style="color:green">사용 가능한 아이디입니다.</span>
 						</div>
 					</div>
-		 			<div class="col-lg-12 mb-3 form-ps-group-1 my-0">
+		 			<div class="col-12  ps-group-003">
 						<label for="userid">회원 이름</label>
-							<input type="text" class="form-control signUp-input" id="username" name="username" placeholder="이름을 입력하세요." value="윤정현" >
+							<input type="text" class="form-control signUp-input" id="username" name="username" placeholder="이름을 입력하세요." value="" >
 						<div class="invalid-feedback">
 							<span class="feed-1">이름을 입력해주세요.</span>
 							<span class="feed-2">이름은 2자 이상 한글로만 작성해주세요.</span>
 						</div> 
 					</div>
-		 			<div class="col-lg-12 mb-3 form-ps-group-1 my-0">
+		 			<div class="col-12  ps-group-003">
 						<label for="userpw">비밀번호</label>
-							<input type="password" class="form-control signUp-input" id="userpw"  name="userpw" placeholder="비밀번호를  8자리 이상 입력하세요."  value="sksWkd12@!" >
+							<input type="password" class="form-control signUp-input" id="userpw"  name="userpw" placeholder="비밀번호를  8자리 이상 입력하세요."  value="" >
 						<div class="invalid-feedback">
 							<span class="feed-1">비밀번호를 입력해주세요.</span>
 							<span class="feed-2">비밀번호는 알파벳,숫자,특수문자를 포함하여 8 ~ 24자로 작성해주세요.</span>
 						</div>
 					</div>
-		 			<div class="col-lg-12 mb-3 form-ps-group-1 my-0">
+		 			<div class="col-12  ps-group-003 ">
 						<label for="firstName">비밀번호 확인</label>
-							<input type="password" class="form-control signUp-input"  id="userpwChk"  placeholder="비밀번호를 한 번 더 입력하세요."  value="sksWkd12@!" >
+							<input type="password" class="form-control signUp-input"  id="userpwChk"  placeholder="비밀번호를 한 번 더 입력하세요."  value="" >
 						<div class="invalid-feedback">
 							<span class="feed-1">비밀번호를 한 번 더 입력해주세요.</span>
 							<span class="feed-2">작성하신 비밀번호가 다릅니다.</span>
 						</div>
 					</div>
-		 			<div class="col-lg-12 mb-3 form-ps-group-1 my-0">
+		 			<div class="col-12  ps-group-003 ">
 						<label for="firstName">이메일</label>
-							<input type="email" class="form-control signUp-input" id="uemail"  name="uemail" placeholder="이메일을 입력하세요."  value="yjh_zzzz@naver.com" >
+							<input type="email" class="form-control signUp-input" id="uemail"  name="uemail" placeholder="이메일을 입력하세요."  value="" >
 						<div class="invalid-feedback">
 							<span class="feed-1">이메일을 입력해주세요.</span>
 							<span class="feed-2">이메일을 정확히 입력해주세요.</span>
@@ -56,7 +56,7 @@
 		 		</div>
 		 		<input type="hidden" name="utype" value="ps">
 		 		<input type="hidden" name="ulevel" value="1">
-		 		<button class="btn btn-block ps-btn-1 my-2" id="signUp-btn" type="button">회원가입</button> 
+		 		<button class="btn ps-btn ps-btn-001" id="signUp-btn" type="button">회원가입</button> 
 		 		</form>
 			</div> 
 		</div>  
@@ -191,7 +191,6 @@ $("#signUp-btn").on("click",function(){
 	  
 			var queryString = $("form[name=form-signUp]").serialize() ;
 
-			console.log(queryString)
 		
 		$.ajax({
 			

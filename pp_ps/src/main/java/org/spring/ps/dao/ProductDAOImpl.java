@@ -30,7 +30,7 @@ public class ProductDAOImpl implements ProductDAO{
 		String openState = pagingMap.get("openState");
 		HashMap<String, String> map = new HashMap();
 		
-		String sql = "SELECT COUNT(*) FROM product AS A ";
+		String sql = "SELECT COUNT(*) FROM tbl_product AS A ";
 		sql	+= "LEFT JOIN category AS B ";
 		sql	+="ON A.pccode = B.ccode ";
 		
@@ -74,7 +74,7 @@ public class ProductDAOImpl implements ProductDAO{
 		
 		String sql = "SELECT * FROM ( ";
 		sql += "SELECT @rownum:=@rownum+1 AS RN, C.* FROM (SELECT @ROWNUM:=0) as R , ( ";
-		sql +=  "SELECT A.pnum,A.pid,A.pname,A.pcnt,A.pccode,B.ccoderef pccoderef,A.pprice,A.pimg,A.pregdate,A.state,A.pbrand FROM product AS A ";
+		sql +=  "SELECT A.pnum,A.pid,A.pname,A.pcnt,A.pccode,B.ccoderef pccoderef,A.pprice,A.pimg,A.pregdate,A.state,A.pbrand FROM tbl_product AS A ";
 		sql	+= "LEFT JOIN category AS B ";
 		sql	+="ON A.pccode = B.ccode ";
 		//전체 보기
@@ -142,7 +142,7 @@ public class ProductDAOImpl implements ProductDAO{
 	public ProductVO getProductOne(String pid) {
 		HashMap<String, String> map = new HashMap();
 
-		String sql = "SELECT  A.*,B.ccoderef AS pccoderef FROM product  AS A ";
+		String sql = "SELECT  A.*,B.ccoderef AS pccoderef FROM tbl_product  AS A ";
 		sql +="LEFT JOIN category AS B ON A.pccode =B.ccode ";
 		sql	+="WHERE pid = '"+pid+"'";
 
@@ -156,7 +156,7 @@ public class ProductDAOImpl implements ProductDAO{
 	public int stateChange(ProductVO productVO) {
 		HashMap<String, String> map = new HashMap();
 		
-		String sql = "UPDATE product SET state =" +productVO.getState();
+		String sql = "UPDATE tbl_product SET state =" +productVO.getState();
 				sql += " WHERE pid = '"+productVO.getPid()+"'";
 		map.put("sql", sql);
 		
@@ -170,7 +170,7 @@ public class ProductDAOImpl implements ProductDAO{
 	public int productInsert(ProductVO productVO, HashMap<String, String> sql_dirMap) {
 		HashMap<String, String> map = new HashMap();
 		
-		String sql ="INSERT INTO product(pid,pname,pbrand,pcnt,pprice,pexplicate,pccode,pimg) ";
+		String sql ="INSERT INTO tbl_product(pid,pname,pbrand,pcnt,pprice,pexplicate,pccode,pimg) ";
 		sql+="VALUES( ";
 		sql+="'"+productVO.getPid()+"', ";
 		sql+="'"+productVO.getPname()+"', ";
@@ -194,7 +194,7 @@ public class ProductDAOImpl implements ProductDAO{
 	public int productUpdate(ProductVO productVO, HashMap<String, String> sql_dirMap) {
 		HashMap<String, String> map = new HashMap();
 		
-		String sql ="UPDATE product set ";
+		String sql ="UPDATE tbl_product set ";
 		sql+="pname ='"+productVO.getPname()+"', ";
 		sql+="pbrand ='"+productVO.getPbrand()+"', ";
 		sql+="pcnt ='"+productVO.getPcnt()+"', ";
@@ -219,10 +219,22 @@ public class ProductDAOImpl implements ProductDAO{
 	@Override
 	public int productDelete(String pid) {
 		HashMap<String, String> map = new HashMap();
-		String sql ="DELETE FROM product WHERE pid = '"+pid+"'";
+		String sql ="DELETE FROM tbl_product WHERE pid = '"+pid+"'";
 
 		map.put("sql", sql);
 		int result = sqlSession.insert(Namespace +".productDelete",map);
 		return result;
+	}
+	
+	@Override
+	public void pcntDecrease(String pid, int cstock) {
+		HashMap<String, String> map = new HashMap();
+		String sql ="UPDATE tbl_product ";
+		sql+= "SET pcnt = pcnt -"+cstock;
+		sql += " WHERE pid =  '"+pid+"'";
+
+		map.put("sql", sql);
+		sqlSession.update(Namespace +".pcntDecrease",map);
+		
 	}
 }

@@ -32,6 +32,9 @@ public interface ProductService {
 	int productDelete(String pid);
 
 
+	void pcntDecrease(String pid, int cstock);
+
+
 
 	
 }

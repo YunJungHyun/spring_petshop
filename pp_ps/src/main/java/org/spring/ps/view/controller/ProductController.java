@@ -14,10 +14,12 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.spring.ps.service.CategoryService;
 import org.spring.ps.service.ProductService;
+import org.spring.ps.service.ReviewService;
 import org.spring.ps.utils.UploadFileUtils;
 import org.spring.ps.utils.routeUtils;
 import org.spring.ps.vo.PageInfoVO;
 import org.spring.ps.vo.ProductVO;
+import org.spring.ps.vo.ReviewDetailVO;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -50,6 +52,9 @@ public class ProductController {
 	@Inject
 	private CategoryService categoryService;
 	
+	@Inject
+	private ReviewService reviewService;
+	
 	@RequestMapping(value="/{pid}", method=RequestMethod.GET)
 	public String product(
 			Model model,
@@ -57,6 +62,9 @@ public class ProductController {
 			) {
 
 		ProductVO pvo = productService.getProductOne(pid);
+		
+		List<ReviewDetailVO> rList = reviewService.getProdOneReviewList(pid);
+		
 		//route
 		String cnameref = categoryService.getCategoryOne(Integer.toString(pvo.getPccoderef()));
 		String cname = categoryService.getCategoryOne(Integer.toString(pvo.getPccode()));
@@ -71,6 +79,7 @@ public class ProductController {
 		model.addAttribute("breadcrumb",breadcrumbList);
 
 
+		model.addAttribute("rList",rList);
 		model.addAttribute("pvo",pvo);
 		String pageTitle = pvo.getPname();  
 		model.addAttribute("pageTitle", pageTitle);

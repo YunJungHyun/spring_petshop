@@ -31,7 +31,7 @@ public class UserDAOImpl implements UserDAO {
 		
 		HashMap<String, String> map = new HashMap();
 		
-		String sql = "SELECT * FROM user WHERE userid = '"+userInfo.get("userid")+"' "
+		String sql = "SELECT * FROM tbl_user WHERE userid = '"+userInfo.get("userid")+"' "
 				+ "AND utype = '"+userInfo.get("utype")+"'";
 		
 	
@@ -52,7 +52,7 @@ public class UserDAOImpl implements UserDAO {
 		
 		log.debug("[authSignUp] userInfo.toString():" +userInfo.toString());
 		String sql ="INSERT INTO "
-				+ "user(userid,username,uemail,ulevel,utype) "
+				+ "tbl_user(userid,username,uemail,ulevel,utype) "
 				+ "VALUES ('"+userInfo.get("userid")+"','"+userInfo.get("username")+"','"+userInfo.get("uemail")+"',1,'"+userInfo.get("utype")+"'"
 							
 						+ ")";			
@@ -69,8 +69,8 @@ public class UserDAOImpl implements UserDAO {
 	public int userPetShopSignUp(UserVO userVO) {
 		HashMap<String, String> map = new HashMap();
 		
-		String sql = "INSERT INTO user(userid, username,userpw,uemail ,ulevel ,utype) ";
-			sql += "VALUES('"+userVO.getUserid()+"','"+userVO.getUsername()+"','"+userVO.getUserpw()+"','"+userVO.getUemail()+"',"+userVO.getUlevel()+",'"+userVO.getUtype()+"')";
+		String sql = "INSERT INTO tbl_user(userid, username,userpw,uemail) ";
+			sql += "VALUES('"+userVO.getUserid()+"','"+userVO.getUsername()+"','"+userVO.getUserpw()+"','"+userVO.getUemail()+"')";
 	
 		map.put("sql", sql);
 		int result  = sqlSession.insert(Namespace+".userPetShopSignUp", map);
@@ -84,7 +84,7 @@ public class UserDAOImpl implements UserDAO {
 		HashMap<String, String> map = new HashMap();
 		
 		String sql = "SELECT COUNT(*) "
-					+"FROM USER "
+					+"FROM tbl_user "
 					+"WHERE userid = '"+userid+"' "
 					+"AND utype = 'ps'";
 		
@@ -99,7 +99,7 @@ public class UserDAOImpl implements UserDAO {
 		HashMap<String , String> map = new HashMap();
 		
 		String sql="SELECT * "
-				+"FROM USER "
+				+"FROM tbl_user "
 				+"WHERE userid ='"+userid+"' "
 				+"AND userpw = '"+userpw+"' "
 				+"AND utype = 'ps'";

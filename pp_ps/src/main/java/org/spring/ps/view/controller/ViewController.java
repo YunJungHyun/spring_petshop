@@ -14,10 +14,12 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.spring.ps.service.CartService;
 import org.spring.ps.service.OrderService;
+import org.spring.ps.service.ReviewService;
 import org.spring.ps.utils.routeUtils;
 import org.spring.ps.vo.CartListVO;
 import org.spring.ps.vo.OrderVO;
 import org.spring.ps.vo.PageInfoVO;
+import org.spring.ps.vo.ReviewDetailVO;
 import org.spring.ps.vo.UserVO;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -41,6 +43,9 @@ public class ViewController {
 	@Inject
 	private OrderService orderService;
 
+	@Inject
+	private ReviewService reviewService;
+	
 
 
 	@RequestMapping(value="/petshop")
@@ -200,6 +205,31 @@ public class ViewController {
 					String routeArray2[][] = {{"마이페이지","/view/mypage/myOrder"},{"장바구니","/view/mypage/myCart"}};
 					routeMap.put(0,routeArray2[0]);
 					routeMap.put(1,routeArray2[1]);
+					break;
+				case "myReviewWriter":
+				
+					
+					List<ReviewDetailVO> canReviewList = reviewService.getCanReviewList(userVO);
+					
+					model.addAttribute("crList",canReviewList);
+					
+					page ="review/review";
+					String routeArray3[][] = {{"마이페이지","/view/mypage/myOrder"},{"리뷰 작성","/view/mypage/myReviewWriter"}};
+					routeMap.put(0,routeArray3[0]);
+					routeMap.put(1,routeArray3[1]);
+					break;
+				case "myReviewList":
+					
+					
+					List<ReviewDetailVO> reviewList = reviewService.getReviewList(userVO);
+					
+					log.debug("[check] reviewList :" +reviewList.toString());
+					model.addAttribute("rList",reviewList);
+					
+					page ="review/reviewList";
+					String routeArray4[][] = {{"마이페이지","/view/mypage/myOrder"},{"내가 작성한 리뷰","/view/mypage/myReviewList"}};
+					routeMap.put(0,routeArray4[0]);
+					routeMap.put(1,routeArray4[1]);
 					break;
 					
 			}
