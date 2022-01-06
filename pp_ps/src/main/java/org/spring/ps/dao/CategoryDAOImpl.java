@@ -32,9 +32,9 @@ public class CategoryDAOImpl implements CategoryDAO{
 		HashMap<String,String> map = new HashMap<String, String>();
 
 		String sql ="WITH recursive cte AS (";
-		sql+= " SELECT cname, 1 as level, ccode,ccoderef FROM category WHERE ccoderef IS null ";
+		sql+= " SELECT cname, 1 as level, ccode,ccoderef FROM tbl_category WHERE ccoderef IS null ";
 		sql+= " UNION all";
-		sql+= " SELECT b.cname, level +1 ,b.ccode,b.ccoderef FROM category b"; 
+		sql+= " SELECT b.cname, level +1 ,b.ccode,b.ccoderef FROM tbl_category b"; 
 		sql+= " INNER JOIN cte a" ;
 		sql+= " ON a.ccode = b.ccoderef";
 		sql+= " )";
@@ -55,7 +55,7 @@ public class CategoryDAOImpl implements CategoryDAO{
 
 		HashMap<String,String> map = new HashMap<String, String>();
 
-		String sql = "SELECT COUNT(*) FROM category WHERE cname= '"+cname+"'";
+		String sql = "SELECT COUNT(*) FROM tbl_category WHERE cname= '"+cname+"'";
 
 		map.put("sql", sql);
 		int result = sqlSession.selectOne(Namespace+".categroyChk", map);
@@ -68,7 +68,7 @@ public class CategoryDAOImpl implements CategoryDAO{
 		HashMap<String,String> map = new HashMap<String, String>();
 
 		int maxCategoryCode = parentCategory+99;
-		String sql = "INSERT INTO category(cname,ccode,ccoderef) "
+		String sql = "INSERT INTO tbl_category(cname,ccode,ccoderef) "
 				+ "VALUES('"+cname+"', ( SELECT MAX(ccode + 1) AS ccode FROM category AS a WHERE ccode BETWEEN "+parentCategory+" AND "+maxCategoryCode+" ), "+parentCategory+")";
 
 
@@ -82,7 +82,7 @@ public class CategoryDAOImpl implements CategoryDAO{
 	public String getCategoryOne(String openCcode) {
 		HashMap<String,String> map = new HashMap<String, String>();
 		
-		String sql = "SELECT cname FROM category WHERE ccode = "+openCcode;
+		String sql = "SELECT cname FROM tbl_category WHERE ccode = "+openCcode;
 		map.put("sql", sql);
 		
 		String result = sqlSession.selectOne(Namespace+".getCategoryOne",map);

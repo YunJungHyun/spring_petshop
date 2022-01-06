@@ -22,7 +22,7 @@ public class ProductServiceImpl implements ProductService{
 		// TODO Auto-generated method stub
 		return productDAO.getProductList(pagingVO, pagingMap);
 	}
-	
+
 	@Override
 	public int countProduct(HashMap<String,String> pagingMap) {
 		// TODO Auto-generated method stub

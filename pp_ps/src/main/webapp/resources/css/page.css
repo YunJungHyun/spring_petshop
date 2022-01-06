@@ -1,42 +1,8 @@
 @charset "UTF-8";
 
-/*page  */
-.page>div {
-	margin: 0px auto;
-}
-
-.page-001 {
-	display: flex;
-}
-
 /*ps-ul*/
 .ps-ul-006 {
 	padding: 1rem;
-}
-
-/* ps-title  */
-.page-title-001 {
-	text-align: center;
-}
-
-.ps-title-001 {
-	text-align: center;
-	color: #ccc;
-	border-bottom: 1px solid #ccc;
-	margin-bottom: .5rem;
-}
-
-.ps-title-002 {
-	padding: 1.5rem 1rem 0.5rem;
-	font-weight: bold;
-	border-bottom: 1px solid #ccc;
-}
-
-.ps-title-003 {
-	display: flex;
-	justify-content: space-between;
-	padding: 1rem 1rem .25rem;
-	border-bottom: 1px solid #ccc;
 }
 
 .ps-title-004 {
@@ -51,22 +17,13 @@
 	font-weight: bold;
 	display: block;
 }
-.ps-title-006{
-	font-size :1.25rem;
+
+.ps-title-006 {
+	font-size: 1.25rem;
 	font-weight: bold;
 }
 
-.ps-title-007 {
-    display: block;
-    padding: 1rem;
-    font-weight: bold;
-    font-size: 1.25rem;
-}
 /*ps-input  */
-.ps-input-001 {
-	font-size: 1.5rem;
-}
-
 .ps-input-002 {
 	width: 3rem;
 	border-right: 1px solid #ccc;
@@ -78,19 +35,8 @@
 	font-size: 1.25rem;
 	font-weight: bold;
 }
-/* ps-select  */
-.ps-select-001 {
-	width: 7rem;
-	font-size: .75rem;
-}
 
 /* list  */
-.ps-product-list-001 {
-	padding: 1rem;
-	display: flex;
-	flex-wrap: wrap;
-}
-
 .ps-product-list-002 {
 	
 }
@@ -107,18 +53,13 @@
 .ps-img-box-002>img {
 	width: 10rem;
 }
-.ps-img-box-003{
-	padding: 1rem;
-}
 
-.ps-img-box-004{
-	
+.ps-img-box-004 {
 	
 }
 
-.ps-img-box-004 >img{
-	
-	width : 3rem;
+.ps-img-box-004>img {
+	width: 3rem;
 }
 
 /* ps-info-box  */
@@ -136,32 +77,12 @@
 }
 
 /* product  */
-.ps-product-001 {
-	display: flex;
-	flex-direction: column;
-	padding: .5rem;
-}
 
 /* ps-content  */
 .ps-content-001 {
 	
-	
-}
-/* ps-division  */
-.ps-division-001 {
-	width: 1px;
-	height: 1rem;
-	background-color: #ccc;
-	align-self: center;
-	margin-left: 0.5rem;
-	margin-right: 0.5rem;
 }
 
-.ps-division-002 {
-	margin: 1rem 0px;
-	height: 1px;
-	background-color: #bbb;
-}
 /*ps-input-group  */
 .ps-input-group-001 {
 	display: flex;
@@ -170,24 +91,6 @@
 	border-bottom: 1px solid #ccc;
 }
 /* ps-group  */
-.ps-group-001 {
-	margin-bottom: 1rem;
-}
-
-.ps-group-002 {
-	margin-bottom: 8rem;
-	display: flex;
-	justify-content: center;
-}
-
-.ps-group-003 {
-	margin-bottom: 1rem;
-}
-
-.ps-group-003>label {
-	padding-left: 0.25rem;
-}
-
 .ps-group-004 {
 	margin-bottom: 1rem;
 }
@@ -220,78 +123,10 @@
 	font-weight: bold;
 }
 
-.ps-group-009{
-	
-	text-align: center;
-	border: 1px solid;
-    border-radius: 8px;
-}
-.ps-group-item-001:hover{
-	
-	cursor: pointer;
-	
-}
 /* ps-label  */
 .ps-label-001 {
 	font-weight: bold;
 	font-size: 1.25rem;
-}
-/* ps-span  */
-.ps-span-001 {
-	font-size: 2rem;
-	font-weight: bold;
-	width: fit-content;
-	margin: 0px auto;
-}
-
-.ps-span-002>a {
-	color: #ccc;
-}
-
-.ps-span-002>a:hover {
-	color: #000;
-	font-weight: bold;
-}
-
-.ps-span-003 {
-	width: 3rem;
-	height: 3rem;
-	border-radius: 50%;
-	overflow: hidden;
-}
-
-.ps-span-003>a>img {
-	width: -webkit-fill-available;
-	height: -webkit-fill-available;
-}
-
-.ps-span-004 {
-	background-color: #7fe7d5;
-	padding: 0.5rem;
-}
-
-.ps-span-004>a {
-	color: #fff;
-}
-
-.ps-span-005 {
-	display: block;
-	font-weight: bold;
-	padding: 0.5rem;
-}
-
-.ps-span-005:hover {
-	background-color: #c1e9e387;
-}
-
-.ps-span-006 {
-	align-self: self-end;
-	font-weight: bold;
-	font-size: .75rem;
-}
-
-.ps-span-007 {
-	display: block;
 }
 
 .ps-span-008 {
@@ -312,27 +147,7 @@
 }
 
 /* category  */
-.ps-category-list-001 {
-	padding: 1rem 0px 1rem 0px;
-	border-right: 1px solid #ccc;
-}
-
-.ps-li-004 {
-	padding-top: 0.5rem;
-	padding-bottom: 0.5rem;
-	text-indent: 1rem;
-}
-
-.ps-li-004:hover {
-	background-color: #c1e9e387;
-	font-weight: bold;
-}
-
-.ps-ul-005 {
-	display: none;
-}
-
-.prodChg {
+.open {
 	font-weight: bold;
 	color: red;
 }
@@ -369,29 +184,4 @@
 
 .tab-content.show {
 	
-}
-
-/* slide  */
-.ps-slide-001 {
-	padding-top: 2rem;
-	padding-bottom: 5rem;
-}
-
-.ps-slide-inner-001 {
-	height: 10rem;
-	width: 10rem;
-	margin: 0px auto;
-	border-radius: 66%;
-}
-
-.ps-slide-item-001 {
-	height: 10rem;
-	width: 10rem;
-	overflow: hidden;
-}
-
-.ps-slide-item-001>img {
-	object-fit: cover;
-	height: -webkit-fill-available;
-	border-radius: 60%;
 }

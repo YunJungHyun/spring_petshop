@@ -1,24 +1,16 @@
 package org.spring.ps.view.controller;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.json.simple.JSONObject;
-import org.spring.ps.service.AdminService;
 import org.spring.ps.service.UserService;
-import org.spring.ps.vo.AdminVO;
 import org.spring.ps.vo.UserVO;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -34,8 +26,6 @@ public class JoinController {
 	@Inject
 	private UserService userService;
 	
-	@Inject
-	private AdminService adminService;
 
 	private final HttpSession session;
 

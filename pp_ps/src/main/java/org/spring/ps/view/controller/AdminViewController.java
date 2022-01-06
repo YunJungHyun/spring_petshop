@@ -53,6 +53,7 @@ public class AdminViewController {
 			HttpServletResponse response,
 			PagingVO pagingVO, 
 			@RequestParam(value="pid", required= false) String pid,
+			@RequestParam(value="ccoderef", required= false) String ccoderef,
 			@RequestParam(value="ccode", required= false) String ccode,
 			@RequestParam(value="page", required= false) String page,
 			@RequestParam(value="sortBy", required= false) String sortBy,
@@ -105,27 +106,30 @@ public class AdminViewController {
 				pageTitle = "관리자 페이지";
 				break;
 			case "Product":
-				
-
-				if(ccode == null) {
-					ccode = "000";
+				if(ccoderef== null) {
+					ccoderef = "";
 				}
+				if(ccode== null) {
+					ccode = "";
+				}
+				if(state == null) {
+					
+					state = "";
+				}
+				
 				if(sortBy == null) {
 					sortBy = "";
 				}
-				if(state == null) {
-					state = "allState";
-				}
-
 				HashMap<String,String> map = new HashMap();
-
-
-				map.put("openCcode",ccode);
-				map.put("openSortBy",sortBy);
+				map.put("ccode",ccode);
+				map.put("ccoderef",ccode);
 				map.put("openState",state);
-
+				map.put("openSortBy",sortBy);
 				int total = productService.countProduct(map);
-
+				log.debug("*****************total**********");
+				log.debug(total);
+				log.debug("*****************total**********");
+			
 				pagingVO = new PagingVO(total, Integer.parseInt(page), 20);
 
 
@@ -139,7 +143,7 @@ public class AdminViewController {
 				model.addAttribute("pagingMap",map);
 
 
-				model.addAttribute("openCcode",ccode);
+				model.addAttribute("openCcode",ccoderef+ccode);
 				String routeArray2[][] = {{"관리자 페이지","/adminView/Management"},{"제품관리","/adminView/Product"}};
 				routeMap.put(0,routeArray2[0]);
 				routeMap.put(1,routeArray2[1]);

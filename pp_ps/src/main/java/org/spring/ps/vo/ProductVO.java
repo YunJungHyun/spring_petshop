@@ -23,13 +23,17 @@ public class ProductVO {
 	private int pccode;
 	private int pccoderef;
 	private String pimg;
+	private float prating;
+	private float psale;
 	
-	private int state;
+	
+	private String pstate;
 	
 	private Date pregdate;
 	
 	
 	private String pexplicate;
 	
+	private int reviewCnt;
 	
 }

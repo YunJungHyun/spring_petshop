@@ -3,148 +3,243 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <style>
-.product-one:hover{
-	
-	cursor:pointer;
-
+.page-container {
+	display: flex;
 }
-</style> 
 
-<div class="page page-001">
-	<div class="col-2 ps-category-list-001 ">
-		<ul class="ps-ul-004">
-			<li class="ps-li-003">
-				<span class="ps-span-005 all-category" id="000">전체</span>
-			</li>
-			<c:forEach var="clist" items="${cList}">
-				
-				<c:if test="${clist.level == 1 }">
-				<li class="ps-li-003">
-					<span id="parent-${clist.ccode}" class="ps-span-005">
-						${clist.cname}
-						<i class="fas fa-arrow-circle-down float-right" style="color :#ccc"></i>
-					</span>
-					 
-					<ul class="ps-ul-005"> 
-						<li class="ps-li-004" >
-							<span id="${clist.ccode}" class="ps-span-007">전체</span>
-						</li>
-						<c:forEach var="clist_sub" items="${cList }">
-							<c:if test="${clist_sub.level == 2 && clist.ccode == clist_sub.ccoderef}">
-								<li class="ps-li-004" >
-									<span  id="${clist.ccode}${clist_sub.ccode}" class="ps-span-007">
-									${clist_sub.cname}
-									</span>
-								</li>
-							</c:if>
-						</c:forEach>
-					</ul>
-				</li>
-				</c:if>
-			</c:forEach>
-		</ul>
-	</div>
-	<div class="col-10">
-		<div class="ps-title-002">
-		</div>
-		<div class="ps-title-003">
-			<span class="ps-span-006">
-				${pTotal}개의 상품
-			</span>  
-			<select class="custom-select ps-select-001">
-				<option>최근 등록순</option>
-				<option>가격 낮은순</option>
-				<option>가격 높은순</option> 
-				<option>별점 높은순</option>
-				<option>후기 많은순</option>
-			</select>
-		</div>
-		
-		<div class="ps-product-list-001">
-			<c:forEach  var="plist" items="${pList }">
-				<div class="col-3 product-one ps-product-001" id="${plist.pid }" > 
-					<div class="ps-img-box-001" >
-						<img id="img-${plist.pid }"/>
-						<script>
-							
-							var pimgStr = JSON.stringify(${plist.pimg});
-							var pimgJSON = JSON.parse(pimgStr);
-							var path =pimgJSON.img.path;
-							var fileName = pimgJSON.img.fileName;
-							
-							$("#img-${plist.pid}").attr("src" ,"/resources"+path+"/s/s_"+fileName);
-						</script>
-					</div> 
-					<div class="ps-info-box-001">
-						<p>${plist.pname }</p>	
-						<p>${plist.pprice}</p>	
-					</div>
-				</div>
-			</c:forEach>
-		</div>
+.page-content-left {
+	padding-top: .5rem;
+	padding-bottom: .5rem;
+	border-right: 1px solid #dee2e6;
+}
+
+.page-content-left_category {
 	
-		<c:forEach begin="${paging.startPage }" end="${paging.endPage }" var="p">
-			<c:choose>  
-				<c:when test="${p == paging.nowPage }">
-					<b>${p }</b> 
-				</c:when>
-				<c:when test="${p != paging.nowPage }">
-					<a href="/category/${openCcode}?page=${p }">${p }</a>
-				</c:when>
-			</c:choose>
-		</c:forEach>
+}
+
+.c-list_ul_li_span {
+	display: block;
+	font-weight: bold;
+	padding: 0.75rem .5rem;
+}
+
+.c-list_ul_li_span:hover {
+	background-color: #c1e9e387;
+	cursor: pointer;
+}
+
+.c-list_ul_li.show {
+	border-bottom: 1px solid #dee2e6;
+}
+
+.c-list_ul_li.show>.c-list_ul_li_span {
+	border-bottom: 1px solid #dee2e6;
+	color: red;
+}
+
+.c-list_sub_ul {
+	display: none;
+}
+
+.c-list_sub_ul_li {
+	
+	text-indent: 1rem;
+}
+
+.c-list_sub_ul_li:hover {
+	background-color: #c1e9e387;
+	font-weight: bold;
+	cursor: pointer;
+}
+
+.c-list_sub_ul_li_span {
+	display: block;
+	padding-top: 0.5rem;
+	padding-bottom: 0.5rem;
+}
+/* right  */
+.page-content-right_title {
+	border-bottom: 1px solid #dee2e6;
+}
+
+.page-content-right_title.title-1 {
+	padding: 1.65rem 1rem 0rem;
+	font-weight: bold;
+	font-size: 1.25rem;
+}
+
+.page-content-right_title.title-2 {
+	display: flex;
+	justify-content: space-between;
+	padding: 1rem 1rem .25rem;
+}
+
+.title-2_span {
+	align-self: self-end;
+	font-weight: bold;
+	font-size: .75rem;
+}
+
+.title-2_select {
+	width: 7rem;
+	font-size: .75rem;
+}
+
+.page-content-right_product {
+	padding: 1rem;
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.p-list-box {
+	display: flex;
+	flex-direction: column;
+	padding: .5rem;
+}
+</style>
+
+<div class="page">
+	<div class="page-container"> 
+		<div class="page-content-left col-2">
+			<div class="page-content-left_category c-list">
+				<ul class="c-list_ul">
+					<li class="c-list_ul_li">
+						<span class="c-list_ul_li_span" id="all-category">전체</span>
+					</li>
+					<c:forEach var="clist" items="${cList}">
+					
+					<c:if test="${clist.level == 1 }">
+					<li class="c-list_ul_li">
+						<span id="category-${clist.ccode}" class="c-list_ul_li_span">
+							${clist.cname}
+							<i class="fas fa-arrow-circle-down float-right" style="color :#ccc"></i>
+						</span>
+						 
+						<ul class="c-list_sub_ul"> 
+							<li class="c-list_sub_ul_li" >
+								<span id="category-sub-${clist.ccode}" class="c-list_sub_ul_li_span">전체</span>
+							</li>
+							<c:forEach var="clist_sub" items="${cList }">
+								<c:if test="${clist_sub.level == 2 && clist.ccode == clist_sub.ccoderef}">
+									<li class="c-list_sub_ul_li" >
+										<span  id="category-sub-${clist.ccode}${clist_sub.ccode}" class="c-list_sub_ul_li_span">
+										${clist_sub.cname}
+										</span>
+									</li>
+								</c:if>
+							</c:forEach>
+						</ul>
+					</li>
+					</c:if>
+					</c:forEach>
+				</ul>
+			</div>
+		</div>
+		<div class="page-content-right col-10">
+			<div class="page-content-right_title title-1">
+			</div>
+			<div class="page-content-right_title title-2"> 
+				<span class="title-2_span">
+					${pTotal}개의 상품
+				</span>  
+				<select class="custom-select title-2_select" id="productSortBy">
+					<option value="ORDER_BY_REGDATE_DESC" <c:if test="${openSortBy == 'ORDER_BY_REGDATE_DESC' ||  openSortBy == ''}">selected</c:if>>최신순</option>
+					<option value="ORDER_BY_PPRICE_DESC" <c:if test="${openSortBy == 'ORDER_BY_PPRICE_DESC' ||  openSortBy == ''}">selected</c:if>>가격높은순</option>
+					<option value="ORDER_BY_PPRICE_ASC" <c:if test="${openSortBy == 'ORDER_BY_PPRICE_ASC' ||  openSortBy == ''}">selected</c:if>>가격낮은순</option>
+					<option value="ORDER_BY_PRATING_DESC" <c:if test="${openSortBy == 'ORDER_BY_PRATING_DESC' ||  openSortBy == ''}">selected</c:if>>평점높은순</option>
+					<option value="ORDER_BY_REVIEW_CNT_DESC" <c:if test="${openSortBy == 'ORDER_BY_REVIEW_CNT_DESC' ||  openSortBy == ''}">selected</c:if>>후기많은순</option>
+					
+				</select>
+			</div> 
+			
+			<div class="page-content-right_product p-list">
+				<c:forEach  var="plist" items="${pList }">
+					<div class="col-3 p-list-box" id="${plist.pid }" > 
+						<div class="ps-img-box-001" >
+							<img id="img-${plist.pid }"/>
+							<script>
+								
+								var pimgStr = JSON.stringify(${plist.pimg});
+								var pimgJSON = JSON.parse(pimgStr);
+								var path =pimgJSON.img.path;
+								var fileName = pimgJSON.img.fileName;
+								
+								$("#img-${plist.pid}").attr("src" ,"/resources"+path+"/s/s_"+fileName);
+							</script>
+						</div> 
+						<div class="ps-info-box-001">
+							<p>${plist.pname }</p>	
+							<p>${plist.pprice}</p>	
+						</div>
+					</div>
+				</c:forEach>
+			</div>
+	
+			<c:forEach begin="${paging.startPage }" end="${paging.endPage }" var="p">
+				<c:choose>  
+					<c:when test="${p == paging.nowPage }">
+						<b>${p }</b> 
+					</c:when>
+					<c:when test="${p != paging.nowPage }">
+						<a href="/category/${openCcode}?page=${p }">${p }</a>
+					</c:when>
+				</c:choose>
+			</c:forEach>
 		
-	</div> 
+		</div>
+	</div>
 </div> 
 
 <script> 
 $(document).ready(function(){
-	var openCccode = "${openCcode}";
-	
-	if(openCccode != 000){
-		if(openCccode.length >=3 && openCccode.length <= 4){ // 상위카테고리를 선택했을경우
-			$("#parent-"+openCccode).parent().addClass("show");
-			$("#parent-"+openCccode).next("ul").slideToggle(100);
-			$("#"+openCccode).addClass("prodChg"); 
-			
-			var categoryName = $("#parent-"+openCccode).text();
-			$(".ps-title-002").append(categoryName.trim());
-		}else{
+	var oc = "${openCcode}";
+	var categoryName = "";
+	if(oc != 000){
+		if(oc.length >=3 && oc.length <= 4){ // 상위카테고리를 선택했을경우
+		 
+				$("#category-"+oc).parent().addClass("show");
+				$("#category-"+oc).next("ul").slideToggle(100);
+				categoryName = $("#category-"+oc).text();
+		}else{ 
 		
-			var ccoderef= openCccode.substr(0,openCccode.length/2);
-			var ccode= openCccode.substr(openCccode.length/2,openCccode.length);
+			var ccoderef= oc.substr(0,oc.length/2);
+			var ccode= oc.substr(oc.length/2,oc.length); 
 		
-	
-			$("#parent-"+ccoderef).parent().addClass("show");
+			$("#category-"+ccoderef).parent().addClass("show");
+			$("#category-"+ccoderef).next("ul").slideToggle(100);
+			categoryName = $("#category-sub-"+oc).text();
+		} 
 		
-			$("#parent-"+ccoderef).next("ul").slideToggle(100);
-			$("#"+openCccode).addClass("prodChg");
-			
-			var categoryName = $("#"+openCccode).text();
-			$(".ps-title-002").append(categoryName.trim());
-		}
-	}else{
+		$("#category-sub-"+oc).addClass("open"); 
 		
-		$("#"+openCccode).parent().addClass("show");
-		$("#"+openCccode).addClass("prodChg"); 
-		$(".ps-title-002").append("전체");
+	}else{ 
+		
+		$("#all-category").parent().addClass("show");
+		$("#all-category").addClass("open"); 
+		categoryName = "전체";
 	}
-	
+	$(".c-list_ul_li.show").find("svg").replaceWith("<i class='fas fa-arrow-circle-up float-right' style='color :#7fe7d5'></i>");
+	$(".title-1").append(categoryName.trim());
+
 })
-$(".ps-li-003 > span").on("click",function(e){
+$(".c-list_ul_li_span").on("click",function(e){
 	
-	
-	if($(this).hasClass("all-category")){ 
-		location.href="/category/000?page=1&sortBy=0";
+	 
+	if($(this).attr("id") =="all-category"){ 
+		location.href="/category/000?page=1&sortBy=0"; 
 		
 	}
+	
 	$(this).next("ul").stop().slideToggle(100);
 	
+	/* icon  */
+	/* 열 때  */
 	if(!$(this).parent("li").hasClass("show")){
 		
 		$(this).parent("li").addClass("show");
-		$(this).find("svg").replaceWith("<i class='fas fa-arrow-circle-up float-right' style='color :#000'></i>");
-		
+		$(this).find("svg").replaceWith("<i class='fas fa-arrow-circle-up float-right' style='color :#7fe7d5'></i>");
+	
+	/* 닫을 때 */
 	}else{
 		
 
@@ -154,29 +249,20 @@ $(".ps-li-003 > span").on("click",function(e){
 
 })
 
-$(document).on("click",".ps-span-007", function(e){
-	
-	$(".ps-li-004").each(function(){
-		
-		if($(this).children("span").hasClass("prodChg")){
-			
-			$(this).children("span").removeClass("prodChg");
-		}
-	})
-	
-	if(!$(this).hasClass("show")){
-		
-		$(this).addClass("prodChg");
-	}
-	 
-	var ccode = $(this).attr("id");
-	
-
+$(".c-list_sub_ul_li_span").on("click", function(e){
+	var ccode = $(this).attr("id").split("-")[2]; 
 	location.href="/category/"+ccode+"?page=1&sortBy=0";
-})
+}) 
 
-$(document).on("click",".product-one",function(){
+$(document).on("click",".p-list-box",function(){
 	
 	location.href="/product/"+$(this).attr("id");
+})
+
+$("#productSortBy").on("change",function(){
+	
+	var sortBy= $(this).val();
+	var oc ="${openCcode}";
+	location.href="/category/"+oc+"?page=1&sortBy="+sortBy;
 })
 </script>

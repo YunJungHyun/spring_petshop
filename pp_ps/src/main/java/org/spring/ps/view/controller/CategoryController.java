@@ -48,10 +48,10 @@ public class CategoryController {
 		return categoryList;
 	}
 
-	@RequestMapping(value="/{categoryCode}", method=RequestMethod.GET)
+	@RequestMapping(value="/{openCcode}", method=RequestMethod.GET)
 	public String categoryProduct(
 			PagingVO pagingVO,
-			@PathVariable("categoryCode") String openCcode,
+			@PathVariable("openCcode") String openCcode,
 			@RequestParam(value="page", required= false) String page,
 			@RequestParam(value="sortBy", required= false) String sortBy,
 			Model model
@@ -59,22 +59,67 @@ public class CategoryController {
 		List<PageInfoVO> breadcrumbList =null;
 		Map<Integer,String[]> routeMap = new HashMap<>();
 		HashMap<String,String> map = new HashMap();
-
+		
+		String mapCcode = "";
+		String mapCcoderef ="";
 		if(sortBy == null ) {
 
 			sortBy = "";
-		} 
-
-
-		map.put("openCcode",openCcode);
-		map.put("openSortBy",sortBy);
-		map.put("openState","1");
-
+		}  
 		if(page == null ) {
 
 			page = "1";
 		} 
 
+		//route
+		if(openCcode.equals("000")) {
+			//route
+			String routeArray[][] = {{"전체","/category/000"}};
+			routeMap.put(0,routeArray[0]);
+			breadcrumbList =routeUtils.pageInfo(routeMap);
+			mapCcode = "";
+			mapCcoderef = "";
+		}else {
+			//상위 카테고리 보기
+			if(openCcode.length() >=3 && openCcode.length() <=4) {
+
+				String cname = categoryService.getCategoryOne(openCcode);
+				//route
+				String routeArray[][] = {{cname,"/category/"+openCcode}};
+				routeMap.put(0,routeArray[0]);
+
+				breadcrumbList =routeUtils.pageInfo(routeMap);
+				
+				mapCcode = openCcode;
+				mapCcoderef= "";
+				//하위 카테고리 보기
+			}else if(openCcode.length() > 4) {
+
+				String ccoderef =openCcode.substring(0, openCcode.length()/2);
+				String ccode =openCcode.substring(openCcode.length()/2, openCcode.length());
+
+
+				String cnameref = categoryService.getCategoryOne(ccoderef);
+				String cname = categoryService.getCategoryOne(ccode);
+				//route
+				String routeArray[][] = {{cnameref,"/category/"+ccoderef},{cname,"/category/"+openCcode}};
+				routeMap.put(0,routeArray[0]);
+				routeMap.put(1,routeArray[1]);
+
+				breadcrumbList =routeUtils.pageInfo(routeMap);
+				
+				mapCcode = ccode;
+				mapCcoderef= ccoderef;
+			} 
+		}
+
+
+
+
+		map.put("ccode",mapCcode);
+		map.put("ccoderef",mapCcoderef);
+		map.put("openSortBy",sortBy);
+		map.put("openState","REG");
 		int total = productService.countProduct(map);
 
 		pagingVO = new PagingVO(total , Integer.parseInt(page), 8 );
@@ -88,47 +133,7 @@ public class CategoryController {
 		log.debug("[categoryProduct] pList.size() :"+pList.size());
 
 
-		//route
-		if(openCcode.equals("000")) {
 
-			//route
-		
-			String routeArray[][] = {{"전체","/category/000"}};
-			routeMap.put(0,routeArray[0]);
-		
-			breadcrumbList =routeUtils.pageInfo(routeMap);
-
-
-
-		}else {
-			//상위 카테고리 보기
-			if(openCcode.length() >=3 && openCcode.length() <=4) {
-				
-				String cname = categoryService.getCategoryOne(openCcode);
-				//route
-				String routeArray[][] = {{cname,"/category/"+openCcode}};
-				routeMap.put(0,routeArray[0]);
-			
-				breadcrumbList =routeUtils.pageInfo(routeMap);
-			
-				//하위 카테고리 보기
-			}else if(openCcode.length() > 4) {
-
-				String ccoderef =openCcode.substring(0, openCcode.length()/2);
-				String ccode =openCcode.substring(openCcode.length()/2, openCcode.length());
-				
-				
-				String cnameref = categoryService.getCategoryOne(ccoderef);
-				String cname = categoryService.getCategoryOne(ccode);
-				//route
-				String routeArray[][] = {{cnameref,"/category/"+ccoderef},{cname,"/category/"+openCcode}};
-				routeMap.put(0,routeArray[0]);
-				routeMap.put(1,routeArray[1]);
-			
-				breadcrumbList =routeUtils.pageInfo(routeMap);
-				
-			} 
-		}
 
 
 
@@ -146,6 +151,7 @@ public class CategoryController {
 		model.addAttribute("paging",pagingVO);
 
 		model.addAttribute("openCcode",openCcode);
+		model.addAttribute("openSortBy",sortBy);
 		return "user/product/productList.page"; 
 
 	}

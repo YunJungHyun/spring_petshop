@@ -75,10 +75,7 @@ ul {
 label{
 	margin: 0px;
 }
-.ps-li:hover {
-	background-color: #c1e9e387;
-	cursor: pointer;
-}
+
 .breadcrumb-item+.breadcrumb-item::before {
 	display: inline-block;
 	padding-right: .5rem;

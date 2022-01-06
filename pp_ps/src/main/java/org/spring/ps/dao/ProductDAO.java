@@ -26,7 +26,7 @@ public interface ProductDAO {
 
 	int productDelete(String pid);
 
-	void pcntDecrease(String pid, int cstock); 
+	void pcntDecrease(String pid, int cstock);
 
 
 

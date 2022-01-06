@@ -97,7 +97,7 @@ public class ProductController {
 		log.debug("[stateChange] productVO: "+ pid+"/"+state);
 		ProductVO productVO =new ProductVO();
 		productVO.setPid(pid);
-		productVO.setState(Integer.parseInt(state));
+		productVO.setPstate(state);
 
 		int result = productService.stateChange(productVO);
 

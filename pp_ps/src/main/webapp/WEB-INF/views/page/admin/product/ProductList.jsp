@@ -5,72 +5,102 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <style>
-.product-list-tr{
-	cursor:pointer;
+.page-container{
+	
 }
+.page-content{
+	display: flex;
+	justify-content: space-between;
+}
+.page-content_ul{
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+.page-content_ul_li{
+	margin: 0 0 0 0;
+	padding: 0 0 0 0;
+	border: 0;
+	float: left;
+}
+.page-content_group_box{
+	margin-right: .5rem;
+}
+
+.page-content_ul_li_a{
+	border: 1px solid #7fe7d5;
+    font-size: 1.25rem;
+    font-weight: bold; 
+}
+.pcg-1 {
+    display: flex;
+    align-items: end;
+}
+
 </style>
 <div class="page">
-	<div class="ps-container p-0">
-
-		<div class="d-flex px-1 py-2">
-			<div class="mx-2">
-				<a href="/adminView/ProductInsert" class="btn product-insert-btn" id="product-insert-btn">
-					제품 등록
-				</a>
-			</div>
-			<div class="mx-2">
-				<select class="custom-select" id="ccoderef">
-					<option value="000">상위 카테고리</option>
-					<c:forEach items="${cList }" var ="clist">
-						<c:if test="${clist.level == 1 }">
+	<div class="page-container">
+		<div class="page-content my-2">
+			<div class="page-content_group pcg-1">
+				<div class="page-content_group_box ">
+					<a href="/adminView/ProductInsert" class="btn page-content_ul_li_a" >
+						제품 등록
+					</a>
+				</div>
+				<ul class="page-content_ul">
+					<li class="page-content_ul_li">
+						<select class="custom-select" id="ccoderef">
+							<option value="000">상위 카테고리</option>
+							<c:forEach items="${cList }" var ="clist">
+							<c:if test="${clist.level == 1 }">
 							<option  id="${clist.ccode }" value="${clist.ccode}" <c:if test="${clist.ccode == pagingMap.openCcode }">selected</c:if>>
 								${clist.cname}
 							</option>
-						</c:if>
-					</c:forEach>
-				</select>
-			</div>
-			<div class="mx-2">
-				<select class="custom-select" id="ccode">
-					<option value="000">하위 카테고리</option>
-					<c:forEach items="${cList }" var ="clist">
-						<c:if test="${clist.level == 2 }">
+							</c:if>
+							</c:forEach> 
+						</select>
+					</li>
+					<li class="page-content_ul_li mx-2">
+						<select class="custom-select" id="ccode">
+							<option value="000">하위 카테고리</option>
+							<c:forEach items="${cList }" var ="clist">
+							<c:if test="${clist.level == 2 }">
 							<option id="${clist.ccode }" class="${clist.ccoderef }" value="${clist.ccoderef}${clist.ccode}" style="display:none">
 								${clist.cname}
 							</option>
-						</c:if>
-					</c:forEach>
-				</select>
+							</c:if>
+							</c:forEach>
+						</select>
+					</li>
+					<li class="page-content_ul_li mx-2">
+						<select class="custom-select" id="sortBy">
+							<option value="">정렬</option>
+							<option value="ORDER_BY_REGDATE_DESC" <c:if test="${pagingMap.openSortBy == 'ORDER_BY_REGDATE_DESC'  }">selected</c:if>>최신순</option>
+							<option value="ORDER_BY_REGDATE_ASC" <c:if test="${pagingMap.openSortBy == 'ORDER_BY_REGDATE_ASC'  }">selected</c:if>>오래된순</option>
+							<option value="ORDER_BY_PPRICE_DESC" <c:if test="${pagingMap.openSortBy == 'ORDER_BY_PPRICE_DESC'  }">selected</c:if>>가격높은순</option>
+							<option value="ORDER_BY_PPRICE_ASC" <c:if test="${pagingMap.openSortBy == 'ORDER_BY_PPRICE_ASC'  }">selected</c:if>>가격낮은순</option>
+							<option value="ORDER_BY_PCNT_DESC" <c:if test="${pagingMap.openSortBy == 'ORDER_BY_PCNT_DESC'  }">selected</c:if>>재고많은순</option>
+							<option value="ORDER_BY_PCNT_ASC" <c:if test="${pagingMap.openSortBy == 'ORDER_BY_PCNT_ASC'  }">selected</c:if>>재고적은순</option>
+						</select>
+					</li>
+					<li class="page-content_ul_li mx-2">
+						<select class="custom-select" id="productState">
+					<%-- 	<option value="allState" <c:if test="${pagingMap.openState == 'allState'  }">selected</c:if>>모든 상태</option>
+							<option value="0" <c:if test="${pagingMap.openState == '0'  }">selected</c:if>>미등록상품</option>
+							<option value="1" <c:if test="${pagingMap.openState == '1'  }">selected</c:if>>등록상품</option>
+							<option value="2" <c:if test="${pagingMap.openState == '2'  }">selected</c:if>>재입고</option> --%>
+					 	</select>
+					</li>
+					<li class="page-content_ul_li mx-2">
+						<a href="/adminView/Product">
+							<i class="fas fa-redo"></i>
+						</a>
+						<span>검색초기화</span>
+					</li> 
+				</ul>
 			</div>
-			<div class="mx-2">
-				<select class="custom-select" id="sortBy">
-					<option value="">정렬</option>
-					<option value="ORDER_BY_REGDATE_DESC" <c:if test="${pagingMap.openSortBy == 'ORDER_BY_REGDATE_DESC'  }">selected</c:if>>최신순</option>
-					<option value="ORDER_BY_REGDATE_ASC" <c:if test="${pagingMap.openSortBy == 'ORDER_BY_REGDATE_ASC'  }">selected</c:if>>오래된순</option>
-					<option value="ORDER_BY_PPRICE_DESC" <c:if test="${pagingMap.openSortBy == 'ORDER_BY_PPRICE_DESC'  }">selected</c:if>>가격높은순</option>
-					<option value="ORDER_BY_PPRICE_ASC" <c:if test="${pagingMap.openSortBy == 'ORDER_BY_PPRICE_ASC'  }">selected</c:if>>가격낮은순</option>
-					<option value="ORDER_BY_PCNT_DESC" <c:if test="${pagingMap.openSortBy == 'ORDER_BY_PCNT_DESC'  }">selected</c:if>>재고많은순</option>
-					<option value="ORDER_BY_PCNT_ASC" <c:if test="${pagingMap.openSortBy == 'ORDER_BY_PCNT_ASC'  }">selected</c:if>>재고적은순</option>
-				</select>
-			</div>
-			
-			<div class="mx-2"> 
-				<select class="custom-select" id="productState">
-					<option value="allState" <c:if test="${pagingMap.openState == 'allState'  }">selected</c:if>>모든 상태</option>
-					<option value="0" <c:if test="${pagingMap.openState == '0'  }">selected</c:if>>미등록상품</option>
-					<option value="1" <c:if test="${pagingMap.openState == '1'  }">selected</c:if>>등록상품</option>
-					<option value="2" <c:if test="${pagingMap.openState == '2'  }">selected</c:if>>재입고</option>
-					 
-				</select>
-			</div>
-			<div class="mx-2 d-flex flex-column page-reload-btn">
-				<a href="/adminView/Product">
-					<i class="fas fa-redo"></i>
-				</a>
-				<span>검색초기화</span>
-			</div>
-			<div  class="mx-2 float-right">
-				
+			<div class="page-content_group">
+				<input/>
 			</div>
 		</div>
 		  
@@ -128,12 +158,12 @@
 						
 						<td>
 							<select class="custom-select state-select" id="${plist.pid}-state">
-								<option value="0" <c:if test="${plist.state ==0 }">selected="selected"</c:if>>미등록</option>
-								<option value="1" <c:if test="${plist.state ==1 }">selected="selected"</c:if>>등록</option>
-								<option value="2" <c:if test="${plist.state ==2 }">selected="selected"</c:if>>재입고</option>
+								<%-- <option value="0" <c:if test="${plist.pstate ==0 }">selected="selected"</c:if>>미등록</option>
+								<option value="1" <c:if test="${plist.pstate ==1 }">selected="selected"</c:if>>등록</option>
+								<option value="2" <c:if test="${plist.pstate ==2 }">selected="selected"</c:if>>재입고</option> --%>
 							</select>
 						</td> 
-						
+						 
 					</tr>
 				</c:forEach>
 			</tbody> 

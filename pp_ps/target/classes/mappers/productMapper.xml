@@ -6,6 +6,7 @@
 <mapper namespace="org.spring.ps.mapper.productMapper">
 
 	
+
 	<select id="getProductList" parameterType="HashMap" resultType="productVO">
 		<![CDATA[ 
  			

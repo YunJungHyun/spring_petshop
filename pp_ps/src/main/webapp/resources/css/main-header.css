@@ -1,0 +1,48 @@
+@charset "UTF-8";
+/* 헤더 */
+
+
+
+.main-header {
+	line-height: 1;
+	border-bottom: 2px solid #e5e5e5;
+	background-color: #7fe7d5;
+	padding: 1rem;
+}
+.main-header_logo{
+	display: inline-block;
+	width: 100%;
+	color: #fff;
+	font-weight: bold;
+	font-size: 1.5rem;
+	text-align: center;
+}
+.main-header_icon {
+	color: #fff;
+	font-size: 1.5rem
+}
+.main-header_dropdown{
+	display: inline-block;
+	float: right;
+}
+.main-header_dropdown-ul {
+	right: -1rem;
+	text-align: left;
+	height: auto;
+	width: 200px;
+	margin: 0 auto;
+	position: absolute;
+	top: 40px;
+	z-index: 100;
+	display: none;
+	background-color: #fff;
+	border-radius: 3px;
+	box-shadow: 0px 9px 15px 2px rgb(0 0 0/ 10%);
+}
+
+.main-header_dropdown-li_a{
+	
+	display: block;
+	padding :1rem;
+}
+

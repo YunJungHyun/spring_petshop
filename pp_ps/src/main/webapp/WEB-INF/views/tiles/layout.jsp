@@ -30,10 +30,10 @@
 
 <link href="/resources/css/ps.css" rel="stylesheet" type="text/css">
 <link href="/resources/css/dropdown.css" rel="stylesheet" type="text/css">
-<link href="/resources/css/header.css" rel="stylesheet" type="text/css">
+<link href="/resources/css/main-header.css" rel="stylesheet" type="text/css">
 <link href="/resources/css/button.css" rel="stylesheet" type="text/css">
 <link href="/resources/css/page.css" rel="stylesheet" type="text/css">
-
+ 
  
 <title>PETSHOP - ${pageTitle}</title>
 
@@ -54,9 +54,9 @@
 	
 	
 	<div class="container">
-		<header class="ps-header">
+		
 			<tiles:insertAttribute name="header" />
-		</header>
+	
 		<tiles:insertAttribute name="category" />
 		<tiles:insertAttribute name="body" />
 
@@ -72,11 +72,7 @@
 
 
 
-$(".ps-dropdown").hover(function(){
-	 
-	$(this).children("ul").stop().slideToggle(100);
-	
-})
+
 //auth 로그인 및 회원가입
 function authLogin(auth_sort){
 	$.ajax({

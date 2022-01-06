@@ -1,52 +1,11 @@
 @charset "UTF-8";
 
-.ps-dropdown-001 {
-	display: inline-block;
-	float: right;
-}
-
-.ps-ul-001 {
-	right: -1rem;
-	text-align: left;
-	height: auto;
-	width: 200px;
-	margin: 0 auto;
-	position: absolute;
-	top: 40px;
-	z-index: 100;
-	display: none;
-	background-color: #fff;
-	border-radius: 3px;
-	box-shadow: 0px 9px 15px 2px rgb(0 0 0/ 10%);
-}
-
-.ps-ul-002{
-	
-	text-align: left;
-	height: auto;
-	width: 200px;
-	margin: 0 auto;
-	position: absolute;
-	z-index: 100;
-	display: none;
-	background-color: #fff;
-	border-radius: 3px;
-	box-shadow: 0px 9px 15px 2px rgb(0 0 0/ 10%);
-	
-}
 
 
 
-.ps-li-001>a {
-	
-	display: block;
-	padding :1rem;
-}
-.ps-li-002>a{
-	
-	display: block;
-	padding :.5rem;
-}
+
+
+
 
 .ps-ul-003 {
 	background-color: #fff;
