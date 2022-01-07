@@ -7,6 +7,8 @@ import org.spring.ps.vo.CategoryVO;
 
 public interface CategoryDAO {
 
+	
+	
 	List<CategoryVO> getCategoryList();
 
 	int categoryChk(String cname);
@@ -15,4 +17,6 @@ public interface CategoryDAO {
 
 	String getCategoryOne(String openCcode);
 
+	
+	
 }

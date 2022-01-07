@@ -102,8 +102,21 @@
 .mmg-2 {
 	padding-bottom: .5rem;
 }
-</style>
 
+
+.sub-dropdown_ul {
+	background-color: #fff;
+	display: none;
+	position: absolute;
+	width: 200px;
+	height: 560px;
+	box-shadow: 0px 9px 15px 2px rgb(0 0 0/ 10%);
+	z-index: 101;
+	right: -200px;
+	top: 0px;
+}
+</style>
+<c:if test="${categoryView != 'none' }">
 <div class="main-menu">
 	<div class="row justify-content-between">
 		<div class="main-menu_group mmg-1">
@@ -133,7 +146,8 @@
 			</div>
 		</div>
 	</div>
-</div>
+</div> 
+</c:if>
 <c:if test="${breadcrumb !='none' }">
 	<nav aria-label="breadcrumb"> 
 		<ol class="breadcrumb mb-0">
@@ -198,14 +212,14 @@ function getCategoryList(){
 			var parentCategory = $("#main-menu_dropdown_ul");
 			
 			for(var i = 0 ; i < cateArr.length; i++){
-				var html = "<li class='main-menu_dropdown_li main-menu_dropdown_li-sub-dropdown'>"
+				var html = "<li class='sub-dropdown_ul_li sub-dropdown'>"
 					html += "<a class='menu_dropdown_li_a' href='/category/"+cateArr[i].ccode+"'>"+cateArr[i].cname+"</a>"
-					html += "<ul class='ps-ul-003' >"
+					html += "<ul class='sub-dropdown_ul' >"
 					
 					for(var j = 0 ; j <cateSubArr.length; j++){
 				
 						if(cateSubArr[j].ccoderef == cateArr[i].ccode ){ 
-							html += "<li class='main-menu_dropdown_li'>"
+							html += "<li class='sub-dropdown_ul_li'>"
 								html += "<a class='menu_dropdown_li_a' href='/category/"+cateSubArr[j].ccoderef+cateSubArr[j].ccode+"'>"+cateSubArr[j].cname+"</a>"
 							html += "</li>";
 						}
@@ -220,12 +234,12 @@ function getCategoryList(){
 	})  
 } 
 
-$(document).on("mouseenter",".main-menu_dropdown_li-sub-dropdown",function(){
+$(document).on("mouseenter",".sub-dropdown",function(){
 	
 	$(this).children("ul").stop().slideToggle(100);
 	$(this).children("ul").addClass("show");
 })
-$(document).on("mouseleave",".main-menu_dropdown_li-sub-dropdown",function(){
+$(document).on("mouseleave",".sub-dropdown",function(){
 	
 	if($(this).children("ul").hasClass("show")){
 		

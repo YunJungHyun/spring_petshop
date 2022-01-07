@@ -23,7 +23,8 @@ public class CategoryDAOImpl implements CategoryDAO{
 	Log log =LogFactory.getLog(this.getClass());
 
 	private static final String Namespace = "org.spring.ps.mapper.categoryMapper";
-
+	
+	
 
 	@Override
 	public List<CategoryVO> getCategoryList() {
@@ -46,8 +47,8 @@ public class CategoryDAOImpl implements CategoryDAO{
 		map.put("sql", sql);
 
 
-		List<CategoryVO> list = sqlSession.selectList(Namespace + ".getCategoryList", map);
-		return list;
+		List<CategoryVO> result = sqlSession.selectList(Namespace + ".getCategoryList", map);
+		return result;
 	}
 
 	@Override

@@ -38,7 +38,8 @@ public class CategoryController {
 	@Inject
 	private ProductService productService;
 
-
+	
+	
 	@RequestMapping(value ="/getCategoryList", method=RequestMethod.POST)
 	@ResponseBody
 	public List<CategoryVO> getCategoryList() { 
@@ -101,7 +102,7 @@ public class CategoryController {
 
 				String cnameref = categoryService.getCategoryOne(ccoderef);
 				String cname = categoryService.getCategoryOne(ccode);
-				//route
+				//route	
 				String routeArray[][] = {{cnameref,"/category/"+ccoderef},{cname,"/category/"+openCcode}};
 				routeMap.put(0,routeArray[0]);
 				routeMap.put(1,routeArray[1]);
@@ -112,8 +113,6 @@ public class CategoryController {
 				mapCcoderef= ccoderef;
 			} 
 		}
-
-
 
 
 		map.put("ccode",mapCcode);
@@ -131,15 +130,6 @@ public class CategoryController {
 		List<ProductVO> pList = productService.getProductList(pagingVO,map);
 
 		log.debug("[categoryProduct] pList.size() :"+pList.size());
-
-
-
-
-
-
-
-
-
 
 		String pageTitle = "제품";  
 

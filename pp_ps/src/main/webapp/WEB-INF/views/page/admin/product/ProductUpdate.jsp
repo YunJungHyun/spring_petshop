@@ -5,213 +5,282 @@
 
 
 <style>
+.page-content_title {
+	background-color: darkgreen;
+	color: #fff;
+	font-size: 1.25rem;
+	padding: 0.5rem 1rem;
+	filter: drop-shadow(1px 1px 2px #000);
+}
 
+.page-content_group {
+	border-radius: 3px;
+	border: 1px solid #dee2e6;
+	margin-top: .5rem;
+}
+
+.page-content_group_box {
+	padding: 1rem;
+	display: flex;
+	flex-direction: column;
+}
+
+.img-box {
+	border-right: 1px solid #dee2e6;
+	align-items: center;
+	justify-content: center;
+	overflow: hidden;
+}
+
+.img-box_img {
+	object-fit: cover;
+	max-width: -webkit-fill-available;
+	height: auto;
+}
+
+.info-box {
+	justify-content: space-between;
+}
+
+.info-box_row>.info-box_group:nth-child(1) {
+	padding-right: 0.25rem;
+}
+
+.info-box_row>.info-box_group:nth-child(2) {
+	padding-left: 0.25rem;
+}
+
+.info-box_row {
+	display: flex;
+	justify-content: space-between;
+}
+
+.info-box_group {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	margin-bottom: .5rem;
+}
+.info-box_group_label {
+    font-weight: bold;
+    margin-bottom: 0.25rem;
+    padding-left: 0.5rem;
+}
+.page-content_btn-group {
+ 	display: flex;
+
+}
+
+.page-content_btn-group_button {
+     height: 70px;
+    font-weight: bold;
+    width: 100%;
+    font-size: 1.5rem;
+}
+/* 뉴  */
 .filebox .upload-name {
-    display: inline-block;
-    height: 40px;
-    padding: 0 10px;
-    vertical-align: middle;
-    border: 1px solid #dddddd;
-    color: #999999;
+	display: inline-block;
+	height: 40px;
+	padding: 0 10px;
+	vertical-align: middle;
+	border: 1px solid #dddddd;
+	color: #999999;
 }
 
 .filebox label {
-    display: inline-block;
-    padding: 10px 20px;
-    color: #fff;
-    vertical-align: middle;
-    background-color: #999999;
-    cursor: pointer;
-    height: 40px;
-    margin: unset;
-    text-align: center;
+	display: inline-block;
+	padding: 10px 20px;
+	color: #fff;
+	vertical-align: middle;
+	font-weight: bold;
+	background-color: darkgreen;
+	cursor: pointer;
+	height: 40px;
+	margin: unset;
+	text-align: center;
 }
 
 .filebox input[type="file"] {
-    position: absolute;
-    width: 0;
-    height: 0;
-    padding: 0;
-    overflow: hidden;
-    border: 0;
+	position: absolute;
+	width: 0;
+	height: 0;
+	padding: 0;
+	overflow: hidden;
+	border: 0;
 }
 
-.ck-editor__editable {
-	    min-height: 300px;
-	}
+
+
 </style>
 
-<div class="page">
-	<div class="page-title p-2 my-3 bg-dark text-light">
-		<h4 class="text-left m-0">제품 기본 정보  업데이트</h4>
-	</div>
-	<div class="row m-0">
-		<div class="col-lg-6 ps-img-box-001" id="product-img-box">
-			<img id="this-img" src="/resources/icon/no-pictures.png" />
-				<script>
-							
-				var pimgStr = JSON.stringify(${pvo.pimg});
-				var pimgJSON = JSON.parse(pimgStr);
-				var path =pimgJSON.img.path;
-				var fileName = pimgJSON.img.fileName;
-							
-				$("#this-img").attr("src" ,"/resources"+path+"/"+fileName);
-				</script>
-		</div>
 
-		<div class="col-lg-6 px-0 pl-3">
-			<div class="form-group mb-4">
-				<label for="pname">제품 이름</label>
-				<input type="text" class="form-control" id="pname" placeholder="제품 이름을 입력하세요." value="${pvo.pname }"> 
-					<div class="invalid-feedback">
-							
-					</div>
-				</div>
-				<div class="form-group mb-4">
-					<label for="pbrand">브랜드 이름</label>
-					<input type="text" class="form-control" id="pbrand" placeholder="브랜드 이름을 입력하세요." value="${pvo.pbrand }"> 
-					<div class="invalid-feedback">
-							
-					</div>
-				</div>
-				<div class="form-row m-0 mb-4">
-					<div class="form-group col-lg-6 pl-0" >
-						<label for="pcnt">입고량</label>
-						<input type="text" class="form-control" id="pcnt" placeholder="입고 수량을 입력해주세요." value="${pvo.pcnt }" onkeyup="inputNumberFormat(this)"> 
-						<div class="invalid-feedback">
-							
-						</div>
-					</div>
-					<div class="form-group col-lg-6 pr-0">
-						<label for="pprice">가격</label>
-						<input type="text" class="form-control" id="pprice" placeholder="제품 가격을 입력해주세요." value="${pvo.pprice }" onkeyup="inputNumberFormat(this)"> 
-						<div class="invalid-feedback">
-							
-						</div>
-					</div>
-				</div>
-				
-			
-				<div class="form-row m-0 mb-4">
-					<div class="form-group col-6 pl-0" >
-						<label for="ccoderef">카테고리</label>
-						<select class="custom-select" id="ccoderef">
-							<option value="">상위 카테고리</option>
-							<c:forEach items="${cList}" var ="clist">
-							
-								<c:if test="${clist.ccode == pvo.pccode }">
-									
-									<c:set value="${clist.ccoderef}" var="c"/>
-									<script>
-										
-										$("#ccoderef").children().each(function(){
-											
-											if ($(this).val() == ${c}){
-												
-												$(this).attr("selected","selected");
-											}
-										})
-									</script>
-								</c:if>
+<div class="page">
+	<div class="page-container">
+		<div class="page-content mt-3">
+			<div class="page-content_title">
+				<span class="page-content_title_span">제품 기본 정보 업데이트</span>
+			</div>
+			<div class="page-content_group">
+				<div class="row">
+					<div class="col-lg-6 page-content_group_box img-box" id="product-img-box">
+						<img  class="img-box_img"  id="this-img" src="/resources/icon/no-pictures.png" />
+							<script>			
+								var pimgStr = JSON.stringify(${pvo.pimg});
+								var pimgJSON = JSON.parse(pimgStr);
+								var path =pimgJSON.img.path;
+								var fileName = pimgJSON.img.fileName;
 								
-								<c:if test="${clist.level == 1 }">
-									<option value="${clist.ccode}" >
-										${clist.cname}
-									</option>
-								</c:if>
-							
-							
-							</c:forEach>
-						</select>
-						<div class="invalid-feedback">
-							
+								$("#this-img").attr("src" ,"/resources"+path+"/"+fileName);
+							</script>
+					</div>
+
+					<div class="col-lg-6 page-content_group_box info-box">
+						<div class="info-box_row">
+							<div class="info-box_group" >
+								<label class="info-box_group_label" for="pccoderef">*상위 카테고리</label>
+								<select class="custom-select info-box_group_select input-chk" id="pccoderef">
+									<option value="">선택</option>
+									<c:forEach items="${cList }" var ="clist">
+										<c:if test="${clist.level == 1 }">
+											<option value="${clist.ccode}" <c:if test="${clist.ccode == pvo.pccoderef }">selected</c:if>>
+												${clist.cname}
+											</option>
+										</c:if>
+									</c:forEach>
+								</select>
+								<div class="invalid-feedback">
+									<span class="feed-1">상위카테고리를 선택해주세요.</span>
+								</div>
+							</div>
+							<div class="info-box_group">
+								<label class="info-box_group_label" for="pccode">*하위 카테고리</label>
+								<select  class="custom-select info-box_group_select input-chk" id="pccode">
+									<option value="">선택</option>
+									<c:forEach items="${cList }" var ="clist">
+										<c:if test="${clist.level == 2 }">
+											<option value="${clist.ccoderef}-${clist.ccode}"  <c:if test="${clist.ccode == pvo.pccode }">selected</c:if> style="display:none">
+												${clist.cname}
+											</option>
+										</c:if>
+									</c:forEach>
+								</select>
+								<div class="invalid-feedback">
+								 	<span class="feed-1">하위카테고리를 선택해주세요.</span>
+								</div>
+							</div>
 						</div>
-					</div>
-					<div class="form-group col-6 pr-0">
-						<label for="pccode">하위 카테고리</label>
-						<select  class="custom-select" id="pccode">
-							<option value="">하위 카테고리</option>
-							<c:forEach items="${cList }" var ="clist">
-								<c:if test="${clist.level == 2 }">
-									<option class="${clist.ccoderef }" value="${clist.ccode}" style="display:none">
-										${clist.cname}
-									</option>
-								</c:if>
-							</c:forEach>
-						</select>
-						<div class="invalid-feedback">
-							 
-						</div>
-					</div>
-				</div>
-				<div class="form-group mb-4">
-					<label for="pbrand">제품 이미지</label>
-					<div class="filebox d-flex justify-content-center">
-						<input class="upload-name col-9" value="첨부파일" placeholder="첨부파일" readonly="readonly" > 
-						<label class="col-3" for="pimg">파일 찾기</label>
-						<input type="file" id="pimg">
-					</div>
-					<div class="invalid-feedback">
-							
+						<div class="info-box_group ">
+								<label class="info-box_group_label" for="pbrand">*브랜드</label>
+								<input type="text" class="info-box_group_input input-chk" autocomplete='off' id="pbrand" placeholder="브랜드 이름을 입력하세요." value="${pvo.pbrand }"> 
+								<div class="invalid-feedback">
+									<span class="feed-1">브랜드명을 입력해주세요.</span>
+								</div>
+							</div>
+							<div class="info-box_group "> 
+								<label class="info-box_group_label" for="pname">*제품명</label>
+								<input type="text" class="info-box_group_input input-chk" autocomplete='off' id="pname" placeholder="제품 이름을 입력하세요." value="${pvo.pname }"> 
+								<div class="invalid-feedback">
+									<span class="feed-1">제품명을 입력해주세요.</span>
+								</div> 
+							</div>
+						
+							<div class="info-box_group "> 
+								<label class="info-box_group_label" for="pname">*가격</label>
+								<input type="text" class="info-box_group_input input-chk" autocomplete='off' id="pprice" placeholder="가격을 입력해주세요." onkeyup="inputNumberFormat(this)" value="${pvo.pprice }"> 
+								<div class="invalid-feedback">
+									<span class="feed-1">제품가격을 입력해주세요.</span>
+								</div> 
+							</div>
+							<div class="info-box_group ">
+								<label class="info-box_group_label" for="pbrand">입고량</label>
+								<input type="text" class="info-box_group_input" autocomplete='off' id="pcnt" placeholder="입고량을 입력해주세요." onkeyup="inputNumberFormat(this)" value="${pvo.pcnt }"> 
+								
+							</div>
+							<div class="info-box_group "> 
+								<label class="info-box_group_label" for="pname">할인율</label>
+								<input type="text" class="info-box_group_input" autocomplete='off' id="psale" placeholder="할인율을 입력해주세요." value="${pvo.psale }"> 
+								
+							</div>
+						
+							<div class="info-box_group ">
+								<label for="pimg">제품 이미지</label>
+								<div class="filebox d-flex justify-content-center">
+									<input class="upload-name col-9" value="첨부파일" placeholder="제품 대표 이미지" readonly="readonly" > 
+									<label class="col-3" for="pimg">파일 찾기</label>
+									<input type="file" id="pimg">
+								</div>
+								<div class="invalid-feedback pimg-chk">
+									<span class="feed-1">제품 이미지를 입력해주세요.</span>
+								</div>
+							</div>
 					</div>
 				</div>
 			</div>
 		</div>
-	</div>
-	
-	<div class="ps-container ">
-		<div class="page-title p-2 my-3 bg-dark text-light">
-			<h4 class="text-left m-0">제품 설명</h4>
-		</div>
-		<div class="page-box">
-			<textarea id="pexplicate">
-				${pvo.pexplicate }
-			</textarea>
-			
-			<script>   
-			 var ckeditor_config = {
+		<div class="page-content mt-3">
+			<div class="page-content_title">
+				<h4 class="page-content_title_span">제품 설명</h4>
+			</div>
+			<div class="page-content_group">
+				<textarea id="pexplicate">
+					${pvo.pexplicate }
+				</textarea>
+				<script>   
+				 	var ckeditor_config = {
 					   resize_enaleb : false,
 					   enterMode : CKEDITOR.ENTER_BR,
-					   shiftEnterMode : CKEDITOR.ENTER_P
-					 };
+					   shiftEnterMode : CKEDITOR.ENTER_P,
+					   height :600
+						 };
 					 
-					 CKEDITOR.replace("pexplicate", ckeditor_config);
-		
-			
-					
-			</script>
+						 CKEDITOR.replace("pexplicate", ckeditor_config);	
+							
+					</script>
+			</div>
 		</div>
+			
+		
+		
+		<div class="page-content mt-3 ">
+			<div class="page-content_btn-group">
+				<div class="page-content_btn-group_box col-4">
+					<button type="button" class="btn btn-success page-content_btn-group_button" id="product-update-btn">제품 등록</button>
+				</div>			
+				<div class="page-content_btn-group_box col-4">
+					<button type="button" class="btn btn-primary page-content_btn-group_button" id="product-delete-btn">삭제</button>
+				</div>			
+				<div class="page-content_btn-group_box col-4">
+					<button type="button" class="btn btn-danger page-content_btn-group_button" id="product-update-reset-btn">취소</button>
+				</div>			
+			</div>			
+		</div>
+		
 	</div>
-	
-	<div class="ps-container row justify-content-end p-3 ">
-		<button type="button" class="btn btn-success mx-2" id="product-update-btn">제품 수정</button>
-		<button type="button" class="btn btn-primary mx-2 float-left" id="product-delete-btn">삭제</button>
-		<button type="button" class="btn btn-danger mx-2" id="product-update-reset-btn">취소</button>
-	</div>
-
+</div> 
 
 <script>
+
+$("#product-update-reset-btn").on("click",function(){
+	
+	var con = confirm("현재 페이지를 취소하시겠습니까? 작성된 내용은 저장되지 않습니다.");
+	
+	if(con == true){
+		
+		window.history.back()
+			
+	}
+})
+
 $(document).ready(function(){
 	
-	$("#pccode").children().each(function(){
+	$("#pccode option").each(function(){
 		
-		
-		if($(this).val() == ${pvo.pccode}){
+		if($(this).val().split("-")[0] == "${pvo.pccoderef}"){
 			
-			$(this).attr("selected","selected");
-		}
+			$(this).css("display","block");	
+		};
 		
-		if($(this).hasClass("${c}")){
-			$("#pccode").children(":first").css("display","block");
-			$(this).css("display","block");
-		}else{
-			$("#pccode").children(":first").css("display","block");
-			$(this).css("display","none");
-			
-		}
 	})
-	
-	
 	
 })
 
@@ -252,129 +321,140 @@ $("#product-delete-btn").on("click",function(){
 })
 $("#product-update-btn").on("click",function(){
 	
-	var x = CKEDITOR.instances.pexplicate.getData();
+	var pnameChk =false;
+	var pbrandChk =false;
+	var ppriceChk =false;
+	var pccoderefChk =false;
+	var pccodeChk =false;
+	var pimgFile= true;
 	
-	var pid = "${pvo.pid}";
-	var pname = $("#pname").val();
-	var pbrand = $("#pbrand").val();
-	var pcnt = $("#pcnt").val();
-	var pprice = $("#pprice").val();
-	var pccode = $("#pccode").val();
-	var pimg =  JSON.stringify(${pvo.pimg});
-	var pimgFile = $("#pimg")[0].files[0];
-	var pexplicate = CKEDITOR.instances.pexplicate.getData();
-	
-	
-	if(pname == ""){
-		
-		alert("제품 이름을 입력하세요.");
-		$("#pname").focus();
-		return false;
-	}
-	if(pbrand == ""){
-		
-		alert("제품 브랜드를 입력하세요.");
-		$("#pbrand").focus();
-		return false;
-	}
-	if(pcnt == ""){
-		
-		alert("제품 입고량을 입력하세요.");
-		$("#pcnt").focus();
-		return false;
-	}
-	if(pprice == ""){
-		
-		alert("제품 가격을 입력하세요.");
-		$("#pprice").focus();
-		return false;
-	}
-	if(pccode == ""){
-		
-		alert("제품 카테고리를 선택해주세요.");
-		$("#pccode").focus();
-		return false;
-	}
-
-	
-	if(pcnt.indexOf(",") != -1 ){
-
-		pcnt = pcnt.replace(",","");
-	}
-	
-	if(pprice.indexOf(",") != -1 ){
-
-		pprice = pprice.replace(",","");
-	}
-	
-	 
-	
-	if(pimgFile == undefined){
-		
-		console.log("파일 교체 안됨");
-		pimgFile = null;
-	}
-	console.log(pname);
-	console.log(pbrand);
-	console.log(pcnt);
-	console.log(pprice);
-	console.log(pccode);
-	console.log(pimgFile);  
-	console.log(pexplicate);
-	 
-	var formData = new FormData();
-	formData.append("pid",pid);
-	formData.append("pname",pname);
-	formData.append("pbrand",pbrand);
-	formData.append("pcnt",pcnt);
-	formData.append("pprice",pprice);
-	formData.append("pccode",pccode);
-	formData.append("pimgFile",pimgFile);
-	formData.append("pimg",pimg);
-	formData.append("pexplicate",pexplicate);
-	
-	/* console.log(formData); */
-	 $.ajax({
-		
-		url : "/product/update",
-		processData : false,
-		contentType : false,
-		type:"POST",
-		data : formData,
-		success: function(data){
+	$(".input-chk").each(function(){
+		$(this).next().children("span").css("display","none");
+		if($(this).val().trim() == ""){
 			
-			 if(data>=1){
-				
-				alert("제품 수정되었습니다.");
-				location.href="/adminView/Product";
-			}else{
-				
-				alert("제품 수정 실패하였습니다.");
-			} 
+			$(this).next().children(".feed-1").css("display","block");
+			
+		}else{
+			
+			var thisId = $(this).attr("id");
+			
+			eval(thisId+"Chk = true");
 		}
-	}) 
+	})
+	
+
+	
+	
+	
+	if( pnameChk == true && pbrandChk == true && ppriceChk == true && pccoderefChk == true && pccodeChk == true && pimgFile == true){
+		console.log("전부 true");
+		var pid = "${pvo.pid}";
+		var pccode = $("#pccode").val().split("-")[1];
+		var pbrand = $("#pbrand").val();
+		var pname = $("#pname").val();
+		var pprice = $("#pprice").val();
+		var pcnt = $("#pcnt").val();
+		var psale = $("#psale").val();
+		var pimgFile = $("#pimg")[0].files[0];
+		var pexplicate = CKEDITOR.instances.pexplicate.getData();
+		var pimg =  JSON.stringify(${pvo.pimg});
+		//업데이트
+		if(pimgFile == undefined){
+			
+			console.log("파일 교체 안됨");
+			pimgFile = null;
+		}
+		
+		if(pprice.indexOf(",") != -1 ){
+
+			pprice = pprice.replaceAll(",","");
+		}
+		
+		if(pcnt.indexOf(",") != -1 ){
+
+			pcnt = pcnt.replaceAll(",","");
+		}
+		
+		
+		if(pcnt ==""){
+			
+			pcnt = 0;
+		}
+		if(psale ==""){
+			
+			psale =0;
+		}
+		
+		console.log("---inputValue---");
+		console.log("pccode:"+pccode);
+		console.log("pbrand:"+pbrand);
+		console.log("pname:"+pname);
+		console.log("pprice:"+pprice);
+		console.log("pcnt:"+pcnt);
+		console.log("psale:"+psale);
+		console.log("pimg:"+pimg);
+		console.log("pimgFile:"+pimgFile);
+		console.log("pexplicate:"+pexplicate); 
+	
+		var formData = new FormData();
+		formData.append("pid",pid);
+		formData.append("pccode",pccode);
+		formData.append("pbrand",pbrand);
+		formData.append("pname",pname);
+		formData.append("pprice",pprice);
+		formData.append("pcnt",pcnt);
+		formData.append("psale",psale);
+		formData.append("pimgFile",pimgFile);
+		formData.append("pexplicate",pexplicate); 
+		formData.append("pimg",pimg); 
+		
+		$.ajax({
+			
+			url : "/product/update",
+			processData : false,
+			contentType : false,
+			type:"POST",
+			data : formData,
+			success: function(data){
+				
+				 if(data>=1){
+					
+					alert("제품 수정되었습니다.");
+					location.href="/adminView/Product";
+				}else{
+					
+					alert("제품 수정 실패하였습니다.");
+				} 
+			}
+		}) 
+		 
+	
+	
+	}else{
+		console.log("---무엇인가 false---");
+		console.log("pnameChk:"+pnameChk);
+		console.log("pbrandChk:"+pbrandChk);
+		console.log("ppriceChk:"+ppriceChk);
+		console.log("pccoderefChk:"+pccoderefChk);
+		console.log("pccodeChk:"+pccodeChk);
+		console.log("pimgFile:"+pimgFile);
+		$('html').scrollTop(0);
+		return false;
+	}
 })
 
-$("#ccoderef").on("change",function(){
+$("#pccoderef").on("change",function(){
 	
-	var ccoderef = $(this).val();
-	
-	
-	$("#pccode").children().each(function(){
+	var pccoderef = $(this).val();
+
+	$("#pccode option").each(function(){
 		
-	
-		if($(this).attr("selected") =="selected"){
+		if($(this).val().split("-")[0] == pccoderef || $(this).val() == ""){
 			
-			$(this).attr("selected",false);
-		}
-		
-		if($(this).hasClass(ccoderef)){
-			$("#pccode").children(":first").css("display","block");
 			$(this).css("display","block");
 		}else{
-			$("#pccode").children(":first").css("display","block");
-			$(this).css("display","none");
 			
+			$(this).css("display","none");
 		}
 	})
 	

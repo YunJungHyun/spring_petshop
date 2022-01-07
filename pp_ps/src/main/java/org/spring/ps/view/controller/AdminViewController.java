@@ -57,7 +57,7 @@ public class AdminViewController {
 			@RequestParam(value="ccode", required= false) String ccode,
 			@RequestParam(value="page", required= false) String page,
 			@RequestParam(value="sortBy", required= false) String sortBy,
-			@RequestParam(value="state", required= false) String state,
+			@RequestParam(value="pstate", required= false) String pstate,
 			Model model
 
 			) throws IOException {
@@ -112,18 +112,20 @@ public class AdminViewController {
 				if(ccode== null) {
 					ccode = "";
 				}
-				if(state == null) {
+				if(pstate == null) {
 					
-					state = "";
+					pstate = "";
 				}
 				
 				if(sortBy == null) {
 					sortBy = "";
 				}
+				
+				
 				HashMap<String,String> map = new HashMap();
 				map.put("ccode",ccode);
-				map.put("ccoderef",ccode);
-				map.put("openState",state);
+				map.put("ccoderef",ccoderef);
+				map.put("openState",pstate);
 				map.put("openSortBy",sortBy);
 				int total = productService.countProduct(map);
 				log.debug("*****************total**********");
@@ -142,8 +144,13 @@ public class AdminViewController {
 				model.addAttribute("paging",pagingVO);
 				model.addAttribute("pagingMap",map);
 
-
-				model.addAttribute("openCcode",ccoderef+ccode);
+				log.debug("--------------------------------------");
+				log.debug("ccode :"+ccode);
+				log.debug("ccoderef :"+ ccoderef);
+				log.debug("pstate :"+ pstate);
+				log.debug("sortBy :"+ sortBy);
+				log.debug("--------------------------------------");
+				
 				String routeArray2[][] = {{"관리자 페이지","/adminView/Management"},{"제품관리","/adminView/Product"}};
 				routeMap.put(0,routeArray2[0]);
 				routeMap.put(1,routeArray2[1]);
@@ -241,6 +248,7 @@ public class AdminViewController {
 
 			model.addAttribute("breadcrumb", breadcrumbList);
 			model.addAttribute("pageTitle", pageTitle);
+			model.addAttribute("categoryView","none");
 			return "admin/"+view+".page";
 		}
 

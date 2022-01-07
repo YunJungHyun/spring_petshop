@@ -25,49 +25,51 @@ public class ProductDAOImpl implements ProductDAO{
 
 	@Override
 	public int countProduct(HashMap<String,String> pagingMap) {
-		
+
 		String ccode = pagingMap.get("ccode");//
 		String ccoderef = pagingMap.get("ccoderef");//
 		String openState = pagingMap.get("openState");
-		
+
 		HashMap<String, String> map = new HashMap();
-		
+
 		String addSql1="";
 		String addSql2="";
-		if(ccode.equals("") && ccoderef.equals("")) {
+		//카테고리선택 X
+		if( ccoderef.equals("") && ccode.equals("") ) {
 
 			addSql1 =" ";
 		}
-		if (!ccode.equals("") && ccoderef.equals("")) {
+		//상위 카테고리 선택
+		if ( !ccoderef.equals("") && ccode.equals("") ) {
 
-			addSql1 =" WHERE tc.ccoderef = "+ccode;
+			addSql1 =" WHERE tc.ccoderef = "+ccoderef;
 		}
-		if(!ccode.equals("") && !ccoderef.equals("")) {
+		//하위 카테고리 선택
+		if(!ccoderef.equals("") && !ccode.equals("") ) {
 
 			addSql1=" WHERE tc.ccoderef = "+ccoderef+" AND tc.ccode="+ccode;
 		}
-		
 		if(!openState.equals("")) {
-			addSql2 = " AND tp.pstate = '"+openState+"'";
+			addSql2 = " WHERE tp.pstate = '"+openState+"'";
 		}
 
-		
+
 		String sql = "SELECT COUNT(*) FROM tbl_product AS tp ";
 		sql	+= "LEFT JOIN tbl_category AS tc ";
 		sql	+="ON tp.pccode = tc.ccode ";
 		sql += " "+addSql1+" ";
 		sql += " "+addSql2+" ";
-		
-		
+
+
 		log.debug("************countProduct************");
 		log.debug(sql);
 		log.debug("*************************************");
-		
+
 		map.put("sql", sql);
 		int result = sqlSession.selectOne(Namespace+".countProduct", map);
 		return result;
 	}
-	
+
 
 	@Override
 	public List<ProductVO> getProductList(PagingVO pagingVO, HashMap<String, String> pagingMap) {
@@ -81,24 +83,27 @@ public class ProductDAOImpl implements ProductDAO{
 		String addSql1="";
 		String addSql2 = "";
 		String addSql3 = "";
-		if(ccode.equals("") && ccoderef.equals("")) {
+		//카테고리선택 X
+		if( ccoderef.equals("") && ccode.equals("") ) {
 
 			addSql1 =" ";
 		}
-		if (!ccode.equals("") && ccoderef.equals("")) {
+		//상위 카테고리 선택
+		if ( !ccoderef.equals("") && ccode.equals("") ) {
 
-			addSql1 =" WHERE tc.ccoderef = "+ccode;
+			addSql1 =" WHERE tc.ccoderef = "+ccoderef;
 		}
-		if(!ccode.equals("") && !ccoderef.equals("")) {
+		//하위 카테고리 선택
+		if(!ccoderef.equals("") && !ccode.equals("") ) {
 
 			addSql1=" WHERE tc.ccoderef = "+ccoderef+" AND tc.ccode="+ccode;
 		}
-		
+
 		if(!openState.equals("")) {
-			addSql2 = " AND tp.pstate = '"+openState+"'";
+			addSql2 = " WHERE tp.pstate = '"+openState+"'";
 		}
 		switch(openSortBy) {
-			//최신순
+		//최신순
 		case "ORDER_BY_REGDATE_DESC" :
 			addSql3	= " ORDER BY tp.pregdate DESC ";
 			break;
@@ -116,7 +121,7 @@ public class ProductDAOImpl implements ProductDAO{
 			break;
 			//재고 많은 순
 		case "ORDER_BY_PCNT_DESC" :
-			addSql3	= " ORDER BY tp.pcnt*1 ASC ";
+			addSql3	= " ORDER BY tp.pcnt*1 DESC ";
 			break;
 			//재고 적은 순
 		case "ORDER_BY_PCNT_ASC" :
@@ -143,7 +148,7 @@ public class ProductDAOImpl implements ProductDAO{
 		}
 
 		String sql= "SELECT * FROM ( SELECT @rownum:=@rownum+1 AS RN,  A.* FROM (SELECT @ROWNUM:=0) as R, ";
-		sql += "( SELECT tc.ccoderef pccoderef,tr.cnt AS reviewCnt,tp.pid,tp.pname,tp.pcnt,tp.pprice,tp.pregdate,tp.pimg,tp.pbrand,tp.prating,tp.psale,tp.pstate ";
+		sql += "( SELECT tc.ccoderef pccoderef,tr.cnt AS reviewCnt,tp.pid,tp.pccode,tp.pname,tp.pcnt,tp.pprice,tp.pregdate,tp.pimg,tp.pbrand,tp.prating,tp.psale,tp.pstate ";
 		sql += "FROM tbl_product AS tp ";
 		sql += "LEFT JOIN tbl_category AS tc ";
 		sql += "ON tp.pccode = tc.ccode ";
@@ -185,7 +190,7 @@ public class ProductDAOImpl implements ProductDAO{
 	public int stateChange(ProductVO productVO) {
 		HashMap<String, String> map = new HashMap();
 
-		String sql = "UPDATE tbl_product SET state =" +productVO.getPstate();
+		String sql = "UPDATE tbl_product SET pstate ='" +productVO.getPstate()+"'";
 		sql += " WHERE pid = '"+productVO.getPid()+"'";
 		map.put("sql", sql);
 
@@ -199,15 +204,16 @@ public class ProductDAOImpl implements ProductDAO{
 	public int productInsert(ProductVO productVO, HashMap<String, String> sql_dirMap) {
 		HashMap<String, String> map = new HashMap();
 
-		String sql ="INSERT INTO tbl_product(pid,pname,pbrand,pcnt,pprice,pexplicate,pccode,pimg) ";
+		String sql ="INSERT INTO tbl_product(pid,pname,pbrand,pexplicate,pccode,pcnt,pprice,psale,pimg) ";
 		sql+="VALUES( ";
 		sql+="'"+productVO.getPid()+"', ";
 		sql+="'"+productVO.getPname()+"', ";
 		sql+="'"+productVO.getPbrand()+"', ";
-		sql+="'"+productVO.getPcnt()+"', ";
-		sql+="'"+productVO.getPprice()+"', ";
 		sql+="'"+productVO.getPexplicate()+"', ";
-		sql+="'"+productVO.getPccode()+"', ";
+		sql+=productVO.getPccode()+", ";
+		sql+=productVO.getPcnt()+", ";
+		sql+=productVO.getPprice()+", ";
+		sql+=productVO.getPsale()+", ";
 		sql+="JSON_OBJECT('img', ";
 		sql+="JSON_OBJECT('path','"+sql_dirMap.get("path")+"','fileName','"+sql_dirMap.get("fileName")+"')";
 		sql+="))";
@@ -227,8 +233,9 @@ public class ProductDAOImpl implements ProductDAO{
 		sql+="pname ='"+productVO.getPname()+"', ";
 		sql+="pbrand ='"+productVO.getPbrand()+"', ";
 		sql+="pcnt ='"+productVO.getPcnt()+"', ";
-		sql+="pprice ='"+productVO.getPprice()+"', ";
+		sql+="pprice ="+productVO.getPprice()+", ";
 		sql+="pccode ="+productVO.getPccode()+", ";
+		sql+="psale ="+productVO.getPsale()+", ";
 		sql+="pexplicate ='"+productVO.getPexplicate()+"' ";
 		if(sql_dirMap != null) {
 			sql+=", pimg =";

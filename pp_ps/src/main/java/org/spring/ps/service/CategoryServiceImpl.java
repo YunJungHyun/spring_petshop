@@ -16,6 +16,8 @@ public class CategoryServiceImpl implements CategoryService {
 	@Inject
 	private CategoryDAO categoryDAO;
 	
+	
+	
 	@Override 
 	public List<CategoryVO> getCategoryList() {
 		// TODO Auto-generated method stub

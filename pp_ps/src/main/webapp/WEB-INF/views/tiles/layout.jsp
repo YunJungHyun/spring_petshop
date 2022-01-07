@@ -56,8 +56,9 @@
 	<div class="container">
 		
 			<tiles:insertAttribute name="header" />
-	
-		<tiles:insertAttribute name="category" />
+			
+			<tiles:insertAttribute name="category" />
+			
 		<tiles:insertAttribute name="body" />
 
 		<footer>
