@@ -56,7 +56,8 @@
 					</script>
 				</div>
 				<div class="col-8 p-3">
-					<ul class="list-ul">
+					<ul class="list-ul"> 
+						
 						<li>${list.pname }</li>
 						<li> 
 							<span>작성 날짜 :</span>

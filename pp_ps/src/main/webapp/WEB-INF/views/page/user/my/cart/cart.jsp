@@ -15,82 +15,148 @@ span.span-cart-allPriceSum {
     line-height: 2;
     vertical-align: middle; 
 }
+.page-content_title_span {
+	padding: 1rem 1rem 0.5rem;
+	font-size: 1.5rem;
+	font-weight: bold;
+	display: block;
+}
+.cart-tbody_td {
+	border-right: 1px solid #dee2e6;
+}
+.cart-tbody_td_img {
+	width: 10rem;
+}
+.cart-tbody_td_span {
+	font-size: 1.25rem;
+	font-weight: bold;
+}
+
+.user-self_btn-group {
+	border: 1px solid #ccc;
+	border-radius: 5px;
+}
+.user-self_btn {
+	width: 3rem;
+}
+.user-self_input {
+	width: 3rem;
+	border-right: 1px solid #ccc;
+	border-left: 1px solid #ccc;
+	border-top: unset;
+	border-bottom: unset;
+	border-radius: unset;
+	text-align: center;
+	font-size: 1.25rem;
+	font-weight: bold;
+}
+
+.user-self_result-box {
+	font-size: 2rem;
+	font-weight: bold;
+}
+
+p.cart-tbody_td_p {
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+}
 </style>
 <div class="page">
-	<span class="ps-title-005">장바구니</span>
-	
-		<table class="table">
-			<thead>
-				<tr>
-					<th colspan="5">주문 상품</th>
-				</tr>
-			</thead>
-			<tbody class="ps-product-list-002">
-			<c:set var="allPriceSum" value="0"/>
-			<c:forEach items="${cartList }" var="cart">
-			<tr id="${cart.pid }">
-				<td class="ps-img-box-002 col-2 go-product" >
-					<img id="img-${cart.pid }">
-					<script>
-							
-							var pimgStr = JSON.stringify(${cart.pimg});
-							var pimgJSON = JSON.parse(pimgStr);
-							var path =pimgJSON.img.path;
-							var fileName = pimgJSON.img.fileName;
-							
-							$("#img-${cart.pid}").attr("src" ,"/resources"+path+"/s/s_"+fileName);
-					</script>
+	<div class="page-container">
+		<div class="page-content">
+			<div class="page-content_title">
+				<span class="page-content_title_span">장바구니</span>
+			</div>
+			<div class="page-content_group">
+				<table class="table page-content_group_table ">
+					<thead>
+						<tr>
+							<th colspan="5">장바구니 상품 <span class="badge">${fn:length(cartList)}개</span></th>
+						</tr>
+					</thead> 
+					<tbody class="page-content_group_table_tbody cart-tbody">
+						<c:set var="allPriceSum" value="0"/> 
+						<c:forEach items="${cartList }" var="cart" varStatus="status">
+							<tr id="${cart.pid }">
+								<td class="col-2 go-product cart-tbody_td" >
+									<img class="cart-tbody_td_img" id="img-${status.count}">
+									<script>
+									var pimgStr = JSON.stringify(${cart.pimg}); 
+									var pimgJSON = JSON.parse(pimgStr);
+									var path =pimgJSON.img.path;
+									var fileName = pimgJSON.img.fileName;
+									$("#img-${status.count}").attr("src" ,"/resources"+path+"/s/s_"+fileName);
+									</script>
+								</td>
+								<td style="vertical-align:top" class="border-right col-4 go-product cart-tbody_td">
+									<span class="cart-tbody_td_span">
+										${cart.pname }
+									</span>
+								</td>
+								<td class="col-2 border-right text-center user-self" >
+									<div class="btn-group user-self_btn-group">			
+										<div class="btn-group ps-btn-group-001">
+											<button type="button" class="user-self_btn" onclick="cartProductCnt('-','${cart.pid}')">
+												<i class="fas fa-minus"></i>
+											</button>
+											<input type="text" class="user-self_input" id="${cart.pid}-cnt" value="${cart.cstock }" readonly="readonly" />
+											<button type="button" class="user-self_btn" onclick="cartProductCnt('+','${cart.pid}')">
+												<i class="fas fa-plus"></i>
+											</button>
+										</div>
+									</div>
+								</td> 
+								<td class="col-2 border-right text-center cart-tbody_td cart"> 
+									<p class="cart-tbody_td_p">
+										<span class="cart-tbody_td_p_span td-title">정가 :</span>
+										<span class="cart-tbody_td_p_span td-info">
+											 <fmt:formatNumber value="${cart.pprice}" pattern="###,###,###"/>원
+										</span>
+									</p>
+									<c:if test="${cart.psale > 0 }">
+										<c:set var="sale_price" value="${cart.pprice - (cart.pprice * cart.psale)}"/>
+										<c:set var="sale_price_round" value="${sale_price + (10-(sale_price%10))%10}"/>
+										<p class="cart-tbody_td_p">
+											<span class="cart-tbody_td_p_span td-title">할인가 : </span>
+											<span class="cart-tbody_td_p_span td-info">
+												<fmt:formatNumber type="number" pattern="###,###,###" value="${sale_price_round}"/>원 
+											</span>
+										</p>
+										<c:set var="priceSum" value="${sale_price_round * cart.cstock}"/>
+									</c:if>
+									<c:if test="${cart.psale == 0 }">
+										<c:set var="priceSum" value="${cart.pprice * cart.cstock}"/>
+									</c:if>
+									<p class="cart-tbody_td_p">
+										<span class="cart-tbody_td_p_span td-title">합계 : </span>
+										<span class="cart-tbody_td_p_span td-info">
+											<fmt:formatNumber value="${priceSum }" pattern="###,###,###"/>원
+										</span>
+									</p>
+								</td>
+								<td class="col-2 text-center"> 
+									<button type="button" class="btn btn-dark w-100" onclick="cartDeleteBtn('${cart.pid }')">
+											삭제
+									</button>
+								</td>
+							</tr>
+							<c:set var="allPriceSum" value="${allPriceSum+priceSum}"/>
+							</c:forEach>
+							<tr>
+								<th colspan="5" class="text-right">
+								<span class="span-cart-allPriceSum">
+								결제 예상 금액 : <fmt:formatNumber value="${allPriceSum }" pattern="###,###,###"/> 원
+								</span>
 					
-				</td>
-				<td style="vertical-align:top" class="border-right col-4 go-product">
-					<span class="ps-title-006">
-						${cart.pname }
-					</span>
-				</td>
-				<td class="col-2 border-right text-center" >
-					<div class="btn-group ps-cnt-group">
-						
-								
-							
-							<div class="btn-group ps-btn-group-001">
-								<button type="button" class="ps-btn-003" onclick="cartProductCnt('-','${cart.pid}')">
-									<i class="fas fa-minus"></i>
-								</button>
-								<input type="text" class="ps-input-002" id="${cart.pid}-cnt" value="${cart.cstock }" readonly="readonly" />
-								<button type="button" class="ps-btn-003" onclick="cartProductCnt('+','${cart.pid}')">
-									<i class="fas fa-plus"></i>
-								</button>
-							</div>
-					</div>
-				</td> 
-				<td class="col-2 border-right text-center"  > 
-					정가 : <fmt:formatNumber value="${cart.pprice}" pattern="###,###,###"/>
-					<br>
-					<c:set var="priceSum" value="${cart.pprice * cart.cstock}"/>
-					합계 : <fmt:formatNumber value="${priceSum }" pattern="###,###,###"/>
-				</td>
-				<td class="col-2 text-center"> 
-					<button type="button" class="btn btn-dark w-100" onclick="cartDeleteBtn('${cart.pid }')">
-							삭제
-					</button>
-				</td>
-			</tr>
-			<c:set var="allPriceSum" value="${allPriceSum+(cart.pprice * cart.cstock)}"/>
-			</c:forEach>
-			<tr>
-				<th colspan="5" class="text-right">
-					<span class="span-cart-allPriceSum">
-					결제 예상 금액 : <fmt:formatNumber value="${allPriceSum }" pattern="###,###,###"/> 원
-					</span>
-					
-					<button type="button" class="btn btn-primary ps-btn-005" data-toggle="modal" data-target="#orderModal">주문하기 </button>
-				</th>
-			</tr>
-			</tbody>
-			
-		</table> 
+								<button type="button" class="btn btn-primary ps-btn-005" data-toggle="modal" data-target="#orderModal">주문하기 </button>
+							</th>
+						</tr>
+					</tbody>	
+				</table> 
+			</div>
+		</div>
 	</div>
-
+</div>
 
 <!-- Modal -->
 <div class="modal fade" id="orderModal" tabindex="-1" role="dialog" aria-labelledby="orderModalLabel" aria-hidden="true">
@@ -146,7 +212,7 @@ span.span-cart-allPriceSum {
 						
 							 <span class="span-cart-allPriceSum ">
 								결제 금액 : <fmt:formatNumber value="${allPriceSum }" pattern="###,###,###"/>
-								<input type="hidden" class="form-control " id="amount" name="amount" value="${allPriceSum }">
+								<input type="hidden" class="form-control " id="amount" name="amount" value="<fmt:parseNumber value="${allPriceSum }" integerOnly="true"/>">
 							</span>
 					
 						<div class="invalid-feedback">

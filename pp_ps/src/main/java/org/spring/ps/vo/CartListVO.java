@@ -22,4 +22,5 @@ public class CartListVO {
 	private String pname;
 	private String pprice;
 	private String pimg;
+	private float psale;
 }

@@ -91,8 +91,8 @@ public class CategoryController {
 
 				breadcrumbList =routeUtils.pageInfo(routeMap);
 				
-				mapCcode = openCcode;
-				mapCcoderef= "";
+				mapCcode = "";
+				mapCcoderef= openCcode;
 				//하위 카테고리 보기
 			}else if(openCcode.length() > 4) {
 
@@ -118,7 +118,7 @@ public class CategoryController {
 		map.put("ccode",mapCcode);
 		map.put("ccoderef",mapCcoderef);
 		map.put("openSortBy",sortBy);
-		map.put("openState","REG");
+		map.put("openState","POSTING");
 		int total = productService.countProduct(map);
 
 		pagingVO = new PagingVO(total , Integer.parseInt(page), 8 );

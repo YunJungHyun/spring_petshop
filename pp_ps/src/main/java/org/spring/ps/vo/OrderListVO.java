@@ -29,5 +29,6 @@ public class OrderListVO {
 	private String pname;
 	private String pimg;
 	private int  pprice;
+	private float psale;
 	
 }

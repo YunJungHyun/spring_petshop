@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <style>
 .page-container {
 	display: flex;
@@ -96,6 +97,71 @@
 	flex-direction: column;
 	padding: .5rem;
 }
+.img-box>img {
+    width: -webkit-fill-available;
+    border-radius: 10px;
+}
+.info-box {
+	padding: .5rem;
+}
+
+.info-box_p{
+
+	margin: unset;
+}
+.info-pname{
+	overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+.info-psale-before-pprice{
+	font-size : .75rem;
+	color : #ccc; 
+	text-decoration: line-through;
+}
+
+.info-psale_span-psale{
+
+	color : red;
+	font-size : 1.25rem;
+	
+}
+.info-psale_span-pprice , .info-price{
+
+	color : #000;
+	font-weight: bold;
+	font-size : 1.25rem;
+	
+}
+
+.info-rating_span{
+
+	width:122px;
+}
+.info-rating_span, .info-rating_span >.rating{
+	display: inline-block;
+	height:26px;
+	overflow: hidden;
+	background: url(/resources/icon/rating.png)no-repeat;
+}
+.info-rating_span >.rating{
+	background-position: left bottom;
+	line-height: 0;
+	vertical-align: top;
+	
+}
+span.info-reviewCnt-span {
+    display: inline;
+    vertical-align: top;
+}
+
+.open {
+	font-weight: bold;
+	color: red;
+}
+
 </style>
 
 <div class="page">
@@ -155,7 +221,7 @@
 			<div class="page-content-right_product p-list">
 				<c:forEach  var="plist" items="${pList }">
 					<div class="col-3 p-list-box" id="${plist.pid }" > 
-						<div class="ps-img-box-001" >
+						<div class="p-list-box_content img-box" >
 							<img id="img-${plist.pid }"/>
 							<script>
 								
@@ -167,11 +233,44 @@
 								$("#img-${plist.pid}").attr("src" ,"/resources"+path+"/s/s_"+fileName);
 							</script>
 						</div> 
-						<div class="ps-info-box-001">
-							<p>${plist.pname }</p>	
-							<p>${plist.pprice}</p>	
+						<div class="p-list-box_content info-box">
+							<p class="info-box_p info-pname">${plist.pname}</p>	
+							
+							<c:if test="${plist.psale > 0 }">
+								
+								<p class="info-box_p info-psale-before-pprice">
+									<fmt:formatNumber pattern="###,###,###" value="${plist.pprice}"/>원
+								</p>	
+								<p class="info-box_p info-psale-after-pprice">
+									<span class="info-psale_span info-psale_span-psale">
+										<fmt:formatNumber type="percent" value="${plist.psale}"/>
+									</span>
+									<span class="info-psale_span info-psale_span-pprice">
+										<c:set var="sale_price" value="${plist.pprice - (plist.pprice * plist.psale)}"/>
+										<fmt:formatNumber type="number" pattern="###,###,###" value="${sale_price + (10-(sale_price%10))%10}"/>원 
+									</span>	
+								</p>	
+							</c:if>
+							<c:if test="${plist.psale == 0 }"> 
+								<p class="info-box_p info-price">
+									<fmt:formatNumber pattern="###,###,###" value="${plist.pprice}"/>원
+								</p>
+							</c:if>
+							 
+							<p class="info-box_p info-rating"> 
+							
+								<c:set value ="${plist.prating * 20 }" var = "rating"/>
+								
+								<span class="info-rating_span"> 
+									<span class="rating" style="width:${rating}%"></span>
+								</span>
+								<span class="info-reviewCnt-span">
+									${plist.reviewCnt }
+								</span>
+							</p>	  
+						
 						</div>
-					</div>
+					</div> 
 				</c:forEach>
 			</div>
 	
@@ -191,6 +290,9 @@
 </div> 
 
 <script> 
+
+
+
 $(document).ready(function(){
 	var oc = "${openCcode}";
 	var categoryName = "";
@@ -220,7 +322,11 @@ $(document).ready(function(){
 	}
 	$(".c-list_ul_li.show").find("svg").replaceWith("<i class='fas fa-arrow-circle-up float-right' style='color :#7fe7d5'></i>");
 	$(".title-1").append(categoryName.trim());
-
+	
+	
+	/* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡratingㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ  */
+	
+	
 })
 $(".c-list_ul_li_span").on("click",function(e){
 	

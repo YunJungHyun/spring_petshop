@@ -15,4 +15,7 @@ public class OrderDetailVO {
 	private int cstock;
 	private String eachDelivery;
 	
+	private int pprice;
+	private float psale;
+	
 }

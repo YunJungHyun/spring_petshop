@@ -142,10 +142,10 @@
 					</div>
 					<form class="page-content_group_form form-signIn ">
 						<div class="form-signIn_group">
-							<input type="text" class="form-signIn_group_input" id="userid" placeholder="아이디"  autofocus>
+							<input type="text" class="form-signIn_group_input" autocomplete='off' id="userid" placeholder="아이디"  autofocus>
 						</div>
 						<div class="form-signIn_group"> 
-							<input type="password" class="form-signIn_group_input" id="userpw" placeholder="패스워드" >
+							<input type="password" class="form-signIn_group_input" autocomplete='off' id="userpw" placeholder="패스워드" >
 						</div>
 						<button class="btn form-signIn_button" id="signIn-btn" type="button">로그인</button>
 					</form>

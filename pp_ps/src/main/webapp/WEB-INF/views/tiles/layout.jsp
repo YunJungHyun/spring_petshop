@@ -29,11 +29,9 @@
 <script src="/resources/js/ckeditor/ckeditor.js"></script>
 
 <link href="/resources/css/ps.css" rel="stylesheet" type="text/css">
-<link href="/resources/css/dropdown.css" rel="stylesheet" type="text/css">
+<link href="/resources/css/category.css" rel="stylesheet" type="text/css">
 <link href="/resources/css/main-header.css" rel="stylesheet" type="text/css">
-<link href="/resources/css/button.css" rel="stylesheet" type="text/css">
-<link href="/resources/css/page.css" rel="stylesheet" type="text/css">
- 
+
  
 <title>PETSHOP - ${pageTitle}</title>
 

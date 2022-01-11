@@ -24,7 +24,7 @@ public class CartDAOImpl implements CartDAO {
 	@Override
 	public int cartCheck(CartVO cartVO) {
 		HashMap<String, String> map = new HashMap();
-		String sql = "SELECT COUNT(*) FROM cart ";
+		String sql = "SELECT COUNT(*) FROM tbl_cart ";
 			sql+= "WHERE userid = '"+cartVO.getUserid()+"' ";
 			sql+= "AND pid = '"+cartVO.getPid()+"'";
 			
@@ -37,7 +37,7 @@ public class CartDAOImpl implements CartDAO {
 
 		HashMap<String, String> map = new HashMap();
 
-		String sql = "INSERT INTO cart(userid,pid,cstock) ";
+		String sql = "INSERT INTO tbl_cart(userid,pid,cstock) ";
 		sql += "VALUES('"+cartVO.getUserid()+"',";
 		sql += "'"+cartVO.getPid()+"',";
 		sql += "'"+cartVO.getCstock()+"')";
@@ -53,7 +53,7 @@ public class CartDAOImpl implements CartDAO {
 		HashMap<String, String> map = new HashMap();
 
 		String sql = "SELECT @rownum:=@rownum+1 AS RN, C.* FROM(SELECT @ROWNUM:=0) AS R,(	";
-		sql+= "SELECT c.cnum, c.userid, c.pid, c.cstock, c.addDate, p.pname, p.pprice, p.pimg FROM cart AS c ";
+		sql+= "SELECT c.cnum, c.userid, c.pid, c.cstock, c.addDate, p.pname, p.pprice, p.pimg ,p.psale FROM tbl_cart AS c ";
 		sql += "INNER JOIN tbl_product AS p ";
 		sql += "ON c.pid = p.pid ";
 		sql += "WHERE c.userid ='"+userid+"') AS C";
@@ -70,7 +70,7 @@ public class CartDAOImpl implements CartDAO {
 
 		HashMap<String,String > map = new HashMap();
 
-		String sql = "DELETE FROM cart ";
+		String sql = "DELETE FROM tbl_cart ";
 		sql +=  "WHERE userid = '"+cartVO.getUserid()+"' ";
 		sql += "AND pid =  '"+cartVO.getPid()+"'";
 		
@@ -83,7 +83,7 @@ public class CartDAOImpl implements CartDAO {
 	@Override
 	public int cntUpdate(CartVO cartVO) {
 		HashMap<String,String > map = new HashMap();
-		String sql = "UPDATE cart SET cstock = "+cartVO.getCstock() ;
+		String sql = "UPDATE tbl_cart SET cstock = "+cartVO.getCstock() ;
 		sql += " WHERE pid = '"+cartVO.getPid()+"' ";
 		sql += " AND userid = '"+cartVO.getUserid()+"'";
 		map.put("sql",sql);
@@ -96,7 +96,7 @@ public class CartDAOImpl implements CartDAO {
 	public void cartAllDelete(String userid) {
 		HashMap<String,String > map = new HashMap();
 		
-		String sql = "DELETE FROM cart WHERE userid = '"+userid+"'";
+		String sql = "DELETE FROM tbl_cart WHERE userid = '"+userid+"'";
 		map.put("sql", sql);
 		
 		sqlSession.delete(Namespace+".cartAllDelete",map);

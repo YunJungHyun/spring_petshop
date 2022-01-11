@@ -45,10 +45,14 @@ public class OrderDAOImpl implements OrderDAO {
 	public void orderInfo_Details(OrderDetailVO orderDetailVO) {
 
 		HashMap<String,String> map = new HashMap();
-		String sql = "INSERT INTO order_details(orderid,pid, cstock) ";
-		sql+="SELECT "+orderDetailVO.getOrderid()+", pid , cstock ";
-		sql+="FROM cart";
-
+		String sql = "INSERT INTO tbl_order_details(orderid,pid, cstock, pprice,psale) ";
+		sql+="SELECT "+orderDetailVO.getOrderid()+",c.pid , c.cstock , p.pprice, p.psale  ";
+		sql+="FROM tbl_cart AS C ";
+		sql +="INNER JOIN tbl_product AS p ";
+		sql +="	ON c.pid = p.pid ";
+		
+		
+	
 
 		map.put("sql", sql);
 
@@ -59,8 +63,8 @@ public class OrderDAOImpl implements OrderDAO {
 	@Override
 	public void orderInfo_Details_Right(OrderDetailVO orderDetailVO) {
 		HashMap<String,String> map = new HashMap();
-		String sql = "INSERT INTO order_details(orderid,pid, cstock) ";
-		sql+="VALUES('"+orderDetailVO.getOrderid()+"','"+orderDetailVO.getPid()+"','"+orderDetailVO.getCstock()+"')";
+		String sql = "INSERT INTO tbl_order_details(orderid,pid, cstock, pprice,psale) ";
+		sql+="VALUES('"+orderDetailVO.getOrderid()+"','"+orderDetailVO.getPid()+"','"+orderDetailVO.getCstock()+"',"+orderDetailVO.getPprice()+","+orderDetailVO.getPsale()+")";
 
 		map.put("sql", sql);
 
@@ -72,7 +76,8 @@ public class OrderDAOImpl implements OrderDAO {
 	public List<OrderVO> getOrderList(String userid) {
 		HashMap<String,String> map = new HashMap();
 		String sql ="SELECT * FROM tbl_order ";
-		sql+="WHERE userid = '"+userid+"'";
+		sql+="WHERE userid = '"+userid+"' ";
+		sql+="ORDER BY orderDate desc";
 		map.put("sql", sql);
 		
 		List<OrderVO> result= sqlSession.selectList(Namespace+".getOrderList",map);
@@ -84,9 +89,9 @@ public class OrderDAOImpl implements OrderDAO {
 		HashMap<String,String> map = new HashMap();
 		String sql = "SELECT  o.orderid,o.userid,o.orderRec,o.userAddr1,o.userAddr2,o.userAddr3,o.orderPhon,o.amount,o.orderDate,o.delivery,";
 				sql += "d.orderDetailNum, d.pid, d.cstock,d.delivery as eachDelivery,";
-				sql += "p.pname, p.pimg,p.pprice ";
+				sql += "p.pname, p.pimg,p.pprice,p.psale ";
 				sql += "FROM tbl_order o ";
-				sql += "INNER JOIN order_details d ";
+				sql += "INNER JOIN tbl_order_details d ";
 				sql += "	ON	o.orderid = d.orderid ";
 				sql += "INNER JOIN tbl_product p ";
 				sql += "	ON d.pid = p.pid ";
@@ -110,7 +115,7 @@ public class OrderDAOImpl implements OrderDAO {
 	public int orderDetailStateChange(OrderDetailVO orderDetailVO) {
 		HashMap<String,String> map = new HashMap();
 		
-		String sql = "UPDATE order_details SET delivery = 'orderCancle' ";
+		String sql = "UPDATE tbl_order_details SET delivery = 'orderCancle' ";
 			sql+= "WHERE orderid = '"+orderDetailVO.getOrderid()+"' ";
 			sql+= "AND pid = '"+orderDetailVO.getPid()+"'";
 			map.put("sql", sql);
@@ -131,7 +136,7 @@ public class OrderDAOImpl implements OrderDAO {
 	@Override
 	public int orderDetailStateChange_1(OrderVO orderVO) {
 		HashMap<String,String> map = new HashMap();
-		String sql = "UPDATE order_details set delivery ='"+orderVO.getDelivery()+"' ";
+		String sql = "UPDATE tbl_order_details set delivery ='"+orderVO.getDelivery()+"' ";
 			sql+= "WHERE orderid = '"+orderVO.getOrderid()+"' ";
 			sql+= "AND delivery <> 'orderCancle'";
 		map.put("sql", sql);
@@ -142,7 +147,7 @@ public class OrderDAOImpl implements OrderDAO {
 	@Override
 	public int orderDetailStateChk(OrderDetailVO orderDetailVO) {
 		HashMap<String,String> map = new HashMap();
-		String sql = "SELECT COUNT(*) FROM order_details ";
+		String sql = "SELECT COUNT(*) FROM tbl_order_details ";
 				sql += "WHERE orderid = '"+orderDetailVO.getOrderid()+"' ";
 				sql += "AND  delivery <> 'orderCancle'";
 		map.put("sql", sql);
@@ -162,7 +167,7 @@ public class OrderDAOImpl implements OrderDAO {
 	@Override
 	public List<OrderDetailVO> orderDetailList(String orderid) {
 		HashMap<String,String> map = new HashMap();
-		String sql = "SELECT * FROM order_details  WHERE orderid = '"+orderid+"'";
+		String sql = "SELECT * FROM tbl_order_details  WHERE orderid = '"+orderid+"'";
 		map.put("sql", sql);
 		List<OrderDetailVO> result= sqlSession.selectList(Namespace+".orderDetailList",map);
 		return result;
@@ -171,7 +176,7 @@ public class OrderDAOImpl implements OrderDAO {
 	@Override
 	public int updateReviewState(ReviewVO reviewVO) {
 		HashMap<String,String> map = new HashMap();
-		String sql = "UPDATE order_details SET review = 'okay' ";
+		String sql = "UPDATE tbl_order_details SET review = 'okay' ";
 			sql+= "WHERE pid='"+reviewVO.getPid()+"' ";
 			sql+= "AND orderid='"+reviewVO.getOrderid()+"' ";
 		

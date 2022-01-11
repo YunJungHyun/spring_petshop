@@ -133,6 +133,9 @@ a.content-table_tbody_tr_td_a {
 	font-size: 1.5rem;
     line-height: 2;
 }
+.content-table_tbody_tr_td>img {
+	width: 3rem;
+}
 </style>
 <div class="page">
 	<div class="page-container">
@@ -235,7 +238,7 @@ a.content-table_tbody_tr_td_a {
 				<c:forEach var="plist" items="${pList }" varStatus="status">
 					<tr class="content-table_tbody_tr" id="${plist.pid }">
 						<td class="content-table_tbody_tr_td">${status.count }</td>
-						<td class="ps-img-box-004 content-table_tbody_tr_td">
+						<td class="content-table_tbody_tr_td">
 							<img id="img-${status.count }">
 							<script>
 							

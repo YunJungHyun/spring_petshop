@@ -14,11 +14,13 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.spring.ps.service.CategoryService;
 import org.spring.ps.service.ProductService;
+import org.spring.ps.service.QnAService;
 import org.spring.ps.service.ReviewService;
 import org.spring.ps.utils.UploadFileUtils;
 import org.spring.ps.utils.routeUtils;
 import org.spring.ps.vo.PageInfoVO;
 import org.spring.ps.vo.ProductVO;
+import org.spring.ps.vo.QnAVO;
 import org.spring.ps.vo.ReviewDetailVO;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -55,6 +57,9 @@ public class ProductController {
 	@Inject
 	private ReviewService reviewService;
 	
+	@Inject
+	private QnAService QnAService;
+	
 	@RequestMapping(value="/{pid}", method=RequestMethod.GET)
 	public String product(
 			Model model,
@@ -64,7 +69,7 @@ public class ProductController {
 		ProductVO pvo = productService.getProductOne(pid);
 		
 		List<ReviewDetailVO> rList = reviewService.getProdOneReviewList(pid);
-		
+		List<QnAVO> qList =  QnAService.getQnAList(pid);
 		//route
 		String cnameref = categoryService.getCategoryOne(Integer.toString(pvo.getPccoderef()));
 		String cname = categoryService.getCategoryOne(Integer.toString(pvo.getPccode()));
@@ -80,6 +85,7 @@ public class ProductController {
 
 
 		model.addAttribute("rList",rList);
+		model.addAttribute("qList",qList);
 		model.addAttribute("pvo",pvo);
 		String pageTitle = pvo.getPname();  
 		model.addAttribute("pageTitle", pageTitle);

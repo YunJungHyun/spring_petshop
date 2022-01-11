@@ -31,7 +31,7 @@ public class ReviewDAOImpl implements ReviewDAO{
 
 		HashMap<String,String> map = new HashMap();
 
-		String sql =" SELECT COUNT(*) FROM order_details AS d "; 
+		String sql =" SELECT COUNT(*) FROM tbl_order_details AS d "; 
 		sql+="INNER JOIN tbl_order o "; 
 		sql+="ON o.orderid = d.orderid "; 
 		sql+="WHERE o.userid = '"+userVO.getUserid()+"' ";
@@ -50,7 +50,7 @@ public class ReviewDAOImpl implements ReviewDAO{
 		HashMap<String,String> map = new HashMap();
 
 		String sql= "SELECT p.pid,p.pname,p.pprice,p.pimg,o.orderDate ,d.cstock,o.orderid FROM tbl_product AS p "; 
-		sql += "INNER JOIN order_details AS d "; 
+		sql += "INNER JOIN tbl_order_details AS d "; 
 		sql += "ON p.pid = d.pid "; 
 		sql += "INNER JOIN tbl_order AS o "; 
 		sql += "ON d.orderid = o.orderid ";
@@ -80,7 +80,7 @@ public class ReviewDAOImpl implements ReviewDAO{
 	@Override
 	public int reviewCnt(UserVO userVO) {
 		HashMap<String,String> map = new HashMap();
-		String sql =" SELECT COUNT(*) FROM order_details AS d "; 
+		String sql =" SELECT COUNT(*) FROM tbl_order_details AS d "; 
 		sql+="INNER JOIN tbl_order o "; 
 		sql+="ON o.orderid = d.orderid "; 
 		sql+="WHERE o.userid = '"+userVO.getUserid()+"' ";
@@ -98,7 +98,7 @@ public class ReviewDAOImpl implements ReviewDAO{
 	public List<ReviewDetailVO> getReviewList(UserVO userVO) {
 		HashMap<String,String> map = new HashMap();
 		String sql= "SELECT p.pid,p.pname,p.pprice,p.pimg,o.orderDate ,d.cstock,o.orderid ,r.revContent ,r.rating, r.revDate FROM tbl_product AS p "; 
-		sql += "INNER JOIN order_details AS d "; 
+		sql += "INNER JOIN tbl_order_details AS d "; 
 		sql += "ON p.pid = d.pid "; 
 		sql += "INNER JOIN tbl_order AS o "; 
 		sql += "ON d.orderid = o.orderid ";

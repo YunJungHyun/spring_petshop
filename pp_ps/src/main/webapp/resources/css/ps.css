@@ -64,15 +64,22 @@ input {
 }
 
 input:focus-visible {
+	outline: 0;
+	box-shadow: 0 0 0 0.2rem rgb(192, 236, 229);
+}
+
+textarea:focus-visible {
     outline: 0;
     box-shadow: 0 0 0 0.2rem rgb(192 236 229);
 }
+
 ul {
 	list-style: none;
 	padding: 0px;
 	margin: 0px;
 }
-label{
+
+label {
 	margin: 0px;
 }
 
@@ -82,7 +89,6 @@ label{
 	color: #6c757d;
 	content: "\276F";
 }
-
 
 .breadcrumb {
 	display: -ms-flexbox;
@@ -96,3 +102,14 @@ label{
 	font-size: .75rem;
 	font-weight: bold;
 }
+
+/* feedback  */
+.invalid-feedback {
+	display: block;
+}
+
+.invalid-feedback span {
+	display: none;
+}
+
+/* category  */

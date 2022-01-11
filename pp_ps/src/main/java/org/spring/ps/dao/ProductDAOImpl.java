@@ -37,7 +37,9 @@ public class ProductDAOImpl implements ProductDAO{
 		//카테고리선택 X
 		if( ccoderef.equals("") && ccode.equals("") ) {
 
-			addSql1 =" ";
+			addSql1 ="";
+		
+		
 		}
 		//상위 카테고리 선택
 		if ( !ccoderef.equals("") && ccode.equals("") ) {
@@ -49,10 +51,19 @@ public class ProductDAOImpl implements ProductDAO{
 
 			addSql1=" WHERE tc.ccoderef = "+ccoderef+" AND tc.ccode="+ccode;
 		}
-		if(!openState.equals("")) {
-			addSql2 = " WHERE tp.pstate = '"+openState+"'";
+		
+		
+		if(addSql1.equals("")) {
+			if(!openState.equals("")) {
+				addSql2 = "WHERE tp.pstate = '"+openState+"'";
+			}
+		}else {
+			
+			if(!openState.equals("")) {
+				addSql2 = "AND tp.pstate = '"+openState+"'";
+			}
+			
 		}
-
 
 		String sql = "SELECT COUNT(*) FROM tbl_product AS tp ";
 		sql	+= "LEFT JOIN tbl_category AS tc ";
@@ -99,8 +110,16 @@ public class ProductDAOImpl implements ProductDAO{
 			addSql1=" WHERE tc.ccoderef = "+ccoderef+" AND tc.ccode="+ccode;
 		}
 
-		if(!openState.equals("")) {
-			addSql2 = " WHERE tp.pstate = '"+openState+"'";
+		if(addSql1.equals("")) {
+			if(!openState.equals("")) {
+				addSql2 = "WHERE tp.pstate = '"+openState+"'";
+			}
+		}else {
+			
+			if(!openState.equals("")) {
+				addSql2 = "AND tp.pstate = '"+openState+"'";
+			}
+			
 		}
 		switch(openSortBy) {
 		//최신순

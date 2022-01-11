@@ -79,5 +79,7 @@
 $(".myPage-go").on("click",function(){
 	
 	
+	location.href= "/view/mypage/"+$(this).attr("id");
+	
 })
 </script>

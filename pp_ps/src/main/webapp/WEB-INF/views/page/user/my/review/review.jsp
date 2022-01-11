@@ -59,6 +59,7 @@
 				</div>
 				<div class="col-8 p-3">
 					<ul class="list-ul">
+						<li>주문 번호 : ${list.orderid }</li>
 						<li>${list.pname }</li>
 						<li>
 							<span>구매 날짜 :</span>
@@ -128,11 +129,14 @@
 
 <script>
 $(".star").on('click',function(){
+	
+		var thisParentId = $(this).parent().attr("id");
+		
 	   var idx = $(this).index();
 	   //console.log(idx);
-	   $(".star").removeClass("on");
+	   $("#"+thisParentId).children().removeClass("on");
 	     for(var i=0; i<=idx; i++){
-	        $(".star").eq(i).addClass("on");
+	    	 $("#"+thisParentId).children().eq(i).addClass("on");
 	   }
 	 });
 

@@ -238,6 +238,26 @@ $('.orderCollapse').on('show.bs.collapse', function () {
 										html+=" (원)";
 									html +="</span>";
 								html+="</li>";
+								
+								if(data[i].psale > 0){
+									var salePrice = data[i].pprice -(data[i].psale * data[i].pprice);
+									html+="<li>";
+									html+= " <span class='od-title-span-2'>";
+										html+="할인 :";
+									html+="</span>";
+									html+= " <span class='od-title-text-2'>";
+										html+=data[i].psale*100+"%";
+									html+="</span>";
+									html+="</li>";
+									html+="<li>";
+									html+= " <span class='od-title-span-2'>";
+										html+="할인가:";
+									html+="</span>"; 
+									html+= " <span class='od-title-text-2'>";
+										html+=Math.ceil(salePrice/10)*10+"원";
+									html+="</span>";
+									html+="</li>";
+								}
 								html+="<li>";
 									html+="<span class='od-title-span-2'>";
 										html+="주문 갯수 : "
