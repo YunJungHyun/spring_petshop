@@ -5,11 +5,12 @@
 .page-container{
 	display:flex;
 	justify-content: space-around;
+	    flex-wrap: wrap;
 }
 
 .page-content {
 	text-align: center;
-	border: 1px solid;
+	
 	border-radius: 8px;
 }
 .page-content_group{
@@ -17,6 +18,11 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    padding: 1rem;
+    margin: 1rem;
+    border: 1px solid #000;
+    border-radius: 10px;
+
 }
 .page-content_group:hover {
 	cursor: pointer;
@@ -33,7 +39,7 @@
 </style>
 <div class="page pt-5">
 	<div class="page-container">
-		<div class="page-content col-2">
+		<div class="page-content col-4">
 			<div class="page-content_group" id="Product">
 				<span class="page-content_group_title">제품 관리</span>
 				<div class="page-content_group_box">
@@ -41,7 +47,15 @@
 				</div>
 			</div>
 		</div>
-		<div class="page-content col-2">
+		<div class="page-content col-4">
+			<div class="page-content_group"  id="Addition">
+				<span class="page-content_group_title">카테고리/브랜드 관리</span> 
+				<div class="page-content_group_box">
+					<img src="/resources/icon/web-site.png">
+				</div>
+			</div> 
+		</div>
+		<div class="page-content col-4">
 			<div class="page-content_group" id="Order">
 				<span class="page-content_group_title">주문 관리</span>
 				<div class="page-content_group_box">
@@ -49,7 +63,7 @@
 				</div> 
 			</div>
 		</div> 
-		<div class="page-content col-2">
+		<div class="page-content col-4">
 			<div class="page-content_group" id="Member">
 				<span class="page-content_group_title">회원 관리</span>
 				<div class="page-content_group_box">
@@ -57,7 +71,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="page-content col-2">
+		<div class="page-content col-4">
 			<div class="page-content_group"  id="Review">
 				<span class="page-content_group_title">제품 후기 관리</span> 
 				<div class="page-content_group_box">
@@ -65,7 +79,8 @@
 				</div>
 			</div>
 		</div>  
-		<div class="page-content col-2">
+		  
+		<div class="page-content col-4">
 				<div class="page-content_group"  id="QnA">
 				<span class="page-content_group_title">Q&A</span> 
 				<div class="page-content_group_box">

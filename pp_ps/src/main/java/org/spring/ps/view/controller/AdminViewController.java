@@ -216,10 +216,16 @@ public class AdminViewController {
 				view = "QnA/QnA";
 
 				break;
-			case "Notice": 
-
-				pageTitle = "공지사항 관리";
-				view = "notice/Notice";
+			case "Addition": 
+				
+				String routeArray4[][] = {{"관리자 페이지","/adminView/Management"},{"카테고리/브랜드 관리","/adminView/Addition"}};
+				routeMap.put(0,routeArray4[0]);
+				routeMap.put(1,routeArray4[1]);
+				cList =categoryService.getCategoryList();
+				model.addAttribute("cList",cList);
+				pageTitle = "카테고리/브랜드 관리";
+				view = "addition/Addition";
+				
 
 				break;
 			case "Order": 

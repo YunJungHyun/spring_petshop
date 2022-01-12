@@ -292,4 +292,52 @@ public class ProductDAOImpl implements ProductDAO{
 		sqlSession.update(Namespace +".pcntDecrease",map);
 
 	}
+	
+	@Override
+	public List<ProductVO> getRankProductList(PagingVO pagingVO) {
+		HashMap<String, String> map = new HashMap();
+		String sql ="SELECT * FROM ( ";
+		sql+= " SELECT @rownum:=@rownum+1 AS RN, A.* FROM (SELECT @rownum:=0) AS R,( ";
+		sql+= " SELECT tod.pid,tod.cnt, pname, pcnt, pprice , pccode,pimg, pbrand, prating, psale FROM tbl_product AS tp ";
+		sql+= " INNER JOIN (SELECT pid ,COUNT(*) AS cnt  FROM tbl_order_details  GROUP BY pid) AS tod ";
+		sql+= "	ON tp.pid = tod.pid ";
+		sql+= " WHERE tp.pstate = 'POSTING' ";
+		sql+= " ORDER BY tod.cnt DESC, tp.prating desc ";
+		sql+= "	) AS A ";
+		sql+= " ) AS B WHERE RN BETWEEN "+pagingVO.getStart()+" AND "+pagingVO.getEnd();
+		map.put("sql",sql);
+		List<ProductVO> result = sqlSession.selectList(Namespace+".getRankProductList",map);
+		return result;
+	}
+	@Override
+	public List<ProductVO> getRecentProductList(PagingVO pagingVO) {
+		HashMap<String, String> map = new HashMap();
+		String sql =" SELECT * FROM ( ";
+		sql+=" SELECT @rownum:=@rownum+1 AS RN, A.* FROM (SELECT @rownum:=0) AS R,( ";
+		sql+=" SELECT pid , pname , pcnt , pprice , pccode,pimg, pbrand, prating, psale FROM tbl_product ";
+		sql+=" WHERE pregdate BETWEEN DATE_ADD(NOW(),INTERVAL - 1 WEEK) AND NOW() and pstate = 'POSTING' ORDER BY pregdate DESC ";
+		sql+= "	) AS A ";
+		sql+= " ) AS B WHERE RN BETWEEN "+pagingVO.getStart()+" AND "+pagingVO.getEnd();
+		
+		map.put("sql",sql);
+		List<ProductVO> result = sqlSession.selectList(Namespace+".getRecentProductList",map);
+		return result;
+	}
+	
+	@Override
+	public List<ProductVO> getSaleProductList(PagingVO pagingVO) {
+		HashMap<String, String> map = new HashMap();
+		String sql =" SELECT * FROM ( ";
+		sql+=" SELECT @rownum:=@rownum+1 AS RN, A.* FROM (SELECT @rownum:=0) AS R,( ";
+		sql+=" SELECT tp.pid ,tr.reviewCnt, pname , pcnt , pprice , pccode,pimg, pbrand, prating, psale FROM tbl_product AS tp ";
+		sql+=" left JOIN (SELECT pid,COUNT(*) AS reviewCnt FROM tbl_review GROUP BY pid) AS tr ";
+		sql+=" ON tr.pid = tp.pid ";
+		sql+=" 	WHERE pregdate BETWEEN DATE_ADD(NOW(),INTERVAL - 1 WEEK) AND NOW() and pstate = 'POSTING' AND psale <> 0 ORDER BY pregdate DESC ";
+		sql+= "	) AS A ";
+		sql+= " ) AS B WHERE RN BETWEEN "+pagingVO.getStart()+" AND "+pagingVO.getEnd();
+	
+		map.put("sql",sql);
+		List<ProductVO> result = sqlSession.selectList(Namespace+".getSaleProductList",map);
+		return result;
+	}
 }

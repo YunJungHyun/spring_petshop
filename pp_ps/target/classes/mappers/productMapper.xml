@@ -60,6 +60,29 @@
 		]]>
 	</delete>
 	
-	
+	<select id="getRankProductList" parameterType="HashMap" resultType="productVO">
+		<![CDATA[ 
+ 			
+ 			
+ 			${sql}
+		]]>
+		
+	</select>
+	<select id="getRecentProductList" parameterType="HashMap" resultType="productVO">
+		<![CDATA[ 
+ 			
+ 			
+ 			${sql}
+		]]>
+		
+	</select>
+	<select id="getSaleProductList" parameterType="HashMap" resultType="productVO">
+		<![CDATA[ 
+ 			
+ 			
+ 			${sql}
+		]]>
+		
+	</select>
 
 </mapper>

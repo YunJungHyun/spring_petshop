@@ -14,11 +14,14 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.spring.ps.service.CartService;
 import org.spring.ps.service.OrderService;
+import org.spring.ps.service.ProductService;
 import org.spring.ps.service.ReviewService;
 import org.spring.ps.utils.routeUtils;
 import org.spring.ps.vo.CartListVO;
 import org.spring.ps.vo.OrderVO;
 import org.spring.ps.vo.PageInfoVO;
+import org.spring.ps.vo.PagingVO;
+import org.spring.ps.vo.ProductVO;
 import org.spring.ps.vo.ReviewDetailVO;
 import org.spring.ps.vo.UserVO;
 import org.springframework.stereotype.Controller;
@@ -46,21 +49,39 @@ public class ViewController {
 	@Inject
 	private ReviewService reviewService;
 	
+	@Inject
+	private ProductService prodcutService;
+	
 
 
 	@RequestMapping(value="/petshop")
 	public String home(
-			Model model
+			Model model,
+			PagingVO pagingVO
+				
 			) {
 
 
 		log.debug("home");  
 
 
-		String pageTitle = "HOME"; 
-
-
-
+		String pageTitle = "HOME";  
+		
+		pagingVO.setStart(1);
+		pagingVO.setEnd(10);
+		
+		List<ProductVO> saleList = prodcutService.getSaleProductList(pagingVO);
+		List<ProductVO>  recentList= prodcutService.getRecentProductList(pagingVO);
+		List<ProductVO> rankList = prodcutService.getRankProductList(pagingVO);
+		
+		log.debug("saleList.size() :" +saleList.size());
+		log.debug("recentList.size() :" +recentList.size());
+		log.debug("rankList.size() :" +rankList.size());
+		
+		model.addAttribute("saleList",saleList);
+		model.addAttribute("recentList",recentList);
+		model.addAttribute("rankList",rankList);
+		
 		model.addAttribute("breadcrumb", "none");
 		model.addAttribute("pageTitle", pageTitle);
 

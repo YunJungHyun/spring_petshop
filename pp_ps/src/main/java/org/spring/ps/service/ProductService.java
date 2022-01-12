@@ -35,6 +35,15 @@ public interface ProductService {
 	void pcntDecrease(String pid, int cstock);
 
 
+	List<ProductVO> getSaleProductList(PagingVO pagingVO);
+
+
+	List<ProductVO> getRecentProductList(PagingVO pagingVO); 
+
+
+	List<ProductVO> getRankProductList(PagingVO pagingVO);
+
+
 
 	
 }

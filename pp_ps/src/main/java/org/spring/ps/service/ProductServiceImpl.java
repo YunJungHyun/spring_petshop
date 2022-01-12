@@ -67,4 +67,20 @@ public class ProductServiceImpl implements ProductService{
 		 productDAO.pcntDecrease(pid,cstock);
 		
 	}
+	
+	@Override
+	public List<ProductVO> getRankProductList(PagingVO pagingVO) {
+		// TODO Auto-generated method stub
+		return productDAO.getRankProductList(pagingVO);
+	}
+	@Override
+	public List<ProductVO> getRecentProductList(PagingVO pagingVO) {
+		// TODO Auto-generated method stub
+		return productDAO.getRecentProductList(pagingVO);
+	}
+	@Override
+	public List<ProductVO> getSaleProductList(PagingVO pagingVO) {
+		// TODO Auto-generated method stub
+		return productDAO.getSaleProductList(pagingVO);
+	}
 }

@@ -28,6 +28,12 @@ public interface ProductDAO {
 
 	void pcntDecrease(String pid, int cstock);
 
+	List<ProductVO> getRankProductList(PagingVO pagingVO);
+
+	List<ProductVO> getRecentProductList(PagingVO pagingVO);
+
+	List<ProductVO> getSaleProductList(PagingVO pagingVO);
+
 
 
 	

@@ -31,8 +31,11 @@
 <link href="/resources/css/ps.css" rel="stylesheet" type="text/css">
 <link href="/resources/css/category.css" rel="stylesheet" type="text/css">
 <link href="/resources/css/main-header.css" rel="stylesheet" type="text/css">
-
+<link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css"/>
  
+<!-- swiper  -->
+
+
 <title>PETSHOP - ${pageTitle}</title>
 
 </head>
@@ -65,6 +68,7 @@
 	</div>
 </body>
 </html>
+
 
 <script>
  
