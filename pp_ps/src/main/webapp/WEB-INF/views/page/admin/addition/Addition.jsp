@@ -57,7 +57,6 @@
 						<div class="page-content_group_box col-3">
 							<div class="category-box" id="parent-${list.ccode}">
 								<span class="category-group_span">${list.cname }</span>
-								
 							</div>
 						</div>
 					</c:if>
