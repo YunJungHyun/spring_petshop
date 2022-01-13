@@ -5,7 +5,7 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <style>
 .main-slide {
-    margin-top: 1rem!important;
+  
     margin-bottom: 1rem!important;
     background-color: #7fe7d52e;
     padding-top: 2rem;
@@ -76,7 +76,11 @@
     height: 100%;
 	border-bottom-right-radius: 10px;
     border-bottom-left-radius:10px;
-	    padding: 0.5rem;
+	padding: 0.5rem;
+	min-height: 10rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 .info-box_p{
 
@@ -159,6 +163,27 @@ span.info-reviewCnt-span {
     box-shadow: 1px 1px 12px 1px #dee2e6;
     border-radius: 10px;
 }
+span.rank-span {
+    font-size: 2rem;
+    position: absolute;
+    background-color: #7fe7d5;
+    width: 3rem;
+    height: 3rem;
+    text-align: center;
+    border-radius: 50%;
+    margin: 0.5rem;
+    border: 1px solid #7fe7d5;
+    color: black;
+    display: inline;
+    font-weight: bold;
+    filter: drop-shadow(1px 1px 2px #7fe7d5);
+}
+
+.info-pprice{
+	
+	font-size: 1.25rem;
+	font-weight: bold;
+}
 </style>
 
 <div class="page">
@@ -183,9 +208,9 @@ span.info-reviewCnt-span {
 	<div class="page_content">
 		<div class="page_content_group mb-4">
 			<div class="page_content_group_title">
-				<h4 class="page_content_group_title_h">최신 할인 제품 
+				<h4 class="page_content_group_title_h">최신 할인 
 					<span class="badge float-right product-more-sapn">
-						<a href="#">더 보기&nbsp;<i class="fas fa-chevron-right"></i></a>
+						<a href="/product/view/sale">더 보기&nbsp;<i class="fas fa-chevron-right"></i></a>
 					</span>
 				</h4>
 			</div>
@@ -248,7 +273,7 @@ span.info-reviewCnt-span {
 			<div class="page_content_group_title">
 				<h4 class="page_content_group_title_h">신규 제품
 					<span class="badge float-right product-more-sapn">
-						<a href="#">더 보기&nbsp;<i class="fas fa-chevron-right"></i></a>
+						<a href="/product/view/recent">더 보기&nbsp;<i class="fas fa-chevron-right"></i></a>
 					</span>
 				</h4>
 			</div>
@@ -272,7 +297,12 @@ span.info-reviewCnt-span {
 									</div>
 									<div class="p-list-box_cotent info-box">
 										<p class="info-box_p info-pname">${list.pname}</p>	
-										
+										<c:if test="${list.psale == 0 }">
+											<p class="info-box_p info-pprice">
+												<fmt:formatNumber pattern="###,###,###" value="${list.pprice}"/>원
+										</p>
+										</c:if>
+										<c:if test="${list.psale !=0 }">
 										<p class="info-box_p info-psale-before-pprice">
 												<fmt:formatNumber pattern="###,###,###" value="${list.pprice}"/>원
 										</p>	
@@ -285,15 +315,16 @@ span.info-reviewCnt-span {
 												<fmt:formatNumber type="number" pattern="###,###,###" value="${sale_price + (10-(sale_price%10))%10}"/>원 
 											</span>	
 										</p>	
+										</c:if>
 										<p class="info-box_p info-rating">
 						 
 											<c:set value ="${list.prating * 20 }" var = "rating"/>
 						 						<span class="info-rating_span"> 
 												<span class="rating" style="width:${rating}%"></span>
 											</span>
-										<%--   <span class="info-reviewCnt-span">
+										  <span class="info-reviewCnt-span">
 											(${list.reviewCnt })
-											</span>  --%>
+											</span>  
 										</p>	
 									</div> 
 								</div>
@@ -309,7 +340,7 @@ span.info-reviewCnt-span {
 			<div class="page_content_group_title">
 				<h4 class="page_content_group_title_h">주문 많은 제품
 					<span class="badge float-right product-more-sapn">
-						<a href="#">더 보기&nbsp;<i class="fas fa-chevron-right"></i></a>
+						<a href="/product/view/rank">더 보기&nbsp;<i class="fas fa-chevron-right"></i></a>
 					</span>
 				</h4>
 			</div>
@@ -320,6 +351,12 @@ span.info-reviewCnt-span {
 							<div class="swiper-slide">
 								<div class="p-list-box go-page">
 									<a href="/product/${list.pid }" style="display:none"></a>
+									<c:if test="${list.orderCnt !=0 }">
+										<span class="rank-span">${list.RN}</span>
+									</c:if>
+									<c:if test="${list.orderCnt ==0 }">
+										<span class="rank-span">-</span>
+									</c:if>
 									<div class="p-list-box_content img-box" >
 										<img id="rank-img-${status.count}"/>
 										<script>
@@ -352,9 +389,9 @@ span.info-reviewCnt-span {
 						 						<span class="info-rating_span"> 
 												<span class="rating" style="width:${rating}%"></span>
 											</span>
-										  <%-- <span class="info-reviewCnt-span">
+											<span class="info-reviewCnt-span">
 											(${list.reviewCnt })
-											</span>  --%>
+											</span>  
 										</p>	
 									</div> 
 								</div>
@@ -366,9 +403,7 @@ span.info-reviewCnt-span {
 				</div>
 			</div>
 		</div>
-			<div class="page_content_group">
-				<h3 class="page_content_group_title">브랜드</h3>
-			</div>
+			
 	</div>
 </div>
 

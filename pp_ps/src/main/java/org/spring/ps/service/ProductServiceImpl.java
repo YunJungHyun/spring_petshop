@@ -69,18 +69,49 @@ public class ProductServiceImpl implements ProductService{
 	}
 	
 	@Override
-	public List<ProductVO> getRankProductList(PagingVO pagingVO) {
+	public List<ProductVO> getRankProductList(PagingVO pagingVO,String categoryCode) {
 		// TODO Auto-generated method stub
-		return productDAO.getRankProductList(pagingVO);
+		return productDAO.getRankProductList(pagingVO,categoryCode);
 	}
 	@Override
-	public List<ProductVO> getRecentProductList(PagingVO pagingVO) {
+	public List<ProductVO> getRecentProductList(PagingVO pagingVO,String categoryCode) {
 		// TODO Auto-generated method stub
-		return productDAO.getRecentProductList(pagingVO);
+		return productDAO.getRecentProductList(pagingVO,categoryCode);
 	}
 	@Override
-	public List<ProductVO> getSaleProductList(PagingVO pagingVO) {
+	public List<ProductVO> getSaleProductList(PagingVO pagingVO,String categoryCode) {
 		// TODO Auto-generated method stub
-		return productDAO.getSaleProductList(pagingVO);
+		return productDAO.getSaleProductList(pagingVO,categoryCode);
+	}
+	
+	@Override
+	public int findRemainProduct(int ccode) {
+		// TODO Auto-generated method stub
+		return productDAO.findRemainProduct(ccode);
+	}
+	@Override
+	public List<ProductVO> getCountCategoryInProduct() {
+		// TODO Auto-generated method stub
+		return productDAO.getCountCategoryInProduct();
+	}
+	
+	
+	
+	@Override
+	public int countRankProduct(String categoryCode) {
+		// TODO Auto-generated method stub
+		return  productDAO.countRankProduct(categoryCode);
+	}
+	
+	@Override
+	public int countRecentProduct(String categoryCode) {
+		// TODO Auto-generated method stub
+		return  productDAO.countRecentProduct(categoryCode);
+	}
+	
+	@Override
+	public int countNewSaleProduct(String categoryCode) {
+		// TODO Auto-generated method stub
+		return productDAO.countNewSaleProduct(categoryCode);
 	}
 }

@@ -70,9 +70,10 @@ public class ViewController {
 		pagingVO.setStart(1);
 		pagingVO.setEnd(10);
 		
-		List<ProductVO> saleList = prodcutService.getSaleProductList(pagingVO);
-		List<ProductVO>  recentList= prodcutService.getRecentProductList(pagingVO);
-		List<ProductVO> rankList = prodcutService.getRankProductList(pagingVO);
+		String categoryCode = "";
+		List<ProductVO> saleList = prodcutService.getSaleProductList(pagingVO,categoryCode);
+		List<ProductVO>  recentList= prodcutService.getRecentProductList(pagingVO,categoryCode);
+		List<ProductVO> rankList = prodcutService.getRankProductList(pagingVO,categoryCode);
 		
 		log.debug("saleList.size() :" +saleList.size());
 		log.debug("recentList.size() :" +recentList.size());

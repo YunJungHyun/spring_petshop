@@ -1,16 +1,11 @@
 package org.spring.ps.utils;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.log;
-
 import java.io.File;
 import java.text.DecimalFormat;
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.Random;
 import java.util.UUID;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.springframework.util.FileCopyUtils;
 
 import net.coobird.thumbnailator.Thumbnails;
@@ -48,27 +43,21 @@ public class UploadFileUtils {
 		return newFileName; 
 	}
 	
-	public static String ex_fileUpload(String uploadPath,
+	public static String brand_fileUpload(String uploadPath,
 			String fileName,
-			byte[] fileData, String ymdPath) throws Exception {
+			byte[] fileData) throws Exception {
 		
 		UUID uid = UUID.randomUUID();
 		
 		String newFileName = uid + "_" + fileName;
-		String imgPath = uploadPath + ymdPath;
 		
-		File target = new File(imgPath, newFileName);
+		
+		File target = new File(uploadPath, newFileName);
 		FileCopyUtils.copy(fileData, target);
 		
-		String thumbFileName = "s_" + newFileName;
-		File image = new File(imgPath + File.separator + newFileName);
+		File image = new File(uploadPath + File.separator + newFileName);
 		
-		File thumbnail = new File(imgPath + File.separator + "s" + File.separator + thumbFileName);
 		
-		if (image.exists()) {
-			thumbnail.getParentFile().mkdirs();
-			Thumbnails.of(image).size(THUMB_WIDTH, THUMB_HEIGHT).toFile(thumbnail);
-		}
 		return newFileName;
 	}
 	
@@ -115,5 +104,17 @@ public class UploadFileUtils {
 				dirPath.mkdir();
 			}
 		}
+	}
+	
+	public static boolean deleteFilesRecursively(File rootFile) {
+		File[] allFiles = rootFile.listFiles();
+		if (allFiles != null) {
+			for (File file : allFiles) {
+				deleteFilesRecursively(file);
+			}
+		}
+		System.out.println("Remove file: " + rootFile.getPath());
+		return rootFile.delete();
+
 	}
 }

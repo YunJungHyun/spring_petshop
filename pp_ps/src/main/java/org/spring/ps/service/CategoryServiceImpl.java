@@ -41,4 +41,27 @@ public class CategoryServiceImpl implements CategoryService {
 		// TODO Auto-generated method stub
 		return categoryDAO.getCategoryOne(openCcode);
 	}
+	
+	@Override
+	public int insertSubCategory(CategoryVO categoryVO) {
+		// TODO Auto-generated method stub
+		return categoryDAO.insertSubCategory(categoryVO);
+	}
+	@Override
+	public int insertParentCategory(CategoryVO categoryVO) {
+		// TODO Auto-generated method stub
+		return categoryDAO.insertParentCategory(categoryVO);
+	}
+	
+	@Override
+	public int deleteSubCategory(int ccode) {
+		// TODO Auto-generated method stub
+		return categoryDAO.deleteSubCategory(ccode);
+	}
+	
+	@Override
+	public List<CategoryVO> getNewSaleCategoryList() {
+		// TODO Auto-generated method stub
+		return categoryDAO.getNewSaleCategoryList();
+	}
 }

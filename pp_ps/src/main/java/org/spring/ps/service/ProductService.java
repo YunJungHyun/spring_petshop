@@ -15,8 +15,6 @@ public interface ProductService {
 	ProductVO getProductOne(String pid);
 
 
-
-
 	int countProduct(HashMap<String,String> pagingMap);
 
 
@@ -35,15 +33,32 @@ public interface ProductService {
 	void pcntDecrease(String pid, int cstock);
 
 
-	List<ProductVO> getSaleProductList(PagingVO pagingVO);
+	List<ProductVO> getSaleProductList(PagingVO pagingVO,String categoryCode);
 
 
-	List<ProductVO> getRecentProductList(PagingVO pagingVO); 
+	List<ProductVO> getRecentProductList(PagingVO pagingVO,String categoryCode); 
 
 
-	List<ProductVO> getRankProductList(PagingVO pagingVO);
+	List<ProductVO> getRankProductList(PagingVO pagingVO,String categoryCode);
+
+
+	int findRemainProduct(int ccode);
+
+
+	List<ProductVO> getCountCategoryInProduct();
 
 
 
-	
+
+	int countRankProduct(String categoryCode);
+
+
+	int countRecentProduct(String categoryCode);
+
+
+	int countNewSaleProduct(String categoryCode);
+
+
+
+
 }

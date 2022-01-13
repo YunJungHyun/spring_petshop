@@ -12,13 +12,17 @@ import javax.inject.Inject;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.spring.ps.service.BrandService;
 import org.spring.ps.service.CategoryService;
 import org.spring.ps.service.ProductService;
 import org.spring.ps.service.QnAService;
 import org.spring.ps.service.ReviewService;
 import org.spring.ps.utils.UploadFileUtils;
 import org.spring.ps.utils.routeUtils;
+import org.spring.ps.vo.BrandVO;
+import org.spring.ps.vo.CategoryVO;
 import org.spring.ps.vo.PageInfoVO;
+import org.spring.ps.vo.PagingVO;
 import org.spring.ps.vo.ProductVO;
 import org.spring.ps.vo.QnAVO;
 import org.spring.ps.vo.ReviewDetailVO;
@@ -60,6 +64,8 @@ public class ProductController {
 	@Inject
 	private QnAService QnAService;
 	
+	@Inject
+	private BrandService brandService;
 	@RequestMapping(value="/{pid}", method=RequestMethod.GET)
 	public String product(
 			Model model,
@@ -288,7 +294,7 @@ public class ProductController {
 		File rootDir =  new File(uploadPath+delete_path);
 
 		if(rootDir.exists()) {
-			deleteFilesRecursively(rootDir);
+			UploadFileUtils.deleteFilesRecursively(rootDir);
 		}
 
 		int reuslt = productService.productDelete(pid);
@@ -296,16 +302,172 @@ public class ProductController {
 		return reuslt;
 	}
 
-	static boolean deleteFilesRecursively(File rootFile) {
-		File[] allFiles = rootFile.listFiles();
-		if (allFiles != null) {
-			for (File file : allFiles) {
-				deleteFilesRecursively(file);
-			}
+	@RequestMapping(value="/view/rank",method=RequestMethod.GET)
+	public String productViewRank(
+			Model model,
+			PagingVO pagingVO,
+			@RequestParam(value="page", required= false) String page,
+			@RequestParam(value="categoryCode", required= false) String categoryCode
+			
+			) {
+		String selectCategory = "";
+		if(page == null ) {
+			
+			page="1";
+			
 		}
-		System.out.println("Remove file: " + rootFile.getPath());
-		return rootFile.delete();
+		
+		if(categoryCode == null ) {
+			
+			categoryCode="";
+			selectCategory="";
+			
+		}else {
+			
+			selectCategory = categoryCode;	
+			categoryCode =categoryCode.substring(0,categoryCode.length()-2);
+	
+		}
+		int total = productService.countRankProduct(categoryCode);
 
+		pagingVO = new PagingVO(total , Integer.parseInt(page), 10 );
+		
+		
+		List<CategoryVO> cList = categoryService.getCategoryList();
+		List<ProductVO> pList = productService.getRankProductList(pagingVO, categoryCode);
+		
+		
+		
+		String pageTitle= "랭킹";
+		Map<Integer,String[]> routeMap = new HashMap<>();
+		String routeArray[][] = {{"랭킹","/view/rank"}};
+		routeMap.put(0,routeArray[0]);
+		
+		List<PageInfoVO> breadcrumbList =routeUtils.pageInfo(routeMap);
+		
+		model.addAttribute("selectCategory",selectCategory);
+		model.addAttribute("cList",cList);
+		model.addAttribute("pList",pList);
+		model.addAttribute("pageTitle",pageTitle);
+		model.addAttribute("breadcrumb",breadcrumbList);
+		
+		return "user/product/listView/rankList.page";
 	}
+	@RequestMapping(value="/view/recent",method=RequestMethod.GET)
+	public String productViewRecent(
+			Model model,
+			PagingVO pagingVO,
+			@RequestParam(value="page", required= false) String page,
+			@RequestParam(value="categoryCode", required= false) String categoryCode
+			) {
+		String selectCategory = "";
+		if(page == null ) {
+			
+			page="1";
+			
+		}
+		
+		if(categoryCode == null ) {
+			
+			categoryCode="";
+			selectCategory="";
+			
+		}else {
+			
+			selectCategory = categoryCode;	
+			categoryCode =categoryCode.substring(0,categoryCode.length()-2);
+	
+		}
+		
+		int total = productService.countRecentProduct(categoryCode);
+
+		pagingVO = new PagingVO(total , Integer.parseInt(page), 10 );
+		
+		List<CategoryVO> cList = categoryService.getCategoryList();
+		List<ProductVO> pList = productService.getRecentProductList(pagingVO, categoryCode);
+		String pageTitle= "신상품";
+		Map<Integer,String[]> routeMap = new HashMap<>();
+		String routeArray[][] = {{"신규 제품","/view/rank"}};
+		routeMap.put(0,routeArray[0]);
+		
+		List<PageInfoVO> breadcrumbList =routeUtils.pageInfo(routeMap);
+		model.addAttribute("selectCategory",selectCategory);
+		model.addAttribute("pList",pList);
+		model.addAttribute("cList",cList);
+		model.addAttribute("pageTitle",pageTitle);
+		model.addAttribute("breadcrumb",breadcrumbList);
+		
+		return "user/product/listView/recentList.page";
+	}
+	@RequestMapping(value="/view/brand",method=RequestMethod.GET)
+	public String productViewBrand(
+			Model model
+			) {
+		
+		List<BrandVO> bList= brandService.getBrandList();
+		
+		
+		
+		String pageTitle= "브랜드";
+		Map<Integer,String[]> routeMap = new HashMap<>();
+		String routeArray[][] = {{"브랜드","/view/rank"}};
+		routeMap.put(0,routeArray[0]);
+	
+		
+		List<PageInfoVO> breadcrumbList =routeUtils.pageInfo(routeMap);
+		
+		model.addAttribute("bList",bList);
+		model.addAttribute("pageTitle",pageTitle);
+		model.addAttribute("breadcrumb",breadcrumbList);
+		
+		return "user/product/listView/brandList.page";
+	}
+	@RequestMapping(value="/view/sale",method=RequestMethod.GET)
+	public String productViewSale(
+			Model model,
+			PagingVO pagingVO,
+			@RequestParam(value="page", required= false) String page,
+			@RequestParam(value="categoryCode", required= false) String categoryCode
+			) {
+		String selectCategory = "";
+		if(page == null ) {
+			
+			page="1";
+			
+		}
+		
+		if(categoryCode == null ) {
+			
+			categoryCode="";
+			selectCategory="";
+			
+		}else {
+			
+			selectCategory = categoryCode;	
+			categoryCode =categoryCode.substring(0,categoryCode.length()-2);
+	
+		}
+		int total = productService.countNewSaleProduct(categoryCode);
+
+		pagingVO = new PagingVO(total , Integer.parseInt(page), 10 );
+		
+		List<CategoryVO> cList = categoryService.getNewSaleCategoryList();
+		List<ProductVO> pList = productService.getSaleProductList(pagingVO, categoryCode);
+		String pageTitle= "최신 할인";
+		Map<Integer,String[]> routeMap = new HashMap<>();
+		String routeArray[][] = {{"최신 할인","/view/rank"}};
+		routeMap.put(0,routeArray[0]);
+		
+		List<PageInfoVO> breadcrumbList =routeUtils.pageInfo(routeMap);
+		
+		model.addAttribute("selectCategory",selectCategory);
+		model.addAttribute("cList",cList);
+		model.addAttribute("pList",pList);
+		model.addAttribute("pageTitle",pageTitle);
+		model.addAttribute("breadcrumb",breadcrumbList);
+		
+		return "user/product/listView/saleList.page";
+	}
+	
 
 }

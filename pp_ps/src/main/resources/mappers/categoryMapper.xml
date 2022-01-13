@@ -42,4 +42,23 @@
 		
 		
  	</insert>
+ 		<insert id="insertSubCategory" parameterType="HashMap">
+			<![CDATA[
+ 			${sql}
+		]]>
+	</insert>
+	<insert id="insertParentCategory" parameterType="HashMap">
+			<![CDATA[
+ 			${sql}
+		]]>
+	</insert>
+ 	<select id="getNewSaleCategoryList" parameterType="HashMap" resultType="categoryVO">
+ 	
+ 		
+ 		<![CDATA[ 
+ 			${sql}
+		]]>
+		
+		
+ 	</select>
  </mapper>

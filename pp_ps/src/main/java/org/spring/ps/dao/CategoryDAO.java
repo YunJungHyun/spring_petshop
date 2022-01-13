@@ -17,6 +17,14 @@ public interface CategoryDAO {
 
 	String getCategoryOne(String openCcode);
 
+	int insertSubCategory(CategoryVO categoryVO);
+
+	int insertParentCategory(CategoryVO categoryVO);
+	
+	int deleteSubCategory(int ccode);
+
+	List<CategoryVO> getNewSaleCategoryList();
+
 	
 	
 }

@@ -7,12 +7,10 @@ import lombok.ToString;
 @Setter
 @Getter
 @ToString(callSuper=true)
-public class CategoryVO {
+public class BrandVO {
 	
-	private int level;
-	private String cname;
-	private String ccode;
-	private String ccoderef;
+	private int bnum;
+	private String bname;
+	private String bimg;
 	
-	private int productCnt;
 }

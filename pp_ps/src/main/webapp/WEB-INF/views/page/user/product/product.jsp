@@ -11,7 +11,7 @@
 			<div class="page-content_group">
 				<div class="row">
 					<div class="col-lg-6 page-content_group_box">
-						<img id="this-img" src="/resources/icon/no-pictures.png" />
+						<img id="this-img" src="/resources/icon/none.png" />
 						<script>
 								
 						var pimgStr = JSON.stringify(${pvo.pimg});

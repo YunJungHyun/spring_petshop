@@ -89,4 +89,64 @@ public class CategoryDAOImpl implements CategoryDAO{
 		String result = sqlSession.selectOne(Namespace+".getCategoryOne",map);
 		return result;
 	}
+	
+	@Override
+	public int insertSubCategory(CategoryVO categoryVO) {
+		HashMap<String,String> map = new HashMap<String, String>();
+		
+				 
+				
+		String sql = "INSERT INTO tbl_category(cname,ccode,ccoderef) VALUES( ";
+			sql+="'"+categoryVO.getCname()+"',(SELECT MAX(ccode) +1 FROM tbl_category AS B ";
+			sql+= " WHERE (CASE WHEN ( SELECT COUNT(*) AS cnt FROM tbl_category AS C WHERE ccoderef ="+categoryVO.getCcoderef()+") = 0  ";
+			sql+= " THEN ccode ELSE ccoderef END ) =  "+categoryVO.getCcoderef()+")";
+			sql+= ", "+categoryVO.getCcoderef()+")";
+		map.put("sql", sql);
+		
+		int result = sqlSession.insert(Namespace+".insertSubCategory",map);
+		return result;
+	}
+	@Override 
+	public int insertParentCategory(CategoryVO categoryVO) {
+		HashMap<String,String> map = new HashMap<String, String>();
+		
+		String sql = "INSERT INTO tbl_category(cname,ccode) VALUES( ";
+				sql+="'"+categoryVO.getCname()+"',(SELECT MAX(ccode)+100 FROM tbl_category AS B WHERE ccoderef IS NULL))";
+		map.put("sql", sql);
+		
+		int result = sqlSession.insert(Namespace+".insertParentCategory",map);
+		return result;
+	}
+	
+	@Override 
+	public int deleteSubCategory(int ccode) {
+		HashMap<String, String> map = new HashMap();
+		String sql ="DELETE FROM tbl_category WHERE ccode = "+ccode;		
+		 
+		map.put("sql", sql);
+		
+		int result = sqlSession.delete(Namespace+".deleteSubCategory", map);
+		return result;
+	}
+	
+	@Override
+	public List<CategoryVO> getNewSaleCategoryList() {
+		HashMap<String, String> map = new HashMap();
+		
+		String sql = " SELECT tc_a.* ,tp_in_tc.productCnt  FROM tbl_category AS tc_a  ";
+		sql+=" 	INNER JOIN ( ";
+		sql+=" SELECT COUNT(*) AS productCnt, tc_b.* FROM tbl_category as tc_b ";
+		sql+=" INNER JOIN ( ";
+		sql+=" SELECT * FROM tbl_product AS  tp_a	WHERE tp_a.pregdate BETWEEN DATE_ADD(NOW(),INTERVAL - 1 WEEK) AND NOW() and tp_a.pstate = 'POSTING' AND tp_a.psale <> 0 ";
+		sql+=" ) AS tp_b ";
+		sql+=" ON tc_b.ccode = tp_b.pccode ";
+		sql+=" GROUP BY tc_b.ccoderef ";
+		sql+=" ) AS tp_in_tc ";
+		sql+="	ON tc_a.ccode = tp_in_tc.ccoderef ";
+		
+		map.put("sql", sql);
+		
+		List<CategoryVO> result = sqlSession.selectList(Namespace+".getNewSaleCategoryList", map);
+		return result;
+	}
 }

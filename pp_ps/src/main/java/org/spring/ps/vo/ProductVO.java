@@ -11,7 +11,7 @@ import lombok.ToString;
 @ToString(callSuper=true)
 public class ProductVO {
 
-	
+	private int RN;
 	private int pnum;
 	
 	private String pid;
@@ -35,5 +35,6 @@ public class ProductVO {
 	private String pexplicate;
 	
 	private int reviewCnt;
-	
+	private int orderCnt;
+	private int cnt;
 }

@@ -12,12 +12,13 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.spring.ps.service.BrandService;
 import org.spring.ps.service.CategoryService;
 import org.spring.ps.service.OrderService;
 import org.spring.ps.service.ProductService;
 import org.spring.ps.utils.routeUtils;
+import org.spring.ps.vo.BrandVO;
 import org.spring.ps.vo.CategoryVO;
-import org.spring.ps.vo.OrderListVO;
 import org.spring.ps.vo.OrderVO;
 import org.spring.ps.vo.PageInfoVO;
 import org.spring.ps.vo.PagingVO;
@@ -28,6 +29,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import lombok.RequiredArgsConstructor;
 
@@ -45,6 +49,8 @@ public class AdminViewController {
 	private ProductService productService;
 	@Inject
 	private OrderService orderService;
+	@Inject
+	private BrandService brandService;
 
 	@RequestMapping("/{view}")
 	public String adminView(
@@ -78,6 +84,7 @@ public class AdminViewController {
 
 		List<ProductVO> pList = null;
 		List<CategoryVO> cList = null;
+		List<BrandVO> bList = null;
 		ProductVO pvo = null;
 
 		if(userInfo == null || userInfo.getUlevel() != 2) {
@@ -222,6 +229,13 @@ public class AdminViewController {
 				routeMap.put(0,routeArray4[0]);
 				routeMap.put(1,routeArray4[1]);
 				cList =categoryService.getCategoryList();
+				List<ProductVO> cpList = productService.getCountCategoryInProduct();
+				bList = brandService.getBrandList();
+				Gson gson = new GsonBuilder().create();
+				String cpJSON = gson.toJson(cpList);
+				
+				model.addAttribute("cpJSON",cpJSON);
+				model.addAttribute("bList",bList);
 				model.addAttribute("cList",cList);
 				pageTitle = "카테고리/브랜드 관리";
 				view = "addition/Addition";

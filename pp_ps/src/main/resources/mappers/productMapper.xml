@@ -5,84 +5,129 @@
 
 <mapper namespace="org.spring.ps.mapper.productMapper">
 
-	
 
-	<select id="getProductList" parameterType="HashMap" resultType="productVO">
-		<![CDATA[ 
- 			
- 			
- 			${sql}
-		]]>
-		
-	</select>
-	
-	<select id ="countProduct" parameterType="HashMap" resultType="int">
-		<![CDATA[ 
+
+	<select id="getProductList" parameterType="HashMap"
+		resultType="productVO">
+		<![CDATA[ 	
  			${sql}
 		]]>
 	</select>
-	
 
-	
-	 <select id="getProductOne" parameterType="HashMap" resultType="productVO">
+	<select id="countProduct" parameterType="HashMap"
+		resultType="int">
 		<![CDATA[ 
  			${sql}
 		]]>
-		
 	</select>
-	
 
-	<update id="stateChange"  parameterType="HashMap">
+
+
+	<select id="getProductOne" parameterType="HashMap"
+		resultType="productVO">
+		<![CDATA[ 
+ 			${sql}
+		]]>
+
+	</select>
+
+
+	<update id="stateChange" parameterType="HashMap">
 	<![CDATA[ 
  			${sql}
 		]]>
 	</update>
-	
-	<update id="pcntDecrease"  parameterType="HashMap">
+
+	<update id="pcntDecrease" parameterType="HashMap">
 	<![CDATA[ 
  			${sql}
 		]]>
 	</update>
-	
-	<insert id="productInsert"  parameterType="HashMap">
+
+	<insert id="productInsert" parameterType="HashMap">
 	<![CDATA[ 
  			${sql}
 		]]>
 	</insert>
-	<update id="productUpdate"  parameterType="HashMap">
+	<update id="productUpdate" parameterType="HashMap">
 	<![CDATA[ 
  			${sql}
 		]]>
 	</update>
-	<delete id="productDelete"  parameterType="HashMap">
+	<delete id="productDelete" parameterType="HashMap">
 	<![CDATA[ 
  			${sql}
 		]]>
 	</delete>
+
+	<select id="getRankProductList" parameterType="HashMap"
+		resultType="productVO">
+		<![CDATA[ 
+ 			
+ 			
+ 			${sql}
+		]]>
+
+	</select>
+	<select id="getRecentProductList" parameterType="HashMap"
+		resultType="productVO">
+		<![CDATA[ 
+ 			
+ 			
+ 			${sql}
+		]]>
+
+	</select>
+	<select id="getSaleProductList" parameterType="HashMap"
+		resultType="productVO">
+		<![CDATA[ 
+ 			${sql}
+		]]>
+	</select>
+
+	<select id="findRemainProduct" parameterType="HashMap"
+		resultType="int">
+		<![CDATA[ 
+ 			${sql}
+		]]>
+	</select>
+	<select id="getCountCategoryInProduct" parameterType="HashMap"
+		resultType="productVO">
+		<![CDATA[
+ 			${sql}
+		]]>
+
+	</select>
 	
-	<select id="getRankProductList" parameterType="HashMap" resultType="productVO">
-		<![CDATA[ 
- 			
- 			
+	<delete id="deleteSubCategory" parameterType="HashMap">
+			<![CDATA[
  			${sql}
 		]]>
-		
-	</select>
-	<select id="getRecentProductList" parameterType="HashMap" resultType="productVO">
-		<![CDATA[ 
- 			
- 			
+	</delete>
+	<select id="countRankProduct" parameterType="HashMap"
+		resultType="int">
+		<![CDATA[
  			${sql}
 		]]>
-		
+
 	</select>
-	<select id="getSaleProductList" parameterType="HashMap" resultType="productVO">
-		<![CDATA[ 
- 			
- 			
+	
+	<select id="countRecentProduct" parameterType="HashMap"
+		resultType="int">
+		<![CDATA[
  			${sql}
 		]]>
-		
+
 	</select>
+	
+	<select id="countNewSaleProduct" parameterType="HashMap"
+		resultType="int">
+		<![CDATA[
+ 			${sql}
+		]]>
+
+	</select>
+	
+
 
 </mapper>

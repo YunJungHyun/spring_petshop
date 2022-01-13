@@ -17,6 +17,7 @@ import org.spring.ps.vo.PagingVO;
 import org.spring.ps.vo.ProductVO;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -40,6 +41,30 @@ public class CategoryController {
 
 	
 	
+	@RequestMapping(value ="/insert", method=RequestMethod.POST)
+	@ResponseBody
+	public  int insert(
+			CategoryVO categoryVO,
+			@RequestParam(value="sort" ) String sort
+			) { 
+		
+		log.debug("[insert] :" + categoryVO.toString());
+		log.debug("[insert] sort :" + sort);
+		
+		int result = 0;
+		if(sort.equals("sub")) {
+			
+			result =categoryService.insertSubCategory(categoryVO);
+		}
+		
+		if(sort.equals("parent")) {
+			
+			result =categoryService.insertParentCategory(categoryVO);
+			
+		}
+		
+		return result;
+	}
 	@RequestMapping(value ="/getCategoryList", method=RequestMethod.POST)
 	@ResponseBody
 	public List<CategoryVO> getCategoryList() { 
@@ -48,6 +73,34 @@ public class CategoryController {
 		log.debug("[getCategoryList] categoryList.size() :" +categoryList.size());
 		return categoryList;
 	}
+	
+	@RequestMapping(value="/findRemainProduct", method = RequestMethod.POST)
+	@ResponseBody
+	public int findRemainProduct(
+			@RequestParam(value="ccode", required = false) int ccode
+			){
+		
+		
+		log.debug("[findRemainProduct] ccode: "+ccode);
+		int result = productService.findRemainProduct(ccode);
+		
+		return result;
+		
+	}
+	@RequestMapping(value="/deleteSubCategory", method = RequestMethod.POST)
+	@ResponseBody
+	public int deleteSubCategory(
+			@RequestParam(value="ccode", required = false) int ccode
+			){
+		
+		
+		log.debug("[deleteSubCategory] ccode: "+ccode);
+		int result = categoryService.deleteSubCategory(ccode);
+		
+		return result;
+		
+	}
+	
 
 	@RequestMapping(value="/{openCcode}", method=RequestMethod.GET)
 	public String categoryProduct(
@@ -146,7 +199,7 @@ public class CategoryController {
 
 	}
 
-
+	
 
 
 }

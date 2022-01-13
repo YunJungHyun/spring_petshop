@@ -14,13 +14,13 @@
 		
 			<ul class="main-menu_group_ul">
 				<li class="main-menu_group_li">
-					<a href="#">랭킹</a>
+					<a href="/product/view/rank">랭킹</a>
 				</li>
 				<li class="main-menu_group_li">
-					<a  href="#">신상품</a>
+					<a  href="/product/view/recent">신상품</a>
 				</li>
 				<li class="main-menu_group_li">
-					<a href="#">브랜드</a>
+					<a href="/product/view/brand">브랜드</a>
 				</li>
 			</ul>
 		</div>
