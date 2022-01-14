@@ -130,10 +130,10 @@ public class UserDAOImpl implements UserDAO {
 		HashMap<String , String> map = new HashMap();
 		String sql =" SELECT * FROM ( ";
 		sql+=" SELECT @rownum:=@rownum+1 AS RN, A.* FROM (SELECT @rownum:=0) AS R,(  ";
-		sql+= " SELECT tu.*,tbl_o_b.orderCnt,tr_b.reivewCnt,tq_b.qnaCnt FROM tbl_user AS tu ";
+		sql+= " SELECT tu.*,tbl_o_b.orderCnt,tr_b.reviewCnt,tq_b.qnaCnt FROM tbl_user AS tu ";
 		sql+=" LEFT JOIN (SELECT COUNT(*) AS orderCnt ,tbl_o_a.userid FROM tbl_order AS tbl_o_a GROUP BY tbl_o_a.userid) AS tbl_o_b ";
 		sql+=" ON tu.userid = tbl_o_b.userid ";
-		sql+=" LEFT JOIN (SELECT COUNT(*) AS reivewCnt ,tr_a.userid FROM tbl_review AS tr_a GROUP BY tr_a.userid) AS tr_b ";
+		sql+=" LEFT JOIN (SELECT COUNT(*) AS reviewCnt ,tr_a.userid FROM tbl_review AS tr_a GROUP BY tr_a.userid) AS tr_b ";
 		sql+=" ON tu.userid = tr_b.userid ";
 		sql+=" LEFT JOIN (SELECT COUNT(*) AS qnaCnt ,tq_a.userid FROM tbl_qna AS tq_a GROUP BY tq_a.userid) AS tq_b ";
 		sql+=" ON tu.userid =tq_b.userid ";

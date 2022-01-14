@@ -119,7 +119,7 @@ span.list-td_span{
 				</thead>
 				<tbody>
 					<c:forEach items="${uList }" var ="list" varStatus="state">
-					<tr data-toggle="modal" data-target="#userInfoUpdate">
+					<tr class="user-detail" id="${list.unum }">
 						<td class="list-td">
 							${state.count }
 						</td>
@@ -156,19 +156,13 @@ span.list-td_span{
 							</span>
 						</td>
 						<td class="p-0">
-							<button type="button" class="btn userActivityInfo-btn">
-								<i class="fas  fa-shopping-cart"></i>
-							</button>
+							${ list.orderCnt }
 						</td>
 						<td class="p-0">
-							<button type="button" class="btn userActivityInfo-btn">
-								<i class="far  fa-smile"></i>
-							</button>
+							${ list.reviewCnt }
 						</td>
 						<td class="p-0">
-							<button type="button" class="btn userActivityInfo-btn">
-								<i class="far  fa-question-circle"></i>
-							</button>
+							${ list.qnaCnt }
 						</td>
 					</tr>
 					</c:forEach>
@@ -177,42 +171,14 @@ span.list-td_span{
 		</div>
 	</div>
 </div>
-<!-- Modal -->
-<div class="modal fade" id="userInfoUpdate" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        ...
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
-    </div>
-  </div>
-</div>
+
 
 <script>
-	$(".userActivityInfo-btn").on("click",function(e){
-		
-		
-		if(e.currentTarget.nodeName == "BUTTON"){
-			
-			e.stopPropagation()	
-		}
-		
-		
-	})
-	$(document).ready(function() {
-
-	})
 	
+	$(".user-detail").on("click",function(){
+		var unum = $(this).attr("id");
+		location.href="/user/"+unum;
+	})
 	
 	
 </script>

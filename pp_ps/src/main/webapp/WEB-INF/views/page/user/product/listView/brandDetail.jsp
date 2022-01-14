@@ -94,7 +94,10 @@
 	padding-left: 0.5rem;
     padding-right: 0.5rem;
 }
-
+.produc-cnt-info_span {
+    font-weight: bold;
+    font-size: .75rem;
+}
 .p-list-box {
 	display: flex;
 	flex-direction: column;
@@ -427,5 +430,9 @@ span.info-reviewCnt-span {
 		
 		$(this).next("ul").slideToggle();
 	})
+	$(".go-page").on("click",function(){
 	
+	location.href=$(this).children("a").attr("href");
+	
+})
 </script>

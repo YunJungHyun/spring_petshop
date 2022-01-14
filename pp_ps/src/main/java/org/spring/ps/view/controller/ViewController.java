@@ -57,17 +57,18 @@ public class ViewController {
 	@RequestMapping(value="/petshop")
 	public String home(
 			Model model,
-			PagingVO pagingVO
+			PagingVO pagingVO,
+			HttpSession session
 			
 			) {
 
 		//테스트전용 끝
-		
-		/*,
-			HttpSession session
-			UserVO userInfo = new UserVO(); userInfo.setUlevel(2);
+		UserVO userInfo = new UserVO(); userInfo.setUlevel(2);
 		userInfo.setUserid("admin"); userInfo.setUserpw("1");
 		session.setAttribute("userInfo", userInfo);
+		
+		/*
+		
 		 */
 		
 		log.debug("home");  
