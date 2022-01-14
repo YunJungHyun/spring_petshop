@@ -29,4 +29,10 @@ public class BrandServiceImpl implements BrandService{
 		// TODO Auto-generated method stub
 		return brandDAO.brandDelete(bnum);
 	}
+	
+	@Override
+	public BrandVO getOneBrand(int bnum) {
+		// TODO Auto-generated method stub
+		return brandDAO.getOneBrand(bnum);
+	}
 }

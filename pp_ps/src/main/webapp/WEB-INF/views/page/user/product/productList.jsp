@@ -206,14 +206,14 @@ span.info-reviewCnt-span {
 			</div>
 			<div class="page-content-right_title title-2"> 
 				<span class="title-2_span">
-					${pTotal}개의 상품
+					${pTotal}개의 제품
 				</span>  
 				<select class="custom-select title-2_select" id="productSortBy">
 					<option value="ORDER_BY_REGDATE_DESC" <c:if test="${openSortBy == 'ORDER_BY_REGDATE_DESC' ||  openSortBy == ''}">selected</c:if>>최신순</option>
-					<option value="ORDER_BY_PPRICE_DESC" <c:if test="${openSortBy == 'ORDER_BY_PPRICE_DESC' ||  openSortBy == ''}">selected</c:if>>가격높은순</option>
-					<option value="ORDER_BY_PPRICE_ASC" <c:if test="${openSortBy == 'ORDER_BY_PPRICE_ASC' ||  openSortBy == ''}">selected</c:if>>가격낮은순</option>
-					<option value="ORDER_BY_PRATING_DESC" <c:if test="${openSortBy == 'ORDER_BY_PRATING_DESC' ||  openSortBy == ''}">selected</c:if>>평점높은순</option>
-					<option value="ORDER_BY_REVIEW_CNT_DESC" <c:if test="${openSortBy == 'ORDER_BY_REVIEW_CNT_DESC' ||  openSortBy == ''}">selected</c:if>>후기많은순</option>
+					<option value="ORDER_BY_PPRICE_DESC" <c:if test="${openSortBy == 'ORDER_BY_PPRICE_DESC' }">selected</c:if>>가격높은순</option>
+					<option value="ORDER_BY_PPRICE_ASC" <c:if test="${openSortBy == 'ORDER_BY_PPRICE_ASC' }">selected</c:if>>가격낮은순</option>
+					<option value="ORDER_BY_PRATING_DESC" <c:if test="${openSortBy == 'ORDER_BY_PRATING_DESC' }">selected</c:if>>평점높은순</option>
+					<option value="ORDER_BY_REVIEW_CNT_DESC" <c:if test="${openSortBy == 'ORDER_BY_REVIEW_CNT_DESC' }">selected</c:if>>후기많은순</option>
 					
 				</select>
 			</div> 

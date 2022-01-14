@@ -59,6 +59,12 @@ public interface ProductService {
 	int countNewSaleProduct(String categoryCode);
 
 
+	List<ProductVO> getBrandProductList(HashMap<String, String> sortMap,PagingVO pagingVO);
+
+
+	int countBrandProduct(HashMap<String, String> sortMap);
+
+
 
 
 }

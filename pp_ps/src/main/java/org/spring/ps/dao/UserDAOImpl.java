@@ -8,13 +8,9 @@ import javax.inject.Inject;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.ibatis.session.SqlSession;
-import org.json.simple.JSONObject;
+import org.spring.ps.vo.PagingVO;
 import org.spring.ps.vo.UserVO;
 import org.springframework.stereotype.Service;
-
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 
 @Service
 public class UserDAOImpl implements UserDAO {
@@ -113,10 +109,43 @@ public class UserDAOImpl implements UserDAO {
 		return result;
 	}
 	
+	@Override
+	public int countUser() {
+		HashMap<String , String> map = new HashMap();
+		
+		String sql="SELECT COUNT(*) FROM tbl_user";
+		map.put("sql", sql);
+		int result =sqlSession.selectOne(Namespace+".countUser", map);
+	
+		
+		return result;
+	}
+	
 	
 	@Override
-	public List<UserVO> getUserList() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<UserVO> getUserList(String sortBy,PagingVO pagingVO) {
+		
+				
+		
+		HashMap<String , String> map = new HashMap();
+		String sql =" SELECT * FROM ( ";
+		sql+=" SELECT @rownum:=@rownum+1 AS RN, A.* FROM (SELECT @rownum:=0) AS R,(  ";
+		sql+= " SELECT tu.*,tbl_o_b.orderCnt,tr_b.reivewCnt,tq_b.qnaCnt FROM tbl_user AS tu ";
+		sql+=" LEFT JOIN (SELECT COUNT(*) AS orderCnt ,tbl_o_a.userid FROM tbl_order AS tbl_o_a GROUP BY tbl_o_a.userid) AS tbl_o_b ";
+		sql+=" ON tu.userid = tbl_o_b.userid ";
+		sql+=" LEFT JOIN (SELECT COUNT(*) AS reivewCnt ,tr_a.userid FROM tbl_review AS tr_a GROUP BY tr_a.userid) AS tr_b ";
+		sql+=" ON tu.userid = tr_b.userid ";
+		sql+=" LEFT JOIN (SELECT COUNT(*) AS qnaCnt ,tq_a.userid FROM tbl_qna AS tq_a GROUP BY tq_a.userid) AS tq_b ";
+		sql+=" ON tu.userid =tq_b.userid ";
+		sql+=" ORDER BY tu.user_regdate DESC ";
+		sql+="	) AS A ";
+		sql+=" 	) AS B WHERE RN BETWEEN "+pagingVO.getStart()+" AND "+pagingVO.getEnd();
+				
+		
+		map.put("sql", sql);
+		List<UserVO> result =sqlSession.selectList(Namespace+".getUserList", map);
+	
+		
+		return result;
 	}
 }

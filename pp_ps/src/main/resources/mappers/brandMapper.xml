@@ -10,24 +10,33 @@
 		<![CDATA[ 
  			${sql}
 		]]>
-	
+
 	</insert>
-	
-	
-	<select id="getBrandList" parameterType="HashMap" resultType="brandVO" >
+
+
+	<select id="getBrandList" parameterType="HashMap"
+		resultType="brandVO">
 		
 		<![CDATA[ 
  			${sql}
 		]]>
-	
+
 	</select>
-	
+
 	<delete id="brandDelete" parameterType="HashMap">
 	<![CDATA[ 
  			${sql}
 		]]>
-	
+
 	</delete>
-	
-	
+
+	<select id="getOneBrand" parameterType="HashMap"
+		resultType="brandVO">
+			<![CDATA[ 
+ 			${sql}
+		]]>
+
+
+	</select>
+
 </mapper>

@@ -6,6 +6,13 @@
  <mapper namespace="org.spring.ps.mapper.userMapper">
  	
  	
+ 	<select id="getUserList" parameterType="HashMap" resultType="userVO">
+	
+		<![CDATA[
+			${sql}
+		]]>
+		
+	</select>
  	<select id="getOneUserInfo" parameterType="HashMap" resultType="userVO">
 	
 		<![CDATA[
@@ -38,6 +45,13 @@
  	
  	</select>
  	<select id="petShopLogin" parameterType="HashMap" resultType="userVO">
+ 	
+ 	<![CDATA[
+			${sql}
+		]]>
+ 	
+ 	</select>
+ 	<select id="countUser" parameterType="HashMap" resultType="int">
  	
  	<![CDATA[
 			${sql}

@@ -1,8 +1,7 @@
 package org.spring.ps.vo;
 
 
-import java.util.List;
-import java.util.Map;
+import java.sql.Date;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -19,10 +18,15 @@ public class UserVO {
 	private String userpw;
 	private String username;
 	private String uemail;
-	private String uadress;
+	
+	private Date user_regdate;
 	
 	private int ulevel;
 	private String utype;
+	
+	private int orderCnt;
+	private int reviewCnt;
+	private int qnaCnt;
 
    
 }

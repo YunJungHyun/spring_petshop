@@ -110,6 +110,7 @@
 	border-bottom-right-radius: 10px;
     border-bottom-left-radius:10px;
 	padding: 0.5rem;
+	min-height: 10rem;
 }
 .info-box_p{
 

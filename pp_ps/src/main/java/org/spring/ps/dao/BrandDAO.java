@@ -13,4 +13,6 @@ public interface BrandDAO {
 
 	int brandDelete(String bnum);
 
+	BrandVO getOneBrand(int bnum);
+
 }

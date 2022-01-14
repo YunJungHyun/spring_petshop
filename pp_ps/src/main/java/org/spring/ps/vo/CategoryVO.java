@@ -15,4 +15,5 @@ public class CategoryVO {
 	private String ccoderef;
 	
 	private int productCnt;
+	
 }

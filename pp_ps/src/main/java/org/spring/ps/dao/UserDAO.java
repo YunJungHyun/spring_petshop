@@ -3,6 +3,7 @@ package org.spring.ps.dao;
 import java.util.HashMap;
 import java.util.List;
 
+import org.spring.ps.vo.PagingVO;
 import org.spring.ps.vo.UserVO;
 
 public interface UserDAO {
@@ -19,7 +20,9 @@ public interface UserDAO {
 
 	UserVO petShopLogin(String userid, String userpw);
 
-	List<UserVO> getUserList();
+	List<UserVO> getUserList(String sortBy, PagingVO pagingVO);
+
+	int countUser();
 
 }
  

@@ -7,6 +7,7 @@ import javax.inject.Inject;
 
 import org.spring.ps.dao.CategoryDAO;
 import org.spring.ps.vo.CategoryVO;
+import org.spring.ps.vo.ProductVO;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -63,5 +64,23 @@ public class CategoryServiceImpl implements CategoryService {
 	public List<CategoryVO> getNewSaleCategoryList() {
 		// TODO Auto-generated method stub
 		return categoryDAO.getNewSaleCategoryList();
+	}
+	
+	@Override
+	public List<CategoryVO> getBrandCategoryList(String bname) {
+		// TODO Auto-generated method stub
+		return categoryDAO.getBrandCategoryList(bname);
+	}
+	
+	@Override
+	public List<CategoryVO> getCountSubCategoryProduct(String bname) {
+		// TODO Auto-generated method stub
+		return categoryDAO.getCountSubCategoryProduct(bname);
+	}
+	
+	@Override
+	public List<CategoryVO> getCountParentCategoryProduct(String bname) {
+		// TODO Auto-generated method stub
+		return categoryDAO.getCountParentCategoryProduct(bname);
 	}
 }

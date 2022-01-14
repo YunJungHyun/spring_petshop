@@ -16,6 +16,7 @@ import org.spring.ps.service.BrandService;
 import org.spring.ps.service.CategoryService;
 import org.spring.ps.service.OrderService;
 import org.spring.ps.service.ProductService;
+import org.spring.ps.service.UserService;
 import org.spring.ps.utils.routeUtils;
 import org.spring.ps.vo.BrandVO;
 import org.spring.ps.vo.CategoryVO;
@@ -51,7 +52,9 @@ public class AdminViewController {
 	private OrderService orderService;
 	@Inject
 	private BrandService brandService;
-
+	@Inject
+	private UserService userService;
+	
 	@RequestMapping("/{view}")
 	public String adminView(
 			@PathVariable("view") String view,
@@ -211,7 +214,20 @@ public class AdminViewController {
 				}	
 				break;
 			case "Member":
-
+				
+				
+				int uTotal = userService.countUser();
+				
+				pagingVO = new PagingVO(uTotal, Integer.parseInt(page), 50);
+				
+				List<UserVO> uList = userService.getUserList(sortBy,pagingVO);
+				
+				String routeArray6[][] = {{"관리자 페이지","/adminView/Management"},{"회원 관리","/adminView/Member"}};
+				routeMap.put(0,routeArray6[0]);
+				routeMap.put(1,routeArray6[1]);
+				
+				model.addAttribute("uList",uList);
+				
 
 				pageTitle = "회원 관리";
 				view = "member/Member";

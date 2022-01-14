@@ -109,6 +109,7 @@
 	border-bottom-right-radius: 10px;
     border-bottom-left-radius:10px;
 	padding: 0.5rem;
+	min-height: 10rem;
 }
 .info-box_p{
 
@@ -183,6 +184,11 @@ span.rank-span {
     filter: drop-shadow(1px 1px 2px #7fe7d5);
 }
 
+.info-pprice{
+	
+	font-size: 1.25rem;
+	font-weight: bold;
+}
 </style>
 <div class="page">
 	<div class="page-container">
@@ -238,18 +244,25 @@ span.rank-span {
 						</div>
 						<div class="p-list-box_cotent info-box">
 							<p class="info-box_p info-pname">${list.pname}</p>	
-							<p class="info-box_p info-psale-before-pprice">
-								<fmt:formatNumber pattern="###,###,###" value="${list.pprice}"/>원
-							</p>	
-							<p class="info-box_p info-psale-after-pprice">
-								<span class="info-psale_span info-psale_span-psale">
-									<fmt:formatNumber type="percent" value="${list.psale}"/>
-								</span>
-								<span class="info-psale_span info-psale_span-pprice">
-								<c:set var="sale_price" value="${list.pprice - (list.pprice * list.psale)}"/>
-									<fmt:formatNumber type="number" pattern="###,###,###" value="${sale_price + (10-(sale_price%10))%10}"/>원 
-								</span>	
-							</p>	
+								<c:if test="${list.psale == 0 }">
+											<p class="info-box_p info-pprice">
+												<fmt:formatNumber pattern="###,###,###" value="${list.pprice}"/>원
+										</p>
+										</c:if>
+										<c:if test="${list.psale !=0 }">
+										<p class="info-box_p info-psale-before-pprice">
+												<fmt:formatNumber pattern="###,###,###" value="${list.pprice}"/>원
+										</p>	
+										<p class="info-box_p info-psale-after-pprice">
+											<span class="info-psale_span info-psale_span-psale">
+												<fmt:formatNumber type="percent" value="${list.psale}"/>
+											</span>
+											<span class="info-psale_span info-psale_span-pprice">
+												<c:set var="sale_price" value="${list.pprice - (list.pprice * list.psale)}"/>
+												<fmt:formatNumber type="number" pattern="###,###,###" value="${sale_price + (10-(sale_price%10))%10}"/>원 
+											</span>	
+										</p>	
+										</c:if>	
 							<p class="info-box_p info-rating">
 								<c:set value ="${list.prating * 20 }" var = "rating"/>
 								<span class="info-rating_span"> 

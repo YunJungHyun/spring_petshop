@@ -10,6 +10,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.ibatis.session.SqlSession;
 import org.spring.ps.vo.CategoryVO;
+import org.spring.ps.vo.ProductVO;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -147,6 +148,63 @@ public class CategoryDAOImpl implements CategoryDAO{
 		map.put("sql", sql);
 		
 		List<CategoryVO> result = sqlSession.selectList(Namespace+".getNewSaleCategoryList", map);
+		return result;
+	}
+	
+	@Override
+	public List<CategoryVO> getBrandCategoryList(String bname) {
+		HashMap<String, String> map = new HashMap();
+		String sql =" WITH recursive cte AS ( ";
+		sql+= " SELECT tc_a.cname, 1 as level, tc_a.ccode,tc_a.ccoderef FROM tbl_category as tc_a ";
+		sql+= " INNER JOIN 	( ";
+		sql+= " SELECT tc_b.ccoderef FROM tbl_category AS tc_b ";
+		sql+= " INNER JOIN (SELECT tp_a.pccode FROM tbl_product AS tp_a WHERE pbrand= '"+bname+"') AS tp_b ";
+		sql+= " ON tc_b.ccode = tp_b.pccode ";
+		sql+= " GROUP BY tc_b.ccoderef ";
+		sql+= " ) AS tc_d ";
+		sql+= " ON tc_a.ccode =tc_d.ccoderef ";
+		sql+= " WHERE tc_a.ccoderef IS null ";
+		sql+= " UNION ALL ";
+		sql+= " SELECT b.cname, level +1 ,b.ccode,b.ccoderef FROM tbl_category b ";
+		sql+= " INNER JOIN cte AS cte_a ";
+		sql+= " ON cte_a.ccode = b.ccoderef ";
+		sql+= " INNER JOIN 	( ";
+		sql+= " SELECT tc_b.ccode FROM tbl_category AS tc_b ";
+		sql+= " INNER JOIN (SELECT tp_a.pccode FROM tbl_product AS tp_a WHERE pbrand= '"+bname+"') AS tp_b ";
+		sql+= " ON tc_b.ccode = tp_b.pccode ";
+		sql+= " GROUP BY tc_b.ccode ";
+		sql+= " ) AS tc_d ";
+		sql+= " ON b.ccode =tc_d.ccode ) ";
+		sql+= " SELECT * FROM cte ";
+		sql+= " ORDER BY ccode ASC ";
+	
+		map.put("sql", sql);
+		
+		List<CategoryVO> result = sqlSession.selectList(Namespace+".getBrandCategoryList", map);
+		return result;
+	}
+	
+
+	@Override
+	public List<CategoryVO> getCountSubCategoryProduct(String bname) {
+		HashMap<String, String> map = new HashMap();
+		String sql = "SELECT COUNT(*) AS productCnt ,tp.pccode AS ccode FROM tbl_product AS tp WHERE tp.pbrand ='"+bname+"' AND pstate = 'POSTING' group BY tp.pccode";
+		map.put("sql", sql);
+		List<CategoryVO> result = sqlSession.selectList(Namespace+".getCountSubCategoryProduct",map);
+		return result;
+	}
+	
+	@Override
+	public List<CategoryVO> getCountParentCategoryProduct(String bname) {
+		HashMap<String, String> map = new HashMap();
+		String sql = " SELECT COUNT(*) AS productCnt ,tc.ccoderef FROM tbl_product AS tp  ";
+		sql+=" 	INNER JOIN tbl_category AS tc ";
+		sql+=" ON tp.pccode = tc.ccode";
+		sql+=" WHERE tp.pbrand ='"+bname+"' AND pstate = 'POSTING' group BY tc.ccoderef ";
+		
+		
+		map.put("sql", sql);
+		List<CategoryVO> result = sqlSession.selectList(Namespace+".getCountParentCategoryProduct",map);
 		return result;
 	}
 }

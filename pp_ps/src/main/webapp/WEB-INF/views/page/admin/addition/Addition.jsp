@@ -5,14 +5,13 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <style>
 .page-content_group_title{
-	padding-bottom: .5rem;
+	padding: 0rem 1rem;
+    margin: 0.5rem auto;
 	border-bottom : 1px solid #dee2e6;
 }
 .page-content_group_title-span {
-    font-size: 1.5rem;
+     font-size: 1.5rem;
     font-weight: bold;
-    display: inline;
-    vertical-align: middle;
 }
 .flex-group {
     display: flex;

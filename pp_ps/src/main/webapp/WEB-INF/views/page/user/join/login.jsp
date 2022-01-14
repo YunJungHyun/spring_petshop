@@ -6,7 +6,7 @@
 	display:flex;
 	justify-content: center;
 }
-/* ps-title  */
+
 .page-content_title {
 	text-align: center;
 }
@@ -74,7 +74,7 @@
 .division-2{
 	width: 1px;
 	height: 1rem;
-	background-color: #ccc;
+	background-color: #dee2e6;
 	align-self: center;
 	margin-left: 0.5rem;
 	margin-right: 0.5rem;
@@ -83,9 +83,10 @@
 .page-content_group_title-span {
 	text-align: center;
 	color: #ccc;
-	border-bottom: 1px solid #ccc;
+	border-bottom: 1px solid #dee2e6;
 	margin-bottom: .5rem;
 	display: block;
+	    padding-bottom: 0.5rem;
 }
 
 
@@ -126,7 +127,7 @@
 				</div>
 				<div class="page-content_group"> 
 					<div class="page-content_group_slide ps-slide">
-						<div id="ps-slide" class="carousel slide" data-ride="carousel">	
+						<div class="carousel slide" data-ride="carousel">	
 							<div class="carousel-inner  ps-slide_inner">
 								<div class="carousel-item ps-slide_inner_item">
 									<img src="/resources/slideimg/ps_slide_img_1.jpg" class="d-block w-100 ps-slide_inner_item_img" alt="...">
@@ -151,11 +152,11 @@
 					</form>
 					<div class="page-content_group_items group_items">
 						<span class="item_span-1">
-							<a href="#" class="item_span-1_a">아이디 찾기</a>
+							<a href="#" data-toggle="modal" data-sort="USERID" data-target="#findUserInfo" class="item_span-1_a">아이디 찾기</a>
 						</span>
 						<span class="division-2"></span> 
 						<span class="item_span-1">
-							<a href="#" class="item_span-1_a">비밀번호 찾기</a>
+							<a href="#" data-toggle="modal" data-sort="USERPW"  data-target="#findUserInfo" class="item_span-1_a">비밀번호 찾기</a>
 						</span>
 					</div>
 				
@@ -184,9 +185,80 @@
 		</div>
 	</div>
 </div>
-
+<!-- Modal -->
+<div class="modal fade" id="findUserInfo" tabindex="-1" role="dialog" aria-labelledby="findUserInfo" aria-hidden="true">
+  <div class="modal-dialog " role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="findUserInfoLabel"></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body find-modal-body">
+      	<form id="infoFindForm" name="infoFindForm">
+      	
+      	</form>
+       
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <script>
+
+$("#findUserInfo").on('show.bs.modal', function (e) {
+	var findSort= $(e.relatedTarget).data('sort');
+	var html ="<div class='modal-inner-content'>";
+	if(findSort =="USERID"){
+		
+		$("#findUserInfoLabel").text("아이디 찾기");
+		
+	}
+	
+	if(findSort == "USERPW"){
+		
+		$("#findUserInfoLabel").text("비밀번호 찾기");
+		
+		html+="<div class='modal-inner-group'>";
+			html+="<div class='modal-inner-title'>";
+				html+="<span class='modal-inner-title_span '>아이디</span>";
+			html+="</div>";
+			html+="<div class='modal-inner-body'>";
+				html+= "<input type='text'  placeholder='아이디를 입력해주세요.'>";
+			html+="</div>";
+		html+="</div>";
+	}
+	
+	html+="<div class='modal-inner-group'>";
+		html+="<div class='modal-inner-title'>";
+			html+="<span class='modal-inner-title_span '>이메일 주소</span>";
+		html+="</div>";
+		html+="<div class='modal-inner-body'>";
+			html+= "<input type='text'  placeholder='이메일을 입력해주세요.'>";
+		html+="</div>";
+	html+="</div>";
+	html+="<div class='modal-inner-group'>";
+		html+="<div class='modal-inner-title'>";
+			html+="<span class='modal-inner-title_span '>이름</span>";
+		html+="</div>";
+		html+="<div class='modal-inner-body'>";
+			html+= "<input type='text'  placeholder='이름을 입력해주세요.'>";
+		html+="</div>";
+	html+="</div>";
+	html+="</div>";
+	
+	$("#infoFindForm").append(html);
+	
+})
+$("#findUserInfo").on('hidden.bs.modal', function (e) {
+	
+	$("#infoFindForm").empty();
+})
 $(document).ready(function(){
 	//슬라이드 순서 랜덤
 	var ranNum = Math.random();

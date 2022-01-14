@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.spring.ps.vo.CategoryVO;
+import org.spring.ps.vo.ProductVO;
 
 public interface CategoryDAO {
 
@@ -25,6 +26,12 @@ public interface CategoryDAO {
 
 	List<CategoryVO> getNewSaleCategoryList();
 
+	List<CategoryVO> getBrandCategoryList(String bname);
+
 	
+	List<CategoryVO> getCountSubCategoryProduct(String bname);
+
+	List<CategoryVO> getCountParentCategoryProduct(String bname);
+
 	
 }

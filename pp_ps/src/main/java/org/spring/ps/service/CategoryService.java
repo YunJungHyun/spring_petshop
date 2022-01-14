@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.spring.ps.vo.CategoryVO;
+import org.spring.ps.vo.ProductVO;
 
 public interface CategoryService {
 
@@ -23,6 +24,14 @@ public interface CategoryService {
 
 	List<CategoryVO> getNewSaleCategoryList();
 
-	
+	List<CategoryVO> getBrandCategoryList(String bname);
 
-}
+
+	List<CategoryVO> getCountSubCategoryProduct(String bname);
+
+
+	List<CategoryVO> getCountParentCategoryProduct(String bname);
+
+
+
+} 

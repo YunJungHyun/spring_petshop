@@ -13,4 +13,6 @@ public interface BrandService {
 
 	int brandDelete(String bnum);
 
+	BrandVO getOneBrand(int bnum);
+
 }

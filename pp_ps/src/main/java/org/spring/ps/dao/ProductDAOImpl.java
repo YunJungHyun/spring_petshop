@@ -442,11 +442,102 @@ public class ProductDAOImpl implements ProductDAO{
 			addSQL = " AND tp.pccode LIKE '"+categoryCode+"__'";
 		}
 		String sql = "SELECT COUNT(*) FROM tbl_product AS tp ";
-		sql+= " WHERE pregdate BETWEEN DATE_ADD(NOW(),INTERVAL - 1 WEEK) AND NOW() and pstate = 'POSTING' AND psale <> 0 ";
+		sql+= " WHERE pregdate BETWEEN DATE_ADD(NOW(),INTERVAL - 1 WEEK) AND NOW() AND pstate = 'POSTING' AND psale <> 0 ";
 		sql+= addSQL;
 		
 		map.put("sql", sql);
 		int result = sqlSession.selectOne(Namespace+".countNewSaleProduct",map);
 		return result;
 	}
+	
+	@Override
+	public List<ProductVO> getBrandProductList(HashMap<String, String> sortMap,PagingVO pagingVO) {
+		HashMap<String, String> map = new HashMap();
+		
+		String sort = sortMap.get("sort");
+		String categoryCode = sortMap.get("categoryCode");
+		String bname = sortMap.get("bname");
+		String orderBy = sortMap.get("orderBy");
+		String addSQL1 = "";
+		String addSQL2 = "";
+		if(sort.equals("all")) {
+			
+			addSQL1 = "AND tp.pccode LIKE '"+categoryCode+"__'";
+			
+		}
+		
+		if(sort.equals("sub")) {
+			
+			addSQL1 = "AND tp.pccode = " + categoryCode;
+		}
+		
+		switch(orderBy) {
+		//최신순
+		case "ORDER_BY_REGDATE_DESC" :
+			addSQL2	= " ORDER BY tp.pregdate DESC ";
+			break;
+			//비싼 순
+		case "ORDER_BY_PPRICE_DESC" :
+			addSQL2	= " ORDER BY tp.pprice*1 DESC ";
+			break;
+			//싼 순
+		case "ORDER_BY_PPRICE_ASC" :
+			addSQL2	= " ORDER BY tp.pprice*1 ASC ";
+			break;
+			//평점 좋은 순
+		case "ORDER_BY_PRATING_DESC" :
+			addSQL2	= " ORDER BY tp.prating DESC ";
+			break;
+			//리뷰 많은 순
+		case "ORDER_BY_REVIEW_CNT_DESC" :
+			addSQL2	= " ORDER BY tr_b.reviewCnt DESC ";
+			break;
+		default : 
+			addSQL2	= " ORDER BY tp.pregdate DESC " ;
+		}
+		
+		String sql= " SELECT * FROM (  ";
+			sql+="	SELECT @rownum:=@rownum+1 AS RN, A.* FROM (SELECT @rownum:=0) AS R,(  ";
+			sql+=" SELECT tp.pid ,tr_b.reviewCnt ,tp.pname , tp.pcnt , tp.pprice , tp.pccode, tp.pimg, tp.pbrand, tp.prating, tp.psale FROM tbl_product AS tp ";
+			sql+=" left JOIN (SELECT COUNT(*) AS reviewCnt,tr_a.pid FROM tbl_review AS tr_a GROUP BY tr_a.pid ) AS tr_b ";
+			sql+=" ON tr_b.pid = tp.pid ";
+			sql+=" WHERE tp.pbrand ='"+bname+"'  ";
+			sql+=" AND tp.pstate ='POSTING' ";
+			sql+= addSQL1;
+			sql+= addSQL2;
+			sql+="	) AS A ";
+			sql+=" 	) AS B WHERE RN BETWEEN "+pagingVO.getStart()+" AND "+pagingVO.getEnd();
+		
+		map.put("sql", sql);
+		List<ProductVO> result = sqlSession.selectList(Namespace+".getBrandProductList",map);
+		return result;
+	}
+	
+	@Override
+	public int countBrandProduct(HashMap<String, String> sortMap) {
+		HashMap<String, String> map = new HashMap();
+		String sort = sortMap.get("sort");
+		String categoryCode = sortMap.get("categoryCode");
+		String bname = sortMap.get("bname");
+		String addSQL = "";
+		if(sort.equals("all")) {
+			
+			addSQL = "AND tp.pccode LIKE '"+categoryCode+"__'";
+			
+		}
+		
+		if(sort.equals("sub")) {
+			
+			addSQL = "AND tp.pccode = " + categoryCode;
+		}
+		
+		String sql= "SELECT COUNT(*) FROM tbl_product AS tp WHERE tp.pbrand ='"+bname+"' AND pstate = 'POSTING'  ";
+		sql+= addSQL;
+		
+		map.put("sql", sql);
+		int result = sqlSession.selectOne(Namespace+".countBrandProduct",map);
+		return result;
+	}
+	
+	
 }

@@ -61,4 +61,31 @@
 		
 		
  	</select>
+ 	<select id="getBrandCategoryList" parameterType="HashMap" resultType="categoryVO">
+ 	
+ 		
+ 		<![CDATA[ 
+ 			${sql}
+		]]>
+		
+		
+ 	</select>
+ 	
+ 	
+	<select id="getCountSubCategoryProduct" parameterType="HashMap"
+		resultType="categoryVO">
+		<![CDATA[
+ 			${sql}
+		]]>
+
+	</select>
+	
+	<select id="getCountParentCategoryProduct" parameterType="HashMap"
+		resultType="categoryVO">
+		<![CDATA[
+ 			${sql}
+		]]>
+
+	</select>
+	
  </mapper>

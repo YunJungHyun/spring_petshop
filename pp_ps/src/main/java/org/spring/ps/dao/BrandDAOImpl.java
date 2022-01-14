@@ -54,4 +54,13 @@ public class BrandDAOImpl implements BrandDAO{
 		int result =sqlSession.delete(Namespace+".brandDelete", map);
 		return result;
 	}
+	
+	@Override
+	public BrandVO getOneBrand(int bnum) {
+		HashMap<String,String> map = new HashMap<String, String>();
+		String sql = "SELECT * FROM tbl_brand WHERE bnum = "+bnum;
+		map.put("sql",sql);
+		BrandVO result =sqlSession.selectOne(Namespace+".getOneBrand", map);
+		return result;
+	}
 }

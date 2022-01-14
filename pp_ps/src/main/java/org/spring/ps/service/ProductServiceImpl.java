@@ -114,4 +114,18 @@ public class ProductServiceImpl implements ProductService{
 		// TODO Auto-generated method stub
 		return productDAO.countNewSaleProduct(categoryCode);
 	}
+	
+	@Override
+	public List<ProductVO> getBrandProductList(HashMap<String, String> sortMap,PagingVO pagingVO) {
+		// TODO Auto-generated method stub
+		return productDAO.getBrandProductList(sortMap, pagingVO);
+	}
+	
+	@Override
+	public int countBrandProduct(HashMap<String, String> sortMap) {
+		// TODO Auto-generated method stub
+		return productDAO.countBrandProduct(sortMap);
+	}
+	
+	
 }
