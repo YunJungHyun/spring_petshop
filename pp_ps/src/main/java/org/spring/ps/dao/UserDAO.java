@@ -24,5 +24,9 @@ public interface UserDAO {
 
 	int countUser();
 
+	UserVO getOneUser(String unum);
+
+	int userInfoUpdate(UserVO userVO, String auth);
+
 }
  

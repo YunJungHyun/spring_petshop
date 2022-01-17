@@ -89,7 +89,7 @@ public class ProductDAOImpl implements ProductDAO{
 		String ccoderef = pagingMap.get("ccoderef");// 
 		String openState = pagingMap.get("openState");
 		String openSortBy = pagingMap.get("openSortBy");
-
+		
 		HashMap<String, String> map = new HashMap();
 		String addSql1="";
 		String addSql2 = "";
@@ -97,7 +97,7 @@ public class ProductDAOImpl implements ProductDAO{
 		//카테고리선택 X
 		if( ccoderef.equals("") && ccode.equals("") ) {
 
-			addSql1 =" ";
+			addSql1 ="";
 		}
 		//상위 카테고리 선택
 		if ( !ccoderef.equals("") && ccode.equals("") ) {

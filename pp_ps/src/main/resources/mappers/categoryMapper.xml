@@ -87,5 +87,9 @@
 		]]>
 
 	</select>
-	
+	<delete id="deleteSubCategory" parameterType="HashMap">
+			<![CDATA[
+ 			${sql}
+		]]>
+	</delete>
  </mapper>

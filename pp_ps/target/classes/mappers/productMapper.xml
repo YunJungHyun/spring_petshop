@@ -99,11 +99,7 @@
 
 	</select>
 	
-	<delete id="deleteSubCategory" parameterType="HashMap">
-			<![CDATA[
- 			${sql}
-		]]>
-	</delete>
+	
 	<select id="countRankProduct" parameterType="HashMap"
 		resultType="int">
 		<![CDATA[

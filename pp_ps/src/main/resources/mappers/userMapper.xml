@@ -58,4 +58,21 @@
 		]]>
  	
  	</select>
+ 	
+ 	<select id="getOneUser" parameterType="HashMap" resultType="userVO">
+ 	
+ 	<![CDATA[
+			${sql}
+		]]>
+ 	
+ 	</select>
+ 	
+ 	<update id="userInfoUpdate" parameterType="HashMap">
+ 	
+ 	<![CDATA[
+			${sql}
+		]]>
+ 	</update>
+ 	
+ 	
  </mapper>

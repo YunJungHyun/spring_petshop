@@ -119,7 +119,7 @@ span.list-td_span{
 				</thead>
 				<tbody>
 					<c:forEach items="${uList }" var ="list" varStatus="state">
-					<tr class="user-detail" id="${list.unum }">
+					<tr class="userDetail" id="${list.unum }">
 						<td class="list-td">
 							${state.count }
 						</td>
@@ -175,7 +175,7 @@ span.list-td_span{
 
 <script>
 	
-	$(".user-detail").on("click",function(){
+	$(".userDetail").on("click",function(){
 		var unum = $(this).attr("id");
 		location.href="/user/"+unum;
 	})

@@ -25,10 +25,16 @@
 
 .myPageLeftMenu-li-title:hover{
 	
-	color:#000000;
+	
 	font-weight: bold;
 	background-color: #cccccc4a;
 	
+}
+.myPageLeftMenu-li-title.mark >a{
+
+	color:red;
+	font-weight: bold;
+	background-color: #cccccc4a;
 }
 
 .myPageLeftMenu-li-title:hover .myPageLeftMenu-li-icon{
@@ -55,9 +61,20 @@
 <div class="myPageLeftMenu col-2 px-0 py-3 mr-3">
  
 	<ul class="myPageLeftMenu-ul">
+		<li class="myPageLeftMenu-li-parent-title mb-2 py-2 px-3">내 정보</li>
+		<li class="myPageLeftMenu-li-title mb-2 py-2 px-3" id="myInfo">
+			<a href="/view/mypage/myInfo">
+				<span class="d-flex justify-content-between">
+					<span>나의 기본 정보</span>
+					<span class="myPageLeftMenu-li-icon">
+						<i class="fas fa-chevron-right"></i>
+					</span>
+				</span>
+			</a>
+		</li>
 		<li class="myPageLeftMenu-li-parent-title mb-2 py-2 px-3">나의 쇼핑</li>
-		<li class="myPageLeftMenu-li-title mb-2 py-2 px-3">
-			<a href="#">
+		<li class="myPageLeftMenu-li-title mb-2 py-2 px-3" id="myOrder">
+			<a href="/view/mypage/myOrder">
 				<span class="d-flex justify-content-between">
 					<span>주문 내역</span>
 					<span class="myPageLeftMenu-li-icon">
@@ -66,7 +83,7 @@
 				</span>
 			</a>
 		</li>
-		<li class="myPageLeftMenu-li-title mb-2 py-2 px-3">
+		<li class="myPageLeftMenu-li-title mb-2 py-2 px-3" >
 			<a href="#">
 				
 				<span class="d-flex justify-content-between">
@@ -79,7 +96,7 @@
 		</li>
  
 		<li class="myPageLeftMenu-li-parent-title mb-2 py-2 px-3">나의 구매 후기</li>
-		<li class="myPageLeftMenu-li-title mb-2 py-2 px-3">
+		<li class="myPageLeftMenu-li-title mb-2 py-2 px-3" id="myReviewWriter" >
 			<a href="/view/mypage/myReviewWriter">
 				<span class="d-flex justify-content-between">
 					<span>리뷰 작성하기</span>
@@ -90,7 +107,7 @@
 				</span>
 			</a>		
 		</li>
-		<li class="myPageLeftMenu-li-title mb-2 py-2 px-3">
+		<li class="myPageLeftMenu-li-title mb-2 py-2 px-3" id="myReviewList">
 			<a href="/view/mypage/myReviewList">
 				<span class="d-flex justify-content-between">
 					<span>작성한 리뷰</span>
@@ -103,7 +120,7 @@
 		</li>
 		
 		<li class="myPageLeftMenu-li-parent-title mb-2 py-2 px-3">나의 Q&A</li>
-		<li class="myPageLeftMenu-li-title mb-2 py-2 px-3">
+		<li class="myPageLeftMenu-li-title mb-2 py-2 px-3" id="myQna">
 			<a href="/view/mypage/myReviewWriter">
 				<span class="d-flex justify-content-between">
 					<span>Q&A </span>
@@ -120,6 +137,14 @@
 
 <script>
 $(document).ready(function(){
+	$(".myPageLeftMenu-li-title").each(function(){
+		
+		
+		if($(this).attr("id") == "${mark}"){
+			
+			$(this).addClass("mark");
+		}
+	})
 	
 	$.ajax({
 		

@@ -47,4 +47,15 @@ public class UserServiceImpl implements UserService{
 		// TODO Auto-generated method stub
 		return userDAO.countUser();
 	}
+	
+	@Override
+	public UserVO getOneUser(String unum) {
+		// TODO Auto-generated method stub
+		return userDAO.getOneUser(unum);
+	}
+	@Override
+	public int userInfoUpdate(UserVO userVO ,String auth) {
+		// TODO Auto-generated method stub
+		return userDAO.userInfoUpdate(userVO,auth);
+	}
 }

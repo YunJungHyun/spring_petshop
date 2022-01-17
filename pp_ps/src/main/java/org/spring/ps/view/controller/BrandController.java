@@ -168,22 +168,20 @@ public class BrandController {
 	@ResponseBody
 	public int brandInsert(
 			BrandVO brandVO,
-			@RequestParam("bimgFile") MultipartFile file
+			@RequestParam(value = "bimgFile" ,required =false) MultipartFile file
 			
 			) throws IOException, Exception {
 		
-		log.debug("[brandInsert] :" +brandVO.toString());
-		log.debug("[brandInsert]file :" +file.getOriginalFilename());
 		
 		String  bname = new String(brandVO.getBname().getBytes("8859_1"),"utf-8");
-		String 	originalFilename = new String(file.getOriginalFilename().getBytes("8859_1"),"utf-8");
-		
 		String imgUploadPath = uploadPath +File.separator+"brandImgUpload";
 		String fileName = null;
 		HashMap<String, String> sql_dirMap = new HashMap();
 		String path  = null;
 		if(file != null) {
-			fileName =  UploadFileUtils.brand_fileUpload(imgUploadPath, file.getOriginalFilename(), file.getBytes()); 
+			String 	originalFilename = new String(file.getOriginalFilename().getBytes("8859_1"),"utf-8");
+			
+			fileName =  UploadFileUtils.brand_fileUpload(imgUploadPath, originalFilename, file.getBytes()); 
 			path = "/brandImgUpload";
 			
 		}else {

@@ -148,4 +148,38 @@ public class UserDAOImpl implements UserDAO {
 		
 		return result;
 	}
+	
+	@Override
+	public UserVO getOneUser(String unum) {
+		HashMap<String , String> map = new HashMap();
+		
+		String sql = "SELECT * FROM tbl_user WHERE unum = "+unum;
+		
+		map.put("sql", sql);
+		UserVO result =sqlSession.selectOne(Namespace+".getOneUser", map);
+	
+		
+		return result;
+	}
+	
+	@Override
+	public int userInfoUpdate(UserVO userVO ,String auth) {
+		HashMap<String , String> map = new HashMap();
+		String addSQL = "";
+		
+		if(auth.equals("admin")) {
+			addSQL =", ulevel = '"+userVO.getUlevel()+"'";
+			
+		}
+		
+		String sql = "UPDATE tbl_user SET username='"+userVO.getUsername()+"',";
+				sql+= " uemail = '"+userVO.getUemail()+"' ";
+				sql+= addSQL;
+				sql+= " WHERE unum = "+userVO.getUnum();
+		map.put("sql", sql);
+		int result =sqlSession.update(Namespace+".userInfoUpdate", map);
+	
+		
+		return result;
+	}
 }

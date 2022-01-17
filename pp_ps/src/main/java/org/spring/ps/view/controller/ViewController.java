@@ -57,17 +57,18 @@ public class ViewController {
 	@RequestMapping(value="/petshop")
 	public String home(
 			Model model,
-			PagingVO pagingVO,
-			HttpSession session
+			PagingVO pagingVO
 			
 			) {
-
-		//테스트전용 끝
+		
+		
+		/*		
+		,
+		HttpSession session
 		UserVO userInfo = new UserVO(); userInfo.setUlevel(2);
 		userInfo.setUserid("admin"); userInfo.setUserpw("1");
 		session.setAttribute("userInfo", userInfo);
-		
-		/*
+
 		
 		 */
 		
@@ -202,7 +203,7 @@ public class ViewController {
 		UserVO userVO = (UserVO)session.getAttribute("userInfo");
 		Map<Integer,String[]> routeMap = new HashMap<>();
 		String page="";
-		
+		String mark= "";
 		if(userVO == null ) {
 			
 			response.setContentType("text/html; charset=UTF-8");
@@ -215,7 +216,18 @@ public class ViewController {
 
 			return "home.page";
 		}else {
+			
+			
 			switch(my) {
+				case "myInfo":
+					
+					
+					String routeArray5[][] = {{"마이페이지","/view/mypage/myOrder"},{"내 정보","/view/mypage/myInfo"}};
+					routeMap.put(0,routeArray5[0]);
+					routeMap.put(1,routeArray5[1]);
+					page = "my/myInfo";
+					mark ="myInfo";
+					break;
 			
 				case "myOrder":
 					List<OrderVO> orderList = orderService.getOrderList(userVO.getUserid());
@@ -226,6 +238,7 @@ public class ViewController {
 					String routeArray1[][] = {{"마이페이지","/view/mypage/myOrder"},{"주문 내역","/view/mypage/myOrder"}};
 					routeMap.put(0,routeArray1[0]);
 					routeMap.put(1,routeArray1[1]);
+					mark ="myOrder";
 					break;
 				case "myCart":
 					List<CartListVO> cartList = cartService.getCartList(userVO.getUserid());
@@ -248,6 +261,7 @@ public class ViewController {
 					String routeArray3[][] = {{"마이페이지","/view/mypage/myOrder"},{"리뷰 작성","/view/mypage/myReviewWriter"}};
 					routeMap.put(0,routeArray3[0]);
 					routeMap.put(1,routeArray3[1]);
+					mark ="myReviewWriter";
 					break;
 				case "myReviewList":
 					
@@ -261,6 +275,7 @@ public class ViewController {
 					String routeArray4[][] = {{"마이페이지","/view/mypage/myOrder"},{"내가 작성한 리뷰","/view/mypage/myReviewList"}};
 					routeMap.put(0,routeArray4[0]);
 					routeMap.put(1,routeArray4[1]);
+					mark ="myReviewList";
 					break;
 					
 			}
@@ -270,6 +285,7 @@ public class ViewController {
 		List<PageInfoVO> breadcrumbList =routeUtils.pageInfo(routeMap);
 		model.addAttribute("breadcrumb",breadcrumbList);
 		String pageTitle ="마이페이지";
+		model.addAttribute("mark",mark);
 		model.addAttribute("pageTitle",pageTitle);
 		
 		return "user/my/"+page+".page";

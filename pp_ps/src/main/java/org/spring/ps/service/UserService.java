@@ -17,5 +17,9 @@ public interface UserService {
 	List<UserVO> getUserList(String sortBy, PagingVO pagingVO);
 
 	int countUser();
+
+	UserVO getOneUser(String unum);
+
+	int userInfoUpdate(UserVO userVO,String auth);
 }
  
