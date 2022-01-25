@@ -26,7 +26,13 @@ public interface UserDAO {
 
 	UserVO getOneUser(String unum);
 
-	int userInfoUpdate(UserVO userVO, String auth);
+	int userInfoUpdate(UserVO userVO);
+
+	String findUserid(UserVO userVO);
+
+	String findUserpw(UserVO userVO);
+
+	int memberInfoUpdate(UserVO userVO);
 
 }
  

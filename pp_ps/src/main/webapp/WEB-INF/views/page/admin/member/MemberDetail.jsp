@@ -3,166 +3,128 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <style>
-.user-content {
-	display: flex;
-	min-height: 40rem;
-}
-.page-content_group{
-	
-}
-.sub-title-span{
-	font-size: 1.5rem;
-	font-weight: bold;
-	
-	display: block
-	
-}
-
 .user-content_group-sub-title{
 
 	border-bottom : 1px solid #dee2e6;
 }
-.user-content_group{
-	padding : 1rem;
-}
+
 .memberInfoForm_label{
 	padding : .25rem;
 	font-weight: bold;
 }
-.memeberInfoForm_span{
+.memberInfoForm_span{
 	display: block;
 	background-color: #e9ecef;
 	border-radius: 5px;
 	padding:.5rem 1rem;
+	min-height: 2.5rem;
 }
-.infoUpdate{
+.memberInfoForm_input{
 
-	 background-color: #7fe7d552;
-	 font-weight: bold;
-}
-.btn-box {
-    text-align: right;
-}
-</style>
-<div class="page">
-	<div class="page-container">
-		<%@ include
-			file="/WEB-INF/views/page/admin/member/MemberDetailHeader.jsp"%>
-		<div class="page-content user-content">
-			<%@ include
-				file="/WEB-INF/views/page/admin/member/MemberDetailLeft.jsp"%>
+	background-color: #e9ecef;
+	border : unset;
+} 
 
-			<div class="col-10 page-content_group">
-				<div class="user-content_group user-content_group-sub-title">
-					<span class="sub-title-span">
-						회원 기본 정보 
-					</span>
-				</div>
+
+</style> 
+
+<%@ include file="/WEB-INF/views/page/admin/member/MemberDetailHeader.jsp"%>
+<div class="d-flex">
+	<%@ include file="/WEB-INF/views/page/admin/member/MemberDetailLeft.jsp"%>
+		<div class="memberPageBody col-10 ">
+			<div class="memberPageBody_title-group">
+				<span class="memberPageBody_title-group_span">회원 기본 정보</span>
+			</div>
 				
 				<div class="user-content_group col-6">
 					<form id="memberInfoForm" name="memberInfoForm">
-						<input type="hidden" id="unum" name="unum" value="${uvo.unum }">
-						
-						
+						<div class="form-group"> 
+							<label class="memberInfoForm_label" for="unum">회원 번호</label>
+							<input type="text" class="memberInfoForm_input" name="unum" id="unum" readonly="readonly" value="${uvo.unum }">
+						</div> 
 						<div class="form-group">
-							<label class="memberInfoForm_label" for="utype">가입유형</label> 
-							<span class="memeberInfoForm_span">${uvo.utype }</span>
+							<label class="memberInfoForm_label" for="utype">회원 유형</label>
+							<span class="memberInfoForm_span" id="utype">
+								<c:if test="${uvo.utype eq 'ps' }">펫샵</c:if>
+								<c:if test="${uvo.utype eq 'kakao' }">카카오</c:if>
+								<c:if test="${uvo.utype eq 'naver' }">네이버</c:if>
+							</span>
 						</div>
 						<div class="form-group">
-							<label class="memberInfoForm_label" for="userid">회원 아이디</label> 
-							<span class="memeberInfoForm_span">${uvo.userid }</span>
+							<label class="memberInfoForm_label" for=userid>회원아이디</label>
+							<span class="memberInfoForm_span" id="userid">
+								${uvo.userid }
+							</span>
 						</div>
 						<div class="form-group">
-							<label class="memberInfoForm_label" for="username">이름</label> 
-							<input type="text" class="form-control" readonly="readonly"  id="username" name="username" value="${uvo.username }">
+							<label class="memberInfoForm_label" for="username">이름</label>
+							<input type="text" class="memberInfoForm_input" name="username" id="username" value="${uvo.username }">
 						</div>
 						<div class="form-group">
-							<label class="memberInfoForm_label" for="uemail">이메일</label> 
-							<input type="text" class="form-control" readonly="readonly"  id="uemail" name="uemail" value="${uvo.uemail }">
+							<label class="memberInfoForm_label" for="uemail">이메일</label>
+							<input type="text" class="memberInfoForm_input" name="uemail" id="uemail" value="${uvo.uemail }">
 						</div>
 						<div class="form-group">
-							<label class="memberInfoForm_label" for="ulevel">권한</label> 
-							<select class="custom-select" name="ulevel" id="ulevel" onFocus="this.initialSelect = this.selectedIndex;" onChange="this.selectedIndex = this.initialSelect;">
-								<option value="1" <c:if test="${uvo.ulevel ==1 }"> selected </c:if> >일반 회원</option>
-								<option value="2" <c:if test="${uvo.ulevel ==2}"> selected </c:if> >관리자</option>
+							<label class="memberInfoForm_label" for="userAddr1">우편번호</label>
+							<input type="text" class="memberInfoForm_input" name="userAddr1" id="userAddr1" value="${uvo.userAddr1 }">
+							<label class="memberInfoForm_label" for="userAddr2">주소</label>
+							<input type="text" class="memberInfoForm_input" name="userAddr2" id="userAddr2" value="${uvo.userAddr2 }">
+							<label class="memberInfoForm_label" for="userAddr3">상세주소</label>
+							<input type="text" class="memberInfoForm_input" name="userAddr3" id="userAddr3" value="${uvo.userAddr3 }">
+						</div>
+						<div class="form-group">
+							<label class="memberInfoForm_label" for="user_regdate">가입날짜</label>
+							<span class="memberInfoForm_span "  id="user_regdate">${uvo.user_regdate }</span>
+						</div>
+						<div class="form-group">
+							<label class="memberInfoForm_label" for="username">회원 권한</label>
+							
+							<select class="custom-select" id="ulevel" name="ulevel">
+								<option value="1" <c:if test="${uvo.ulevel == 1 }">selected</c:if>>일반 회원</option>
+								<option value="2" <c:if test="${uvo.ulevel == 2 }">selected</c:if>>관리자</option>
 							</select>
+							
 						</div>
-					
-						<div class="form-group btn-box">
-							<button type="button" class="btn btn-primary" id="update-userInfo-confirm-btn">수정하기</button>
+						<div class="form-group">
+							<button type="button" id="memberInfoUpdate" class="btn btn-outline-primary float-right">수정하기</button>
 						</div>
 					</form>
 				</div>
 			</div>
 		</div>
-	</div>
-</div>
+
 
 <script>
 
-$("#update-userInfo-confirm-btn").on("click",function(){
+$("#memberInfoUpdate").on("click",function(){
 	
-	
-	if($("#update-userInfo-btn").length > 0){
-		
-		
-		return false;
-		
-	}
-	
-	var con = confirm("회원정보를 수정하시겠습니까?")
-	
-	if( con == true){
-		
-		var btnHtml ="<button type='button' class='btn btn-outline-success ' id='update-userInfo-btn'>완료</button>";
-			btnHtml +="<button type='reset' class='btn btn-outline-danger ml-1'>취소</button>";
-		$("#username").attr("readonly",false);
-		$("#uemail").attr("readonly",false);
-		$("#ulevel").attr("onFocus","");
-		$("#ulevel").attr("onChange","");
-		
-		$("#username").addClass("infoUpdate");
-		$("#uemail").addClass("infoUpdate");
-		$("#ulevel").addClass("infoUpdate");
-		
-		$("#username").focus();
-		
-		$(".btn-box").append(btnHtml);
-	}
-	
-})
-
-$(document).on("click","#update-userInfo-btn",function(){
-	
-	var con =confirm("바뀐 회원 정보를 저장하시겠습니까?");
-	
-	
-	
+	var con = confirm("변경된 회원 정보를 저장하시겠습니까?");
 	if(con == true){
+		
 		var formData = $("#memberInfoForm").serialize();
-	
+		
 		$.ajax({
 			
-			url : "/user/userInfoUpdate",
+			url : "/user/memberInfoUpdate",
 			data : formData,
 			type: "POST",
 			success : function(data){
 				
-				if(data>=1){
+				if(data >= 1){
 					
-					alert("회원정보가 수정되었습니다.");
 					location.reload();
+					
 				}else{
 					
-					alert("회원정보 수정 실패하였습니다.");
-					location.reload();
+					alert("회원정보 수정에 실패하였습니다.");
+					
 				}
-				
 			}
-			
-		})
+		
+		})	
+		
 	}
-	
 })
+
 </script>
 

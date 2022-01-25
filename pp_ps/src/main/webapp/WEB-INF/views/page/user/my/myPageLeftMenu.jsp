@@ -52,13 +52,13 @@
 	line-height: normal;
 	vertical-align: middle;
 	background-color: #7fe7d5;
-	padding-left: 0.5rem;
+	padding-left: 0.5rem; 
     padding-right: 0.5rem;
 	
 	
 }
 </style>
-<div class="myPageLeftMenu col-2 px-0 py-3 mr-3">
+<div class="myPageLeftMenu col-2 px-0 py-3 mr-3 border-right" >
  
 	<ul class="myPageLeftMenu-ul">
 		<li class="myPageLeftMenu-li-parent-title mb-2 py-2 px-3">내 정보</li>
@@ -83,11 +83,11 @@
 				</span>
 			</a>
 		</li>
-		<li class="myPageLeftMenu-li-title mb-2 py-2 px-3" >
-			<a href="#">
+		<li class="myPageLeftMenu-li-title mb-2 py-2 px-3" id="orderCancleList">
+			<a href="/view/mypage/orderCancleList">
 				
 				<span class="d-flex justify-content-between">
-					<span>주문 취소</span>
+					<span>취소 내역</span>
 					<span class="myPageLeftMenu-li-icon">
 						<i class="fas fa-chevron-right"></i>
 					</span>

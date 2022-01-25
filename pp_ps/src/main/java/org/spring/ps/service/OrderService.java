@@ -35,4 +35,6 @@ public interface OrderService {
 
 	int updateReviewState(ReviewVO reviewVO);
 
+	List<OrderVO> getOrderCancleList(String userid);
+
 }

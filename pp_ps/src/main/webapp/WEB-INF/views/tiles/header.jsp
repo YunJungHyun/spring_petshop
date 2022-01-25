@@ -21,9 +21,11 @@
 						</li>
 						<li class="main-header_dropdown-li">
 							<a href="#" class="main-header_dropdown-li_a" onclick="goPage('mypage/myWish')">관심 상품</a></li>
+						<li class="main-header_dropdown-li">
+							<a href="#" class="main-header_dropdown-li_a" onclick="goPage('mypage/myInfo')">내 정보</a></li>
 
 					</c:if>
-					<c:if test="${userInfo == null}">
+					<c:if test="${userInfo == null}"> 
 						<li class="main-header_dropdown-li">
 							<a class="main-header_dropdown-li_a" href="/view/login">로그인</a></li>
 						<li class="main-header_dropdown-li">

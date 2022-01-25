@@ -16,6 +16,7 @@ import org.spring.ps.service.CartService;
 import org.spring.ps.service.OrderService;
 import org.spring.ps.service.ProductService;
 import org.spring.ps.service.ReviewService;
+import org.spring.ps.service.UserService;
 import org.spring.ps.utils.routeUtils;
 import org.spring.ps.vo.CartListVO;
 import org.spring.ps.vo.OrderVO;
@@ -52,7 +53,8 @@ public class ViewController {
 	@Inject
 	private ProductService prodcutService;
 	
-
+	@Inject
+	private UserService userService;
 
 	@RequestMapping(value="/petshop")
 	public String home(
@@ -222,9 +224,13 @@ public class ViewController {
 				case "myInfo":
 					
 					
-					String routeArray5[][] = {{"마이페이지","/view/mypage/myOrder"},{"내 정보","/view/mypage/myInfo"}};
-					routeMap.put(0,routeArray5[0]);
-					routeMap.put(1,routeArray5[1]);
+					UserVO uvo = userService.getOneUser(Integer.toString(userVO.getUnum()));
+					model.addAttribute("uvo",uvo);
+					
+					
+					String routeArray1[][] = {{"마이페이지","/view/mypage/myOrder"},{"내 정보","/view/mypage/myInfo"}};
+					routeMap.put(0,routeArray1[0]);
+					routeMap.put(1,routeArray1[1]);
 					page = "my/myInfo";
 					mark ="myInfo";
 					break;
@@ -235,9 +241,20 @@ public class ViewController {
 					model.addAttribute("oList",orderList);
 					
 					page ="myPageOrder";
-					String routeArray1[][] = {{"마이페이지","/view/mypage/myOrder"},{"주문 내역","/view/mypage/myOrder"}};
-					routeMap.put(0,routeArray1[0]);
-					routeMap.put(1,routeArray1[1]);
+					String routeArray2[][] = {{"마이페이지","/view/mypage/myOrder"},{"주문 내역","/view/mypage/myOrder"}};
+					routeMap.put(0,routeArray2[0]);
+					routeMap.put(1,routeArray2[1]);
+					mark ="myOrder";
+					break;
+				case "orderCancleList":
+					List<OrderVO> orderCancleList = orderService.getOrderCancleList(userVO.getUserid());
+					
+					model.addAttribute("oList",orderCancleList);
+					
+					page ="myPageOrder";
+					String routeArray3[][] = {{"마이페이지","/view/mypage/myOrder"},{"취소 내역","/view/mypage/orderCancleList"}};
+					routeMap.put(0,routeArray3[0]);
+					routeMap.put(1,routeArray3[1]);
 					mark ="myOrder";
 					break;
 				case "myCart":
@@ -246,9 +263,9 @@ public class ViewController {
 					model.addAttribute("cartList",cartList);
 					
 					page ="cart/cart";
-					String routeArray2[][] = {{"마이페이지","/view/mypage/myOrder"},{"장바구니","/view/mypage/myCart"}};
-					routeMap.put(0,routeArray2[0]);
-					routeMap.put(1,routeArray2[1]);
+					String routeArray4[][] = {{"마이페이지","/view/mypage/myOrder"},{"장바구니","/view/mypage/myCart"}};
+					routeMap.put(0,routeArray4[0]);
+					routeMap.put(1,routeArray4[1]);
 					break;
 				case "myReviewWriter":
 				
@@ -258,9 +275,9 @@ public class ViewController {
 					model.addAttribute("crList",canReviewList);
 					
 					page ="review/review";
-					String routeArray3[][] = {{"마이페이지","/view/mypage/myOrder"},{"리뷰 작성","/view/mypage/myReviewWriter"}};
-					routeMap.put(0,routeArray3[0]);
-					routeMap.put(1,routeArray3[1]);
+					String routeArray5[][] = {{"마이페이지","/view/mypage/myOrder"},{"리뷰 작성","/view/mypage/myReviewWriter"}};
+					routeMap.put(0,routeArray5[0]);
+					routeMap.put(1,routeArray5[1]);
 					mark ="myReviewWriter";
 					break;
 				case "myReviewList":
@@ -272,9 +289,9 @@ public class ViewController {
 					model.addAttribute("rList",reviewList);
 					
 					page ="review/reviewList";
-					String routeArray4[][] = {{"마이페이지","/view/mypage/myOrder"},{"내가 작성한 리뷰","/view/mypage/myReviewList"}};
-					routeMap.put(0,routeArray4[0]);
-					routeMap.put(1,routeArray4[1]);
+					String routeArray6[][] = {{"마이페이지","/view/mypage/myOrder"},{"내가 작성한 리뷰","/view/mypage/myReviewList"}};
+					routeMap.put(0,routeArray6[0]);
+					routeMap.put(1,routeArray6[1]);
 					mark ="myReviewList";
 					break;
 					

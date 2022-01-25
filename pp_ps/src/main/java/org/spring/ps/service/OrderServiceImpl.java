@@ -93,4 +93,10 @@ public class OrderServiceImpl implements OrderService{
 		// TODO Auto-generated method stub
 		return orderDAO.updateReviewState(reviewVO);
 	}
+	
+	@Override
+	public List<OrderVO> getOrderCancleList(String userid) {
+		// TODO Auto-generated method stub
+		return orderDAO.getOrderCancleList(userid);
+	}
 }

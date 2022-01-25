@@ -54,8 +54,24 @@ public class UserServiceImpl implements UserService{
 		return userDAO.getOneUser(unum);
 	}
 	@Override
-	public int userInfoUpdate(UserVO userVO ,String auth) {
+	public int userInfoUpdate(UserVO userVO) {
 		// TODO Auto-generated method stub
-		return userDAO.userInfoUpdate(userVO,auth);
+		return userDAO.userInfoUpdate(userVO);
+	}
+	
+	@Override
+	public String findUserid(UserVO userVO) {
+		// TODO Auto-generated method stub
+		return userDAO.findUserid(userVO);
+	}
+	@Override
+	public String findUserpw(UserVO userVO) {
+		// TODO Auto-generated method stub
+		return userDAO.findUserpw(userVO);
+	}
+	@Override
+	public int memberInfoUpdate(UserVO userVO) {
+		// TODO Auto-generated method stub
+		return userDAO.memberInfoUpdate(userVO);
 	}
 }

@@ -115,6 +115,13 @@
 	filter: opacity(0.7);
 }
 
+.modal-inner-title{
+
+	font-size:1.25rem;
+	font-weight: bold;
+	margin-top:.25rem;
+	margin-bottom: .25rem;
+}
 
 </style>
 
@@ -202,8 +209,8 @@
        
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+        <button type="button" class="btn btn-primary" id="findUserInfo-btn">찾기</button>
       </div>
     </div>
   </div>
@@ -223,36 +230,69 @@ $("#findUserInfo").on('show.bs.modal', function (e) {
 	if(findSort == "USERPW"){
 		
 		$("#findUserInfoLabel").text("비밀번호 찾기");
-		
+	
 		html+="<div class='modal-inner-group'>";
-			html+="<div class='modal-inner-title'>";
+			html+="<div class='modal-inner-title mt-3'>";
 				html+="<span class='modal-inner-title_span '>아이디</span>";
 			html+="</div>";
 			html+="<div class='modal-inner-body'>";
-				html+= "<input type='text'  placeholder='아이디를 입력해주세요.'>";
+				html+= "<input type='text'  name='userid' placeholder='아이디를 입력해주세요.'>";
 			html+="</div>";
 		html+="</div>";
 	}
 	
 	html+="<div class='modal-inner-group'>";
-		html+="<div class='modal-inner-title'>";
+		html+="<div class='modal-inner-title mt-3'>";
 			html+="<span class='modal-inner-title_span '>이메일 주소</span>";
 		html+="</div>";
 		html+="<div class='modal-inner-body'>";
-			html+= "<input type='text'  placeholder='이메일을 입력해주세요.'>";
+			html+= "<input type='text' name='uemail' placeholder='이메일을 입력해주세요.'>";
 		html+="</div>";
 	html+="</div>";
 	html+="<div class='modal-inner-group'>";
-		html+="<div class='modal-inner-title'>";
+		html+="<div class='modal-inner-title mt-3'>";
 			html+="<span class='modal-inner-title_span '>이름</span>";
 		html+="</div>";
 		html+="<div class='modal-inner-body'>";
-			html+= "<input type='text'  placeholder='이름을 입력해주세요.'>";
+			html+= "<input type='text' name='username'  placeholder='이름을 입력해주세요.'>";
 		html+="</div>";
 	html+="</div>";
 	html+="</div>";
 	
 	$("#infoFindForm").append(html);
+	
+})
+
+$(document).on("click","#findUserInfo-btn",function(){
+	
+	
+	var formData = $("#infoFindForm").serialize();
+	
+	$.ajax({
+		
+		
+		url : "/user/findUserInfo",
+		data : formData,
+		type : "POST",
+		success : function(data){
+			
+			
+			
+			if(data.findStr == undefined ){
+				
+				
+				alert("회원 정보가 없습니다.");
+			}else{
+				
+				alert("회원님의 "+data.findSort+"는 '"+data.findStr+"' 입니다.");
+			
+				$("#findUserInfo").modal('hide');
+			}
+			
+			
+			 
+		}
+	})
 	
 })
 $("#findUserInfo").on('hidden.bs.modal', function (e) {

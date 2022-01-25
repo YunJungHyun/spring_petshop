@@ -80,12 +80,32 @@ ul.order-content-ul >li {
 .orderCancle-btn-group>button{
 	font-size: 12px;
 }
+
+.orderCancleForm_input-radio{
+
+	    width: 20px;
+    height: 20px;
+}
+.orderCancleForm_li{
+
+	padding : .5rem 1rem;
+}
+
+.orderCancleForm_span{
+	font-size: 1.25rem;
+	font-weight: bold;
+	    display: inline;
+    vertical-align: text-bottom;
+}
 </style>    
 <%@ include file="/WEB-INF/views/page/user/my/myPageHeader.jsp"%>
 
 <div class="d-flex">
 	<%@ include file="/WEB-INF/views/page/user/my/myPageLeftMenu.jsp"%>
-	<div class="myPageBody col-10 p-3">
+	<div class="myPageBody col-10">
+		<div class="myPageBody_title-group">
+			<span class="myPageBody_title-group_span">나의 쇼핑 - 주문 내역</span>
+		</div>
 		<c:forEach var="olist" items="${oList }" varStatus="status">
 			<div class="col-12 px-0">
 				<a data-toggle="collapse" href="#orderCollapse-${status.count }" role="button" aria-expanded="false" aria-controls="collapseExample">
@@ -169,6 +189,56 @@ ul.order-content-ul >li {
 	</div>
 </div>
 
+
+<!-- Modal -->
+<div class="modal fade" id="orderCancleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">주문 취소</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+     		<form id="orderCancleForm" name="orderCancleForm">
+				<input type="hidden" id="orderid" value="">
+				<input type="hidden" id="pid" value="">
+				<ul class="orderCancleForm_ul">
+					<li class="orderCancleForm_li">
+						<label class="orderCancleForm_li_label">
+				 			<input type="radio" class="orderCancleForm_input-radio" name="cancleReason" value="simpleRemorse">
+				 			<span class="orderCancleForm_span">단순 변심</span>
+				 		</label>
+				 	</li>
+				 	<li class="orderCancleForm_li">
+				 		<label class="orderCancleForm_li_label">
+				 			<input type="radio" class="orderCancleForm_input-radio" name="cancleReason" value="defective">
+				 			<span class="orderCancleForm_span">상품 불량</span>
+				 		</label>
+					</li>
+					<li class="orderCancleForm_li">
+						<label class="orderCancleForm_li_label">
+							<input type="radio" class="orderCancleForm_input-radio" name="cancleReason" value="delay">
+							<span class="orderCancleForm_span">배송지연</span>
+				 		</label>
+				 	</li>
+				 	<li class="orderCancleForm_li">
+				 		<label class="orderCancleForm_li_label">
+				 			<input type="radio" class="orderCancleForm_input-radio" name="cancleReason" value="different">
+				 			<span class="orderCancleForm_span">상품정보와 상이</span>
+				 		</label>
+					</li>
+				</ul>
+			</form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-danger">주문 취소 확인</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
 <script>
 $('.orderCollapse').on('show.bs.collapse', function () {
 	 
@@ -238,9 +308,9 @@ $('.orderCollapse').on('show.bs.collapse', function () {
 										html+=" (원)";
 									html +="</span>";
 								html+="</li>";
-								
+								var salePrice = data[i].pprice -(data[i].psale * data[i].pprice);
 								if(data[i].psale > 0){
-									var salePrice = data[i].pprice -(data[i].psale * data[i].pprice);
+									
 									html+="<li>";
 									html+= " <span class='od-title-span-2'>";
 										html+="할인 :";
@@ -275,15 +345,15 @@ $('.orderCollapse').on('show.bs.collapse', function () {
 									html+="</span>";
 									html+="<span class='od-data-text-2'>";
 										html+="<span>";
-										html +=delivery;
+										html +=delivery; 
 										html+="</span>";
-										if(data[i].delivery =='deliveryReady'){
+										if(data[i].eachDelivery =='deliveryReady'){
 											html+="<span class='orderCancle-btn-group mx-3'>";
-												html +="<button type='button' class='btn btn-outline-danger'>주문 취소</button>";
+												html +="<button type='button' class='btn btn-outline-danger' data-orderid='"+data[i].orderid+"' data-pid='"+data[i].pid+"' data-toggle='modal' data-target='#orderCancleModal' >주문 취소</button>";
 											html+="</span>";
 										}
 									html+="</span>";
-									
+									 
 								html+="</li>";
 								html+="<li class='border-top text-right mt-3'>";
 									html+="<span class='od-title-span'>";
@@ -293,7 +363,7 @@ $('.orderCollapse').on('show.bs.collapse', function () {
 									if( data[i].eachDelivery =='orderCancle'){
 										html+= "0";
 									}else{
-										html +=data[i].cstock*data[i].pprice;
+										html +=data[i].cstock*salePrice;
 									}
 									html +="</span>";
 									html +="<span class='od-unit-span'>";
@@ -308,7 +378,17 @@ $('.orderCollapse').on('show.bs.collapse', function () {
 		 }
 	 })
 	 
-	})
+})
+
+$("#orderCancleModal").on('show.bs.modal', function (e) {
+	
+	var orderid= $(e.relatedTarget).data('orderid');
+	var pid= $(e.relatedTarget).data('pid');
+	
+	$("#orderid").val(orderid);
+	$("#pid").val(pid);
+	
+})
 
 $(document).on("click" ,".orderDetailList-table > tr",function(e){
 	console.log(e.target.nodeName);
@@ -332,6 +412,40 @@ $('.orderCollapse').on('hide.bs.collapse', function () {
 	
 })
 
+
+$(document).on("click","button[name='orderCancleBtn']",function(){
+	
+	var con = confirm("해당 주문의 제품을 주문취소 신청 하시겠습니까?");
+	
+	if(con == true){
+	
+		var orderid = $(this).attr("id").split("-")[0];
+		var pid = $(this).attr("id").split("-")[1];
+		var reason = $("input:radio[name='cancleReason']:checked").val();
+	
+		$.ajax({
+			
+			url : "/QnA/orderCancle",
+			data : {
+				
+				"orderid" : orderid,
+				"pid" : pid,
+				"reason" : reason
+			},
+			success : function(data){
+				
+				if(data>=1 ){
+					
+					alert("주문 취소 신청 되었습니다.");
+					location.reload();
+				}
+			}
+			
+		})
+	}
+
+	
+})
 
 </script>
      

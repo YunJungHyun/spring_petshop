@@ -35,6 +35,22 @@
 	filter: drop-shadow(2px 4px 6px #ccc);
 
 }
+
+.myPageBody_title-group{
+
+
+	border-bottom : 1px solid #dee2e6;
+	padding: .5rem 0px;
+	margin-bottom: 1rem;
+}
+
+.myPageBody_title-group_span{
+
+	font-size: 1.25rem;
+	font-weight: bold;
+	
+}
+
 </style>
 <div class="myPageHeader my-3 col-12">
 	<div class="row">

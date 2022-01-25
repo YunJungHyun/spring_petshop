@@ -49,7 +49,32 @@ public class UserController {
 	@Inject
 	private ReviewService reviewService;
 	
-	@RequestMapping(value="/userInfoUpdate")
+	@RequestMapping(value="/findUserInfo", method=RequestMethod.POST)
+	@ResponseBody
+	public HashMap<String,String> findUserInfo(
+			
+			UserVO userVO
+			) {
+		
+		log.debug("[findUserInfo] :" +userVO.toString());
+		
+		HashMap<String,String > findMap = new HashMap<String, String>();
+		String findStr= null;
+		if(userVO.getUserid() == null) {
+			
+			findStr= userService.findUserid(userVO);
+			findMap.put("findStr", findStr);
+			findMap.put("findSort", "아이디");
+		}else {
+			findStr= userService.findUserpw(userVO);
+			findMap.put("findStr", findStr);
+			findMap.put("findSort", "비밀번호");
+		}
+		
+		return findMap;
+	}
+	
+	@RequestMapping(value="/userInfoUpdate" , method=RequestMethod.POST)
 	@ResponseBody
 	public int userInfoUpdate(
 			UserVO userVO,
@@ -58,94 +83,28 @@ public class UserController {
 		
 		UserVO userInfo= (UserVO)session.getAttribute("userInfo");
 		
-		String auth ="";
+		log.debug("[userInfoUpdate] userVO : "+ userVO.toString() );
 		
-		if(userInfo.getUlevel() == 2) {
-			auth ="admin";
-			
-		}else {
-			
-			auth ="nomal";
-		}
+		
+		userVO.setUnum(userInfo.getUnum());
+		
+		int result = userService.userInfoUpdate(userVO);
+		return result;
+	}
 	
-		int result = userService.userInfoUpdate(userVO,auth);
+	@RequestMapping(value="/memberInfoUpdate" , method=RequestMethod.POST)
+	@ResponseBody
+	public int userInfoUpdate(
+			UserVO userVO
+			) {
 		
 		
+		log.debug("[memberInfoUpdate] userVO :" +userVO.toString());
+		int result = userService.memberInfoUpdate(userVO);
 		return result;
 	}
 	
 	
-	@RequestMapping(value="/{unum}", method=RequestMethod.GET)
-	public String userDetail(
-			Model model,
-			@PathVariable(value="unum", required = true) String unum,
-			@RequestParam(value="page", required= false) String page,
-			@RequestParam(value="orderBy",required = false) String orderBy,
-			@RequestParam(value="sort" ,required = false) String sort ,
-			PagingVO pagingVO,
-			HttpSession session,
-			HttpServletResponse response
-
-			) throws IOException {
-		UserVO userInfo = (UserVO)session.getAttribute("userInfo");
-		if(userInfo == null || userInfo.getUlevel() != 2) {
-
-			log.debug("[adminView] userInfo : 접근권한없음");
-
-			response.setContentType("text/html; charset=UTF-8");
-
-			PrintWriter out = response.getWriter();
-
-			out.println("<script>alert('페이지 접근권한이 없습니다.'); location.href='/';</script>");
-
-			out.flush();
-
-			return "home.page";
-		}else {
-			String mark = null;
-			String subTitle = null;
-			String memberPage = null;
-			if(sort ==null) {
-
-				sort = "";
-			}
-			switch(sort) {
-
-			case "shopingList":
-				mark ="shopingList";
-				break;
-			case "reviewList":
-				mark ="reviewList";
-				break;
-			case "QnAList":
-				mark ="QnAList";
-				break;
-			default :
-				mark ="userInfoList";
-				subTitle= "기본 정보";
-				memberPage ="member/MemberDetail";
-				break;
-			}
-			
-			UserVO uvo=userService.getOneUser(unum);
-
-
-			Map<Integer,String[]> routeMap = new HashMap<>();
-			String routeArray[][] = {{"관리자 페이지","/adminView/Management"},{"회원 관리","/adminView/Member"},{uvo.getUsername()+" 님","/user/"+unum}};
-			routeMap.put(0,routeArray[0]);
-			routeMap.put(1,routeArray[1]);
-			routeMap.put(2,routeArray[2]);
-
-			List<PageInfoVO> breadcrumbList =routeUtils.pageInfo(routeMap);
-
-			model.addAttribute("uvo", uvo);
-			model.addAttribute("mark",mark);
-			model.addAttribute("subTitle",subTitle);
-			model.addAttribute("pageTitle","회원");
-			model.addAttribute("breadcrumb",breadcrumbList);
-
-			return "admin/"+memberPage+".page";
-		}
-	}
+	
 
 }

@@ -163,23 +163,63 @@ public class UserDAOImpl implements UserDAO {
 	}
 	
 	@Override
-	public int userInfoUpdate(UserVO userVO ,String auth) {
+	public int userInfoUpdate(UserVO userVO ) {
 		HashMap<String , String> map = new HashMap();
-		String addSQL = "";
-		
-		if(auth.equals("admin")) {
-			addSQL =", ulevel = '"+userVO.getUlevel()+"'";
-			
-		}
+	
 		
 		String sql = "UPDATE tbl_user SET username='"+userVO.getUsername()+"',";
-				sql+= " uemail = '"+userVO.getUemail()+"' ";
-				sql+= addSQL;
+				sql+= " uemail = '"+userVO.getUemail()+"', ";
+				sql+= " userAddr1 = '"+userVO.getUserAddr1()+"', ";
+				sql+= " userAddr2 = '"+userVO.getUserAddr2()+"', ";
+				sql+= " userAddr3 = '"+userVO.getUserAddr3()+"' ";
 				sql+= " WHERE unum = "+userVO.getUnum();
 		map.put("sql", sql);
 		int result =sqlSession.update(Namespace+".userInfoUpdate", map);
 	
 		
+		return result;
+	}
+	@Override
+	public int memberInfoUpdate(UserVO userVO) {
+		HashMap<String , String> map = new HashMap();
+	
+		
+		String sql = "UPDATE tbl_user SET username='"+userVO.getUsername()+"',";
+				sql+= " uemail = '"+userVO.getUemail()+"', ";
+			
+				sql+= " userAddr1 = '"+userVO.getUserAddr1()+"', ";
+				sql+= " userAddr2 = '"+userVO.getUserAddr2()+"', ";
+				sql+= " userAddr3 = '"+userVO.getUserAddr3()+"', ";
+				sql+= " ulevel = "+userVO.getUlevel()+" ";
+				sql+= " WHERE unum = "+userVO.getUnum();
+		map.put("sql", sql);
+		int result =sqlSession.update(Namespace+".memberInfoUpdate", map);
+		return result;
+	}
+	@Override
+	public String findUserid(UserVO userVO) {
+		HashMap<String , String> map = new HashMap();
+		String sql = "SELECT userid from tbl_user ";
+			sql +=" WHERE uemail = '"+userVO.getUemail()+"' ";
+			sql += " AND username = '"+userVO.getUsername()+"' ";
+			sql +=" AND utype= 'ps'";
+		
+			map.put("sql", sql);
+			String result= sqlSession.selectOne(Namespace+".findUserid",map);
+		return result;
+	}
+	
+	
+	@Override
+	public String findUserpw(UserVO userVO) {
+		HashMap<String , String> map = new HashMap();
+		String sql = "SELECT userpw from tbl_user ";
+			sql +=" WHERE uemail = '"+userVO.getUemail()+"' ";
+			sql += " AND username = '"+userVO.getUsername()+"'";
+			sql += " AND userid = '"+userVO.getUserid()+"'";
+			sql +=" AND utype= 'ps'";
+			map.put("sql", sql);
+			String result= sqlSession.selectOne(Namespace+".findUserpw",map);
 		return result;
 	}
 }

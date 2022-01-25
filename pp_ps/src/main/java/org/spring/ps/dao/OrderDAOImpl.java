@@ -50,16 +50,16 @@ public class OrderDAOImpl implements OrderDAO {
 		sql+="FROM tbl_cart AS C ";
 		sql +="INNER JOIN tbl_product AS p ";
 		sql +="	ON c.pid = p.pid ";
-		
-		
-	
+
+
+
 
 		map.put("sql", sql);
 
 		sqlSession.insert(Namespace+".orderInfo_Details",map);
 
 	}
-	
+
 	@Override
 	public void orderInfo_Details_Right(OrderDetailVO orderDetailVO) {
 		HashMap<String,String> map = new HashMap();
@@ -69,7 +69,7 @@ public class OrderDAOImpl implements OrderDAO {
 		map.put("sql", sql);
 
 		sqlSession.insert(Namespace+".orderInfo_Details_Right",map);
-		
+
 	}
 
 	@Override
@@ -79,29 +79,29 @@ public class OrderDAOImpl implements OrderDAO {
 		sql+="WHERE userid = '"+userid+"' ";
 		sql+="ORDER BY orderDate desc";
 		map.put("sql", sql);
-		
+
 		List<OrderVO> result= sqlSession.selectList(Namespace+".getOrderList",map);
 		return result;
 	}
-	
+
 	@Override
 	public List<OrderListVO> getOrderDetailList(OrderVO orderVO) {
 		HashMap<String,String> map = new HashMap();
 		String sql = "SELECT  o.orderid,o.userid,o.orderRec,o.userAddr1,o.userAddr2,o.userAddr3,o.orderPhon,o.amount,o.orderDate,o.delivery,";
-				sql += "d.orderDetailNum, d.pid, d.cstock,d.delivery as eachDelivery,";
-				sql += "p.pname, p.pimg,p.pprice,p.psale ";
-				sql += "FROM tbl_order o ";
-				sql += "INNER JOIN tbl_order_details d ";
-				sql += "	ON	o.orderid = d.orderid ";
-				sql += "INNER JOIN tbl_product p ";
-				sql += "	ON d.pid = p.pid ";
-				sql += "WHERE	o.userid ='"+orderVO.getUserid()+"' ";
-				sql += "AND o.orderid = '"+orderVO.getOrderid()+"'";
+		sql += "d.orderDetailNum, d.pid, d.cstock,d.delivery as eachDelivery,";
+		sql += "p.pname, p.pimg,p.pprice,p.psale ";
+		sql += "FROM tbl_order o ";
+		sql += "INNER JOIN tbl_order_details d ";
+		sql += "	ON	o.orderid = d.orderid ";
+		sql += "INNER JOIN tbl_product p ";
+		sql += "	ON d.pid = p.pid ";
+		sql += "WHERE	o.userid ='"+orderVO.getUserid()+"' ";
+		sql += "AND o.orderid = '"+orderVO.getOrderid()+"'";
 		map.put("sql", sql);
 		List<OrderListVO> result= sqlSession.selectList(Namespace+".getOrderDetailList",map);
 		return result;
 	}
-	
+
 	@Override
 	public List<OrderVO> getAllOrderList() {
 		HashMap<String,String> map = new HashMap();
@@ -110,19 +110,19 @@ public class OrderDAOImpl implements OrderDAO {
 		List<OrderVO> result= sqlSession.selectList(Namespace+".getAllOrderList",map);
 		return result;
 	}
-	
+
 	@Override
 	public int orderDetailStateChange(OrderDetailVO orderDetailVO) {
 		HashMap<String,String> map = new HashMap();
-		
+
 		String sql = "UPDATE tbl_order_details SET delivery = 'orderCancle' ";
-			sql+= "WHERE orderid = '"+orderDetailVO.getOrderid()+"' ";
-			sql+= "AND pid = '"+orderDetailVO.getPid()+"'";
-			map.put("sql", sql);
-			int result= sqlSession.update(Namespace+".orderDetailStateChange",map);	
+		sql+= "WHERE orderid = '"+orderDetailVO.getOrderid()+"' ";
+		sql+= "AND pid = '"+orderDetailVO.getPid()+"'";
+		map.put("sql", sql);
+		int result= sqlSession.update(Namespace+".orderDetailStateChange",map);	
 		return result;
 	}
-	
+
 	@Override
 	public int orderStateChange(OrderVO orderVO) {
 		HashMap<String,String> map = new HashMap();
@@ -132,38 +132,38 @@ public class OrderDAOImpl implements OrderDAO {
 		int result= sqlSession.update(Namespace+".orderStateChange",map);	
 		return result;
 	}
-	
+
 	@Override
 	public int orderDetailStateChange_1(OrderVO orderVO) {
 		HashMap<String,String> map = new HashMap();
 		String sql = "UPDATE tbl_order_details set delivery ='"+orderVO.getDelivery()+"' ";
-			sql+= "WHERE orderid = '"+orderVO.getOrderid()+"' ";
-			sql+= "AND delivery <> 'orderCancle'";
+		sql+= "WHERE orderid = '"+orderVO.getOrderid()+"' ";
+		sql+= "AND delivery <> 'orderCancle'";
 		map.put("sql", sql);
 		int result= sqlSession.update(Namespace+".orderDetailStateChange_1",map);
 		return result;
 	}
-	
+
 	@Override
 	public int orderDetailStateChk(OrderDetailVO orderDetailVO) {
 		HashMap<String,String> map = new HashMap();
 		String sql = "SELECT COUNT(*) FROM tbl_order_details ";
-				sql += "WHERE orderid = '"+orderDetailVO.getOrderid()+"' ";
-				sql += "AND  delivery <> 'orderCancle'";
+		sql += "WHERE orderid = '"+orderDetailVO.getOrderid()+"' ";
+		sql += "AND  delivery <> 'orderCancle'";
 		map.put("sql", sql);
 		int result= sqlSession.selectOne(Namespace+".orderDetailStateChk",map);
 		return result;
 	}
-	
+
 	@Override
 	public void orderCanclePriceUpdate(OrderDetailVO orderDetailVO, String deAmount) {
 		HashMap<String,String> map = new HashMap();
 		String sql = "UPDATE tbl_order SET amount = amount - "+deAmount;
-				sql+= " WHERE orderid ='"+orderDetailVO.getOrderid()+"'";
+		sql+= " WHERE orderid ='"+orderDetailVO.getOrderid()+"'";
 		map.put("sql", sql);
 		sqlSession.selectOne(Namespace+".orderDetailStateChk",map);
 	}
-	
+
 	@Override
 	public List<OrderDetailVO> orderDetailList(String orderid) {
 		HashMap<String,String> map = new HashMap();
@@ -172,17 +172,27 @@ public class OrderDAOImpl implements OrderDAO {
 		List<OrderDetailVO> result= sqlSession.selectList(Namespace+".orderDetailList",map);
 		return result;
 	}
-	
+
 	@Override
 	public int updateReviewState(ReviewVO reviewVO) {
 		HashMap<String,String> map = new HashMap();
 		String sql = "UPDATE tbl_order_details SET review = 'okay' ";
-			sql+= "WHERE pid='"+reviewVO.getPid()+"' ";
-			sql+= "AND orderid='"+reviewVO.getOrderid()+"' ";
-		
-			
+		sql+= "WHERE pid='"+reviewVO.getPid()+"' ";
+		sql+= "AND orderid='"+reviewVO.getOrderid()+"' ";
+
+
 		map.put("sql", sql);
 		int result= sqlSession.update(Namespace+".updateReviewState",map);
+		return result;
+	}
+
+	@Override
+	public List<OrderVO> getOrderCancleList(String userid) {
+		HashMap<String,String> map = new HashMap();
+		String sql = "SELECT * FROM tbl_order WHERE userid = '"+userid+"' AND delivery = 'orderCancle' ";
+
+		map.put("sql", sql);
+		List<OrderVO> result= sqlSession.selectList(Namespace+".getOrderCancleList",map);
 		return result;
 	}
 }

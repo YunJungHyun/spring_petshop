@@ -18,6 +18,9 @@ public class UserVO {
 	private String userpw;
 	private String username;
 	private String uemail;
+	private String userAddr1;
+	private String userAddr2;
+	private String userAddr3;
 	
 	private Date user_regdate;
 	

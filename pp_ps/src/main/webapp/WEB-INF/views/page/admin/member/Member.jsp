@@ -177,7 +177,7 @@ span.list-td_span{
 	
 	$(".userDetail").on("click",function(){
 		var unum = $(this).attr("id");
-		location.href="/user/"+unum;
+		location.href="/adminView/member/"+unum;
 	})
 	
 	

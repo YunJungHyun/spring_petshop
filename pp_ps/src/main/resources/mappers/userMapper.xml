@@ -66,8 +66,29 @@
 		]]>
  	
  	</select>
+ 	<select id="findUserid" parameterType="HashMap" resultType="String">
+ 	
+ 	<![CDATA[
+			${sql}
+		]]>
+ 	
+ 	</select>
+ 	<select id="findUserpw" parameterType="HashMap" resultType="String">
+ 	
+ 	<![CDATA[
+			${sql}
+		]]>
+ 	
+ 	</select>
  	
  	<update id="userInfoUpdate" parameterType="HashMap">
+ 	
+ 	<![CDATA[
+			${sql}
+		]]>
+ 	</update>
+ 	
+ 	<update id="memberInfoUpdate" parameterType="HashMap">
  	
  	<![CDATA[
 			${sql}
