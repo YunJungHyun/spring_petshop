@@ -11,4 +11,21 @@ import lombok.ToString;
 @ToString(callSuper=true)
 public class QnAVO {
 	
+	
+	private String qnaid;
+	private String userid;
+	private String parentid;
+	private String qnaContent;
+	private Date qnaDate;
+	
+	private String pid;
+
+	private String username;
+	private String pname;
+	private String pimg;
+	
+	private String cname;
+	private String subcname;
+	
+	private int eachCnt;
 }

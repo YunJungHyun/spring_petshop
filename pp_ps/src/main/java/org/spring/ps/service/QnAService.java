@@ -6,8 +6,19 @@ import org.spring.ps.vo.QnAVO;
 
 public interface QnAService {
 
-	int QnAInsert(QnAVO qnAVO);
+	int insertQnA(QnAVO qnAVO);
 
 	List<QnAVO> getQnAList(String pid);
+
+	List<QnAVO> getAllQnAList();
+
+	List<QnAVO> getReplyList(String qnaid);
+
+	int answerInsert(QnAVO qnaVO);
+
+	List<QnAVO> getQnACntList(String pid);
+
+
+
 
 }

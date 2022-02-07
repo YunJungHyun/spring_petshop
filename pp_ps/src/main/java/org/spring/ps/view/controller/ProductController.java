@@ -35,6 +35,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -62,7 +64,7 @@ public class ProductController {
 	private ReviewService reviewService;
 	
 	@Inject
-	private QnAService QnAService;
+	private QnAService qnAService;
 	
 	@Inject
 	private BrandService brandService;
@@ -70,12 +72,14 @@ public class ProductController {
 	public String product(
 			Model model,
 			@PathVariable("pid") String pid
+		
 			) {
 
 		ProductVO pvo = productService.getProductOne(pid);
 		
 		List<ReviewDetailVO> rList = reviewService.getProdOneReviewList(pid);
-		List<QnAVO> qList =  QnAService.getQnAList(pid);
+		List<QnAVO> qList =  qnAService.getQnAList(pid);
+		List<QnAVO> qCnt =  qnAService.getQnACntList(pid);
 		//route
 		String cnameref = categoryService.getCategoryOne(Integer.toString(pvo.getPccoderef()));
 		String cname = categoryService.getCategoryOne(Integer.toString(pvo.getPccode()));
@@ -88,8 +92,12 @@ public class ProductController {
 		List<PageInfoVO> breadcrumbList =routeUtils.pageInfo(routeMap);
 
 		model.addAttribute("breadcrumb",breadcrumbList);
-
-
+		
+		Gson gson = new GsonBuilder().create();
+		
+		String json = gson.toJson(qCnt);
+		
+		model.addAttribute("qCnt",json);
 		model.addAttribute("rList",rList);
 		model.addAttribute("qList",qList);
 		model.addAttribute("pvo",pvo);
@@ -467,6 +475,32 @@ public class ProductController {
 		model.addAttribute("breadcrumb",breadcrumbList);
 		
 		return "user/product/listView/saleList.page";
+	}
+	
+	@RequestMapping(value="/search",method=RequestMethod.GET)
+	public String userSearch(
+			
+			@RequestParam(value="q") String q,
+			Model model,
+			PagingVO pagingVO
+			
+			) {
+		
+		log.debug("q :" +q);
+		
+		List<ProductVO> pList =productService.userSearch(q);
+		String pageTitle= "검색";
+		Map<Integer,String[]> routeMap = new HashMap<>();
+		String routeArray[][] = {{"검색","#"}};
+		routeMap.put(0,routeArray[0]);
+		
+		List<PageInfoVO> breadcrumbList =routeUtils.pageInfo(routeMap);
+		model.addAttribute("q",q);
+		model.addAttribute("pList",pList);
+		model.addAttribute("pageTitle",pageTitle);
+		model.addAttribute("breadcrumb",breadcrumbList);
+		return "user/product/searchList.page";
+		
 	}
 	
 

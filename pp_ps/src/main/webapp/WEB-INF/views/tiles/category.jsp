@@ -27,7 +27,7 @@
 		<div class="main-menu_group mmg-2">
 			<div class="main-menu_group_search">
 				<input type="text" class="main-menu_group_search_input" placeholder="제품을 검색해보세요!"/> 
-				<button type="button" class="main-menu_group_search_button"><i class="fas fa-search"></i></button>
+				<button type="button" class="main-menu_group_search_button" id="searchBtn"><i class="fas fa-search"></i></button>
 			</div>
 		</div>
 	</div>
@@ -50,6 +50,17 @@
 </c:if>
 
 <script>
+
+$("#searchBtn").on("click",function(){
+	
+	var search =$(".main-menu_group_search_input").val();
+	
+	if(search.trim() != ""){
+		
+		location.href="/product/search?q="+search;
+	}
+	
+})
 
 $(".main-menu_dropdown").hover(function(){
 	 

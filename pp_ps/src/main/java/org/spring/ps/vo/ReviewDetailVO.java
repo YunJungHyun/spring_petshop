@@ -16,6 +16,7 @@ public class ReviewDetailVO {
 	private String pname;
 	private String pimg;
 	private int pprice;
+	private float psale;
 	
 	private int revNum;
 	private String userid;

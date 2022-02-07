@@ -43,9 +43,7 @@
 }
 
 .swiper {
-	min-height : 20rem;
- 	 height: auto;
-    
+	height: auto;
     border-radius: 8px;
   
 }
@@ -184,6 +182,15 @@ span.rank-span {
 	font-size: 1.25rem;
 	font-weight: bold;
 }
+
+.empty-info {
+    width: 100%;
+    background: antiquewhite;
+    font-size: 1.25rem;
+    padding: 0.5rem 2rem;
+    font-weight: bold;
+ 
+}
 </style>
 
 <div class="page">
@@ -218,6 +225,7 @@ span.rank-span {
 				
 				<div class="swiper">
 					<div class="swiper-wrapper">
+						<c:if test="${fn:length(saleList) != 0 }">
 						<c:forEach items="${saleList }" var="list" varStatus="status">
 							<div class="swiper-slide">
 								<div class="p-list-box go-page">
@@ -262,6 +270,12 @@ span.rank-span {
 								</div>
 							</div>
 						</c:forEach>
+						</c:if>
+						<c:if test="${fn:length(saleList) == 0 }">
+							<div class="empty-info">
+								세일항목이없습니다.
+							</div>
+						</c:if>
 					</div>
 					<div class="swiper-button-next"><i class="fas fa-2x fa-chevron-right"></i></div>
 					<div class="swiper-button-prev"><i class="fas fa-2x  fa-chevron-left"></i></div>
@@ -280,6 +294,7 @@ span.rank-span {
 			<div class="page_content_group_content">
 				<div class="swiper">
 					<div class="swiper-wrapper">
+						<c:if test="${fn:length(recentList) != 0 }">
 						<c:forEach items="${recentList }" var="list" varStatus="status">
 							<div class="swiper-slide">
 								<div class="p-list-box go-page">
@@ -329,7 +344,13 @@ span.rank-span {
 									</div> 
 								</div>
 							</div>
-						</c:forEach>
+						</c:forEach> 
+						</c:if>
+						<c:if test="${fn:length(recentList) == 0 }">
+							<div class="empty-info">
+								신규제품항목이없습니다.
+							</div>
+						</c:if>
 					</div>
 					<div class="swiper-button-next"><i class="fas fa-2x fa-chevron-right"></i></div>
 					<div class="swiper-button-prev"><i class="fas fa-2x  fa-chevron-left"></i></div>
@@ -347,6 +368,7 @@ span.rank-span {
 			<div class="page_content_group_content">
 				<div class="swiper">
 					<div class="swiper-wrapper">
+						<c:if test="${fn:length(rankList) != 0 }">
 						<c:forEach items="${rankList }" var="list" varStatus="status">
 							<div class="swiper-slide">
 								<div class="p-list-box go-page">
@@ -397,6 +419,12 @@ span.rank-span {
 								</div>
 							</div>
 						</c:forEach>
+						</c:if>
+						<c:if test="${fn:length(recentList) == 0 }">
+							<div class="empty-info">
+								랭킹에 등록된 제품이 없습니다.
+							</div>
+						</c:if>
 					</div>
 					<div class="swiper-button-next"><i class="fas fa-2x fa-chevron-right"></i></div>
 					<div class="swiper-button-prev"><i class="fas fa-2x  fa-chevron-left"></i></div>

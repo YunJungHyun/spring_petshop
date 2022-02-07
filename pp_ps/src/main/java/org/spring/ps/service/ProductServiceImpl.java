@@ -127,5 +127,17 @@ public class ProductServiceImpl implements ProductService{
 		return productDAO.countBrandProduct(sortMap);
 	}
 	
+	@Override
+	public List<ProductVO> userSearch(String q) {
+		// TODO Auto-generated method stub
+		return productDAO.userSearch(q);
+	}
+	
+	
+	@Override
+	public List<ProductVO> getUserLikeProductList(String userid) {
+		// TODO Auto-generated method stub
+		return productDAO.getUserLikeProductList(userid);
+	}
 	
 }

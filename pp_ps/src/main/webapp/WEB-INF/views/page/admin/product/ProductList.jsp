@@ -229,7 +229,7 @@ a.content-table_tbody_tr_td_a {
 						<th scope="col">정가/할인율/할인가</th>
 						<th scope="col">평점/리뷰수</th>
 						<th scope="col">재고량</th>
-						<th scope="col">등록날짜</th>						
+						<th scope="col">업데이트</th>						
 						<th scope="col">상태</th>
 						<th scope="col">제품보기</th>
 					</tr>
@@ -277,7 +277,7 @@ a.content-table_tbody_tr_td_a {
 						
 						<td class="content-table_tbody_tr_td">
 							<select class="custom-select pstate-select" id="${plist.pid}-pstate">
-								 <option value="NOTPOSTING" <c:if test="${plist.pstate eq'NOTPOSTING' }">selected</c:if>>미 게시</option>
+								 <option value="NOTPOSTING" <c:if test="${plist.pstate eq 'NOTPOSTING' }">selected</c:if>>미 게시</option>
 								<option value="POSTING" <c:if test="${plist.pstate eq 'POSTING' }">selected</c:if>>게시</option>
 								<option value="RESTOCK_REQ" <c:if test="${plist.pstate eq'RESTOCK_REQ' }">selected</c:if>>재입고요청</option> 
 								<option value="RESTOCK_COM" <c:if test="${plist.pstate eq'RESTOCK_COM' }">selected</c:if>>재입고완료</option> 
@@ -382,7 +382,7 @@ $(document).on("change",".pstate-select",function(){
 			
 				if(data >=1){
 					
-					alert("제품 상태가 변경되었습니다.");
+					location.reload();
 				}else{
 					
 					

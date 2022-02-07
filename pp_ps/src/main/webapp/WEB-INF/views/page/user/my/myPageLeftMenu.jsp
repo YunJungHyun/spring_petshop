@@ -73,6 +73,17 @@
 			</a>
 		</li>
 		<li class="myPageLeftMenu-li-parent-title mb-2 py-2 px-3">나의 쇼핑</li>
+		<li class="myPageLeftMenu-li-title mb-2 py-2 px-3" id="myWish">
+			<a href="/view/mypage/myWish">
+				
+				<span class="d-flex justify-content-between">
+					<span>관심</span>
+					<span class="myPageLeftMenu-li-icon">
+						<i class="fas fa-chevron-right"></i>
+					</span>
+				</span>
+			</a>		
+		</li>
 		<li class="myPageLeftMenu-li-title mb-2 py-2 px-3" id="myOrder">
 			<a href="/view/mypage/myOrder">
 				<span class="d-flex justify-content-between">

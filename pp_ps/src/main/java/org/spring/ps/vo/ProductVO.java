@@ -37,4 +37,6 @@ public class ProductVO {
 	private int reviewCnt;
 	private int orderCnt;
 	private int cnt;
+	
+	
 }

@@ -16,6 +16,7 @@ import org.spring.ps.service.BrandService;
 import org.spring.ps.service.CategoryService;
 import org.spring.ps.service.OrderService;
 import org.spring.ps.service.ProductService;
+import org.spring.ps.service.QnAService;
 import org.spring.ps.service.UserService;
 import org.spring.ps.utils.routeUtils;
 import org.spring.ps.vo.BrandVO;
@@ -24,6 +25,7 @@ import org.spring.ps.vo.OrderVO;
 import org.spring.ps.vo.PageInfoVO;
 import org.spring.ps.vo.PagingVO;
 import org.spring.ps.vo.ProductVO;
+import org.spring.ps.vo.QnAVO;
 import org.spring.ps.vo.UserVO;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -55,6 +57,8 @@ public class AdminViewController {
 	private BrandService brandService;
 	@Inject
 	private UserService userService;
+	@Inject
+	private QnAService qnAService;
 	
 	@RequestMapping(value="/member/{unum}", method=RequestMethod.GET)
 	public String adminViewMember(
@@ -301,17 +305,28 @@ public class AdminViewController {
 				routeMap.put(1,routeArray6[1]);
 				
 				model.addAttribute("uList",uList);
-				
+				 
 
 				pageTitle = "회원 관리";
 				view = "member/Member";
 
 				break;
 			case "QnA":
-
+				
+				
+				
+				List<QnAVO> qList =  qnAService.getAllQnAList();
+				 
+				String routeArray7[][] = {{"관리자 페이지","/adminView/Management"},{"문의 관리","/adminView/QnA"}};
+				routeMap.put(0,routeArray7[0]);
+				routeMap.put(1,routeArray7[1]);
+				
+				
+				model.addAttribute("qlist",qList);
+			
 				pageTitle = "Q&A 관리";
 				view = "QnA/QnA";
-
+				
 				break;
 			case "Addition": 
 				

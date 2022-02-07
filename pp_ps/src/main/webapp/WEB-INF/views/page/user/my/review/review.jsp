@@ -16,7 +16,9 @@
 	padding : 0px;
 	
 }
-
+.list-ul_li{
+	margin-bottom: .5rem;
+}
 .star{
   display:inline-block;
   width: 15px; 
@@ -36,16 +38,26 @@
 .star.on{
   background-image: url(/resources/icon/star.png);
 }
+
+.myPageBody_content_imgBox{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
 </style>
 
 <%@ include file="/WEB-INF/views/page/user/my/myPageHeader.jsp"%>
 
 <div class="d-flex">
 	<%@ include file="/WEB-INF/views/page/user/my/myPageLeftMenu.jsp"%>
-	<div class="myPageBody col-10 p-3">
+	<div class="myPageBody col-10">
+	
+		<div class="myPageBody_title-group">
+			<span class="myPageBody_title-group_span">나의 구매후기 - 리뷰 작성하기</span>
+		</div>
 		<c:forEach items="${crList }" var="list" varStatus="status">
-			<div class="col-12 px-0 border mb-3 d-flex">
-				<div class="col-4 p-3 text-center border-right">
+			<div class="col-12 px-0 border mb-3 d-flex myPageBody_content ">
+				<div class="col-4 text-center border-right myPageBody_content_imgBox">
 					<img id="img-${status.count}"src="">
 					<script>
 							
@@ -59,26 +71,30 @@
 				</div>
 				<div class="col-8 p-3">
 					<ul class="list-ul">
-						<li>주문 번호 : ${list.orderid }</li>
-						<li>${list.pname }</li>
-						<li>
+						<li class="list-ul_li">주문 번호 : ${list.orderid }</li>
+						<li class="list-ul_li">${list.pname }</li>
+						<li class="list-ul_li">
 							<span>구매 날짜 :</span>
 							<span>${list.orderDate}</span>
 						</li> 
-						<li>
-							<span>작성 날짜 :</span>
-							<span>${list.revDate}</span>
-						</li>
-						<li>
-							<span>제품 가격 :</span>
+						<li class="list-ul_li">
+							<span>제품 가격 :</span> 
 							<span>${list.pprice }</span>
 						</li>
-						<li>
+						<li class="list-ul_li">
+							<span>할인율</span>
+							<span>${list.psale}</span>
+						</li>
+						<li class="list-ul_li">
 							<span>구매 갯수:</span>
 							<span>${list.cstock }</span>
 							
-							</li>
-						<li class="float-right">
+						</li>
+						<li class="list-ul_li">
+							<span>구매 가격</span> 
+							<span>${list.revDate}</span>
+						</li>
+						<li class="list-ul_li float-right">
 							<button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#review-writer-${status.count}" aria-expanded="false" aria-controls="review-writer-${status.count}">구매 후기 작성</button>
 						</li>
 					</ul>

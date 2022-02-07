@@ -18,7 +18,9 @@ VO클래스 등록하면 mapper.xml에서 VO 클래스를 mybatis-config.xml에 
             <typeAlias type="org.spring.ps.vo.OrderListVO" alias="orderListVO"/>
             <typeAlias type="org.spring.ps.vo.ReviewVO" alias="reviewVO"/>
             <typeAlias type="org.spring.ps.vo.ReviewDetailVO" alias="reviewDetailVO"/>
-            <typeAlias type="org.spring.ps.vo.QnAVO" alias="qnAVO"/>
+            <typeAlias type="org.spring.ps.vo.QnAVO" alias="qnaVO"/>
+
+            <typeAlias type="org.spring.ps.vo.LikeVO" alias="likeVO"/>
             <typeAlias type="org.spring.ps.vo.BrandVO" alias="brandVO"/>
             
 	</typeAliases>

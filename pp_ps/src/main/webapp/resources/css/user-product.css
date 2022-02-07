@@ -35,10 +35,10 @@ span.span-cart-allPriceSum {
 }
 
 .pname-brand_span.pname {
-	display: block;
+	display: inline;
 	font-size: 1.75rem;
 	font-weight: bold;
-}
+} 
 
 .info-box_group_span {
 	font-size: 1.25rem;
@@ -208,14 +208,14 @@ span.span-cart-allPriceSum {
 	
 	
     padding: 1rem ;
-    background-color: #dee2e6;
+    background-color: #d6f7f2; 
     border-radius: 5px;
     display: flex;
     justify-content: space-between;
-}
+} 
 .qna-content_span{
 	
-	font-size: .75rem;
+	font-size: 1rem;
 }
 
 .qna-content_a{

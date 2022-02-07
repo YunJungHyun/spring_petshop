@@ -140,7 +140,22 @@
 		]]>
 
 	</select>
-	
+	<select id="userSearch" parameterType="HashMap"
+		resultType="productVO">
+		<![CDATA[
+ 			${sql}
+		]]>
+
+	</select>
+
+	<select id="getUserLikeProductList" parameterType="HashMap"
+		resultType="productVO">
+		<![CDATA[
+ 			${sql}
+		]]>
+
+	</select>
+
 
 
 </mapper>

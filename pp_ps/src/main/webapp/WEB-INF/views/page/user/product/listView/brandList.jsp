@@ -77,6 +77,12 @@
 .brand-img-box_img {
     object-fit: cover;
 }
+.bname-span{
+	font-weight: bold;
+	padding: 0.5rem;
+    border-bottom: 1px solid #dee2e6;
+    display: block;
+}
 </style>
 
 <div class="page">
@@ -104,6 +110,7 @@
 			<div class="page-content_group brand-group">
 				<c:forEach items="${bList }" var="list" varStatus="status">
 					<div class="brand-group_box ">
+						<span class="bname-span">${list.bname }</span>
 						<div class="brand-img-box go-page">
 							<a href="/brand/${list.bnum }" style="display:none"></a>
 							<img class="brand-img-box_img" id="img-${status.count }" src="">

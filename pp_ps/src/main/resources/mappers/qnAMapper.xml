@@ -5,17 +5,51 @@
 
 <mapper namespace="org.spring.ps.mapper.qnAMapper">
 
-	<insert id="QnAInsert" parameterType="HashMap">
+	<insert id="insertQnA" parameterType="HashMap">
+		<![CDATA[
+			${sql}
 		
-		<![CDATA[ 
- 			${sql}
 		]]>
 	
 	</insert>
-	<select id="getQnAList" parameterType="HashMap" resultType="qnAVO">
-			<![CDATA[ 
- 			${sql}
+	<insert id="answerInsert" parameterType="HashMap">
+		<![CDATA[
+			${sql}
+		
 		]]>
-	</select>
 	
+	</insert>
+	
+	<select id="getQnAList" parameterType="HashMap" resultType="qnaVO">
+		<![CDATA[
+			${sql}
+		
+		]]>
+	
+	
+	</select>
+	<select id="getAllQnAList" parameterType="HashMap" resultType="qnaVO">
+		<![CDATA[
+			${sql}
+		
+		]]>
+	
+	
+	</select>
+	<select id="getQnACntList" parameterType="HashMap" resultType="qnaVO">
+		<![CDATA[
+			${sql}
+		
+		]]>
+	
+	
+	</select>
+	<select id="getReplyList" parameterType="HashMap" resultType="qnaVO">
+		<![CDATA[
+			${sql}
+		
+		]]>
+	
+	
+	</select>
 </mapper>

@@ -97,7 +97,7 @@ public class ReviewDAOImpl implements ReviewDAO{
 	@Override
 	public List<ReviewDetailVO> getReviewList(UserVO userVO) {
 		HashMap<String,String> map = new HashMap();
-		String sql= "SELECT p.pid,p.pname,p.pprice,p.pimg,o.orderDate ,d.cstock,o.orderid ,r.revContent ,r.rating, r.revDate FROM tbl_product AS p "; 
+		String sql= "SELECT p.pid,p.pname,p.pprice,p.pimg,p.psale,o.orderDate ,d.cstock,o.orderid ,r.revContent ,r.rating, r.revDate FROM tbl_product AS p "; 
 		sql += "INNER JOIN tbl_order_details AS d "; 
 		sql += "ON p.pid = d.pid "; 
 		sql += "INNER JOIN tbl_order AS o "; 

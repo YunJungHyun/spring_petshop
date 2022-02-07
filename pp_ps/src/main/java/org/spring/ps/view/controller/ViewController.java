@@ -51,7 +51,7 @@ public class ViewController {
 	private ReviewService reviewService;
 	
 	@Inject
-	private ProductService prodcutService;
+	private ProductService productService;
 	
 	@Inject
 	private UserService userService;
@@ -83,9 +83,9 @@ public class ViewController {
 		pagingVO.setEnd(10);
 		
 		String categoryCode = "";
-		List<ProductVO> saleList = prodcutService.getSaleProductList(pagingVO,categoryCode);
-		List<ProductVO>  recentList= prodcutService.getRecentProductList(pagingVO,categoryCode);
-		List<ProductVO> rankList = prodcutService.getRankProductList(pagingVO,categoryCode);
+		List<ProductVO> saleList = productService.getSaleProductList(pagingVO,categoryCode);
+		List<ProductVO>  recentList= productService.getRecentProductList(pagingVO,categoryCode);
+		List<ProductVO> rankList = productService.getRankProductList(pagingVO,categoryCode);
 		
 		log.debug("saleList.size() :" +saleList.size());
 		log.debug("recentList.size() :" +recentList.size());
@@ -278,7 +278,7 @@ public class ViewController {
 					String routeArray5[][] = {{"마이페이지","/view/mypage/myOrder"},{"리뷰 작성","/view/mypage/myReviewWriter"}};
 					routeMap.put(0,routeArray5[0]);
 					routeMap.put(1,routeArray5[1]);
-					mark ="myReviewWriter";
+					mark ="myReviewWriter"; 
 					break;
 				case "myReviewList":
 					
@@ -293,6 +293,17 @@ public class ViewController {
 					routeMap.put(0,routeArray6[0]);
 					routeMap.put(1,routeArray6[1]);
 					mark ="myReviewList";
+					break;
+				case "myWish":
+					
+					
+					List<ProductVO> wishList = productService.getUserLikeProductList(userVO.getUserid());
+					model.addAttribute("wishList",wishList);
+					page ="like/likeList";
+					String routeArray7[][] = {{"마이페이지","/view/mypage/myOrder"},{"관심 제품","/view/mypage/myWish"}};
+					routeMap.put(0,routeArray7[0]);
+					routeMap.put(1,routeArray7[1]);
+					mark ="myWish";
 					break;
 					
 			}

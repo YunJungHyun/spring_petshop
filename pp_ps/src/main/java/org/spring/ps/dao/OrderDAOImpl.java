@@ -115,7 +115,7 @@ public class OrderDAOImpl implements OrderDAO {
 	public int orderDetailStateChange(OrderDetailVO orderDetailVO) {
 		HashMap<String,String> map = new HashMap();
 
-		String sql = "UPDATE tbl_order_details SET delivery = 'orderCancle' ";
+		String sql = "UPDATE tbl_order_details SET delivery = '"+orderDetailVO.getEachDelivery()+"' ";
 		sql+= "WHERE orderid = '"+orderDetailVO.getOrderid()+"' ";
 		sql+= "AND pid = '"+orderDetailVO.getPid()+"'";
 		map.put("sql", sql);

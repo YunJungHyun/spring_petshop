@@ -82,7 +82,7 @@
 		  
 		<div class="page-content col-4">
 				<div class="page-content_group"  id="QnA">
-				<span class="page-content_group_title">Q&A</span> 
+				<span class="page-content_group_title">제품 문의</span> 
 				<div class="page-content_group_box">
 					<img src="/resources/icon/qna.png">
 				</div>

@@ -210,6 +210,7 @@ public class ProductDAOImpl implements ProductDAO{
 		HashMap<String, String> map = new HashMap();
 
 		String sql = "UPDATE tbl_product SET pstate ='" +productVO.getPstate()+"'";
+		sql+=" , pregdate=NOW() ";
 		sql += " WHERE pid = '"+productVO.getPid()+"'";
 		map.put("sql", sql);
 
@@ -539,5 +540,31 @@ public class ProductDAOImpl implements ProductDAO{
 		return result;
 	}
 	
+	@Override
+	public List<ProductVO> userSearch(String q) {
+		HashMap<String, String> map = new HashMap();
+		String sql = " SELECT tp.* FROM tbl_product AS tp ";
+			sql+=" INNER JOIN tbl_category AS tc ";
+			sql+=" ON tc.ccode = tp.pccode ";
+			sql+=" WHERE tp.pname LIKE '%"+q+"%' OR tp.pexplicate LIKE '%"+q+"%' OR cname LIKE '%"+q+"%'  ";
+		map.put("sql", sql);
+		List<ProductVO> result = sqlSession.selectList(Namespace+".userSearch",map);
+		return result;
+	}
+	
+	
+	@Override
+	public List<ProductVO> getUserLikeProductList(String userid) {
+		HashMap<String, String> map = new HashMap();
+		String sql =" SELECT tr.reviewCnt ,tp.* FROM tbl_product AS tp  ";
+		sql+=" INNER JOIN tbl_like AS tl ";
+		sql+=" ON tl.pid = tp.pid ";
+		sql+=" left JOIN (SELECT pid,COUNT(*) AS reviewCnt FROM tbl_review GROUP BY pid) AS tr " ;
+		sql+=" ON tl.pid = tr.pid ";
+		sql+=" WHERE tl.userid = '"+userid+"' ";
+		map.put("sql", sql);
+		List<ProductVO> result = sqlSession.selectList(Namespace+".getUserLikeProductList",map);
+		return result;
+	}
 	
 }

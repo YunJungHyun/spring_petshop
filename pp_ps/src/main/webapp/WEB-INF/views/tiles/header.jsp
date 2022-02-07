@@ -20,7 +20,7 @@
 							<a href="#" class="main-header_dropdown-li_a" onclick="goPage('mypage/myCart')">장바구니</a>
 						</li>
 						<li class="main-header_dropdown-li">
-							<a href="#" class="main-header_dropdown-li_a" onclick="goPage('mypage/myWish')">관심 상품</a></li>
+							<a href="#" class="main-header_dropdown-li_a" onclick="goPage('mypage/myWish')">관심</a></li>
 						<li class="main-header_dropdown-li">
 							<a href="#" class="main-header_dropdown-li_a" onclick="goPage('mypage/myInfo')">내 정보</a></li>
 

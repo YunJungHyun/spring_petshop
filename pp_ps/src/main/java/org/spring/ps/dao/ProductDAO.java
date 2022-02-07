@@ -48,6 +48,10 @@ public interface ProductDAO {
 
 	int countBrandProduct(HashMap<String, String> sortMap);
 
+	List<ProductVO> userSearch(String q);
+
+	List<ProductVO> getUserLikeProductList(String userid);
+
 
 
 

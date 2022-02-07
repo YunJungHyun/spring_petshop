@@ -5,13 +5,90 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <link href="/resources/css/user-product.css" rel="stylesheet" type="text/css">
+<style>
+	.question-box_input{
+	    padding: 1rem;
+    	border-top-right-radius: unset;
+   	 border-bottom-right-radius: unset;
+    }
+	
+	.question-box_button{
+	
+		 background-color: #70e1ce;
+		 border-top-left-radius : unset;
+		 border-bottom-left-radius:unset;
+	}
+	
+	.QnA-relpyList-one {
+    padding: 0.5rem 1rem;
+    background-color: #d6f7f2;
+        display: flex;
+	
+	    border-radius: 5px;
+    margin: 0.5rem 0rem;
+}
+.reply-content-span {
+    display: inline-flex;
+    flex-direction: column;
+    margin: 0px 1rem;
+    width: 100%;
+}
+
+.reply-writer-info{
+    font-size: .75rem;
+    font-weight: bold;
+    margin-bottom: 0.25rem;
+    padding: 0.25rem;
+
+}
+.reply-icon-span {
+ 
+    align-self: center;
+}
+
+.reply-content { 
+    padding: 0.75rem 0.5rem;
+}
+span.QnA-relpyList-span {
+    padding: 1rem;
+    background-color: #d6f7f2;
+    width: 100%;
+    display: block;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 1.25rem;
+}
+
+.empty-info {
+    border-radius: 5px;
+    border: 1px solid #dee2e6;
+    padding: 3rem 2rem;
+    font-size: 1.25rem;
+    font-weight: bold;
+    background-color: #d6f7f2;
+}
+
+.pbrand {
+    display: block;
+    text-align: left;
+}
+
+.plike{
+	float:right;
+	
+}
+.plike_img{
+	width:2.5rem;
+}
+ 
+</style>
 <div class="page pt-3">
 	<div class="page-container">
 		<div class="page-content">
 			<div class="page-content_group">
 				<div class="row">
 					<div class="col-lg-6 page-content_group_box">
-						<img id="this-img" src="/resources/icon/none.png" />
+						<img id="this-img" src="" />
 						<script>
 								
 						var pimgStr = JSON.stringify(${pvo.pimg});
@@ -22,15 +99,20 @@
 						$("#this-img").attr("src" ,"/resources"+path+"/"+fileName);
 						</script>
 					</div> 
-
+ 
 					<div class="col-lg-6 page-content_group_box info-box">
 						<div class="info-box_row">
 							<div class="info-box_group pname-pbrand">
 								<span class="badge pname-pbrand_span pbrand">
-									<a href="#" class="pname-pbrand_span_a">${pvo.pbrand }</a>
+									<a href="#" class="pname-pbrand_span_a">${pvo.pbrand}</a>
 								</span>
 								<span class="pname-brand_span pname">${pvo.pname }</span>
-							</div>
+								<span class="badge pname-brand_span plike" id="plike_span">
+									<button type="button" onclick="like('${pvo.pid}')">
+										<img src="/resources/icon/heart_empty.png" class="plike_img">
+									</button>
+								</span>
+							</div>   
 						 
 							<div class="info-box_group info-pprice info-padding">
 								<c:set value="${pvo.pprice }" var="price"/>
@@ -133,13 +215,13 @@
 							<a class="card-ul_li_a active" href="#pexplicate" data-toggle="collapse"  role="button" aria-expanded="true" aria-controls="pexplicate" > 제품 정보</a>
 						</li> 
 						<li class="nav-item card-ul_li col-3">
-							<a class="card-ul_li_a" href="#QnA" data-toggle="collapse"  role="button" aria-expanded="true" aria-controls="QnA">질문/답변</a>
+							<a class="card-ul_li_a QnAMenu" href="#QnA" data-toggle="collapse"  role="button" aria-expanded="true" aria-controls="QnA">질문/답변</a>
 						</li>
 						<li class="nav-item card-ul_li col-3">
-							<a class="card-ul_li_a" href="#review" data-toggle="collapse"  role="button" aria-expanded="true" aria-controls="#review">구매후기</a>
+							<a class="card-ul_li_a reviewMenu"  href="#review" data-toggle="collapse"  role="button" aria-expanded="true" aria-controls="#review">구매후기</a>
 						</li>
 						<li class="nav-item card-ul_li col-3">
-							<a class="card-ul_li_a" href="#notice" data-toggle="collapse"  role="button" aria-expanded="true" aria-controls="#notice">취소/교환/반품 안내</a>
+							<a class="card-ul_li_a noticeMenu" href="#notice" data-toggle="collapse"  role="button" aria-expanded="true" aria-controls="#notice">취소/교환/반품 안내</a>
 						</li>
 					</ul>  
 				</div>
@@ -158,25 +240,39 @@
 										<form id="questionForm" name="questionForm" >
 											<div class="QnA-content question-box">
 											
-												<input type="text" id="qcontent" name="qcontent" class="question-box_input col-10"placeholder="제품에 대해 질문해주세요!"/>
-												<button type="button" id="questionInsert-btn" class="btn btn-primary question-box_button col-2">질문 하기</button>
+												<input type="text" id="qnaContent" name="qnaContent" class="question-box_input col-10" placeholder="제품에 대해 질문해주세요!"/>
+												<button type="button" id="questionInsert-btn" class="btn question-box_button col-2">질문 하기</button>
 											</div>
 										</form>
 									</div>
 								</div>
 								<div class="QnA-container_group">
 									<div class="QnAListContainer">
-										<c:forEach items="${qList }" var="qlist">
-											<div class="qna-one-content border-bottom">
-												<div class="qna-userInfo">
-													<span class="qna-userInfo_span">${qlist.username}</span>					
-												</div>
-												<div class="qna-content">
-													<span class="qna-content_span">${qlist.qcontent }</span>
-													<a class="qna-content_a" href="#">답변보기 (0)</a>
-												</div>
-											</div> 
-										</c:forEach>
+									
+										
+										<c:if test="${fn:length(qList) != 0 }"> 
+										
+										<c:forEach items="${qList }" var="list"> 
+											<c:if test="${empty list.parentid }">
+												<div class="qna-one-content border-bottom mb-2">
+													<div class="qna-userInfo"> 
+														<span class="qna-userInfo_span">${list.username}/${list.qnaDate }</span>					
+													</div>
+													<div class="qna-content mb-2">
+														<span class="qna-content_span">${list.qnaContent }</span>
+														
+														<button class="qna-content_a"  data-toggle="collapse" data-target="#sub-${list.qnaid }">답변보기 (<span id="cnt-${list.qnaid }">0</span>)</button>
+													</div>
+													<div class="collapse subQnAList" id="sub-${list.qnaid}">
+														
+													</div>
+												</div>  
+											</c:if>
+										</c:forEach> 
+										</c:if>
+										<c:if test="${fn:length(qList) == 0 }">
+											<div class="empty-info">작성된 문의가 없습니다.</div>
+										</c:if>
 									</div> 
 								</div>
 							</div>
@@ -185,7 +281,9 @@
 					<div class="tab-content collapse" id="review"> 
 						<div class="card-body ps-card-body">
 							<c:if test="${fn:length(rList) == 0}">
-								리뷰가 없습니다.
+								<div class="empty-info">
+									구매후기가 없습니다.
+								</div>
 							</c:if>
 							<c:forEach items="${rList }" var="rlist">
 								<div class="review-one-content border-bottom">
@@ -298,45 +396,212 @@
 </div>
 <script>
 
-$("#questionInsert-btn").on("click",function(){
+$(document).ready(function(){
+	var userInfo = "${userInfo}";
 	
-	var formData = $("#questionForm").serialize(); 
 	var pid ="${pvo.pid}";
-	formData += "&pid="+pid;
+	if(userInfo != ""){
+		$.ajax({
+			url : "/like/check",
+			type: "POST",
+			data:{
+				
+				"pid" :pid
+			},
+			success:function(data){
+				
+				console.log(data);
+				if(data>=1){
+					
+					$(".plike_img").attr("src","/resources/icon/heart.png");
+					$(".plike_img").addClass("likeChk");
+				}
+			}
+		
+		})
+	}
+})
+
+
+function like( pid ){
 	
-	console.log(formData);
+	var userInfo = "${userInfo}";
+	
+	if(userInfo == ""){
+		
+		location.href="/view/login?go=login";
+	}else{
+		
+		
+		if($(".plike_img").hasClass("likeChk")){
+			
+			$.ajax({
+				
+				url : "/like/delete",
+				type : "post",
+				data : {
+					
+					"pid" : pid
+				},success: function(data){
+					
+					if( data>=1){
+						
+						location.reload();
+					}else{
+						
+						alert("관심 목록 삭제에 실패하였습니다.");
+						location.reload();
+					}
+				}
+				
+			}) 
+		}else{
+			
+			
+			
+			
+			
+			 $.ajax({
+				
+				url : "/like/insert",
+				type : "post",
+				data : {
+					
+					"pid" : pid
+				},success: function(data){
+					
+					if( data>=1){
+						
+						location.reload();
+					}else{
+						
+						alert("관심 목록 등록에 실패하였습니다.");
+						location.reload();
+					}
+				}
+				
+			}) 
+			
+		}
+		
+		
+	}
+}
+
+$(".subQnAList").on("show.bs.collapse",function(){
+	
+	var qnaid = $(this).attr("id").split("-")[1];
+	
+	$("#sub-"+qnaid).empty();
+	
 	$.ajax({
 		
-		url : "/QnA/QuestionInsert",
-		data : formData,
+		url : "/QnA/AdminReplyList",
+		data: {
+			
+			"qnaid" : qnaid
+		},
+		type:"POST",
 		success:function(data){
 			
+		var html = "<div class='QnA-replyList mb-3'>";
 			
-			if(data>=1){
+			if(data.length ==0){
 				
-				alert("문의가 작성 되었습니다.");
-				location.reload();
+				html+="<span class='QnA-relpyList-span'>아직 답변이 없습니다.</span>"	
 			}else{
+			
+			
+					
+				for(var i = 0 ; i<data.length ;i++){
+					
+					html+="<div class='QnA-relpyList-one'>";
+						html+="<span class='reply-icon-span'>";	
+							html+="<img src='/resources/icon/reply.png'>"
+						html+="</span>";
+						html+="<span class='reply-content-span'>";
+							html+="<span class='reply-writer-info border-bottom'>"
+								html+=data[i].username
+							html+="</span>";
+							html+="<span class='reply-content'>";
+								html+= "<span class='font-weight-bold'>A : </span>"+data[i].qnaContent;
+								html+="<span class='font-weight-bold float-right'>"
+								html+=data[i].qnaDate;
+								html+="</span>";
+							html+="</span>";
+						html+="</span>";
+					html+="</div>";
+				}
 				
-				alert("질문 작성에 실패하였습니다. ");
 				
 			}
+			html+="</div>";
+			$("#sub-"+qnaid).append(html);
 			
 		}
 		
 	})
 })
 
-$("#QnAInputContainer").on("show.bs.collapse",function(){
+$(document).ready(function(){
+	
+	
+	var JSONQnACnt = JSON.parse('${qCnt}');
+	
+	
+	for(var i = 0 ; i < JSONQnACnt.length;i++){
+	
+		var parentid = JSONQnACnt[i].parentid;
+		
+		
+		$("#cnt-"+parentid).text(JSONQnACnt[i].eachCnt);
+		
+	}
+})
+
+$("#questionInsert-btn").on("click",function(){
+	
+	var formData = $("#questionForm").serialize(); 
+	var pid ="${pvo.pid}";
+	formData += "&pid="+pid;
 	
 	
 	var userInfo = "${userInfo}";
 	if(userInfo == ""){
 		
-		alert("로그인 후 이용가능합니다.");
-		return false;
+		var con = confirm("로그인 후 이용 가능합니다. 로그인 하시겠습니까?");
+		
+		if(con == true){
+			
+			location.href="/view/login?go="+pid;		
+		}
+		
+	}else{
+		$.ajax({
+		
+			url : "/QnA/QuestionInsert",
+			data : formData,
+			success:function(data){
+			
+			
+				if(data>=1){
+				
+					alert("문의가 작성 되었습니다.");
+					location.href="/product/"+pid;
+				}else{
+				
+					alert("질문 작성에 실패하였습니다. ");
+					
+				}
+			
+			}
+		
+		})
+	
 	}
 })
+
+
 function productCnt(sign){
 	
 	var cnt=$("#ps-cnt").val();

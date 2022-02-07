@@ -68,7 +68,7 @@
 				<div class="my-icon-img-box">
 					<i class="far fa-heart fa-2x"></i>
 				</div>
-				<span class="my-sub-title">관심 상품 </span>
+				<span class="my-sub-title">관심 </span>
 			</div>
 		</div>
 		<div class="col-3 ">
