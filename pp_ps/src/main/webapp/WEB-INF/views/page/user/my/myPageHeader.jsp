@@ -51,6 +51,14 @@
 	
 }
 
+.empty-info{
+
+	 border-radius: 5px;
+	 background-color:#7fe7d552;
+	 padding :2rem 1rem;
+	 font-weight: bold; 
+}
+
 </style>
 <div class="myPageHeader my-3 col-12">
 	<div class="row">

@@ -10,16 +10,20 @@
 	display: flex;
 }
 
-.wish-img{
+.product-img{
 	width : 7rem;
 }
 .list-content-box{
-	padding : .5rem ;
-}
-.list-content-box{
-	 font-size: .75rem;
+	padding : .5rem 1rem ;
+	display: flex;
+    justify-content: space-between;
+    width: 100%;
 }
 
+
+.list-content-box_ul{
+	     font-size: .75rem;
+}
 .list-content-box_li{
 	margin-bottom: .25rem;
 }
@@ -48,6 +52,31 @@ span.info-reviewCnt-span {
     vertical-align: top;
     font-size:1rem;
 }
+.add-sale-before{
+
+	color : gray;
+	text-decoration: line-through;
+}
+.add-sale-percent{
+	font-size: 1rem;
+	color:red;
+}
+.price-span{
+	font-weight: bold;
+}
+ul.list-content-box_ul{
+
+	display: flex;
+	flex-direction:column;
+	justify-content: space-between;
+	height: 100%;
+}
+.helper{
+	    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+}
+
 </style>
 
 <%@ include file="/WEB-INF/views/page/user/my/myPageHeader.jsp"%>
@@ -59,10 +88,14 @@ span.info-reviewCnt-span {
 		</div>
 		
 		<div class="myPageBody">
+			<c:if test="${fn:length(wishList) == 0 }">
+				<div class="empty-info">등록된 관심 제품이 없습니다.</div> 
+			</c:if>
+			
 			<c:forEach items="${wishList }" var="list" varStatus="status">
 				<div class="myPageBody-list-oneLine">
 					<div class="list-img-box">
-						<img src="" id="img-${status.count }" class="wish-img">
+						<img src="" id="img-${status.count }" class="product-img">
 						<script>
 							var pimgStr = JSON.stringify(${list.pimg}); 
 							var pimgJSON = JSON.parse(pimgStr);
@@ -74,9 +107,24 @@ span.info-reviewCnt-span {
 					<div class="list-content-box">
 						<ul class="list-content-box_ul">
 							<li class="list-content-box_li pname">
-								<a href="/product/${list.pid }">${list.pname }</a></li>
-							<li class="list-content-box_li">${list.pprice }</li>
-							<li class="list-content-box_li">${list.psale }</li> 
+								<a href="/product/${list.pid }">${list.pname }</a></li> 
+							<c:if test="${list.psale == 0 }">
+								<li class="list-content-box_li ">
+									<span class="price-span"><fmt:formatNumber value="${list.pprice}" pattern="###,###,###"/>원</span></li>
+							</c:if>
+							<c:if test="${list.psale > 0 }">
+								<li class="list-content-box_li add-sale-before"><fmt:formatNumber value="${list.pprice}" pattern="###,###,###"/>원</li>
+								<li class="list-content-box_li">
+									<span class="add-sale-percent">
+										<fmt:formatNumber type="percent" value="${list.psale}"/>
+									</span>
+									<span class="add-sale-after price-span">
+										<c:set var="sale_price" value="${list.pprice - (list.pprice * list.psale)}"/>
+										<fmt:formatNumber type="number" pattern="###,###,###" value="${sale_price + (10-(sale_price%10))%10}"/>원 
+									</span>
+								</li> 
+							</c:if>
+							
 							<li class="list-content-box_li info-rating">
 								<c:set value ="${list.prating * 20 }" var = "rating"/>
 						 			<span class="info-rating_span"> 
@@ -88,12 +136,13 @@ span.info-reviewCnt-span {
 							</li>
 							
 						</ul>
-					
+							<div class="list-active-box">
+								<div class="helper"></div>
+								<button class="btn  btn-outline-primary list-active-box_btn" onclick="wishCart('${list.pid}','${list.pcnt }')">장바구니 담기</button>
+								<button class="btn btn-outline-danger list-active-box_btn" onclick="deletLike('${list.pid}')">삭제</button>
+							</div>
 					</div>
-					<div class="list-active-box">
-						<button onclick="wishCart('${list.pid}','${list.pcnt }')">장바구니 담기</button>
-						<button onclick="deletLike('${list.pid}')">삭제</button>
-					</div>
+				
 				</div>
 			</c:forEach>
 		</div>

@@ -140,4 +140,10 @@ public class ProductServiceImpl implements ProductService{
 		return productDAO.getUserLikeProductList(userid);
 	}
 	
+	@Override
+	public void updateRating(String pid) {
+		// TODO Auto-generated method stub
+		productDAO.updateRating(pid);
+	}
+	
 }

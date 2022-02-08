@@ -148,4 +148,31 @@ public class QnAController {
 			return  Integer.toString(result);
 		}
 	}
+	
+	@RequestMapping(value="/delete", method=RequestMethod.POST)
+	@ResponseBody
+	public String QnADelete(
+			@RequestParam(value="qnaid") String qnaid,
+			HttpSession session
+			,HttpServletResponse response
+			) throws IOException {
+		UserVO userInfo = (UserVO)session.getAttribute("userInfo");
+		int result =0 ;
+		if(userInfo == null) {
+			response.setContentType("text/html; charset=UTF-8");
+
+			PrintWriter out = response.getWriter();
+
+			out.println("<script>alert('로그인 후 이용가능합니다.'); window.history.back();</script>");
+
+			out.flush();
+
+			return "home.page";
+		}else {
+			QnAVO qnaVO = new QnAVO();
+			qnaVO.setQnaid(qnaid);
+			result = qnaService.QnADelete(qnaVO);
+		}
+		return Integer.toString(result);
+	}
 }

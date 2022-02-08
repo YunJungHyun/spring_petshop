@@ -17,6 +17,7 @@ import org.spring.ps.service.CategoryService;
 import org.spring.ps.service.OrderService;
 import org.spring.ps.service.ProductService;
 import org.spring.ps.service.QnAService;
+import org.spring.ps.service.ReviewService;
 import org.spring.ps.service.UserService;
 import org.spring.ps.utils.routeUtils;
 import org.spring.ps.vo.BrandVO;
@@ -26,6 +27,7 @@ import org.spring.ps.vo.PageInfoVO;
 import org.spring.ps.vo.PagingVO;
 import org.spring.ps.vo.ProductVO;
 import org.spring.ps.vo.QnAVO;
+import org.spring.ps.vo.ReviewVO;
 import org.spring.ps.vo.UserVO;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -59,6 +61,9 @@ public class AdminViewController {
 	private UserService userService;
 	@Inject
 	private QnAService qnAService;
+	
+	@Inject
+	private ReviewService reviewService;
 	
 	@RequestMapping(value="/member/{unum}", method=RequestMethod.GET)
 	public String adminViewMember(
@@ -360,10 +365,14 @@ public class AdminViewController {
 				
 				break;
 			case "Review": 
-
+				
+				List<ReviewVO> rList = reviewService.getAllReviewList();
+				model.addAttribute("oList",rList);
 				pageTitle = "구매후기 관리";
 				view = "review/Review";
-
+				String routeArray8[][] = {{"관리자 페이지","/adminView/Management"},{"구매 후기 관리","/adminView/Review"}};
+				routeMap.put(0,routeArray8[0]);
+				routeMap.put(1,routeArray8[1]);
 				break;			
 			}
 			

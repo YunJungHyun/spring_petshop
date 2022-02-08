@@ -49,7 +49,7 @@ public class ReviewDAOImpl implements ReviewDAO{
 	public List<ReviewDetailVO> getCanReviewList(UserVO userVO) {
 		HashMap<String,String> map = new HashMap();
 
-		String sql= "SELECT p.pid,p.pname,p.pprice,p.pimg,o.orderDate ,d.cstock,o.orderid FROM tbl_product AS p "; 
+		String sql= "SELECT p.pid,p.psale,p.pname,p.pprice,p.pimg,o.orderDate ,d.cstock,o.orderid FROM tbl_product AS p "; 
 		sql += "INNER JOIN tbl_order_details AS d "; 
 		sql += "ON p.pid = d.pid "; 
 		sql += "INNER JOIN tbl_order AS o "; 
@@ -80,12 +80,9 @@ public class ReviewDAOImpl implements ReviewDAO{
 	@Override
 	public int reviewCnt(UserVO userVO) {
 		HashMap<String,String> map = new HashMap();
-		String sql =" SELECT COUNT(*) FROM tbl_order_details AS d "; 
-		sql+="INNER JOIN tbl_order o "; 
-		sql+="ON o.orderid = d.orderid "; 
-		sql+="WHERE o.userid = '"+userVO.getUserid()+"' ";
-		sql+="AND d.delivery = 'deliveryComplete' ";
-		sql+="AND d.review = 'okay'";
+		String sql =" SELECT COUNT(*) FROM tbl_review  "; 
+		sql+="WHERE userid = '"+userVO.getUserid()+"' ";
+		
 
 		map.put("sql",sql);
 
@@ -97,16 +94,11 @@ public class ReviewDAOImpl implements ReviewDAO{
 	@Override
 	public List<ReviewDetailVO> getReviewList(UserVO userVO) {
 		HashMap<String,String> map = new HashMap();
-		String sql= "SELECT p.pid,p.pname,p.pprice,p.pimg,p.psale,o.orderDate ,d.cstock,o.orderid ,r.revContent ,r.rating, r.revDate FROM tbl_product AS p "; 
-		sql += "INNER JOIN tbl_order_details AS d "; 
-		sql += "ON p.pid = d.pid "; 
-		sql += "INNER JOIN tbl_order AS o "; 
-		sql += "ON d.orderid = o.orderid ";
-		sql += "INNER JOIN tbl_review AS r "; 
-		sql += "ON p.pid = r.pid ";
-		sql += "WHERE d.review = 'okay' AND d.delivery = 'deliveryComplete' AND o.userid = '"+userVO.getUserid()+"'";
+		String sql= " SELECT tbl_r.* , tbl_p.pname,tbl_p.pimg FROM tbl_review AS tbl_r "; 
+		sql += " INNER JOIN tbl_product AS tbl_p "; 
+		sql += " ON tbl_p.pid = tbl_r.pid "; 
+		sql += " WHERE tbl_r.userid ='"+userVO.getUserid()+"' "; 
 		
-	
 		
 		map.put("sql",sql);
 
@@ -127,6 +119,26 @@ public class ReviewDAOImpl implements ReviewDAO{
 		
 		map.put("sql",sql);
 		List<ReviewDetailVO> result = sqlSession.selectList(Namespace+".getProdOneReviewList",map);
+		return result;
+	}
+	
+	@Override
+	public List<ReviewVO> getAllReviewList() {
+		HashMap<String,String> map = new HashMap<String,String>();
+		String sql = " SELECT * FROM tbl_review ";
+		map.put("sql", sql);
+		
+		List<ReviewVO> result = sqlSession.selectList(Namespace+".getAllReviewList",map);
+		return result;
+	}
+	
+	@Override
+	public int reviewDelete(String revNum) {
+		HashMap<String,String> map = new HashMap<String,String>();
+		String sql = " DELETE FROM tbl_review WHERE revNum = '"+revNum+"' ";
+		map.put("sql", sql);
+		
+		int result = sqlSession.delete(Namespace+".reviewDelete",map);
 		return result;
 	}
 

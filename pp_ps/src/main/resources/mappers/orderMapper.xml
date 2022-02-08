@@ -76,6 +76,12 @@
 			${sql}
 		]]>
 	</select>
+	<select id="getMyOrderCnt" parameterType="HashMap"
+			resultType="int">
+	<![CDATA[
+			${sql}
+		]]>
+	</select>
 
 	<select id="orderDetailList" parameterType="HashMap"
 			resultType="orderDetailVO">

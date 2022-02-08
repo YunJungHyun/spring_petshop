@@ -567,4 +567,12 @@ public class ProductDAOImpl implements ProductDAO{
 		return result;
 	}
 	
+	@Override
+	public void updateRating(String pid) {
+		HashMap<String, String> map = new HashMap();
+		String sql ="UPDATE tbl_product SET prating = (SELECT IFNULL(avg(rating),0) FROM tbl_review) WHERE pid ='"+pid+"'";
+		map.put("sql", sql);
+		 sqlSession.update(Namespace+".updateRating",map);
+	}
+	
 }

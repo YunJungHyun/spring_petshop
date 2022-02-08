@@ -53,4 +53,16 @@ public class ReviewServiceImpl implements ReviewService{
 		// TODO Auto-generated method stub
 		return reviewDAO.getProdOneReviewList(pid);
 	}
+	
+	@Override
+	public List<ReviewVO> getAllReviewList() {
+		// TODO Auto-generated method stub
+		return reviewDAO.getAllReviewList();
+	}
+	
+	@Override
+	public int reviewDelete(String revNum) {
+		// TODO Auto-generated method stub
+		return reviewDAO.reviewDelete(revNum);
+	}
 }

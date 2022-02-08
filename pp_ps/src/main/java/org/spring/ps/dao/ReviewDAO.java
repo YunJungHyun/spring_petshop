@@ -19,6 +19,10 @@ public interface ReviewDAO {
 	List<ReviewDetailVO> getReviewList(UserVO userVO);
 
 	List<ReviewDetailVO> getProdOneReviewList(String pid);
+
+	List<ReviewVO> getAllReviewList();
+
+	int reviewDelete(String revNum);
 	
 	
 

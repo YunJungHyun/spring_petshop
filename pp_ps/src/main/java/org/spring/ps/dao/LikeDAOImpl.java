@@ -8,6 +8,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.ibatis.session.SqlSession;
 import org.spring.ps.vo.LikeVO;
+import org.spring.ps.vo.UserVO;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -46,7 +47,18 @@ public class LikeDAOImpl implements LikeDAO{
 		String sql = "DELETE FROM tbl_like WHERE pid = '"+likeVO.getPid()+"' AND userid='"+likeVO.getUserid()+"'";
 		map.put("sql",sql);
 		
-		int result = sqlSession.insert(Namespace+".likeDelete",map);
+		int result = sqlSession.delete(Namespace+".likeDelete",map);
+		return result;
+	}
+	
+	@Override
+	public int getMyLikeCnt(UserVO userVO) {
+		HashMap<String, String> map = new HashMap<String, String>();
+		String sql = "SELECT COUNT(*) FROM tbl_like ";
+				sql+= " WHERE userid='"+userVO.getUserid()+"'";
+		map.put("sql",sql);
+		
+		int result = sqlSession.selectOne(Namespace+".getMyLikeCnt",map);
 		return result;
 	}
 }

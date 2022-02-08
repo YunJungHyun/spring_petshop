@@ -6,23 +6,41 @@
 <%@ include file="/WEB-INF/views/page/user/my/myPageHeader.jsp"%>
 
 <style>
-
-.myPageBody *{
-	
-	font-weight: bold;
+.myPageBody-list-oneLine{
+	border-bottom : 1px solid #dee2e6;
+	padding : 1rem;
+	display: flex;
 }
-.list-ul{
-	
-	list-style: none;
-	padding : 0px;
-	
+
+.product-img{
+	width : 7rem;
+}
+
+
+.list-content-box{
+	padding : .5rem 1rem ;
+	display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.list-content-box_ul{
+	     font-size: .75rem;
+}
+.list-content-box_li{
+    display: flex;
+	margin-bottom: .25rem;
+}
+
+.star-box{ 
+	font-size: 1rem;
 }
 
 .star{
   display:inline-block;
   width: 15px; 
   height: 30px;
-  cursor: pointer; 
+  
 }
 .star_left{
   background: url(/resources/icon/star-empty.png) no-repeat 0 0; 
@@ -40,33 +58,36 @@
 </style>
 <div class="d-flex">
 	<%@ include file="/WEB-INF/views/page/user/my/myPageLeftMenu.jsp"%>
-	<div class="myPageBody col-10 p-3">
-	<c:forEach items="${rList }" var="list" varStatus="status">
-			<div class="col-12 px-0 border mb-3 d-flex">
-				<div class="col-4 p-3 text-center border-right">
-					<img id="img-${status.count}"src="">
-					<script>
-							
-							var pimgStr = JSON.stringify(${list.pimg});
+	<div class="myPageBody col-10 ">
+	<div class="myPageBody_title-group">
+			<span class="myPageBody_title-group_span">나의 구매후기 - 리뷰 목록</span>
+		</div>
+		<div class="myPageBody">
+			<c:if test="${fn:length(rList) ==0 }">
+				<div class="empty-info">작성한 구매 후기가 없습니다.</div>
+			</c:if>
+			
+			<c:forEach items="${rList }" var="list" varStatus="status">
+				<c:set var="sale_price" value="${list.pprice - (list.pprice * list.psale)}"/>
+				<c:set var="sale_price_round" value="${sale_price + (10-(sale_price%10))%10}"/>
+				<div class="myPageBody-list-oneLine">
+				<div class="list-img-box">
+					<img src="" id="img-${status.count }" class="product-img">
+						<script>
+							var pimgStr = JSON.stringify(${list.pimg}); 
 							var pimgJSON = JSON.parse(pimgStr);
 							var path =pimgJSON.img.path;
 							var fileName = pimgJSON.img.fileName;
-							
 							$("#img-${status.count}").attr("src" ,"/resources"+path+"/s/s_"+fileName);
-					</script>
+						</script>
 				</div>
-				<div class="col-8 p-3">
-					<ul class="list-ul"> 
-						
-						<li>${list.pname }</li>
-						<li> 
-							<span>작성 날짜 :</span>
-							<span>${list.revDate}</span>
+				<div class="list-content-box">
+					<ul class="list-content-box_ul">
+						<li class="list-content-box_li">
+							<span class="content-span orderid-span">${list.pname }</span>
 						</li>
-						<li>
-						<div class="review-writer-oneline">
-							<span>평점 :</span>
-							<span class="star-box" id="star-box-${list.rating}" >
+						<li class="list-content-box_li">
+							<span class="star-box" id="star-box-${list.rating }">
 								<span class="star star_left"></span>
 								<span class="star star_right"></span>
 
@@ -74,7 +95,7 @@
 								<span class="star star_right"></span>
 
 								<span class="star star_left"></span>
-								<span class="star star_right"></span>
+								<span class="star star_right"></span> 
 
 								<span class="star star_left"></span>
 								<span class="star star_right"></span>
@@ -82,28 +103,59 @@
 								<span class="star star_left"></span>
 								<span class="star star_right"></span>
 							</span>
-							<span> ${list.rating}</span>
-						</div>
-							
 						</li>
-						<li>
-							${list.revContent }
+						<li class="list-content-box_li">
+							<span class="content-span orderid-span">${list.revDate }</span>
 						</li>
-						<li class="float-right">
-							<button type="button" class="btn btn-primary" >주문정보</button>
-							<button type="button" class="btn btn-primary" >수정</button>
-							<button type="button" class="btn btn-primary" >삭제</button>
+						<li class="list-content-box_li">
+							<span class="content-span orderid-span">${list.revContent }</span>
 						</li>
-					</ul>
+					</ul> 
+						 
+					<div class="list-active-box">
+						<button class="btn btn-outline-danger" type="button" onclick="reviewDelete('${list.revNum}','${list.pid }')">구매 후기 삭제</button>
+					</div>
 				</div>
-				
 			</div>
 				
-	</c:forEach>
-	</div>
+			</c:forEach>
+		</div>
+	</div> 
 </div>
 
 <script>
+function reviewDelete(revNum,pid){
+	
+	var con = confirm("해당 리뷰를 삭제 하시겠습니까?");
+	if(con==true){
+		
+		$.ajax({
+			
+			
+			url : "/review/delete",
+			type : "POST",
+			data : {
+				
+				"revNum" : revNum,
+				"pid" : pid
+			},success : function(data){
+				
+				if(data >=1){
+					
+					location.reload()
+				}else{
+					
+					alert("리뷰 삭제 실패하였습니다.");
+					location.reload();
+				}
+				
+			}
+			
+		})
+		
+	}
+}
+
 $(document).ready(function(){
 	
 	$(".star-box").each(function(){

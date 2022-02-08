@@ -3,7 +3,7 @@
   PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="org.spring.ps.mapper.qnAMapper">
+<mapper namespace="org.spring.ps.mapper.qnaMapper">
 
 	<insert id="insertQnA" parameterType="HashMap">
 		<![CDATA[
@@ -51,5 +51,35 @@
 		]]>
 	
 	
+	</select>
+	<select id="getMyQnAList" parameterType="HashMap" resultType="qnaVO">
+		<![CDATA[
+			${sql}
+		
+		]]>
+	
+	
+	</select>
+	<select id="getQnAEachCntList" parameterType="HashMap" resultType="qnaVO">
+		<![CDATA[
+			${sql}
+		
+		]]>
+	
+	
+	</select>
+	
+	<delete id="QnADelete" parameterType="HashMap">
+		<![CDATA[
+			${sql}
+		
+		]]>
+	</delete>
+	
+	<select id="getMyQnACnt" parameterType="HashMap" resultType="int">
+	<![CDATA[
+			${sql}
+		
+		]]>
 	</select>
 </mapper>

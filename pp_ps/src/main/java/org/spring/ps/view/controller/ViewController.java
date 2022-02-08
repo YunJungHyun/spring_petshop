@@ -13,8 +13,10 @@ import javax.servlet.http.HttpSession;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.spring.ps.service.CartService;
+import org.spring.ps.service.LikeService;
 import org.spring.ps.service.OrderService;
 import org.spring.ps.service.ProductService;
+import org.spring.ps.service.QnAService;
 import org.spring.ps.service.ReviewService;
 import org.spring.ps.service.UserService;
 import org.spring.ps.utils.routeUtils;
@@ -23,13 +25,19 @@ import org.spring.ps.vo.OrderVO;
 import org.spring.ps.vo.PageInfoVO;
 import org.spring.ps.vo.PagingVO;
 import org.spring.ps.vo.ProductVO;
+import org.spring.ps.vo.QnAVO;
 import org.spring.ps.vo.ReviewDetailVO;
 import org.spring.ps.vo.UserVO;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import lombok.RequiredArgsConstructor;
 
@@ -55,7 +63,38 @@ public class ViewController {
 	
 	@Inject
 	private UserService userService;
-
+	
+	@Inject
+	private QnAService qnaService;
+	
+	@Inject
+	private LikeService likeService;
+	
+	@RequestMapping(value="/leftMenuInfo" , method=RequestMethod.POST)
+	@ResponseBody
+	public HashMap<String,String> leftMenuInfo(
+			HttpSession session
+			){
+		
+		
+		UserVO userVO = (UserVO)session.getAttribute("userInfo");
+		
+		int canReviewCnt = reviewService.canReviewCnt(userVO);
+		int reviewCnt = reviewService.reviewCnt(userVO);
+		int qnaCnt = qnaService.getMyQnACnt(userVO);
+		int likeCnt = likeService.getMyLikeCnt(userVO);
+		int orderCnt = orderService.getMyOrderCnt(userVO);
+		HashMap<String,String> map = new HashMap<String,String>();
+		map.put("orderCnt", Integer.toString(orderCnt));
+		map.put("likeCnt", Integer.toString(likeCnt));
+		map.put("qnaCnt", Integer.toString(qnaCnt));
+		map.put("canReviewCnt", Integer.toString(canReviewCnt));
+		map.put("reviewCnt",Integer.toString(reviewCnt) );
+		return map;
+		
+	}
+	
+	
 	@RequestMapping(value="/petshop")
 	public String home(
 			Model model,
@@ -246,17 +285,7 @@ public class ViewController {
 					routeMap.put(1,routeArray2[1]);
 					mark ="myOrder";
 					break;
-				case "orderCancleList":
-					List<OrderVO> orderCancleList = orderService.getOrderCancleList(userVO.getUserid());
-					
-					model.addAttribute("oList",orderCancleList);
-					
-					page ="myPageOrder";
-					String routeArray3[][] = {{"마이페이지","/view/mypage/myOrder"},{"취소 내역","/view/mypage/orderCancleList"}};
-					routeMap.put(0,routeArray3[0]);
-					routeMap.put(1,routeArray3[1]);
-					mark ="myOrder";
-					break;
+				
 				case "myCart":
 					List<CartListVO> cartList = cartService.getCartList(userVO.getUserid());
 					
@@ -300,10 +329,28 @@ public class ViewController {
 					List<ProductVO> wishList = productService.getUserLikeProductList(userVO.getUserid());
 					model.addAttribute("wishList",wishList);
 					page ="like/likeList";
-					String routeArray7[][] = {{"마이페이지","/view/mypage/myOrder"},{"관심 제품","/view/mypage/myWish"}};
+					String routeArray7[][] = {{"마이페이지","/view/mypage/myOrder"},{"관심","/view/mypage/myWish"}};
 					routeMap.put(0,routeArray7[0]);
 					routeMap.put(1,routeArray7[1]);
 					mark ="myWish";
+					break;
+					
+				case "myQnA":
+					
+					List<QnAVO> qnaList = qnaService.getMyQnAList(userVO.getUserid());
+					
+					List<QnAVO> qCnt =  qnaService.getQnAEachCntList(userVO.getUserid());
+					Gson gson = new GsonBuilder().create();
+					
+					String json = gson.toJson(qCnt);
+					
+					model.addAttribute("qCnt",json);
+					model.addAttribute("qnaList",qnaList);
+					page ="QnA/QnAList";
+					String routeArray8[][] = {{"마이페이지","/view/mypage/myOrder"},{"나의 Q&A","/view/mypage/myQnA"}};
+					routeMap.put(0,routeArray8[0]);
+					routeMap.put(1,routeArray8[1]);
+					mark ="myQnA";
 					break;
 					
 			}

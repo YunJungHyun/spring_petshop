@@ -71,6 +71,9 @@ public interface ProductService {
 	List<ProductVO> getUserLikeProductList(String userid);
 
 
+	void updateRating(String pid);
+
+
 
 
 }

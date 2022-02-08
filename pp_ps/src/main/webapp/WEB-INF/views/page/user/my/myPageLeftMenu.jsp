@@ -47,12 +47,12 @@
 	color :#71717161;
 }
 
-#canReviewCnt.badge,#reviewCnt.badge {
+.MyInfoCnt {
 	
 	line-height: normal;
 	vertical-align: middle;
-	background-color: #7fe7d5;
-	padding-left: 0.5rem; 
+	background-color: #d6f7f2;
+	padding-left: 0.5rem;  
     padding-right: 0.5rem;
 	
 	
@@ -78,8 +78,11 @@
 				
 				<span class="d-flex justify-content-between">
 					<span>관심</span>
-					<span class="myPageLeftMenu-li-icon">
-						<i class="fas fa-chevron-right"></i>
+					<span> 
+						<span id="likeCnt" class="MyInfoCnt badge"></span>
+						<span class="myPageLeftMenu-li-icon">
+							<i class="fas fa-chevron-right"></i>
+						</span>
 					</span>
 				</span>
 			</a>		
@@ -88,56 +91,55 @@
 			<a href="/view/mypage/myOrder">
 				<span class="d-flex justify-content-between">
 					<span>주문 내역</span>
-					<span class="myPageLeftMenu-li-icon">
-						<i class="fas fa-chevron-right"></i>
+					<span>
+						<span id="orderCnt" class="MyInfoCnt badge"></span>
+						<span class="myPageLeftMenu-li-icon">
+							<i class="fas fa-chevron-right"></i>
+						</span>
 					</span>
 				</span>
 			</a>
 		</li>
-		<li class="myPageLeftMenu-li-title mb-2 py-2 px-3" id="orderCancleList">
-			<a href="/view/mypage/orderCancleList">
-				
-				<span class="d-flex justify-content-between">
-					<span>취소 내역</span>
-					<span class="myPageLeftMenu-li-icon">
-						<i class="fas fa-chevron-right"></i>
-					</span>
-				</span>
-			</a>		
-		</li>
+		
  
 		<li class="myPageLeftMenu-li-parent-title mb-2 py-2 px-3">나의 구매 후기</li>
 		<li class="myPageLeftMenu-li-title mb-2 py-2 px-3" id="myReviewWriter" >
 			<a href="/view/mypage/myReviewWriter">
 				<span class="d-flex justify-content-between">
 					<span>리뷰 작성하기</span>
-					<span id="canReviewCnt"class="badge"></span>
-					<span class="myPageLeftMenu-li-icon">
+					<span>
+						<span id="canReviewCnt"class="MyInfoCnt badge"></span>
+						<span class="myPageLeftMenu-li-icon">
 						<i class="fas fa-chevron-right"></i>
+						</span>
 					</span>
-				</span>
+				</span> 
 			</a>		
 		</li>
 		<li class="myPageLeftMenu-li-title mb-2 py-2 px-3" id="myReviewList">
 			<a href="/view/mypage/myReviewList">
 				<span class="d-flex justify-content-between">
 					<span>작성한 리뷰</span>
-					<span id="reviewCnt"class="badge"></span>
-					<span class="myPageLeftMenu-li-icon">
-						<i class="fas fa-chevron-right"></i>
+					<span>
+						<span id="reviewCnt"class="MyInfoCnt badge"></span>
+						<span class="myPageLeftMenu-li-icon">
+							<i class="fas fa-chevron-right"></i>
+						</span>
 					</span>
 				</span>
 			</a>		
 		</li>
 		
 		<li class="myPageLeftMenu-li-parent-title mb-2 py-2 px-3">나의 Q&A</li>
-		<li class="myPageLeftMenu-li-title mb-2 py-2 px-3" id="myQna">
-			<a href="/view/mypage/myReviewWriter">
+		<li class="myPageLeftMenu-li-title mb-2 py-2 px-3" id="myQnA">
+			<a href="/view/mypage/myQnA">
 				<span class="d-flex justify-content-between">
 					<span>Q&A </span>
-					<span class="badge"></span>
-					<span class="myPageLeftMenu-li-icon">
-						<i class="fas fa-chevron-right"></i>
+					<span>
+						<span id="qnaCnt" class="MyInfoCnt badge"></span>
+						<span class="myPageLeftMenu-li-icon">
+							<i class="fas fa-chevron-right"></i>
+						</span>
 					</span>
 				</span>
 			</a>		
@@ -159,27 +161,20 @@ $(document).ready(function(){
 	
 	$.ajax({
 		
-		url : "/review/canReviewCnt",
+		url : "/view/leftMenuInfo",
 		type:"POST",
 		success:function(data){
 			
-			//console.log(data);
-			$("#canReviewCnt").text(data);
+			$("#reviewCnt").text(data.reviewCnt);
+			$("#canReviewCnt").text(data.canReviewCnt);
+			$("#orderCnt").text(data.orderCnt);
+			$("#qnaCnt").text(data.qnaCnt);
+			$("#likeCnt").text(data.likeCnt);
 		}
 		
 	})
 	
-	$.ajax({
-		
-		url : "/review/reviewCnt",
-		type:"POST",
-		success:function(data){
-			
-			//console.log(data);
-			$("#reviewCnt").text(data);
-		}
-		
-	})
+	
 })
 
 </script>

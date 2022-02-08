@@ -5,19 +5,42 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <style>
-.myPageBody *{
-	
-	font-weight: bold;
+.myPageBody-list-oneLine{
+	border-bottom : 1px solid #dee2e6;
+	padding : 1rem;
+	display: flex;
 }
 
-.list-ul{
-	
-	list-style: none;
-	padding : 0px;
-	
+.product-img{
+	width : 7rem;
 }
-.list-ul_li{
-	margin-bottom: .5rem;
+
+
+.list-content-box{
+	padding : .5rem 1rem ;
+	display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.list-content-box_ul{
+	     font-size: .75rem;
+}
+.list-content-box_li{
+    display: flex;
+	margin-bottom: .25rem;
+}
+
+.orderid-span{
+	font-weight: bold;
+}
+.content-span.add-sale{
+	text-decoration: line-through;
+}
+
+.sale-percent{
+
+	color:red;
 }
 .star{
   display:inline-block;
@@ -39,11 +62,15 @@
   background-image: url(/resources/icon/star.png);
 }
 
-.myPageBody_content_imgBox{
-	display: flex;
-	justify-content: center;
-	align-items: center;
+.sale-price-box{
+	 display: flex;
+	 flex-direction: column;
 }
+
+.arrow-icon_img{
+	width : 1rem;
+}
+
 </style>
 
 <%@ include file="/WEB-INF/views/page/user/my/myPageHeader.jsp"%>
@@ -55,53 +82,69 @@
 		<div class="myPageBody_title-group">
 			<span class="myPageBody_title-group_span">나의 구매후기 - 리뷰 작성하기</span>
 		</div>
+		<div class="myPageBody">
+		<c:if test="${fn:length(crList) ==0 }">
+			<div class="empty-info">구매 후기를 작성 할 수 있는 주문 목록이 없습니다.</div>
+		</c:if>
 		<c:forEach items="${crList }" var="list" varStatus="status">
-			<div class="col-12 px-0 border mb-3 d-flex myPageBody_content ">
-				<div class="col-4 text-center border-right myPageBody_content_imgBox">
-					<img id="img-${status.count}"src="">
-					<script>
-							
-							var pimgStr = JSON.stringify(${list.pimg});
+			
+			<c:set var="sale_price" value="${list.pprice - (list.pprice * list.psale)}"/>
+			<c:set var="sale_price_round" value="${sale_price + (10-(sale_price%10))%10}"/>
+			<div class="myPageBody-list-oneLine">
+				<div class="list-img-box">
+					<img src="" id="img-${status.count }" class="product-img">
+						<script>
+							var pimgStr = JSON.stringify(${list.pimg}); 
 							var pimgJSON = JSON.parse(pimgStr);
 							var path =pimgJSON.img.path;
 							var fileName = pimgJSON.img.fileName;
-							
 							$("#img-${status.count}").attr("src" ,"/resources"+path+"/s/s_"+fileName);
-					</script>
+						</script>
 				</div>
-				<div class="col-8 p-3">
-					<ul class="list-ul">
-						<li class="list-ul_li">주문 번호 : ${list.orderid }</li>
-						<li class="list-ul_li">${list.pname }</li>
-						<li class="list-ul_li">
-							<span>구매 날짜 :</span>
-							<span>${list.orderDate}</span>
+				<div class="list-content-box">
+					<ul class="list-content-box_ul">
+						<li class="list-content-box_li ">
+							<span class="label-span">주문 번호 : &nbsp; </span>
+							<span class="content-span orderid-span">${list.orderid }</span>
 						</li> 
-						<li class="list-ul_li">
-							<span>제품 가격 :</span> 
-							<span>${list.pprice }</span>
-						</li>
-						<li class="list-ul_li">
-							<span>할인율</span>
-							<span>${list.psale}</span>
-						</li>
-						<li class="list-ul_li">
-							<span>구매 갯수:</span>
-							<span>${list.cstock }</span>
+						<li class="list-content-box_li">
 							
+							
+							<span class="label-span">제품 가격 : &nbsp;</span>
+							<c:if test="${list.psale == 0 }">
+							<span class="content-span"><fmt:formatNumber value="${list.pprice }" pattern="###,###,###"/> 원</span>
+							</c:if>
+							<c:if test="${list.psale > 0 }">
+										
+								<div class="sale-price-box">
+									<span class="content-span add-sale"><fmt:formatNumber value="${list.pprice }" pattern="###,###,###"/>원</span>
+									<span>
+										<span class="arrow-icon"><img class="arrow-icon_img" src="/resources/icon/reply.png"></span>
+										<span class="content-span sale-percent"><fmt:formatNumber value="${list.psale }" type="percent"/> 할인</span>
+										<span class="content-span "><fmt:formatNumber value="${sale_price_round }" pattern="###,###,###"/>원</span>
+									</span>
+								</div>
+							</c:if>
 						</li>
-						<li class="list-ul_li">
-							<span>구매 가격</span> 
-							<span>${list.revDate}</span>
+						
+						<li class="list-content-box_li">
+							<span class="label-span">구매 갯수 :  &nbsp;</span>
+							<span class="content-span">${list.cstock }개</span>
 						</li>
-						<li class="list-ul_li float-right">
-							<button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#review-writer-${status.count}" aria-expanded="false" aria-controls="review-writer-${status.count}">구매 후기 작성</button>
+						
+						<li class="list-content-box_li">
+							<span class="label-span">구매 가격 :  &nbsp;</span>
+							<span class="content-span"><fmt:formatNumber value="${sale_price_round * list.cstock } " pattern="###,###,###"/>원</span>
 						</li>
-					</ul>
+						
+					</ul> 
+						 
+					<div class="list-active-box">
+						<button class="btn btn-outline-primary" type="button" data-toggle="collapse" data-target="#review-writer-${status.count }">구매 후기 작성</button>
+					</div>
 				</div>
-				
 			</div>
-				<div id="review-writer-${status.count}" class="collapse border col-12 mb-3 p-3">
+			<div id="review-writer-${status.count}" class="collapse border col-12 mb-3 p-3">
 					<form id="review-form-${status.count}">
 						<input type="hidden" name="pid" id="pid" value="${list.pid }">
 						<input type="hidden" name="orderid" id="orderid" value="${list.orderid }">
@@ -140,6 +183,7 @@
 					</form>
 				</div>
 		</c:forEach>
+		</div>
 	</div>
 </div>
 

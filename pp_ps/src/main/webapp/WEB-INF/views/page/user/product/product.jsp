@@ -420,6 +420,19 @@ $(document).ready(function(){
 		
 		})
 	}
+	
+	
+	var JSONQnACnt = JSON.parse('${qCnt}');
+	
+	
+	for(var i = 0 ; i < JSONQnACnt.length;i++){
+	
+		var parentid = JSONQnACnt[i].parentid;
+		
+		
+		$("#cnt-"+parentid).text(JSONQnACnt[i].eachCnt);
+		
+	}
 })
 
 
@@ -543,21 +556,6 @@ $(".subQnAList").on("show.bs.collapse",function(){
 	})
 })
 
-$(document).ready(function(){
-	
-	
-	var JSONQnACnt = JSON.parse('${qCnt}');
-	
-	
-	for(var i = 0 ; i < JSONQnACnt.length;i++){
-	
-		var parentid = JSONQnACnt[i].parentid;
-		
-		
-		$("#cnt-"+parentid).text(JSONQnACnt[i].eachCnt);
-		
-	}
-})
 
 $("#questionInsert-btn").on("click",function(){
 	

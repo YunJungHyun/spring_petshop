@@ -11,6 +11,12 @@
 			${sql}
 		]]>
 	</select>
+	<select id="getMyLikeCnt" parameterType="HashMap" resultType="int">
+	
+		<![CDATA[
+			${sql}
+		]]>
+	</select>
 	
 	<insert id="likeInsert" parameterType="HashMap">
 	

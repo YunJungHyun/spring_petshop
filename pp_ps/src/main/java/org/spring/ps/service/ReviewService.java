@@ -20,6 +20,10 @@ public interface ReviewService {
 
 	List<ReviewDetailVO> getProdOneReviewList(String pid);
 
+	List<ReviewVO> getAllReviewList();
+
+	int reviewDelete(String revNum);
+
 	
 	
 }

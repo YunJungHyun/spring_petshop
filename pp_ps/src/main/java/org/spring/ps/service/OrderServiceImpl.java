@@ -9,6 +9,7 @@ import org.spring.ps.vo.OrderDetailVO;
 import org.spring.ps.vo.OrderListVO;
 import org.spring.ps.vo.OrderVO;
 import org.spring.ps.vo.ReviewVO;
+import org.spring.ps.vo.UserVO;
 import org.springframework.stereotype.Service;
 
 @Service 
@@ -98,5 +99,11 @@ public class OrderServiceImpl implements OrderService{
 	public List<OrderVO> getOrderCancleList(String userid) {
 		// TODO Auto-generated method stub
 		return orderDAO.getOrderCancleList(userid);
+	}
+	
+	@Override
+	public int getMyOrderCnt(UserVO userVO) {
+		// TODO Auto-generated method stub
+		return orderDAO.getMyOrderCnt(userVO);
 	}
 }

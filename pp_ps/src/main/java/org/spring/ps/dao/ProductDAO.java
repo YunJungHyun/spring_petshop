@@ -52,6 +52,8 @@ public interface ProductDAO {
 
 	List<ProductVO> getUserLikeProductList(String userid);
 
+	void updateRating(String pid);
+
 
 
 

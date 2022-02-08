@@ -12,6 +12,7 @@ import org.spring.ps.vo.OrderDetailVO;
 import org.spring.ps.vo.OrderListVO;
 import org.spring.ps.vo.OrderVO;
 import org.spring.ps.vo.ReviewVO;
+import org.spring.ps.vo.UserVO;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -193,6 +194,17 @@ public class OrderDAOImpl implements OrderDAO {
 
 		map.put("sql", sql);
 		List<OrderVO> result= sqlSession.selectList(Namespace+".getOrderCancleList",map);
+		return result;
+	}
+	
+	@Override
+	public int getMyOrderCnt(UserVO userVO) {
+		HashMap<String,String> map = new HashMap();
+		String sql = "SELECT COUNT(*) FROM tbl_order ";
+				sql+=" WHERE userid='"+userVO.getUserid()+"' ";
+
+		map.put("sql", sql);
+		int result= sqlSession.selectOne(Namespace+".getMyOrderCnt",map);
 		return result;
 	}
 }

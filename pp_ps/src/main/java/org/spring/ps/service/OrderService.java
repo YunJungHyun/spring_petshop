@@ -6,6 +6,7 @@ import org.spring.ps.vo.OrderDetailVO;
 import org.spring.ps.vo.OrderListVO;
 import org.spring.ps.vo.OrderVO;
 import org.spring.ps.vo.ReviewVO;
+import org.spring.ps.vo.UserVO;
 
 public interface OrderService {
 
@@ -36,5 +37,7 @@ public interface OrderService {
 	int updateReviewState(ReviewVO reviewVO);
 
 	List<OrderVO> getOrderCancleList(String userid);
+
+	int getMyOrderCnt(UserVO userVO);
 
 }
