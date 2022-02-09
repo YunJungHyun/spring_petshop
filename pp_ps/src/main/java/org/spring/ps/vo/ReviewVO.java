@@ -21,5 +21,14 @@ public class ReviewVO {
 	
 	//주문정보관련
 	private String orderid;
-
+	private Date orderDate;
+	private String reviewState;
+	
+	//제품관련
+	private String pimg;
+	private String pname;
+	
+	//회원 관련
+	private String username;
+	
 }

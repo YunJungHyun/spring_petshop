@@ -8,12 +8,10 @@
   
     margin-bottom: 1rem!important;
     background-color: #7fe7d52e;
-    padding-top: 2rem;
-    padding-bottom: 2rem;
-    filter: drop-shadow(3px 6px 9px #7fe7d5);
+    
 }
 .main-slide_inner{ 
-	height: 10rem;
+	height: auto;
 }
 
 .main-slide_inner_item{
@@ -25,8 +23,9 @@
 
 .main-slide_inner_item_img{
 	object-fit: cover;
-    width: auto;
-    height: inherit;
+    width: 100%;
+    
+    height: auto;
     margin: 0px auto; 
     
 } 
@@ -191,6 +190,9 @@ span.rank-span {
     font-weight: bold;
  
 }
+.admin-text{
+	font-size: .75rem;
+}
 </style>
 
 <div class="page">
@@ -199,17 +201,20 @@ span.rank-span {
   			<div class="carousel-inner main-slide_inner">
 				
 				<div class="carousel-item active main-slide_inner_item">
-					<img src="/resources/slideimg/dog_1.png" class="d-block main-slide_inner_item_img" >
+					<img src="/resources/slideimg/ps_main1.jpg" class="d-block main-slide_inner_item_img" >
 				</div>
 				<div class="carousel-item main-slide_inner_item">
-					<img src="/resources/slideimg/dog_2.png" class="d-block main-slide_inner_item_img" >
+					<img src="/resources/slideimg/ps_main2.jpg" class="d-block main-slide_inner_item_img" >
 				</div>
 				<div class="carousel-item main-slide_inner_item">
-					<img src="/resources/slideimg/dog_3.png" class="d-block main-slide_inner_item_img" >
+					<img src="/resources/slideimg/ps_main3.jpg" class="d-block main-slide_inner_item_img" >
 				</div>
 				
 			</div>
-		</div>  
+		</div> 
+		<div class="admin-text float-right">
+			( * 위 슬라이드는 단순 이미지 입니다. )
+		</div> 
 	</div>
 	
 	<div class="page_content">

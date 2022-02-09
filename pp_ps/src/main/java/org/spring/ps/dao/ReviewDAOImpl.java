@@ -49,7 +49,7 @@ public class ReviewDAOImpl implements ReviewDAO{
 	public List<ReviewDetailVO> getCanReviewList(UserVO userVO) {
 		HashMap<String,String> map = new HashMap();
 
-		String sql= "SELECT p.pid,p.psale,p.pname,p.pprice,p.pimg,o.orderDate ,d.cstock,o.orderid FROM tbl_product AS p "; 
+		String sql= "SELECT p.pid,p.psale,p.pname,p.pprice,p.pimg,o.orderDate ,d.cstock,o.orderid,o.orderDate FROM tbl_product AS p "; 
 		sql += "INNER JOIN tbl_order_details AS d "; 
 		sql += "ON p.pid = d.pid "; 
 		sql += "INNER JOIN tbl_order AS o "; 
@@ -67,8 +67,8 @@ public class ReviewDAOImpl implements ReviewDAO{
 	public int reviewInsert(ReviewVO reviewVO) {
 		HashMap<String,String> map = new HashMap();
 
-		String sql ="INSERT INTO tbl_review(pid,userid,revContent,rating ) ";
-		sql+="VALUES('"+reviewVO.getPid()+"','"+reviewVO.getUserid()+"','"+reviewVO.getRevContent()+"','"+reviewVO.getRating()+"')";
+		String sql ="INSERT INTO tbl_review(pid,userid,revContent,rating,orderid ) ";
+		sql+="VALUES('"+reviewVO.getPid()+"','"+reviewVO.getUserid()+"','"+reviewVO.getRevContent()+"','"+reviewVO.getRating()+"','"+reviewVO.getOrderid()+"')";
 
 
 		map.put("sql", sql);
@@ -125,7 +125,11 @@ public class ReviewDAOImpl implements ReviewDAO{
 	@Override
 	public List<ReviewVO> getAllReviewList() {
 		HashMap<String,String> map = new HashMap<String,String>();
-		String sql = " SELECT * FROM tbl_review ";
+		String sql = " SELECT tr.* , tp.pname, tp.pimg ,tu.username  FROM tbl_review AS tr ";
+		sql+= " INNER JOIN tbl_product AS tp ";
+		sql+= " ON tp.pid = tr.pid  ";
+		sql+= " INNER JOIN tbl_user AS tu ";
+		sql+= " ON tr.userid = tu.userid";
 		map.put("sql", sql);
 		
 		List<ReviewVO> result = sqlSession.selectList(Namespace+".getAllReviewList",map);
@@ -133,13 +137,15 @@ public class ReviewDAOImpl implements ReviewDAO{
 	}
 	
 	@Override
-	public int reviewDelete(String revNum) {
+	public int reviewDelete(ReviewVO reviewVO) {
 		HashMap<String,String> map = new HashMap<String,String>();
-		String sql = " DELETE FROM tbl_review WHERE revNum = '"+revNum+"' ";
+		String sql = " DELETE FROM tbl_review WHERE pid = '"+reviewVO.getPid()+"' AND orderid='"+reviewVO.getOrderid()+"' ";
 		map.put("sql", sql);
 		
 		int result = sqlSession.delete(Namespace+".reviewDelete",map);
 		return result;
 	}
+	
+	
 
 }

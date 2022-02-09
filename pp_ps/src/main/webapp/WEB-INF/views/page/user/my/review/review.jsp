@@ -71,13 +71,17 @@
 	width : 1rem;
 }
 
+.list-active-box {
+    align-self: center;
+}
+
 </style>
 
 <%@ include file="/WEB-INF/views/page/user/my/myPageHeader.jsp"%>
 
 <div class="d-flex">
 	<%@ include file="/WEB-INF/views/page/user/my/myPageLeftMenu.jsp"%>
-	<div class="myPageBody col-10">
+	<div class="myPageBody col-xs-10">
 	
 		<div class="myPageBody_title-group">
 			<span class="myPageBody_title-group_span">나의 구매후기 - 리뷰 작성하기</span>
@@ -106,6 +110,10 @@
 						<li class="list-content-box_li ">
 							<span class="label-span">주문 번호 : &nbsp; </span>
 							<span class="content-span orderid-span">${list.orderid }</span>
+						</li> 
+						<li class="list-content-box_li ">
+							<span class="label-span">구매 날짜 : &nbsp; </span>
+							<span class="content-span orderDate">${list.orderDate }</span>
 						</li> 
 						<li class="list-content-box_li">
 							
@@ -144,7 +152,7 @@
 					</div>
 				</div>
 			</div>
-			<div id="review-writer-${status.count}" class="collapse border col-12 mb-3 p-3">
+			<div id="review-writer-${status.count}" class="collapse border col-xs-12 mb-3 p-3">
 					<form id="review-form-${status.count}">
 						<input type="hidden" name="pid" id="pid" value="${list.pid }">
 						<input type="hidden" name="orderid" id="orderid" value="${list.orderid }">

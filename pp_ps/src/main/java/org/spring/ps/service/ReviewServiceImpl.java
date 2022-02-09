@@ -61,8 +61,9 @@ public class ReviewServiceImpl implements ReviewService{
 	}
 	
 	@Override
-	public int reviewDelete(String revNum) {
+	public int reviewDelete(ReviewVO reviewVO ) {
 		// TODO Auto-generated method stub
-		return reviewDAO.reviewDelete(revNum);
+		return reviewDAO.reviewDelete(reviewVO);
 	}
+	
 }

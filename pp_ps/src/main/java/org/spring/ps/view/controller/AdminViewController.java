@@ -367,7 +367,7 @@ public class AdminViewController {
 			case "Review": 
 				
 				List<ReviewVO> rList = reviewService.getAllReviewList();
-				model.addAttribute("oList",rList);
+				model.addAttribute("rList",rList);
 				pageTitle = "구매후기 관리";
 				view = "review/Review";
 				String routeArray8[][] = {{"관리자 페이지","/adminView/Management"},{"구매 후기 관리","/adminView/Review"}};

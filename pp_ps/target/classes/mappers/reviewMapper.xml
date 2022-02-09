@@ -54,6 +54,8 @@
 	
 	</select>
 	
+
+	
 	<delete id="reviewDelete" parameterType="HashMap">
 	<![CDATA[
 			${sql}

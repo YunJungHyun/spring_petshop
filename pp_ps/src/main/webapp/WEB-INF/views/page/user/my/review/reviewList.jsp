@@ -16,7 +16,10 @@
 	width : 7rem;
 }
 
-
+.list-img-box {
+    display: flex;
+    align-items: center;
+}
 .list-content-box{
 	padding : .5rem 1rem ;
 	display: flex;
@@ -26,31 +29,47 @@
 
 .list-content-box_ul{
 	     font-size: .75rem;
+	        width: 80%;
 }
 .list-content-box_li{
     display: flex;
-	margin-bottom: .25rem;
+	margin-bottom:.25rem;
+}
+.pname-span{
+	font-size: 1rem;
+	font-weight: bold;
+}
+.revContent-span{
+	padding: 0.5rem 1rem;
+    background-color: #7fe7d552;
+
+    border-radius: 5px;
+    min-width: 35rem;
 }
 
+.list-active-box {
+    align-self: center;
+}
 .star-box{ 
-	font-size: 1rem;
+	font-size: .75rem;
 }
 
 .star{
   display:inline-block;
-  width: 15px; 
-  height: 30px;
+  width: 10px; 
+  height: 20px;
   
 }
 .star_left{
   background: url(/resources/icon/star-empty.png) no-repeat 0 0; 
-  background-size: 30px; 
-  margin-right: -3px; 
+  background-size: 20px; 
+  margin-right: -2px; 
 }
 .star_right{
-  background: url(/resources/icon/star-empty.png) no-repeat -15px 0; 
-  background-size: 30px; 
-  margin-left: -3px;
+  background: url(/resources/icon/star-empty.png) no-repeat -10px 0; 
+  background-size: 20px; 
+  margin-left: -2px;
+  margin-right: 0.25rem;
 } 
 .star.on{
   background-image: url(/resources/icon/star.png);
@@ -58,7 +77,7 @@
 </style>
 <div class="d-flex">
 	<%@ include file="/WEB-INF/views/page/user/my/myPageLeftMenu.jsp"%>
-	<div class="myPageBody col-10 ">
+	<div class="myPageBody col-xs-10 ">
 	<div class="myPageBody_title-group">
 			<span class="myPageBody_title-group_span">나의 구매후기 - 리뷰 목록</span>
 		</div>
@@ -84,7 +103,17 @@
 				<div class="list-content-box">
 					<ul class="list-content-box_ul">
 						<li class="list-content-box_li">
-							<span class="content-span orderid-span">${list.pname }</span>
+							<span class="content-span pname-span">${list.pname }</span>
+						</li>
+						<li class="list-content-box_li">
+							<span class="content-span">주문번호 : &nbsp;</span>
+							<span class="content-span">${list.orderid }</span>
+						</li>
+						
+						<li class="list-content-box_li">
+							
+							<span class="content-span ">작성 날짜 : &nbsp;</span>
+							<span class="content-span ">${list.revDate }</span>
 						</li>
 						<li class="list-content-box_li">
 							<span class="star-box" id="star-box-${list.rating }">
@@ -103,17 +132,15 @@
 								<span class="star star_left"></span>
 								<span class="star star_right"></span>
 							</span>
+							
 						</li>
 						<li class="list-content-box_li">
-							<span class="content-span orderid-span">${list.revDate }</span>
-						</li>
-						<li class="list-content-box_li">
-							<span class="content-span orderid-span">${list.revContent }</span>
+							<span class="content-span revContent-span">${list.revContent }</span>
 						</li>
 					</ul> 
 						 
 					<div class="list-active-box">
-						<button class="btn btn-outline-danger" type="button" onclick="reviewDelete('${list.revNum}','${list.pid }')">구매 후기 삭제</button>
+						<button class="btn btn-outline-danger" type="button" onclick="reviewDelete('${list.orderid}','${list.pid }')">구매 후기 삭제</button>
 					</div>
 				</div>
 			</div>
@@ -124,7 +151,7 @@
 </div>
 
 <script>
-function reviewDelete(revNum,pid){
+function reviewDelete(orderid,pid){
 	
 	var con = confirm("해당 리뷰를 삭제 하시겠습니까?");
 	if(con==true){
@@ -136,7 +163,7 @@ function reviewDelete(revNum,pid){
 			type : "POST",
 			data : {
 				
-				"revNum" : revNum,
+				"orderid" : orderid,
 				"pid" : pid
 			},success : function(data){
 				

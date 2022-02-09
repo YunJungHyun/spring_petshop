@@ -177,7 +177,7 @@ public class OrderDAOImpl implements OrderDAO {
 	@Override
 	public int updateReviewState(ReviewVO reviewVO) {
 		HashMap<String,String> map = new HashMap();
-		String sql = "UPDATE tbl_order_details SET review = 'okay' ";
+		String sql = "UPDATE tbl_order_details SET review = '"+reviewVO.getReviewState()+"' ";
 		sql+= "WHERE pid='"+reviewVO.getPid()+"' ";
 		sql+= "AND orderid='"+reviewVO.getOrderid()+"' ";
 

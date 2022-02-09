@@ -60,6 +60,13 @@ p.cart-tbody_td_p {
     margin-bottom: 0.5rem;
     font-weight: bold;
 }
+.empty-Info{
+	padding: 5rem 2rem;
+    background-color: #d6f7f2;
+    border-radius: 10px;
+    font-weight: bold;
+    font-size: 1.25rem;
+}
 </style>
 <div class="page">
 	<div class="page-container">
@@ -75,10 +82,19 @@ p.cart-tbody_td_p {
 						</tr>
 					</thead> 
 					<tbody class="page-content_group_table_tbody cart-tbody">
+						<c:if test="${fn:length(cartList )==0 }">
+							<tr>
+								<td>
+									<div class="empty-Info">
+									장바구니에 담긴 상품이 없습니다.
+									</div>
+								</td>
+							</tr>
+						</c:if>
 						<c:set var="allPriceSum" value="0"/> 
 						<c:forEach items="${cartList }" var="cart" varStatus="status">
 							<tr id="${cart.pid }">
-								<td class="col-2 go-product cart-tbody_td" >
+								<td class="col-xs-2 go-product cart-tbody_td" >
 									<img class="cart-tbody_td_img" id="img-${status.count}">
 									<script>
 									var pimgStr = JSON.stringify(${cart.pimg}); 
@@ -88,12 +104,12 @@ p.cart-tbody_td_p {
 									$("#img-${status.count}").attr("src" ,"/resources"+path+"/s/s_"+fileName);
 									</script>
 								</td>
-								<td style="vertical-align:top" class="border-right col-4 go-product cart-tbody_td">
+								<td style="vertical-align:top" class="border-right col-xs-4 go-product cart-tbody_td">
 									<span class="cart-tbody_td_span">
 										${cart.pname }
 									</span>
 								</td>
-								<td class="col-2 border-right text-center user-self" >
+								<td class="col-xs-2 border-right text-center user-self" >
 									<div class="btn-group user-self_btn-group">			
 										<div class="btn-group ps-btn-group-001">
 											<button type="button" class="user-self_btn" onclick="cartProductCnt('-','${cart.pid}')">
@@ -106,7 +122,7 @@ p.cart-tbody_td_p {
 										</div>
 									</div>
 								</td> 
-								<td class="col-2 border-right text-center cart-tbody_td cart"> 
+								<td class="col-xs-2 border-right text-center cart-tbody_td cart"> 
 									<p class="cart-tbody_td_p">
 										<span class="cart-tbody_td_p_span td-title">정가 :</span>
 										<span class="cart-tbody_td_p_span td-info">
@@ -134,7 +150,7 @@ p.cart-tbody_td_p {
 										</span>
 									</p>
 								</td>
-								<td class="col-2 text-center"> 
+								<td class="col-xs-2 text-center"> 
 									<button type="button" class="btn btn-dark w-100" onclick="cartDeleteBtn('${cart.pid }')">
 											삭제
 									</button>
@@ -148,7 +164,7 @@ p.cart-tbody_td_p {
 								결제 예상 금액 : <fmt:formatNumber value="${allPriceSum }" pattern="###,###,###"/> 원
 								</span>
 					
-								<button type="button" class="btn btn-primary ps-btn-005" data-toggle="modal" data-target="#orderModal">주문하기 </button>
+								<button type="button" class="btn btn-primary ps-btn-005" data-toggle="modal" data-cartsize="${fn:length(cartList )}" data-target="#orderModal">주문하기 </button>
 							</th>
 						</tr>
 					</tbody>	
@@ -172,35 +188,35 @@ p.cart-tbody_td_p {
 			<form id="form-order" name="form-order">
 		 		<div class="row">
 		 			
-		 			<div class="col-lg-12 mb-3 form-ps-group-1 my-0">
+		 			<div class="col-xs-12 mb-3 form-ps-group-1 my-0">
 						<label for="orderRec">받는 사람</label>
 							<input type="text" class="form-control" id="orderRec" name="orderRec" placeholder="제품을 수령 받는 분의 이름을 입력하세요." value="test-orderRec">
 						<div class="invalid-feedback">
 						
 						</div>
 					</div>
-		 			<div class="col-lg-12 mb-3 form-ps-group-1 my-0">
+		 			<div class="col-xs-12 mb-3 form-ps-group-1 my-0">
 						<label for="orderPhon">휴대 전화</label>
 							<input type="text" class="form-control " id="orderPhon" name="orderPhon" placeholder="휴대 전화 번호를 입력하세요." value="test-orderPhon">
 						<div class="invalid-feedback">
 							
 						</div> 
 					</div>
-		 			<div class="col-lg-12 mb-3 form-ps-group-1 my-0">
+		 			<div class="col-xs-12 mb-3 form-ps-group-1 my-0">
 						<label for="userAddr1">우편 번호</label>
 							<input type="text" class="form-control " id="userAddr1" name="userAddr1" placeholder="우편 번호를 입력하세요" value="test-userAddr1">
 						<div class="invalid-feedback">
 							
 						</div>
 					</div>
-		 			<div class="col-lg-12 mb-3 form-ps-group-1 my-0">
+		 			<div class="col-xs-12 mb-3 form-ps-group-1 my-0">
 						<label for="userAddr2">주소</label>
 							<input type="text" class="form-control " id="userAddr2" name="userAddr2" placeholder="주소를 입력하세요." value="test-userAddr2">
 						<div class="invalid-feedback">
 							
 						</div>
 					</div>
-		 			<div class="col-lg-12 mb-3 form-ps-group-1 my-0">
+		 			<div class="col-xs-12 mb-3 form-ps-group-1 my-0">
 						<label for="userAddr3">상세 주소</label>
 							<input type="text" class="form-control " id="userAddr3" name="userAddr3" placeholder="상세 주소를 입력하세요." value="test-userAddr3">
 						<div class="invalid-feedback">
@@ -208,7 +224,7 @@ p.cart-tbody_td_p {
 						</div>
 					</div>
 		 			
-		 			<div class="col-lg-12 mb-3 form-ps-group-1 my-0 border-top text-right">
+		 			<div class="col-xs-12 mb-3 form-ps-group-1 my-0 border-top text-right">
 						
 							 <span class="span-cart-allPriceSum ">
 								결제 금액 : <fmt:formatNumber value="${allPriceSum }" pattern="###,###,###"/>
@@ -232,6 +248,18 @@ p.cart-tbody_td_p {
   </div>
 </div>
 <script>
+
+$("#orderModal").on("show.bs.modal",function(e){
+	
+	var cartSize= $(e.relatedTarget).data('cartsize'); 
+	 
+	if(cartSize == 0 ){
+		
+		alert("장바구니에 담긴 제품이 없습니다.");
+		location.reload();
+		return false;
+	}
+})
 $(document).on("click",".go-product",function(){
 	
 	location.href="/product/"+$(this).parent().attr("id");
@@ -243,7 +271,7 @@ $("#order-btn").on("click",function(){
 	var con = confirm("상품을 주문 하시겠습니까?");
 	if(con ==true){
 	var formData = $("#form-order").serialize(); 
-	console.log(formData);
+
 	$.ajax({
 		
 		url:"/order/orderInsert",

@@ -39,13 +39,19 @@ public class ReviewController {
 	@ResponseBody
 	public int reviewDelete(
 			
-			@RequestParam( value = "revNum") String revNum,
+			@RequestParam( value = "orderid") String orderid,
 			@RequestParam( value="pid") String pid
 			) {
 		
-		int result = reviewService.reviewDelete(revNum);
+		ReviewVO reviewVO = new ReviewVO();
+		reviewVO.setOrderid(orderid);
+		reviewVO.setPid(pid);
+		reviewVO.setReviewState("none");
+		int result = reviewService.reviewDelete(reviewVO);
+		
+		orderService.updateReviewState(reviewVO);
 		productService.updateRating(pid);
-		return result;
+		return result; 
 	}
 	
 	@RequestMapping(value="/canReviewCnt" , method=RequestMethod.POST)
@@ -84,6 +90,7 @@ public class ReviewController {
 		
 		UserVO userVO=(UserVO)session.getAttribute("userInfo");
 		reviewVO.setUserid(userVO.getUserid());
+		reviewVO.setReviewState("okay");
 		log.debug("[reviewInsert] reviewVO.toString() : "+reviewVO.toString());
 		
 		
@@ -98,5 +105,5 @@ public class ReviewController {
 		return result;
 	}
 	
-
+	
 }

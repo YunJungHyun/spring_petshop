@@ -6,7 +6,7 @@
 <style>
 table{
 	text-align: center;
-	    font-size: .75rem;
+	font-size: .75rem;
 }
 .page-content_title {
     padding: 0rem 1rem;

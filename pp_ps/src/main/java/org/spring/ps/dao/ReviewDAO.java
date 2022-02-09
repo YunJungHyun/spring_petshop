@@ -22,8 +22,7 @@ public interface ReviewDAO {
 
 	List<ReviewVO> getAllReviewList();
 
-	int reviewDelete(String revNum);
-	
-	
+	int reviewDelete(ReviewVO reviewVO);
+
 
 }

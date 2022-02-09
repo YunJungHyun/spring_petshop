@@ -72,7 +72,7 @@
 				</span>
 			</a>
 		</li>
-		<li class="memeberLeftMenu-li-parent-title mb-2 py-2 px-3">회원님의 쇼핑</li>
+		<!-- <li class="memeberLeftMenu-li-parent-title mb-2 py-2 px-3">회원님의 쇼핑</li>
 		<li class="memeberLeftMenu-li-title mb-2 py-2 px-3" id="shopingList">
 			<a href="#">
 				<span class="d-flex justify-content-between">
@@ -110,7 +110,7 @@
 					</span>
 				</span>
 			</a>		
-		</li>
+		</li> -->
 		
 	</ul> 
 </div>

@@ -6,6 +6,7 @@
 <style>
 table{
 	text-align: center;
+	font-size: .75rem;
 	
 }
 .page-content_title {
@@ -54,7 +55,7 @@ ul.qnaDetailGroup_content-Box_ul {
     height: 100%;
 }
 span.productName {
-    font-size: 1.25rem;
+    font-size: 1rem;
     font-weight: bold;
 }
 .table_td_span {
@@ -68,7 +69,7 @@ span.productName {
 
 .userName {
     font-weight: bold;
-    font-size: 1.25rem;
+    font-size: 1rem;
 }
 
 .qnaInput-group{
@@ -124,6 +125,13 @@ span.QnA-relpyList-span {
     font-weight: bold;
     font-size: 1.25rem;
 }
+.product-link ,  .product-link:hover{
+	color:#007bff;
+	text-decoration: underline;
+}
+.title-span{
+	font-weight: bold;
+}
 </style>
 
 <div class="page mt-3">
@@ -139,11 +147,11 @@ span.QnA-relpyList-span {
 				<thead>
 					<tr>
 						
-						<th class="col-1">문의ID</th>
-						<th class="col-2">제품ID</th>
-						<th class="col-3">회원ID</th>
-						<th class="col-4">문의 내용</th>
-						<th class="col-2">문의날짜</th>
+						<th class="col-xs-1">문의ID</th>
+						<th class="col-xs-2">제품ID</th>
+						<th class="col-xs-3">회원ID</th>
+						<th class="col-xs-4">문의 내용</th>
+						<th class="col-xs-2">문의날짜</th>
 						
 					</tr>
 				</thead>
@@ -181,9 +189,15 @@ span.QnA-relpyList-span {
 											</div>
 											<div class="qnaDetailGroup_content-Box">
 												<ul class="qnaDetailGroup_content-Box_ul">
-													<li class="qnaDetailGroup_content-Box_li p-2 mb-2 border-bottom"><span class="productName">${list.pname }/<a href="#">${list.pid }</a></span></li>
-													<li class="qnaDetailGroup_content-Box_li px-2 mb-2"><span class="userName">${list.username }</span></li>
-													<li class="qnaDetailGroup_content-Box_li px-2"><span class="QnAContent">${list.qnaContent }</span></li>
+													<li class="qnaDetailGroup_content-Box_li p-2 mb-2 border-bottom"><span class="productName">${list.pname }/<a href="/product/${list.pid }" class="product-link">${list.pid }</a></span></li>
+													<li class="qnaDetailGroup_content-Box_li px-2 mb-2">
+														<span class="title-span">작성자 : &nbsp;</span>
+														<span class="content-span userName">${list.username }</span>
+													</li>
+													<li class="qnaDetailGroup_content-Box_li px-2">
+														<span class="title-span">내용 : &nbsp;</span>
+														<span class="content-span QnAContent">${list.qnaContent }</span>
+													</li>
 												</ul>
 											</div>
 										</div>  
@@ -194,8 +208,8 @@ span.QnA-relpyList-span {
 												<form name="answerInsertForm" id="answerInsertForm-${list.qnaid }">
 													<div class="qnaInput-group">
 														<input type="hidden" name="pid" value="${list.pid}">
-														<input class="subQnAInput col-10" id="subQnAInput" name="qnaContent" type="text" placeholder="답변을 달아주세요.">
-														<button type="button" class="btn subQnAInput-btn col-2" onclick="answerInsert('${list.qnaid}')">답변 달기</button>
+														<input class="subQnAInput col-xs-10" id="subQnAInput" name="qnaContent" type="text" placeholder="답변을 달아주세요.">
+														<button type="button" class="btn subQnAInput-btn col-xs-2" onclick="answerInsert('${list.qnaid}')">답변 달기</button>
 													</div>
 												</form>
 											</div>
